@@ -21,7 +21,7 @@ const enableDirectGoogleAds =
   process.env.NEXT_PUBLIC_GOOGLE_ADS_DIRECT_TRACKING === "true";
 
 function wasTracked(eventId: string) {
-  const key = `dream_lead_${eventId}`;
+  const key = `dcprod_lead_${eventId}`;
 
   if (sessionStorage.getItem(key)) {
     return true;
@@ -45,7 +45,7 @@ export function trackLeadSubmitted(payload: LeadTrackingPayload) {
   });
 
   window.fbq?.("track", "Lead", {
-    content_name: payload.service ?? "DREAM lead",
+    content_name: payload.service ?? "dc.prod lead",
     value: payload.value ?? 1,
     currency: "USD",
   }, { eventID: payload.eventId });
@@ -61,7 +61,7 @@ export function trackLeadSubmitted(payload: LeadTrackingPayload) {
 
   window.ttq?.track?.("SubmitForm", {
     event_id: payload.eventId,
-    content_name: payload.service ?? "DREAM lead",
+    content_name: payload.service ?? "dc.prod lead",
     value: payload.value ?? 1,
     currency: "USD",
   });

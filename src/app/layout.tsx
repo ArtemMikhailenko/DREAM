@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Syne } from "next/font/google";
+import { Geist, Geist_Mono, Bebas_Neue, Caveat } from "next/font/google";
 import { Analytics } from "@/components/Analytics";
 import "./globals.css";
 
@@ -13,54 +13,55 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const syne = Syne({
-  variable: "--font-syne",
+const bebas = Bebas_Neue({
+  variable: "--font-bebas",
   subsets: ["latin"],
-  weight: ["700", "800"],
+  weight: ["400"],
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+  weight: ["700"],
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://dream.agency"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://dcprod.agency"),
   title: {
-    default: "DREAM — Video, Ads & SMM for inbound leads",
-    template: "%s | DREAM",
+    default: "dc.prod — From idea to result. Video, ads & SMM",
+    template: "%s | dc.prod",
   },
   description:
-    "DREAM helps businesses get inbound leads from ads and search: video production, performance advertising, SMM, cases, packages and fast launch.",
-  applicationName: "DREAM",
-  alternates: {
-    canonical: "/",
-  },
+    "dc.prod is a full-cycle production studio: promotional & image videos, 3D animation, social media content, AI content and digital marketing — from idea to result.",
+  applicationName: "dc.prod",
+  alternates: { canonical: "/" },
   keywords: [
-    "video production for business",
-    "performance advertising",
-    "SMM agency",
-    "lead generation",
-    "content marketing",
-    "DREAM",
+    "video production",
+    "promotional videos",
+    "image videos",
+    "3d animation",
+    "social media content",
+    "ai content",
+    "digital marketing",
+    "dc.prod",
   ],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "/",
-    siteName: "DREAM",
-    title: "DREAM — Video, Ads & SMM for inbound leads",
+    siteName: "dc.prod",
+    title: "dc.prod — From idea to result",
     description:
-      "DREAM agency: portfolio, cases, packages and a contact form for businesses that need clients.",
+      "Full-cycle production studio: video, ads, SMM and digital marketing for brands that want a result.",
     images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "DREAM — Video, Ads & SMM",
-      },
+      { url: "/opengraph-image", width: 1200, height: 630, alt: "dc.prod — From idea to result" },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "DREAM — Video, Ads & SMM for inbound leads",
+    title: "dc.prod — From idea to result",
     description:
-      "Fast, SEO-ready landing page for leads from ads and organic search.",
+      "Full-cycle production studio: video, ads, SMM and digital marketing.",
     images: ["/opengraph-image"],
   },
   robots: {
@@ -84,7 +85,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${bebas.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Analytics />

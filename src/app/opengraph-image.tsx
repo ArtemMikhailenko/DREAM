@@ -17,23 +17,24 @@ export default function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#fbfaf7",
-          color: "#111111",
+          background: "#0a0a09",
+          color: "#f4f1ea",
           padding: 72,
           fontFamily: "Arial",
         }}
       >
-        <div style={{ fontSize: 42, fontWeight: 900 }}>DREAM</div>
+        <div style={{ fontSize: 56, fontWeight: 900, letterSpacing: -2, color: "#e8e4d8" }}>dc.prod</div>
         <div style={{ display: "flex", gap: 48, alignItems: "flex-end" }}>
-          <div style={{ maxWidth: 760, fontSize: 82, fontWeight: 900, lineHeight: 0.94 }}>
-            Видео, реклама и SMM для заявок
+          <div style={{ maxWidth: 820, fontSize: 96, fontWeight: 900, lineHeight: 0.92, textTransform: "uppercase" }}>
+            From idea — to result.
           </div>
           <div
             style={{
-              width: 260,
-              height: 260,
+              width: 240,
+              height: 240,
               borderRadius: 16,
-              background: "linear-gradient(135deg, #d45238, #f6c453 48%, #0c7a67)",
+              background: "linear-gradient(135deg, #1c1b18 0%, #e8e4d8 100%)",
+              border: "1px solid rgba(232,228,216,.3)",
             }}
           />
         </div>

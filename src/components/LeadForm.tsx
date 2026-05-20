@@ -6,10 +6,11 @@ import { trackLeadSubmitted } from "@/lib/tracking";
 type SubmitState = "idle" | "submitting" | "success" | "error";
 
 const serviceOptions = [
-  "Видео",
-  "Реклама",
-  "SMM",
-  "Полная связка",
+  "Promotional video",
+  "Image video",
+  "3D / AI content",
+  "Social media",
+  "Full funnel",
 ];
 
 function createEventId() {
@@ -49,7 +50,7 @@ export function LeadForm() {
 
     if (!payload.name || !payload.phone) {
       setState("error");
-      setMessage("Заполните имя и телефон, чтобы мы могли связаться.");
+      setMessage("Please add your name and phone so we can get back to you.");
       return;
     }
 
@@ -73,11 +74,11 @@ export function LeadForm() {
       }
 
       setState("success");
-      setMessage("Заявка отправлена. DREAM свяжется с вами и предложит первый план запуска.");
+      setMessage("Brief received. dc.prod will get back to you within one business day with a first launch plan.");
       formRef.current?.reset();
     } catch {
       setState("error");
-      setMessage("Не получилось отправить заявку. Попробуйте еще раз или напишите напрямую.");
+      setMessage("We couldn't send your request. Please try again or reach us directly.");
     }
   }
 
@@ -85,42 +86,42 @@ export function LeadForm() {
     <form ref={formRef} className="lead-form grid gap-4" onSubmit={onSubmit}>
       <div className="grid gap-4 md:grid-cols-2">
         <label className="field-label">
-          Имя
+          Name
           <input className="field-control" name="name" autoComplete="name" required />
         </label>
         <label className="field-label">
-          Телефон
+          Phone
           <input className="field-control" name="phone" autoComplete="tel" required />
         </label>
       </div>
       <label className="field-label">
-        Бизнес
-        <input className="field-control" name="business" placeholder="Ниша, город, продукт" />
+        Business
+        <input className="field-control" name="business" placeholder="Niche, city, product" />
       </label>
       <div className="grid gap-4 md:grid-cols-2">
         <label className="field-label">
-          Что нужно
-          <select className="field-control" name="service" defaultValue="Полная связка">
+          What you need
+          <select className="field-control" name="service" defaultValue="Full funnel">
             {serviceOptions.map((option) => (
               <option key={option}>{option}</option>
             ))}
           </select>
         </label>
         <label className="field-label">
-          Бюджет
-          <input className="field-control" name="budget" placeholder="Например, от $1500" />
+          Budget
+          <input className="field-control" name="budget" placeholder="e.g. from $1.500" />
         </label>
       </div>
       <label className="field-label">
-        Задача
-        <textarea className="field-control min-h-28 resize-y" name="message" placeholder="Что продаете и какой результат нужен" />
+        Task
+        <textarea className="field-control min-h-28 resize-y" name="message" placeholder="What you sell and the result you want" />
       </label>
-      <label className="flex items-start gap-3 text-sm leading-6 text-[#555555]">
+      <label className="flex items-start gap-3 text-sm leading-6 text-[color:var(--muted)]">
         <input className="mt-1" type="checkbox" name="consent" required />
-        <span>Согласен на обработку данных и получение ответа по заявке.</span>
+        <span>I agree to data processing and to be contacted about this request.</span>
       </label>
       <button className="btn btn-dark w-full" disabled={state === "submitting"} type="submit">
-        {state === "submitting" ? "Отправляем..." : "Отправить заявку"}
+        {state === "submitting" ? "Sending…" : "Send the brief"}
       </button>
       {message ? (
         <p className={`status-box ${state === "success" ? "status-success" : "status-error"}`} role="status">

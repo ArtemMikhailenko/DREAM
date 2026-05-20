@@ -58,7 +58,7 @@ export async function forwardLeadToCrm(payload: LeadPayload) {
         : {}),
     },
     body: JSON.stringify({
-      source: "dream-website",
+      source: "dcprod-website",
       lead: payload,
     }),
   });
@@ -103,7 +103,7 @@ export async function sendMetaConversionsApi(
               fbc: context.cookies._fbc,
             },
             custom_data: {
-              content_name: payload.service ?? "DREAM lead",
+              content_name: payload.service ?? "dc.prod lead",
               value: 1,
               currency: "USD",
             },
