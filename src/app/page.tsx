@@ -220,6 +220,7 @@ export default function Home() {
   return (
     <>
       <ScrollAnimations />
+      <div className="scroll-progress" aria-hidden="true" />
       {jsonLd.map((schema, i) => (
         <script
           key={i}
@@ -230,22 +231,54 @@ export default function Home() {
 
       {/* ── Nav ── */}
       <nav className="nav" id="top">
+        <input type="checkbox" id="nav-toggle" className="nav-toggle" aria-hidden="true" />
         <div className="wrap nav-inner">
           <a href="#top" className="nav-logo">
-            <span className="brush">dc.prod</span>
-            <small>studio · 2026</small>
+            DC.PROD
+            <small>studio</small>
           </a>
           <ul className="nav-links">
-            <li><a href="#about">About</a></li>
+            <li><a href="#about">About us</a></li>
             <li><a href="#services">Services</a></li>
-            <li><a href="#process">Process</a></li>
-            <li><a href="#packages">Pricing</a></li>
             <li><a href="#portfolio">Works</a></li>
+            <li><a href="#packages">Pricing</a></li>
             <li><a href="#lead">Contacts</a></li>
           </ul>
           <div className="nav-side">
-            <a className="nav-call" href="tel:+1000">↳ Call</a>
-            <a className="nav-cta" href="#lead">Sign up for an audit</a>
+            <a className="nav-call" href="tel:+1000">Call us</a>
+            <div className="nav-social">
+              <a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.6-1.4-3.7-3.2-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 4.9 4.3 1.8.7 2.5.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.3-.6-.5z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.6 1.4 5.5 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.3-8.3zM12 21.8h-.1c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.5-1.5-3.3-1.5-5.1 0-5.4 4.4-9.8 9.8-9.8 2.6 0 5.1 1 6.9 2.9 1.8 1.9 2.9 4.4 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8z"/></svg>
+              </a>
+              <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.4 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 12.5l-5-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.6z"/></svg>
+              </a>
+              <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+              </a>
+            </div>
+            <label htmlFor="nav-toggle" className="nav-burger" aria-label="Open menu">
+              <span /><span /><span />
+            </label>
+          </div>
+        </div>
+        <div className="nav-drawer" aria-hidden="true">
+          <div className="wrap nav-drawer-inner">
+            <ul className="nav-drawer-links">
+              <li><a href="#about">About us</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#portfolio">Works</a></li>
+              <li><a href="#packages">Pricing</a></li>
+              <li><a href="#lead">Contacts</a></li>
+            </ul>
+            <div className="nav-drawer-foot">
+              <a className="nav-call" href="tel:+1000">Call us</a>
+              <div className="nav-social nav-drawer-social">
+                <a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.6-1.4-3.7-3.2-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 4.9 4.3 1.8.7 2.5.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.3-.6-.5z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.6 1.4 5.5 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.3-8.3zM12 21.8h-.1c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.5-1.5-3.3-1.5-5.1 0-5.4 4.4-9.8 9.8-9.8 2.6 0 5.1 1 6.9 2.9 1.8 1.9 2.9 4.4 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8z"/></svg></a>
+                <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.4 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 12.5l-5-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.6z"/></svg></a>
+                <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
@@ -258,6 +291,14 @@ export default function Home() {
             src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=2000&q=85"
             alt=""
           />
+        </div>
+
+        <span className="brand-watermark" aria-hidden="true">dc.prod</span>
+
+        <div className="hero-stickers" aria-hidden="true">
+          <span className="sticker hero-st-1">★ Est. 2024</span>
+          <span className="sticker dk hero-st-2">→ from idea / to result</span>
+          <span className="sticker tape hero-st-3">studio · production</span>
         </div>
 
         <div className="wrap hero-head">
@@ -344,12 +385,12 @@ export default function Home() {
             <div className="svc-side">
               <div className="svc-side-img" style={{ aspectRatio: "4/5" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={services[0].img} alt="" />
+                <img src={services[0].img} alt="" loading="lazy" decoding="async" />
                 <span className="svc-side-tag">on set</span>
               </div>
               <div className="svc-side-img" style={{ aspectRatio: "16/10" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={services[2].img} alt="" />
+                <img src={services[2].img} alt="" loading="lazy" decoding="async" />
                 <span className="svc-side-tag">launch</span>
               </div>
             </div>
@@ -395,7 +436,7 @@ export default function Home() {
             {portfolioCases.map((c, i) => (
               <div className="portfolio-case" key={i}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="portfolio-case-img" src={c.img} alt={c.title} />
+                <img className="portfolio-case-img" src={c.img} alt={c.title} loading="lazy" decoding="async" />
                 <div className="portfolio-case-grad" />
                 <div className="portfolio-case-info">
                   <span className="portfolio-case-tag">{c.tag}</span>
@@ -575,18 +616,24 @@ export default function Home() {
                 ))}
               </div>
               <div className="lead-contacts">
-                <a className="lead-contact" href="https://t.me/" target="_blank" rel="noopener">
-                  <span className="lead-contact-icon">✈</span>
-                  Telegram — @dcprod
-                </a>
-                <a className="lead-contact" href="https://instagram.com/" target="_blank" rel="noopener">
-                  <span className="lead-contact-icon">◉</span>
-                  Instagram — @dc.prod
-                </a>
-                <a className="lead-contact" href="mailto:hi@dcprod.agency">
-                  <span className="lead-contact-icon">@</span>
-                  hi@dcprod.agency
-                </a>
+                <span className="lead-contacts-label">— our contacts —</span>
+                <div className="lead-contacts-grid">
+                  <a className="lead-contact" href="https://t.me/" target="_blank" rel="noopener">
+                    <span className="lead-contact-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.4 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 12.5l-5-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.6z"/></svg>
+                    </span>
+                    <span className="lead-contact-kind">Telegram</span>
+                    <span className="lead-contact-handle">@dcprod</span>
+                  </a>
+                  <a className="lead-contact" href="https://instagram.com/" target="_blank" rel="noopener">
+                    <span className="lead-contact-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                    </span>
+                    <span className="lead-contact-kind">Instagram</span>
+                    <span className="lead-contact-handle">@dc.prod</span>
+                  </a>
+                </div>
+                <p className="lead-contacts-extra">or write to <a href="mailto:hi@dcprod.agency">hi@dcprod.agency</a></p>
               </div>
             </div>
             <LeadForm />
@@ -597,8 +644,47 @@ export default function Home() {
       {/* ── Footer ── */}
       <footer className="footer">
         <div className="wrap footer-inner">
-          <p className="footer-copy">© {new Date().getFullYear()} dc.prod studio · From idea to result</p>
-          <p className="footer-mark brush">dc.prod</p>
+          <div className="footer-grid">
+            <div className="footer-col footer-brand-col">
+              <p className="footer-mark brush">dc.prod</p>
+              <p className="footer-tagline">Studio that builds systems —<br />from idea to result.</p>
+              <div className="footer-social">
+                <a href="https://wa.me/0" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg></a>
+                <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></a>
+                <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+              </div>
+            </div>
+            <div className="footer-col">
+              <h4 className="footer-h">Services</h4>
+              <ul className="footer-list">
+                <li><a href="#services">Promotional videos</a></li>
+                <li><a href="#services">Image &amp; brand films</a></li>
+                <li><a href="#services">Social media &amp; ads</a></li>
+                <li><a href="#services">3D &amp; AI content</a></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h4 className="footer-h">Studio</h4>
+              <ul className="footer-list">
+                <li><a href="#about">About</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#portfolio">Works</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h4 className="footer-h">Contacts</h4>
+              <ul className="footer-list">
+                <li><a href="mailto:hello@dc.prod">hello@dc.prod</a></li>
+                <li><a href="tel:+10000000000">+1 000 000 0000</a></li>
+                <li><a href="#lead">Get a brief ↗</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p className="footer-copy">© {new Date().getFullYear()} dc.prod studio · From idea to result</p>
+            <p className="footer-copy">Built in-house · all rights reserved</p>
+          </div>
         </div>
       </footer>
     </>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Bebas_Neue, Caveat } from "next/font/google";
+import { Geist, Geist_Mono, Archivo_Black, Caveat } from "next/font/google";
 import { Analytics } from "@/components/Analytics";
 import "./globals.css";
 
@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const bebas = Bebas_Neue({
-  variable: "--font-bebas",
+const display = Archivo_Black({
+  variable: "--font-display",
   subsets: ["latin"],
   weight: ["400"],
 });
@@ -85,7 +85,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${bebas.variable} ${caveat.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${display.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Analytics />
