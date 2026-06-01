@@ -1,5 +1,9 @@
 import { LeadForm } from "@/components/LeadForm";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
+import { CursorFX } from "@/components/CursorFX";
+import { SiteNav } from "@/components/SiteNav";
+import { SiteFooter } from "@/components/SiteFooter";
+import Link from "next/link";
 
 const services = [
   {
@@ -7,18 +11,21 @@ const services = [
     text: "Scripts, shooting and editing for video ads that actually convert — built around your offer and audience.",
     img: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=700&q=72",
     tag: "video",
+    deliverables: ["scripts", "shooting", "editing", "motion"],
   },
   {
     title: "Image & brand films",
     text: "Cinematic brand stories — concept, art direction, location and post-production at production-house level.",
     img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=700&q=72",
     tag: "image",
+    deliverables: ["concept", "art direction", "location", "post"],
   },
   {
     title: "Social media & ads",
     text: "Content system, paid ads, pixels, CRM and analytics — one machine working toward inbound leads.",
     img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=700&q=72",
     tag: "smm",
+    deliverables: ["content", "paid ads", "pixels", "analytics"],
   },
 ];
 
@@ -144,21 +151,6 @@ const steps = [
   "We launch campaigns, verify events and optimise towards leads.",
 ];
 
-const reviews = [
-  {
-    quote:
-      "The team understood the product fast and turned a complex service into a clear, compelling video. Leads came in warmer from the very first month.",
-    name: "Marina K.",
-    role: "Founder, service studio",
-  },
-  {
-    quote:
-      "They didn't just make a video — they built a complete ad system. The best part: transparent analytics with zero duplicates.",
-    name: "Alex P.",
-    role: "Head of Sales",
-  },
-];
-
 const faqs = [
   {
     q: "How does the process work?",
@@ -219,6 +211,7 @@ const jsonLd = [
 export default function Home() {
   return (
     <>
+      <CursorFX />
       <ScrollAnimations />
       <div className="scroll-progress" aria-hidden="true" />
       {jsonLd.map((schema, i) => (
@@ -230,58 +223,7 @@ export default function Home() {
       ))}
 
       {/* ── Nav ── */}
-      <nav className="nav" id="top">
-        <input type="checkbox" id="nav-toggle" className="nav-toggle" aria-hidden="true" />
-        <div className="wrap nav-inner">
-          <a href="#top" className="nav-logo">
-            DC.PROD
-            <small>studio</small>
-          </a>
-          <ul className="nav-links">
-            <li><a href="#about">About us</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#portfolio">Works</a></li>
-            <li><a href="#packages">Pricing</a></li>
-            <li><a href="#lead">Contacts</a></li>
-          </ul>
-          <div className="nav-side">
-            <a className="nav-call" href="tel:+1000">Call us</a>
-            <div className="nav-social">
-              <a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.6-1.4-3.7-3.2-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 4.9 4.3 1.8.7 2.5.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.3-.6-.5z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.6 1.4 5.5 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.3-8.3zM12 21.8h-.1c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.5-1.5-3.3-1.5-5.1 0-5.4 4.4-9.8 9.8-9.8 2.6 0 5.1 1 6.9 2.9 1.8 1.9 2.9 4.4 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8z"/></svg>
-              </a>
-              <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram">
-                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.4 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 12.5l-5-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.6z"/></svg>
-              </a>
-              <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-              </a>
-            </div>
-            <label htmlFor="nav-toggle" className="nav-burger" aria-label="Open menu">
-              <span /><span /><span />
-            </label>
-          </div>
-        </div>
-        <div className="nav-drawer" aria-hidden="true">
-          <div className="wrap nav-drawer-inner">
-            <ul className="nav-drawer-links">
-              <li><a href="#about">About us</a></li>
-              <li><a href="#services">Services</a></li>
-              <li><a href="#portfolio">Works</a></li>
-              <li><a href="#packages">Pricing</a></li>
-              <li><a href="#lead">Contacts</a></li>
-            </ul>
-            <div className="nav-drawer-foot">
-              <a className="nav-call" href="tel:+1000">Call us</a>
-              <div className="nav-social nav-drawer-social">
-                <a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.6-1.4-3.7-3.2-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 4.9 4.3 1.8.7 2.5.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.3-.6-.5z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.6 1.4 5.5 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.3-8.3zM12 21.8h-.1c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.5-1.5-3.3-1.5-5.1 0-5.4 4.4-9.8 9.8-9.8 2.6 0 5.1 1 6.9 2.9 1.8 1.9 2.9 4.4 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8z"/></svg></a>
-                <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.4 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 12.5l-5-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.6z"/></svg></a>
-                <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <SiteNav />
 
       {/* ── Hero ── */}
       <section className="hero">
@@ -321,7 +263,7 @@ export default function Home() {
             </p>
             <div className="hero-actions">
               <a className="btn-p" href="#lead">Sign up for an audit</a>
-              <a className="btn-o" href="#portfolio">See our works ↗</a>
+              <a className="btn-o" href="/portfolio">See our works ↗</a>
             </div>
           </div>
           <aside className="hero-rail" aria-label="What we do">
@@ -353,12 +295,13 @@ export default function Home() {
           <h2 className="sec-h">
             Why great content<br />doesn&apos;t bring leads
           </h2>
-          <div className="prob-cards">
+          <div className="problem-list">
             {problems.map((p, i) => (
-              <div className="prob-card" key={i}>
-                <span className="prob-card-n">0{i + 1}</span>
-                <h3 className="prob-card-title">{p.title}</h3>
-                <p className="prob-card-desc">{p.text}</p>
+              <div className="problem-row" key={i}>
+                <b aria-hidden="true" className="problem-row-ghost">0{i + 1}</b>
+                <span className="problem-row-n">0{i + 1}</span>
+                <h3 className="problem-row-title">{p.title}</h3>
+                <p className="problem-row-desc">{p.text}</p>
               </div>
             ))}
           </div>
@@ -367,6 +310,11 @@ export default function Home() {
 
       {/* ── Services ── */}
       <section className="section s-concrete" id="services">
+        <div className="svc-img-follower" aria-hidden="true" id="svc-follower">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img id="svc-follower-img" src={undefined} alt="" />
+        </div>
         <div className="s-bg-word" aria-hidden="true">Services</div>
         <div className="wrap">
           <p className="label">Services</p>
@@ -374,10 +322,21 @@ export default function Home() {
           <div className="svc-layout">
             <div className="svc-list">
               {services.map((s, i) => (
-                <div className="svc-row" key={i}>
+                <div className="svc-row" key={i} data-img={s.img}>
+                  <span className="svc-row-bar" aria-hidden="true" />
                   <span className="svc-row-num">0{i + 1}</span>
-                  <h3 className="svc-row-name">{s.title}</h3>
-                  <p className="svc-row-desc">{s.text}</p>
+                  <div className="svc-row-head">
+                    <h3 className="svc-row-name">{s.title}</h3>
+                    <span className="svc-row-tag">{s.tag}</span>
+                  </div>
+                  <div className="svc-row-body">
+                    <p className="svc-row-desc">{s.text}</p>
+                    <ul className="svc-row-tags" aria-hidden="true">
+                      {s.deliverables.map((d) => (
+                        <li key={d}>{d}</li>
+                      ))}
+                    </ul>
+                  </div>
                   <span className="svc-row-arrow">↗</span>
                 </div>
               ))}
@@ -409,30 +368,47 @@ export default function Home() {
       </div>
 
       {/* ── Process ── */}
-      <section className="section s-dark2" id="process">
+      <section className="section s-ink" id="process">
         <div className="s-bg-word" aria-hidden="true">Process</div>
         <div className="wrap">
           <p className="label">How we work</p>
           <h2 className="sec-h">From brief<br />to first <em>lead</em></h2>
-          <div className="process-steps">
-            {processSteps.map((step) => (
-              <div className={`process-step${step.hi ? " hi" : ""}`} key={step.n}>
-                <span className="process-step-n">{step.n}</span>
-                <span className="process-step-name">{step.name}</span>
-                <p className="process-step-desc">{step.desc}</p>
-              </div>
-            ))}
+          <div className="process-wrap">
+            <div className="process-track-line" aria-hidden="true" />
+            <div className="process-track-progress" aria-hidden="true" />
+            <div className="process-steps">
+              {processSteps.map((step) => (
+                <div className="process-step" key={step.n}>
+                  <div className="process-step-dot" aria-hidden="true" />
+                  <span className="process-step-n">{step.n}</span>
+                  <span className="process-step-name">{step.name}</span>
+                  <p className="process-step-desc">{step.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
+      {/* ── Statement ── */}
+      <div className="s-statement">
+        <div className="wrap statement-inner">
+          <p className="statement-eyebrow">— what sets dc.prod apart —</p>
+          <p className="statement-h">
+            We don&apos;t just make <em>content.</em><br />
+            We build <span className="statement-h-ul">systems.</span>
+          </p>
+          <a className="statement-cta" href="#lead">Start your project ↗</a>
+        </div>
+      </div>
+
       {/* ── Portfolio — compact 3-card showcase ── */}
-      <section className="section s-dark" id="portfolio">
+      <section className="section s-dark2" id="portfolio">
         <div className="s-bg-word" aria-hidden="true">Works</div>
         <div className="wrap">
           <p className="label">Selected work</p>
           <h2 className="sec-h">Cases &amp; projects</h2>
-          <div className="portfolio-grid">
+          <div className="portfolio-grid portfolio-bento">
             {portfolioCases.map((c, i) => (
               <div className="portfolio-case" key={i}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -446,18 +422,21 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <a className="portfolio-cta" href="#lead">Start a project like this ↗</a>
+          <div className="portfolio-cta-row">
+            <a className="portfolio-cta" href="#lead">Start a project like this ↗</a>
+            <Link className="portfolio-cta" href="/portfolio">View all works ↗</Link>
+          </div>
         </div>
       </section>
 
       {/* ── Results — single place for all numbers ── */}
-      <section className="section s-dark2" id="results">
+      <section className="section s-cream" id="results">
         <div className="s-bg-word" aria-hidden="true">Results</div>
         <div className="wrap">
           <p className="label">Results</p>
           <h2 className="sec-h">Numbers<br />that <em>matter</em></h2>
         </div>
-        <div className="cases-strip">
+        <div className="cases-strip cases-strip-cream">
           {results.map((c, i) => (
             <div className="case-col" key={i}>
               <span className="case-col-n">0{i + 1}</span>
@@ -468,8 +447,19 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Ticker — results strip ── */}
+      <div className="ticker ticker-ghost" aria-hidden="true">
+        <div className="ticker-track-rev">
+          {["+38% leads","−24% CPL","12 days","100+ clients","+38% leads","−24% CPL","12 days","100+ clients",
+            "+38% leads","−24% CPL","12 days","100+ clients","+38% leads","−24% CPL","12 days","100+ clients"].map((t, i) => (
+            <span className="ticker-item" key={i}>{t}</span>
+          ))}
+        </div>
+      </div>
+
       {/* ── Pricing ── */}
-      <section className="section s-concrete" id="packages">
+      <section className="section s-pricing" id="packages">
+        <div className="pricing-blob" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Pricing</div>
         <div className="wrap">
           <p className="label">Pricing</p>
@@ -478,24 +468,23 @@ export default function Home() {
             {packages.map((pkg, i) => (
               <article className={`pkg-card${pkg.feat ? " feat" : ""}`} key={i}>
                 <div className="pkg-card-head">
-                  <span className="pkg-card-badge">0{i + 1} / {packages.length}</span>
+                  {pkg.feat && <span className="pkg-card-popular">★ Popular</span>}
                   <span className="pkg-card-tag">{pkg.tag}</span>
                 </div>
                 <h3 className="pkg-card-name">{pkg.name}</h3>
-                <ul className="pkg-rows">
+                <div className="pkg-card-price-row">
+                  <span className="pkg-card-price">{pkg.price}</span>
+                  {pkg.priceOld && <span className="pkg-card-price-old">{pkg.priceOld}</span>}
+                </div>
+                <p className="pkg-card-time">{pkg.time}</p>
+                <ul className="pkg-features">
                   {pkg.rows.map((row, idx) => (
-                    <li className="pkg-rows-li" key={idx}>
-                      <span>{row.name}</span>
-                      {row.extra ? <span className="pkg-rows-extra">{row.extra}</span> : <span />}
-                      <span className="pkg-rows-num">{idx + 1}</span>
+                    <li className="pkg-feature-li" key={idx}>
+                      <span className="pkg-feature-check">✓</span>
+                      <span>{row.name}{row.extra ? <em className="pkg-feature-extra"> — {row.extra}</em> : null}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="pkg-card-foot">
-                  <span className="pkg-card-price">{pkg.price}</span>
-                  {pkg.priceOld && <span className="pkg-card-price-old">{pkg.priceOld}</span>}
-                  <span className="pkg-card-time">{pkg.time}</span>
-                </div>
                 <a className="pkg-card-btn" href="#lead">Get started ↗</a>
               </article>
             ))}
@@ -503,77 +492,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── About — after Pricing per redesign ── */}
-      <section className="section s-dark" id="about">
-        <div className="s-bg-word" aria-hidden="true">Studio</div>
-        <div className="wrap">
-          <div className="about-grid">
-            <div className="about-copy">
-              <p className="label">About the studio</p>
-              <h2 className="sec-h">
-                A studio that<br />builds <em>systems</em>
-              </h2>
-              <p>
-                dc.prod is a full-cycle production studio. We don&apos;t just make
-                videos — we build the entire production-and-marketing system: from
-                idea and script to shoot, landing page, ads launch and CRM lead
-                delivery.
-              </p>
-              <p>
-                Our philosophy: craft and performance aren&apos;t opposites. Cinematic
-                visuals only earn their place when they bring measurable inbound
-                leads. We treat every project as a single machine — concept, content,
-                channels and analytics built together.
-              </p>
-              <div className="about-tags">
-                {[
-                  "Video production",
-                  "3D & AI",
-                  "Performance ads",
-                  "SMM",
-                  "CRM",
-                  "Analytics",
-                ].map((t) => (
-                  <span className="about-tag" key={t}>{t}</span>
-                ))}
-              </div>
-            </div>
-            <div className="about-vis">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80"
-                alt="dc.prod studio"
-              />
-              <p className="about-vis-slogan">from idea<br />to result</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Reviews ── */}
-      <section className="section s-dark2" id="reviews">
-        <div className="wrap">
-          <p className="label">Testimonials</p>
-          <h2 className="sec-h">Clients <em>speak</em></h2>
-          <div className="rev-list">
-            {reviews.map((r, i) => (
-              <div className="rev-item" key={i}>
-                <div className="rev-q-block">
-                  <span className="rev-qmark" aria-hidden="true">&ldquo;</span>
-                  <p className="rev-quote">{r.quote}</p>
-                </div>
-                <div className="rev-meta">
-                  <p className="rev-author-name">{r.name}</p>
-                  <p className="rev-author-role">{r.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── FAQ ── */}
-      <section className="section s-dark" id="faq">
+      <section className="section s-concrete" id="faq">
         <div className="wrap">
           <p className="label">FAQ</p>
           <h2 className="sec-h">Common <em>questions</em></h2>
@@ -641,52 +561,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="footer">
-        <div className="wrap footer-inner">
-          <div className="footer-grid">
-            <div className="footer-col footer-brand-col">
-              <p className="footer-mark brush">dc.prod</p>
-              <p className="footer-tagline">Studio that builds systems —<br />from idea to result.</p>
-              <div className="footer-social">
-                <a href="https://wa.me/0" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg></a>
-                <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></a>
-                <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-              </div>
-            </div>
-            <div className="footer-col">
-              <h4 className="footer-h">Services</h4>
-              <ul className="footer-list">
-                <li><a href="#services">Promotional videos</a></li>
-                <li><a href="#services">Image &amp; brand films</a></li>
-                <li><a href="#services">Social media &amp; ads</a></li>
-                <li><a href="#services">3D &amp; AI content</a></li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <h4 className="footer-h">Studio</h4>
-              <ul className="footer-list">
-                <li><a href="#about">About</a></li>
-                <li><a href="#process">Process</a></li>
-                <li><a href="#portfolio">Works</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <h4 className="footer-h">Contacts</h4>
-              <ul className="footer-list">
-                <li><a href="mailto:hello@dc.prod">hello@dc.prod</a></li>
-                <li><a href="tel:+10000000000">+1 000 000 0000</a></li>
-                <li><a href="#lead">Get a brief ↗</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p className="footer-copy">© {new Date().getFullYear()} dc.prod studio · From idea to result</p>
-            <p className="footer-copy">Built in-house · all rights reserved</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

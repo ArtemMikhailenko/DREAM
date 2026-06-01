@@ -83,16 +83,29 @@ export function ScrollAnimations() {
         });
 
         /* ═══════════════════════════════════════
-           PROBLEM CARDS
+           PROBLEM — editorial rows
         ═══════════════════════════════════════ */
-        gsap.from(".prob-card", {
-          scrollTrigger: { trigger: ".prob-cards", start: "top 80%" },
-          y: 48, opacity: 0, stagger: 0.14, duration: 0.75, ease: "power3.out",
+        gsap.utils.toArray<HTMLElement>(".problem-row").forEach((row, i) => {
+          gsap.from(row.querySelector(".problem-row-n"), {
+            scrollTrigger: { trigger: row, start: "top 88%" },
+            opacity: 0, duration: 0.5, ease: "power2.out",
+          });
+          gsap.from(row.querySelector(".problem-row-title"), {
+            scrollTrigger: { trigger: row, start: "top 88%" },
+            x: -40, opacity: 0, duration: 0.75, delay: 0.05, ease: "power3.out",
+          });
+          gsap.from(row.querySelector(".problem-row-desc"), {
+            scrollTrigger: { trigger: row, start: "top 88%" },
+            x: 30, opacity: 0, duration: 0.7, delay: 0.12, ease: "power3.out",
+          });
         });
-        gsap.utils.toArray<HTMLElement>(".prob-card-n").forEach((el) => {
-          gsap.from(el, {
-            scrollTrigger: { trigger: el.closest(".prob-card") ?? el, start: "top 82%" },
-            scale: 0.4, opacity: 0, duration: 0.65, ease: "back.out(1.8)",
+
+        /* Border draw on scroll */
+        document.querySelectorAll<HTMLElement>(".problem-row").forEach((row) => {
+          ScrollTrigger.create({
+            trigger: row,
+            start: "top 91%",
+            onEnter: () => row.classList.add("drawn"),
           });
         });
 
@@ -115,11 +128,56 @@ export function ScrollAnimations() {
         });
 
         /* ═══════════════════════════════════════
-           PROCESS STEPS
+           SERVICES — cursor image follower
+        ═══════════════════════════════════════ */
+        const svcFollower = document.getElementById("svc-follower");
+        const svcFollowerImg = document.getElementById("svc-follower-img") as HTMLImageElement | null;
+        if (svcFollower && svcFollowerImg) {
+          document.querySelectorAll<HTMLElement>(".svc-row").forEach((row) => {
+            row.addEventListener("mouseenter", () => {
+              const src = row.dataset.img;
+              if (src && svcFollowerImg.getAttribute("src") !== src) svcFollowerImg.src = src;
+              svcFollower.classList.add("active");
+            });
+            row.addEventListener("mouseleave", () => {
+              svcFollower.classList.remove("active");
+            });
+          });
+          document.getElementById("services")?.addEventListener("mouseleave", () => {
+            svcFollower.classList.remove("active");
+          });
+          document.getElementById("services")?.addEventListener("mousemove", (e) => {
+            const me = e as MouseEvent;
+            gsap.to(svcFollower, { x: me.clientX + 28, y: me.clientY - 40, duration: 0.55, ease: "power3.out" });
+          });
+        }
+
+        /* ═══════════════════════════════════════
+           PROCESS STEPS — dot timeline
         ═══════════════════════════════════════ */
         gsap.from(".process-step", {
           scrollTrigger: { trigger: ".process-steps", start: "top 80%" },
           y: 36, opacity: 0, stagger: 0.07, duration: 0.6, ease: "power3.out",
+        });
+        gsap.from(".process-step-dot", {
+          scrollTrigger: { trigger: ".process-steps", start: "top 80%" },
+          opacity: 0, y: 6, stagger: 0.07, duration: 0.45, delay: 0.15, ease: "power2.out",
+        });
+        gsap.from(".process-track-line", {
+          scrollTrigger: { trigger: ".process-wrap", start: "top 80%" },
+          scaleX: 0, transformOrigin: "left center", duration: 1.1, ease: "power3.inOut",
+        });
+
+        /* ═══════════════════════════════════════
+           STATEMENT section
+        ═══════════════════════════════════════ */
+        gsap.from(".statement-h", {
+          scrollTrigger: { trigger: ".s-statement", start: "top 75%" },
+          y: 60, opacity: 0, duration: 1.1, ease: "power4.out",
+        });
+        gsap.from(".statement-cta", {
+          scrollTrigger: { trigger: ".s-statement", start: "top 65%" },
+          y: 20, opacity: 0, duration: 0.6, ease: "power3.out",
         });
 
         /* ═══════════════════════════════════════
@@ -130,6 +188,22 @@ export function ScrollAnimations() {
             scrollTrigger: { trigger: el, start: "top 88%" },
             scale: 0.94, opacity: 0, duration: 0.75,
             delay: i * 0.1, ease: "power3.out",
+          });
+        });
+
+        /* ═══════════════════════════════════════
+           PORTFOLIO — 3D card tilt
+        ═══════════════════════════════════════ */
+        gsap.utils.toArray<HTMLElement>(".portfolio-case").forEach((card) => {
+          card.addEventListener("mousemove", (e) => {
+            const ev = e as MouseEvent;
+            const r  = card.getBoundingClientRect();
+            const dx = (ev.clientX - r.left - r.width  / 2) / (r.width  / 2);
+            const dy = (ev.clientY - r.top  - r.height / 2) / (r.height / 2);
+            gsap.to(card, { rotateY: dx * 10, rotateX: -dy * 6, transformPerspective: 900, duration: 0.35, ease: "power2.out" });
+          });
+          card.addEventListener("mouseleave", () => {
+            gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.7, ease: "elastic.out(1,0.55)" });
           });
         });
 
@@ -171,25 +245,7 @@ export function ScrollAnimations() {
           }
         });
 
-        /* ═══════════════════════════════════════
-           ABOUT — split layout + slogan
-        ═══════════════════════════════════════ */
-        gsap.from(".about-copy", {
-          scrollTrigger: { trigger: ".about-grid", start: "top 80%" },
-          x: -60, opacity: 0, duration: 1, ease: "power3.out",
-        });
-        gsap.from(".about-vis", {
-          scrollTrigger: { trigger: ".about-grid", start: "top 80%" },
-          x: 60, opacity: 0, duration: 1, ease: "power3.out",
-        });
-        gsap.from(".about-vis-slogan", {
-          scrollTrigger: { trigger: ".about-vis", start: "top 75%" },
-          y: 30, opacity: 0, rotate: -10, duration: 0.9, delay: 0.4, ease: "power3.out",
-        });
-        gsap.from(".about-tag", {
-          scrollTrigger: { trigger: ".about-tags", start: "top 85%" },
-          y: 14, opacity: 0, stagger: 0.05, duration: 0.45, ease: "power2.out",
-        });
+
 
         /* ═══════════════════════════════════════
            REVIEWS
