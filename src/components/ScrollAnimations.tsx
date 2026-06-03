@@ -287,10 +287,25 @@ export function ScrollAnimations() {
           btn.addEventListener("mouseleave", onLeave);
         });
       });
+
+      // Recompute trigger positions after layout settles (fixes client-side route
+      // transitions where ScrollTrigger latches stale positions and triggers never fire).
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+      const onLoad = () => ScrollTrigger.refresh();
+      window.addEventListener("load", onLoad);
+      const tRefresh = window.setTimeout(() => ScrollTrigger.refresh(), 400);
+      cleanupExtras = () => {
+        window.removeEventListener("load", onLoad);
+        window.clearTimeout(tRefresh);
+      };
     }
 
+    let cleanupExtras: (() => void) | undefined;
     init();
-    return () => ctx?.revert();
+    return () => {
+      cleanupExtras?.();
+      ctx?.revert();
+    };
   }, []);
 
   return null;

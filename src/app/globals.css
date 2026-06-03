@@ -462,6 +462,13 @@ body::after{
 .cases-strip-cream .case-col-n{color:rgba(10,10,9,.4)}
 .cases-strip-cream .case-col-val{color:var(--ink)}
 .cases-strip-cream .case-col-desc{color:rgba(10,10,9,.6)}
+.cases-strip-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cases-strip-4 .case-col{padding:48px clamp(18px,2.4vw,36px) 48px;min-width:0}
+.cases-strip-4 .case-col-val{font-size:clamp(3.2rem,6.6vw,6.6rem);white-space:nowrap;overflow:hidden;text-overflow:clip}
+.cases-strip-4 .case-col-n{margin-bottom:30px}
+.cases-strip-4 .case-col-desc{font-size:.86rem;max-width:none}
+@media(max-width:1000px){.cases-strip-4{grid-template-columns:repeat(2,minmax(0,1fr))}.cases-strip-4 .case-col:nth-child(2){border-right:none}.cases-strip-4 .case-col:nth-child(-n+2){border-bottom:1px solid var(--bd)}.cases-strip-cream.cases-strip-4 .case-col:nth-child(-n+2){border-bottom-color:rgba(10,10,9,.14)}.cases-strip-4 .case-col-val{font-size:clamp(3.6rem,9vw,6.4rem)}}
+@media(max-width:600px){.cases-strip-4{grid-template-columns:1fr}.cases-strip-4 .case-col{border-right:none!important;border-bottom:1px solid var(--bd)}.cases-strip-4 .case-col:last-child{border-bottom:none}}
 
 /* ═════════ PORTFOLIO CTA ROW ═════════ */
 .portfolio-cta-row{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:32px;padding-top:28px;border-top:1px solid var(--bd)}

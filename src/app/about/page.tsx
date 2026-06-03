@@ -131,17 +131,17 @@ export default function AboutPage() {
           <p className="label">By the numbers</p>
           <h2 className="sec-h">Real <em>impact</em></h2>
         </div>
-        <div className="cases-strip" style={{ borderColor: "rgba(10,10,9,.12)" }}>
+        <div className="cases-strip cases-strip-cream cases-strip-4">
           {[
             { value: "+38%", label: "average growth in inbound leads after first campaign wave" },
             { value: "−24%", label: "drop in cost per lead through iterative creative testing" },
             { value: "12", label: "days from brief signing to first ad live" },
             { value: "100+", label: "clients across video, ads, branding and SMM" },
           ].map((s, i) => (
-            <div className="case-col" key={i} style={{ borderColor: "rgba(10,10,9,.12)" }}>
-              <span className="case-col-n" style={{ color: "rgba(10,10,9,.4)" }}>0{i + 1}</span>
-              <span className="case-col-val" style={{ color: "var(--ink)" }}>{s.value}</span>
-              <p className="case-col-desc" style={{ color: "rgba(10,10,9,.6)" }}>{s.label}</p>
+            <div className="case-col" key={i}>
+              <span className="case-col-n">0{i + 1}</span>
+              <span className="case-col-val">{s.value}</span>
+              <p className="case-col-desc">{s.label}</p>
             </div>
           ))}
         </div>
