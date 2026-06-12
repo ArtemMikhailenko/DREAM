@@ -109,13 +109,21 @@ body::after{
 .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);padding-top:68px}
 /* concrete bunker bg */
 .hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 36%;filter:grayscale(.3) brightness(1) contrast(1.04)}
-/* Photo stays bright and clear on the upper ~55% (the bridge sits there); only the
-   bottom is scrimmed so the lower-left text block reads. Top of the headline still
-   carries a text-shadow for safety where it meets the brighter zone. */
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 36%;filter:grayscale(.32) brightness(.82) contrast(1.05)}
+/* Photo stays visible on the upper ~half (the bridge sits there) with a gentle overall
+   tint; the bottom is scrimmed harder so the lower-left text block reads. */
 .hero-bg::after{content:"";position:absolute;inset:0;background:
-  linear-gradient(180deg,rgba(10,10,9,.28) 0%,transparent 14%,transparent 46%,rgba(10,10,9,.55) 72%,rgba(10,10,9,.96) 100%);
+  linear-gradient(180deg,rgba(10,10,9,.42) 0%,rgba(10,10,9,.22) 18%,rgba(10,10,9,.26) 46%,rgba(10,10,9,.62) 72%,rgba(10,10,9,.97) 100%);
 }
+
+/* handwritten idea → result annotations (flank the bridge crossing) */
+.hero-note{position:absolute;z-index:2;display:inline-block;font-family:var(--font-caveat),"Brush Script MT",cursive;font-weight:700;color:var(--accent);line-height:1;letter-spacing:.01em;pointer-events:none;user-select:none;text-shadow:0 2px 18px rgba(0,0,0,.75),0 1px 3px rgba(0,0,0,.6)}
+.hero-note-idea{top:29%;left:6%;font-size:clamp(1.9rem,3.4vw,3.3rem);transform:rotate(-8deg)}
+.hero-note-result{top:30%;right:7%;font-size:clamp(1.9rem,3.4vw,3.3rem);transform:rotate(6deg)}
+.hn-mark{position:absolute;color:var(--accent);overflow:visible;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
+.hero-note-idea .hn-mark{inset:-30% -18%}
+.hero-note-result .hn-mark{left:2%;right:2%;bottom:-34%;width:96%;height:auto}
+@media(max-width:820px){.hero-note{display:none}}
 
 .hero-head{position:relative;z-index:2;display:flex;align-items:center;padding-block:18px}
 .hero-kicker{display:inline-flex;align-items:center;gap:10px;padding:7px 16px 7px 10px;border:1px solid var(--bd2);border-radius:999px;background:rgba(10,10,9,.5);backdrop-filter:blur(6px)}

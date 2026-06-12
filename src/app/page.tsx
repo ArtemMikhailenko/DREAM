@@ -227,6 +227,19 @@ export default function Home() {
 
         <span className="brand-watermark" aria-hidden="true">dc.prod</span>
 
+        <span className="hero-note hero-note-idea" aria-hidden="true">
+          idea
+          <svg className="hn-mark" viewBox="0 0 170 80" fill="none" stroke="currentColor" preserveAspectRatio="none">
+            <path d="M20 46C13 27 50 13 88 14c41 1 66 15 60 35-6 18-46 26-84 23-30-3-52-13-53-29" strokeWidth="3" strokeLinecap="round" />
+          </svg>
+        </span>
+        <span className="hero-note hero-note-result" aria-hidden="true">
+          result
+          <svg className="hn-mark" viewBox="0 0 180 22" fill="none" stroke="currentColor" preserveAspectRatio="none">
+            <path d="M6 14C52 5 132 5 174 13" strokeWidth="3.4" strokeLinecap="round" />
+          </svg>
+        </span>
+
         <div className="wrap hero-body">
           <div className="hero-left">
             <div className="hero-kicker">
