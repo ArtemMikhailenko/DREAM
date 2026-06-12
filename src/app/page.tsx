@@ -144,13 +144,6 @@ const packages: {
   },
 ];
 
-const steps = [
-  "We analyse your product, audience and current points of lead loss.",
-  "We shape the offer, visual identity and creative plan.",
-  "We shoot and edit video, build landing blocks and ad creatives.",
-  "We launch campaigns, verify events and optimise towards leads.",
-];
-
 const faqs = [
   {
     q: "How does the process work?",
@@ -229,29 +222,17 @@ export default function Home() {
       <section className="hero">
         <div className="hero-bg" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=2000&q=85"
-            alt=""
-          />
+          <img src="/background/mount.png" alt="" />
         </div>
 
         <span className="brand-watermark" aria-hidden="true">dc.prod</span>
 
-        <div className="hero-stickers" aria-hidden="true">
-          <span className="sticker hero-st-1">★ Est. 2024</span>
-          <span className="sticker dk hero-st-2">→ from idea / to result</span>
-          <span className="sticker tape hero-st-3">studio · production</span>
-        </div>
-
-        <div className="wrap hero-head">
-          <div className="hero-kicker">
-            <span className="hero-kicker-dot" />
-            <span className="hero-kicker-text">We helped +100 clients</span>
-          </div>
-        </div>
-
         <div className="wrap hero-body">
           <div className="hero-left">
+            <div className="hero-kicker">
+              <span className="hero-kicker-dot" />
+              <span className="hero-kicker-text">We helped +100 clients</span>
+            </div>
             <h1 className="hero-h1">
               From idea<br />
               <span className="hero-h1-arrow" aria-hidden="true" />
@@ -289,6 +270,7 @@ export default function Home() {
 
       {/* ── Problem ── */}
       <section className="section s-dark2" id="problem">
+        <div className="bg-gromophon" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Problem</div>
         <div className="wrap">
           <p className="label">The Problem</p>
@@ -310,11 +292,7 @@ export default function Home() {
 
       {/* ── Services ── */}
       <section className="section s-concrete" id="services">
-        <div className="svc-img-follower" aria-hidden="true" id="svc-follower">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img id="svc-follower-img" src={undefined} alt="" />
-        </div>
+        <div className="bg-gromophon" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Services</div>
         <div className="wrap">
           <p className="label">Services</p>
@@ -369,6 +347,7 @@ export default function Home() {
 
       {/* ── Process ── */}
       <section className="section s-ink" id="process">
+        <div className="bg-gray seam-down pin" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Process</div>
         <div className="wrap">
           <p className="label">How we work</p>
@@ -392,6 +371,11 @@ export default function Home() {
 
       {/* ── Statement ── */}
       <div className="s-statement">
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
+        <div className="sec-bg warm" aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/background/spichki.png" alt="" loading="lazy" decoding="async" style={{ objectPosition: "right center" }} />
+        </div>
         <div className="wrap statement-inner">
           <p className="statement-eyebrow">— what sets dc.prod apart —</p>
           <p className="statement-h">
@@ -404,6 +388,7 @@ export default function Home() {
 
       {/* ── Portfolio — compact 3-card showcase ── */}
       <section className="section s-dark2" id="portfolio">
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Works</div>
         <div className="wrap">
           <p className="label">Selected work</p>
@@ -430,13 +415,14 @@ export default function Home() {
       </section>
 
       {/* ── Results — single place for all numbers ── */}
-      <section className="section s-cream" id="results">
+      <section className="section s-dark2" id="results">
+        <div className="bg-gray seam-up pin" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Results</div>
         <div className="wrap">
           <p className="label">Results</p>
           <h2 className="sec-h">Numbers<br />that <em>matter</em></h2>
         </div>
-        <div className="cases-strip cases-strip-cream">
+        <div className="cases-strip">
           {results.map((c, i) => (
             <div className="case-col" key={i}>
               <span className="case-col-n">0{i + 1}</span>
@@ -459,6 +445,7 @@ export default function Home() {
 
       {/* ── Pricing ── */}
       <section className="section s-pricing" id="packages">
+        <div className="bg-graffiti" aria-hidden="true" />
         <div className="pricing-blob" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Pricing</div>
         <div className="wrap">
@@ -494,6 +481,7 @@ export default function Home() {
 
       {/* ── FAQ ── */}
       <section className="section s-concrete" id="faq">
+        <div className="bg-graffiti" aria-hidden="true" />
         <div className="wrap">
           <p className="label">FAQ</p>
           <h2 className="sec-h">Common <em>questions</em></h2>
@@ -514,46 +502,65 @@ export default function Home() {
 
       {/* ── Lead form ── */}
       <section className="section lead-sec" id="lead">
+        <div className="bg-gray" aria-hidden="true" />
+        <div className="contact-glow" aria-hidden="true" />
+        <svg className="contact-circuit contact-circuit-l" viewBox="0 0 240 160" aria-hidden="true" fill="none" stroke="currentColor">
+          <path d="M0 40 H80 L110 70 H240" strokeWidth="1" />
+          <path d="M0 90 H50 L78 118 H180" strokeWidth="1" opacity=".6" />
+          <circle cx="80" cy="40" r="3.5" /><circle cx="110" cy="70" r="3.5" />
+          <circle cx="50" cy="90" r="3" opacity=".6" /><circle cx="180" cy="118" r="3" opacity=".6" />
+        </svg>
+        <svg className="contact-circuit contact-circuit-r" viewBox="0 0 240 160" aria-hidden="true" fill="none" stroke="currentColor">
+          <path d="M240 40 H160 L130 70 H0" strokeWidth="1" />
+          <path d="M240 95 H190 L160 125 H40" strokeWidth="1" opacity=".6" />
+          <circle cx="160" cy="40" r="3.5" /><circle cx="130" cy="70" r="3.5" />
+          <circle cx="190" cy="95" r="3" opacity=".6" /><circle cx="40" cy="125" r="3" opacity=".6" />
+        </svg>
+        <span className="contact-ghost" aria-hidden="true">Contact</span>
+
         <div className="wrap">
-          <div className="lead-headline">
-            <p className="label">Let&apos;s talk</p>
-            <h2 className="sec-h">
-              Let&apos;s build<br />something <em>stylish.</em>
-            </h2>
-          </div>
-          <div className="lead-grid">
-            <div className="lead-copy">
-              <p>
+          <div className="contact-grid">
+            <div className="contact-info">
+              <span className="contact-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 8h.01" /></svg>
+                Contact
+              </span>
+              <h2 className="contact-h">Get in <em>touch.</em></h2>
+              <p className="contact-sub">
                 Fill in the form — we&apos;ll review the brief and send a proposal
                 within one business day.
               </p>
-              <div className="lead-steps">
-                {steps.map((s, i) => (
-                  <div className="lead-step" key={i}>
-                    <span className="step-dot">{i + 1}</span>
-                    <p>{s}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="lead-contacts">
-                <span className="lead-contacts-label">— our contacts —</span>
-                <div className="lead-contacts-grid">
-                  <a className="lead-contact" href="https://t.me/" target="_blank" rel="noopener">
-                    <span className="lead-contact-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.4 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 12.5l-5-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.6z"/></svg>
-                    </span>
-                    <span className="lead-contact-kind">Telegram</span>
-                    <span className="lead-contact-handle">@dcprod</span>
-                  </a>
-                  <a className="lead-contact" href="https://instagram.com/" target="_blank" rel="noopener">
-                    <span className="lead-contact-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-                    </span>
-                    <span className="lead-contact-kind">Instagram</span>
-                    <span className="lead-contact-handle">@dc.prod</span>
-                  </a>
-                </div>
-                <p className="lead-contacts-extra">or write to <a href="mailto:hi@dcprod.agency">hi@dcprod.agency</a></p>
+              <div className="contact-cards">
+                <a className="contact-card" href="https://t.me/" target="_blank" rel="noopener">
+                  <span className="contact-card-ic" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.4 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 12.5l-5-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.6z"/></svg>
+                  </span>
+                  <span className="contact-card-body">
+                    <span className="contact-card-label">Telegram</span>
+                    <span className="contact-card-detail">@dcprod</span>
+                  </span>
+                  <span className="contact-card-arrow" aria-hidden="true">↗</span>
+                </a>
+                <a className="contact-card" href="https://instagram.com/" target="_blank" rel="noopener">
+                  <span className="contact-card-ic" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                  </span>
+                  <span className="contact-card-body">
+                    <span className="contact-card-label">Instagram</span>
+                    <span className="contact-card-detail">@dc.prod</span>
+                  </span>
+                  <span className="contact-card-arrow" aria-hidden="true">↗</span>
+                </a>
+                <a className="contact-card" href="mailto:hi@dcprod.agency">
+                  <span className="contact-card-ic" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                  </span>
+                  <span className="contact-card-body">
+                    <span className="contact-card-label">Email us</span>
+                    <span className="contact-card-detail">hi@dcprod.agency</span>
+                  </span>
+                  <span className="contact-card-arrow" aria-hidden="true">↗</span>
+                </a>
               </div>
             </div>
             <LeadForm />

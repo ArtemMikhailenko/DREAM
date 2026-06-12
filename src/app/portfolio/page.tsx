@@ -65,6 +65,7 @@ export default function PortfolioPage() {
 
       {/* ── Page hero ── */}
       <section className="page-hero s-ink">
+        <div className="bg-wood" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Works</div>
         <div className="wrap page-hero-inner">
           <p className="label">Selected works</p>
@@ -79,6 +80,7 @@ export default function PortfolioPage() {
 
       {/* ── Filter bar ── */}
       <div className="section s-dark2" style={{ paddingBlock: "40px" }}>
+        <div className="bg-wood" aria-hidden="true" />
         <div className="wrap">
           <div className="portfolio-filter">
             {categories.map((c) => (
@@ -90,6 +92,7 @@ export default function PortfolioPage() {
 
       {/* ── Cases grid ── */}
       <section className="section s-dark" id="cases" style={{ paddingTop: 0 }}>
+        <div className="bg-wood" aria-hidden="true" />
         <div className="wrap">
           <div className="portfolio-grid portfolio-grid-lg">
             {cases.map((c, i) => (
@@ -117,6 +120,7 @@ export default function PortfolioPage() {
 
       {/* ── CTA ── */}
       <section className="section s-concrete" id="cta">
+        <div className="bg-wood" aria-hidden="true" />
         <div className="wrap" style={{ textAlign: "center" }}>
           <p className="label">Your project next?</p>
           <h2 className="sec-h">Let&apos;s make<br />something <em>great</em></h2>

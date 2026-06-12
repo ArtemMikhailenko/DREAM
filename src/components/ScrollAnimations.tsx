@@ -6,6 +6,36 @@ export function ScrollAnimations() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let ctx: any;
 
+    // Reveal failsafe — set up SYNCHRONOUSLY (independent of the async GSAP import).
+    // After a soft <Link> navigation ScrollTrigger sometimes never fires, leaving
+    // headings/labels stuck (clip-path / opacity:0) until a hard reload. This sweeps
+    // in-view targets still hidden and reveals them with a plain CSS transition — no
+    // GSAP dependency, so it works even if the gsap import is slow or a trigger is dead.
+    const REVEAL_SEL =
+      ".label,.sec-h,.page-hero-h,.portfolio-case,.case-col,.faq-item,.rev-item,.svc-row,.problem-row,.process-step,.pkg-card";
+    const revealStuck = () => {
+      const vh = window.innerHeight;
+      document.querySelectorAll<HTMLElement>(REVEAL_SEL).forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh * 0.82) return; // not solidly in view — let GSAP play
+        const cs = getComputedStyle(el);
+        if (parseFloat(cs.opacity) < 0.05 || cs.clipPath.includes("100%")) {
+          el.style.transition = "opacity .5s ease, clip-path .5s ease, transform .5s ease";
+          el.style.opacity = "1";
+          el.style.transform = "none";
+          el.style.clipPath = "inset(0px 0px 0px 0px)";
+        }
+      });
+    };
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { revealStuck(); ticking = false; });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    const sweepTimers = [350, 900, 1800, 3200].map((t) => window.setTimeout(revealStuck, t));
+
     async function init() {
       const { gsap } = await import("gsap");
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
@@ -52,8 +82,8 @@ export function ScrollAnimations() {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
         tl.from(".hero-kicker",         { y: 16, opacity: 0, duration: 0.45 }, 0.08)
           .from(".hero-desc",           { y: 22, opacity: 0, duration: 0.6  }, 0.52)
-          .from(".hero-actions .btn-p", { y: 20, opacity: 0, duration: 0.5  }, 0.64)
-          .from(".hero-actions .btn-o", { y: 20, opacity: 0, duration: 0.5  }, 0.72);
+          .from(".hero .hero-actions .btn-p", { y: 20, opacity: 0, duration: 0.5  }, 0.64)
+          .from(".hero .hero-actions .btn-o", { y: 20, opacity: 0, duration: 0.5  }, 0.72);
 
         gsap.from(".hero-rail", { y: 40, opacity: 0, duration: 0.9, ease: "power3.out", delay: 0.45 });
         gsap.from(".hero-rail li", { x: 16, opacity: 0, duration: 0.4, stagger: 0.05, ease: "power2.out", delay: 0.65 });
@@ -126,31 +156,6 @@ export function ScrollAnimations() {
             y: i === 0 ? -70 : 50, ease: "none",
           });
         });
-
-        /* ═══════════════════════════════════════
-           SERVICES — cursor image follower
-        ═══════════════════════════════════════ */
-        const svcFollower = document.getElementById("svc-follower");
-        const svcFollowerImg = document.getElementById("svc-follower-img") as HTMLImageElement | null;
-        if (svcFollower && svcFollowerImg) {
-          document.querySelectorAll<HTMLElement>(".svc-row").forEach((row) => {
-            row.addEventListener("mouseenter", () => {
-              const src = row.dataset.img;
-              if (src && svcFollowerImg.getAttribute("src") !== src) svcFollowerImg.src = src;
-              svcFollower.classList.add("active");
-            });
-            row.addEventListener("mouseleave", () => {
-              svcFollower.classList.remove("active");
-            });
-          });
-          document.getElementById("services")?.addEventListener("mouseleave", () => {
-            svcFollower.classList.remove("active");
-          });
-          document.getElementById("services")?.addEventListener("mousemove", (e) => {
-            const me = e as MouseEvent;
-            gsap.to(svcFollower, { x: me.clientX + 28, y: me.clientY - 40, duration: 0.55, ease: "power3.out" });
-          });
-        }
 
         /* ═══════════════════════════════════════
            PROCESS STEPS — dot timeline
@@ -231,9 +236,14 @@ export function ScrollAnimations() {
         /* ═══════════════════════════════════════
            PRICING CARDS + row stagger
         ═══════════════════════════════════════ */
-        gsap.from(".pkg-card", {
-          scrollTrigger: { trigger: ".pkg-cards", start: "top 80%" },
-          y: 50, opacity: 0, stagger: 0.14, duration: 0.8, ease: "power3.out",
+        // cards rise from different levels — side cards shallow, featured one deeper
+        const pkgOffsets = [80, 150, 80];
+        gsap.utils.toArray<HTMLElement>(".pkg-card").forEach((card, i) => {
+          gsap.from(card, {
+            scrollTrigger: { trigger: ".pkg-cards", start: "top 82%" },
+            y: pkgOffsets[i] ?? 80, opacity: 0,
+            duration: 0.95, delay: i * 0.12, ease: "power3.out",
+          });
         });
         gsap.utils.toArray<HTMLElement>(".pkg-card").forEach((card) => {
           const rows = card.querySelectorAll<HTMLElement>(".pkg-rows-li");
@@ -288,21 +298,31 @@ export function ScrollAnimations() {
         });
       });
 
-      // Recompute trigger positions after layout settles (fixes client-side route
-      // transitions where ScrollTrigger latches stale positions and triggers never fire).
-      requestAnimationFrame(() => ScrollTrigger.refresh());
-      const onLoad = () => ScrollTrigger.refresh();
+      // Recompute trigger positions after layout settles. On client-side route
+      // transitions (Next <Link>) the "load" event never refires and layout/images
+      // settle a frame or two late, so a single refresh latches stale positions and
+      // in-view triggers never fire — leaving content stuck at opacity:0 until a hard
+      // reload. Refresh across a double rAF, several timeouts, and each image load.
+      const refresh = () => ScrollTrigger.refresh();
+      requestAnimationFrame(() => requestAnimationFrame(refresh));
+      const onLoad = () => refresh();
       window.addEventListener("load", onLoad);
-      const tRefresh = window.setTimeout(() => ScrollTrigger.refresh(), 400);
+      const timers = [120, 400, 900, 1600].map((t) => window.setTimeout(refresh, t));
+      const pendingImgs = Array.from(document.querySelectorAll("img")).filter((im) => !im.complete);
+      pendingImgs.forEach((im) => im.addEventListener("load", refresh, { once: true }));
+
       cleanupExtras = () => {
         window.removeEventListener("load", onLoad);
-        window.clearTimeout(tRefresh);
+        timers.forEach((t) => window.clearTimeout(t));
+        pendingImgs.forEach((im) => im.removeEventListener("load", refresh));
       };
     }
 
     let cleanupExtras: (() => void) | undefined;
     init();
     return () => {
+      window.removeEventListener("scroll", onScroll);
+      sweepTimers.forEach((t) => window.clearTimeout(t));
       cleanupExtras?.();
       ctx?.revert();
     };

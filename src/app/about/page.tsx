@@ -56,6 +56,8 @@ export default function AboutPage() {
 
       {/* ── Page hero ── */}
       <section className="page-hero s-ink">
+        <div className="bg-gray seam-down pin" aria-hidden="true" />
+        <div className="bg-darts" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Studio</div>
         <div className="wrap page-hero-inner">
           <p className="label">About dc.prod</p>
@@ -70,6 +72,7 @@ export default function AboutPage() {
 
       {/* ── Story ── */}
       <section className="section s-dark" id="story">
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="wrap">
           <div className="about-grid">
             <div className="about-copy">
@@ -109,6 +112,7 @@ export default function AboutPage() {
 
       {/* ── Values ── */}
       <section className="section s-dark2" id="values">
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Values</div>
         <div className="wrap">
           <p className="label">Our principles</p>
@@ -126,12 +130,13 @@ export default function AboutPage() {
       </section>
 
       {/* ── Stats ── */}
-      <section className="section s-cream" id="impact">
+      <section className="section s-dark2" id="impact">
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="wrap">
           <p className="label">By the numbers</p>
           <h2 className="sec-h">Real <em>impact</em></h2>
         </div>
-        <div className="cases-strip cases-strip-cream cases-strip-4">
+        <div className="cases-strip cases-strip-4">
           {[
             { value: "+38%", label: "average growth in inbound leads after first campaign wave" },
             { value: "−24%", label: "drop in cost per lead through iterative creative testing" },
@@ -149,6 +154,7 @@ export default function AboutPage() {
 
       {/* ── CTA ── */}
       <section className="section s-ink" id="cta">
+        <div className="bg-gray seam-up pin" aria-hidden="true" />
         <div className="wrap" style={{ textAlign: "center", maxWidth: 720, margin: "0 auto" }}>
           <p className="label">Ready to start?</p>
           <h2 className="sec-h">Let&apos;s build<br />something <em>together</em></h2>
