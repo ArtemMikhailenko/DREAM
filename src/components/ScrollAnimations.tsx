@@ -46,33 +46,11 @@ export function ScrollAnimations() {
         /* ═══════════════════════════════════════
            HERO — load animations
         ═══════════════════════════════════════ */
+        // Simple whole-headline reveal — no per-word clip masks, so the metallic
+        // 3D-extrude treatment on .hero-h1 isn't clipped.
         const h1 = document.querySelector<HTMLElement>(".hero-h1");
         if (h1) {
-          // Walk text nodes only — leaves <br>, <span class="hero-h1-arrow"/>, <em> children intact.
-          // Wrap each visible word in a clip-mask span for the reveal animation.
-          const wrapWord = (w: string) =>
-            `<span style="display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em"><span class="hw" style="display:inline-block">${w}</span></span>`;
-          const walker = document.createTreeWalker(h1, NodeFilter.SHOW_TEXT);
-          const textNodes: Text[] = [];
-          let t: Node | null;
-          while ((t = walker.nextNode())) textNodes.push(t as Text);
-          textNodes.forEach((tn) => {
-            const raw = tn.nodeValue ?? "";
-            if (!raw.trim()) return;
-            const html = raw.replace(/\S+/g, (w) => wrapWord(w));
-            const tpl = document.createElement("span");
-            tpl.innerHTML = html;
-            tn.replaceWith(...Array.from(tpl.childNodes));
-          });
-          // <em> blocks also need to slide in as a single unit
-          h1.querySelectorAll<HTMLElement>("em").forEach((emEl) => {
-            const inner = emEl.innerHTML;
-            emEl.innerHTML = `<span style="display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em"><span class="hw" style="display:inline-block">${inner}</span></span>`;
-          });
-          gsap.from(".hero-h1 .hw", {
-            yPercent: 110, skewX: 6, stagger: 0.055,
-            duration: 0.88, ease: "power4.out", delay: 0.15,
-          });
+          gsap.from(h1, { y: 28, opacity: 0, duration: 0.9, ease: "power4.out", delay: 0.15 });
           gsap.from(".hero-h1-arrow", {
             scaleX: 0, transformOrigin: "left center",
             duration: 0.85, ease: "power3.out", delay: 0.55,

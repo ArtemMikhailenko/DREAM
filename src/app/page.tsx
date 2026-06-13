@@ -222,8 +222,26 @@ export default function Home() {
       <section className="hero">
         <div className="hero-bg" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/background/mount.png" alt="" />
+          <img src="/background/hero.png" alt="" />
         </div>
+
+        <div className="hero-glow" aria-hidden="true" />
+        <svg className="hero-circuit hero-circuit-l" viewBox="0 0 240 160" aria-hidden="true" fill="none" stroke="currentColor">
+          <path d="M0 40 H80 L110 70 H240" strokeWidth="1" />
+          <path d="M0 90 H50 L78 118 H180" strokeWidth="1" opacity=".6" />
+          <circle cx="80" cy="40" r="3.5" /><circle cx="110" cy="70" r="3.5" />
+          <circle cx="50" cy="90" r="3" opacity=".6" /><circle cx="180" cy="118" r="3" opacity=".6" />
+        </svg>
+        <svg className="hero-circuit hero-circuit-r" viewBox="0 0 240 160" aria-hidden="true" fill="none" stroke="currentColor">
+          <path d="M240 40 H160 L130 70 H0" strokeWidth="1" />
+          <path d="M240 95 H190 L160 125 H40" strokeWidth="1" opacity=".6" />
+          <circle cx="160" cy="40" r="3.5" /><circle cx="130" cy="70" r="3.5" />
+          <circle cx="190" cy="95" r="3" opacity=".6" /><circle cx="40" cy="125" r="3" opacity=".6" />
+        </svg>
+
+        <span className="hero-tag" aria-hidden="true">
+          Full-cycle studio /////// Video · Ads · SMM · Digital
+        </span>
 
         <span className="brand-watermark" aria-hidden="true">dc.prod</span>
 
@@ -385,10 +403,11 @@ export default function Home() {
       {/* ── Statement ── */}
       <div className="s-statement">
         <div className="bg-gray seam-mid pin" aria-hidden="true" />
-        <div className="sec-bg warm" aria-hidden="true">
+        <div className="sec-bg" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/background/spichki.png" alt="" loading="lazy" decoding="async" style={{ objectPosition: "right center" }} />
+          <img src="/background/notebook.png" alt="" loading="lazy" decoding="async" />
         </div>
+        <div className="bg-struct" aria-hidden="true" />
         <div className="wrap statement-inner">
           <p className="statement-eyebrow">— what sets dc.prod apart —</p>
           <p className="statement-h">
