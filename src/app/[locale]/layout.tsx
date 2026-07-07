@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono, Oswald, Archivo_Black, Caveat } from "next/font/google";
+import { Geist, Geist_Mono, Oswald, Archivo_Black, Heebo, Caveat } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -33,6 +33,14 @@ const heroDisplay = Archivo_Black({
   variable: "--font-hero",
   subsets: ["latin"],
   weight: ["400"],
+});
+
+// Heebo — heavy Hebrew display face. Oswald has no Hebrew glyphs, so Hebrew
+// headings fell back to a system font; Heebo gives them a proper bold face.
+const hebrewDisplay = Heebo({
+  variable: "--font-hebrew",
+  subsets: ["hebrew"],
+  weight: ["800"],
 });
 
 const caveat = Caveat({
@@ -86,7 +94,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={dir}
-      className={`${geistSans.variable} ${geistMono.variable} ${display.variable} ${heroDisplay.variable} ${caveat.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${display.variable} ${heroDisplay.variable} ${hebrewDisplay.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>
