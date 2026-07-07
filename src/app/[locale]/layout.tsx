@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono, Archivo_Black, Caveat } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
@@ -80,6 +81,19 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <Analytics />
           {children}
+          {/* Accessibility widget (UserWay) — loaded lazily */}
+          <Script
+            src="https://cdn.userway.org/widget.js"
+            data-account={process.env.NEXT_PUBLIC_USERWAY_ACCOUNT ?? "tZFa3D3tvc"}
+            data-position="5"
+            data-size="small"
+            data-language={locale === "he" ? "he" : locale === "ru" ? "ru" : "en"}
+            data-color="#e8a868"
+            data-type="1"
+            data-widget_layout="full"
+            data-z-index="10001"
+            strategy="lazyOnload"
+          />
         </NextIntlClientProvider>
       </body>
     </html>

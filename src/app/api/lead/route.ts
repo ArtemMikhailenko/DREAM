@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   forwardLeadToCrm,
   isDuplicateEvent,
+  logWhatsappConsent,
   parseCookies,
   sendMetaConversionsApi,
   validateLead,
@@ -31,6 +32,7 @@ export async function POST(request: Request) {
   const [crmResult] = await Promise.allSettled([
     forwardLeadToCrm(lead),
     sendMetaConversionsApi(lead, context),
+    logWhatsappConsent(lead, context),
   ]);
 
   if (crmResult.status === "rejected") {

@@ -1,11 +1,29 @@
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
+import { ServiceGlyph } from "@/components/ServiceGlyph";
 
 // WhatsApp CTA target. Set NEXT_PUBLIC_WHATSAPP_URL in prod, e.g. https://wa.me/9725XXXXXXXX
 const WHATSAPP_URL =
   process.env.NEXT_PUBLIC_WHATSAPP_URL ?? "https://wa.me/972000000000";
+
+// Canonical service order — drives the hero index and sibling cross-links.
+const SLUGS = [
+  "seo",
+  "targeted-advertising",
+  "smm",
+  "google-ads",
+  "photo-video",
+  "marketing-strategy",
+  "website-development",
+  "automation",
+  "geo-ai-seo",
+] as const;
+
+// Site textures rotated behind feature blocks for per-page variety.
+const BLOCK_BG = ["bg-gromophon", "bg-gray-pin", "bg-wood"];
 
 type Block = {
   heading: string;
@@ -16,8 +34,20 @@ type Block = {
 
 export async function ServicePage({ namespace }: { namespace: string }) {
   const t = await getTranslations(namespace);
+  const idx = await getTranslations("ServicesIndex");
   const body = t.raw("body") as string[];
   const blocks = t.raw("blocks") as Block[];
+
+  const slug = namespace.split(".")[1] ?? "";
+  const pos = SLUGS.indexOf(slug as (typeof SLUGS)[number]);
+  const num = String((pos < 0 ? 0 : pos) + 1).padStart(2, "0");
+  const total = String(SLUGS.length).padStart(2, "0");
+  const others = SLUGS.filter((s) => s !== slug);
+
+  // Short punchy phrases for the contrast marquee — the first block's list.
+  const marquee = (blocks[0]?.list ?? []).length ? blocks[0].list : [t("label")];
+  // Deliverable chips under the hero — the first block's capabilities.
+  const chips = (blocks[0]?.list ?? []).slice(0, 4);
 
   return (
     <>
@@ -25,26 +55,64 @@ export async function ServicePage({ namespace }: { namespace: string }) {
       <SiteNav />
 
       {/* ── Hero ── */}
-      <section className="page-hero s-ink">
+      <section className="page-hero s-ink svc-hero">
         <div className="bg-gray seam-down pin" aria-hidden="true" />
+        <div className="hero-glow" aria-hidden="true" />
         <div className="wrap page-hero-inner">
-          <p className="label">{t("label")}</p>
-          <h1 className="page-hero-h">{t("h1")}</h1>
-          {body[0] ? <p className="page-hero-sub">{body[0]}</p> : null}
+          <div className="svc-hero-grid">
+            <div className="svc-hero-left">
+              <div className="svc-hero-kicker">
+                <span className="svc-hero-badge" aria-hidden="true"><ServiceGlyph slug={slug} /></span>
+                <span className="svc-hero-index">{num} <i>/ {total}</i></span>
+                <p className="label">{t("label")}</p>
+              </div>
+              <h1 className="page-hero-h">{t("h1")}</h1>
+              {body[0] ? <p className="page-hero-sub">{body[0]}</p> : null}
+              <div className="hero-actions">
+                <a className="btn-p" href={WHATSAPP_URL} target="_blank" rel="noopener">
+                  {t("cta")} ↗
+                </a>
+              </div>
+            </div>
+            {chips.length && blocks[0] ? (
+              <aside className="svc-hero-panel">
+                <p className="svc-hero-panel-t">{blocks[0].heading}</p>
+                <ul>
+                  {chips.map((c, i) => (
+                    <li key={i}>{c}</li>
+                  ))}
+                </ul>
+              </aside>
+            ) : null}
+          </div>
         </div>
       </section>
 
-      {/* ── Intro body ── */}
+      {/* ── Lead / intro ── */}
       {body.length > 1 ? (
         <section className="section s-dark">
           <div className="bg-gray seam-mid pin" aria-hidden="true" />
-          <div className="wrap service-body">
-            {body.slice(1).map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
+          <div className="wrap svc-lead-wrap">
+            <p className="svc-lead">{body[1]}</p>
+            {body.length > 2 ? (
+              <div className="svc-lead-cols">
+                {body.slice(2).map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            ) : null}
           </div>
         </section>
       ) : null}
+
+      {/* ── Contrast marquee ── */}
+      <div className="ticker ticker-cream" aria-hidden="true">
+        <div className="ticker-track">
+          {[...marquee, ...marquee, ...marquee].map((m, i) => (
+            <span className="ticker-item" key={i}>{m}</span>
+          ))}
+        </div>
+      </div>
 
       {/* ── Feature blocks ── */}
       {blocks.map((b, i) => (
@@ -52,22 +120,31 @@ export async function ServicePage({ namespace }: { namespace: string }) {
           key={i}
           className={`section ${i % 2 === 0 ? "s-dark2" : "s-dark"}`}
         >
-          <div className="bg-gray seam-mid pin" aria-hidden="true" />
+          <div className={BLOCK_BG[(pos + i) % BLOCK_BG.length]} aria-hidden="true" />
           <div className="wrap service-block">
-            <h2 className="sec-h">{b.heading}</h2>
-            <p className="service-block-intro">{b.intro}</p>
+            <span className="service-block-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+            <div className="svc-block-head">
+              <h2 className="sec-h">{b.heading}</h2>
+              <p className="service-block-intro">{b.intro}</p>
+            </div>
             {b.ordered ? (
-              <ol className="service-list service-list-ol">
+              <ol className="svc-steps">
                 {b.list.map((li, j) => (
-                  <li key={j}>{li}</li>
+                  <li className="svc-step" key={j}>
+                    <span className="svc-step-n" aria-hidden="true">{String(j + 1).padStart(2, "0")}</span>
+                    <span className="svc-step-t">{li}</span>
+                  </li>
                 ))}
               </ol>
             ) : (
-              <ul className="service-list">
+              <div className="svc-cards">
                 {b.list.map((li, j) => (
-                  <li key={j}>{li}</li>
+                  <div className="svc-card" key={j}>
+                    <span className="svc-card-mark" aria-hidden="true">✳</span>
+                    <span className="svc-card-txt">{li}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             )}
           </div>
         </section>
@@ -76,12 +153,28 @@ export async function ServicePage({ namespace }: { namespace: string }) {
       {/* ── CTA ── */}
       <section className="section s-ink" id="cta">
         <div className="bg-gray seam-up pin" aria-hidden="true" />
-        <div className="wrap" style={{ textAlign: "center", maxWidth: 720, margin: "0 auto" }}>
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="wrap" style={{ textAlign: "center", maxWidth: 720, margin: "0 auto", position: "relative", zIndex: 1 }}>
           <h2 className="sec-h">{t("h1")}</h2>
           <div className="hero-actions" style={{ justifyContent: "center", marginTop: 36 }}>
             <a className="btn-p" href={WHATSAPP_URL} target="_blank" rel="noopener">
               {t("cta")} ↗
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Other services ── */}
+      <section className="section s-dark2">
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
+        <div className="wrap svc-cross">
+          <p className="label">{idx("other")}</p>
+          <div className="svc-cross-grid">
+            {others.map((s) => (
+              <Link key={s} href={`/services/${s}`} className="svc-cross-card">
+                {idx(`items.${s}.title`)} <i aria-hidden="true">↗</i>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

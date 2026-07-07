@@ -308,7 +308,8 @@
       "3D / AI content",
       "Social media",
       "Full funnel"
-    ]
+    ],
+    "whatsappOptIn": "I want to receive WhatsApp messages on this number from DC Project"
   },
   "About": {
     "meta": {
@@ -566,7 +567,18 @@
         "title": "GEO / AI search",
         "teaser": "Get your business recommended inside ChatGPT and AI answers."
       }
-    }
+    },
+    "stats": [
+      "09 — Services",
+      "EN · RU · HE",
+      "One team · full cycle"
+    ],
+    "cta": {
+      "heading": "Not sure which service you need?",
+      "text": "Tell us about your business — we will recommend the right mix and send a quote.",
+      "btn": "Get a free quote on WhatsApp"
+    },
+    "other": "Other services"
   },
   "Services": {
     "seo": {

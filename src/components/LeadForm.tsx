@@ -31,6 +31,7 @@ export function LeadForm() {
 
     const formData = new FormData(event.currentTarget);
     const eventId = createEventId();
+    const whatsappOptIn = formData.get("whatsappOptIn") === "on";
     const payload = {
       eventId,
       name: String(formData.get("name") ?? "").trim(),
@@ -41,6 +42,15 @@ export function LeadForm() {
       message: String(formData.get("message") ?? "").trim(),
       page: window.location.href,
       utm: Object.fromEntries(new URLSearchParams(window.location.search)),
+      // Meta WhatsApp opt-in — standalone consent captured at submission time.
+      whatsappOptIn,
+      whatsappConsent: whatsappOptIn
+        ? {
+            text: t("whatsappOptIn"),
+            at: new Date().toISOString(),
+            page: window.location.href,
+          }
+        : undefined,
     };
 
     if (!payload.name || !payload.phone) {
@@ -89,6 +99,11 @@ export function LeadForm() {
           <input className="field-control" name="phone" autoComplete="tel" required />
         </label>
       </div>
+      {/* WhatsApp opt-in — standalone, NOT pre-checked, NOT required (Meta requirement) */}
+      <label className="wa-optin flex items-start gap-3 text-sm leading-6 text-[color:var(--muted)]">
+        <input className="mt-1" type="checkbox" name="whatsappOptIn" />
+        <span>{t("whatsappOptIn")}</span>
+      </label>
       <label className="field-label">
         {t("business")}
         <input className="field-control" name="business" placeholder={t("businessPlaceholder")} />

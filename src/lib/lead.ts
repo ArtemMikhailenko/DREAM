@@ -1,5 +1,14 @@
 import { createHash } from "crypto";
 
+export type WhatsappConsent = {
+  /** Exact consent wording the user saw when opting in. */
+  text: string;
+  /** Client timestamp when the box was submitted (ISO). */
+  at: string;
+  /** Page/URL where consent was collected. */
+  page?: string;
+};
+
 export type LeadPayload = {
   eventId: string;
   name: string;
@@ -10,6 +19,9 @@ export type LeadPayload = {
   message?: string;
   page?: string;
   utm?: Record<string, string>;
+  /** Standalone WhatsApp opt-in (Meta). Optional — never a condition of the lead. */
+  whatsappOptIn?: boolean;
+  whatsappConsent?: WhatsappConsent;
 };
 
 type RequestContext = {
@@ -121,6 +133,58 @@ export async function sendMetaConversionsApi(
   }
 
   return { skipped: false };
+}
+
+/**
+ * Persist a provable WhatsApp opt-in record (Meta may request it):
+ * who, when, where, and the exact consent wording shown.
+ * Always writes an audit log line; also POSTs to CONSENT_LOG_WEBHOOK_URL when set
+ * (e.g. a Google Sheet / Zapier / DB endpoint) for durable storage.
+ */
+export async function logWhatsappConsent(
+  payload: LeadPayload,
+  context: RequestContext,
+) {
+  if (!payload.whatsappOptIn) {
+    return { skipped: true as const };
+  }
+
+  const record = {
+    type: "whatsapp_opt_in",
+    eventId: payload.eventId,
+    name: payload.name,
+    phone: payload.phone,
+    consentText: payload.whatsappConsent?.text ?? null,
+    // Server timestamp is authoritative; client timestamp kept for reference.
+    collectedAt: new Date().toISOString(),
+    clientAt: payload.whatsappConsent?.at ?? null,
+    source: payload.whatsappConsent?.page ?? payload.page ?? null,
+    ip: context.ip ?? null,
+    userAgent: context.userAgent ?? null,
+  };
+
+  // Audit trail (captured by the platform's log drain).
+  console.info(`[whatsapp-consent] ${JSON.stringify(record)}`);
+
+  const webhookUrl = process.env.CONSENT_LOG_WEBHOOK_URL;
+  if (webhookUrl) {
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(process.env.CONSENT_LOG_TOKEN
+          ? { Authorization: `Bearer ${process.env.CONSENT_LOG_TOKEN}` }
+          : {}),
+      },
+      body: JSON.stringify(record),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Consent log failed: ${response.status}`);
+    }
+  }
+
+  return { skipped: false as const };
 }
 
 export function parseCookies(cookieHeader: string | null) {
