@@ -1,17 +1,10 @@
 "use client";
 
 import { FormEvent, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { trackLeadSubmitted } from "@/lib/tracking";
 
 type SubmitState = "idle" | "submitting" | "success" | "error";
-
-const serviceOptions = [
-  "Promotional video",
-  "Image video",
-  "3D / AI content",
-  "Social media",
-  "Full funnel",
-];
 
 function createEventId() {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -22,6 +15,8 @@ function createEventId() {
 }
 
 export function LeadForm() {
+  const t = useTranslations("LeadForm");
+  const serviceOptions = t.raw("services") as string[];
   const [state, setState] = useState<SubmitState>("idle");
   const [message, setMessage] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
@@ -50,7 +45,7 @@ export function LeadForm() {
 
     if (!payload.name || !payload.phone) {
       setState("error");
-      setMessage("Please add your name and phone so we can get back to you.");
+      setMessage(t("errorRequired"));
       return;
     }
 
@@ -74,11 +69,11 @@ export function LeadForm() {
       }
 
       setState("success");
-      setMessage("Brief received. dc.prod will get back to you within one business day with a first launch plan.");
+      setMessage(t("success"));
       formRef.current?.reset();
     } catch {
       setState("error");
-      setMessage("We couldn't send your request. Please try again or reach us directly.");
+      setMessage(t("errorSend"));
     }
   }
 
@@ -86,42 +81,42 @@ export function LeadForm() {
     <form ref={formRef} className="lead-form grid gap-4" onSubmit={onSubmit}>
       <div className="grid gap-4 md:grid-cols-2">
         <label className="field-label">
-          Name
+          {t("name")}
           <input className="field-control" name="name" autoComplete="name" required />
         </label>
         <label className="field-label">
-          Phone
+          {t("phone")}
           <input className="field-control" name="phone" autoComplete="tel" required />
         </label>
       </div>
       <label className="field-label">
-        Business
-        <input className="field-control" name="business" placeholder="Niche, city, product" />
+        {t("business")}
+        <input className="field-control" name="business" placeholder={t("businessPlaceholder")} />
       </label>
       <div className="grid gap-4 md:grid-cols-2">
         <label className="field-label">
-          What you need
-          <select className="field-control" name="service" defaultValue="Full funnel">
+          {t("whatYouNeed")}
+          <select className="field-control" name="service" defaultValue={serviceOptions[serviceOptions.length - 1]}>
             {serviceOptions.map((option) => (
               <option key={option}>{option}</option>
             ))}
           </select>
         </label>
         <label className="field-label">
-          Budget
-          <input className="field-control" name="budget" placeholder="e.g. from $1.500" />
+          {t("budget")}
+          <input className="field-control" name="budget" placeholder={t("budgetPlaceholder")} />
         </label>
       </div>
       <label className="field-label">
-        Task
-        <textarea className="field-control min-h-28 resize-y" name="message" placeholder="What you sell and the result you want" />
+        {t("task")}
+        <textarea className="field-control min-h-28 resize-y" name="message" placeholder={t("taskPlaceholder")} />
       </label>
       <label className="flex items-start gap-3 text-sm leading-6 text-[color:var(--muted)]">
         <input className="mt-1" type="checkbox" name="consent" required />
-        <span>I agree to data processing and to be contacted about this request.</span>
+        <span>{t("consent")}</span>
       </label>
       <button className="btn btn-dark w-full" disabled={state === "submitting"} type="submit">
-        {state === "submitting" ? "Sending…" : "Send the brief"}
+        {state === "submitting" ? t("sending") : t("submit")}
       </button>
       {message ? (
         <p className={`status-box ${state === "success" ? "status-success" : "status-error"}`} role="status">

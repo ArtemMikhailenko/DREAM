@@ -1,0 +1,959 @@
+{
+  "Nav": {
+    "aboutUs": "About us",
+    "services": "Services",
+    "works": "Works",
+    "pricing": "Pricing",
+    "contacts": "Contacts",
+    "callUs": "Call us",
+    "studio": "studio",
+    "language": "Language"
+  },
+  "Home": {
+    "meta": {
+      "title": "DC Project, Digital Marketing Agency in Israel | SMM, Ads & Content",
+      "description": "Full-service digital marketing agency in Israel. We run Meta & TikTok ads, SEO, SMM, photo/video production and automation, so your business gets qualified leads, not just traffic. Money-back guarantee if no results."
+    },
+    "hero": {
+      "kicker": "We helped +100 clients",
+      "desc": "Full-service digital marketing agency in Israel — ads, SEO, SMM, photo & video and automation. We bring you qualified leads, not just traffic.",
+      "ctaPrimary": "Get a free audit",
+      "ctaSecondary": "See our works"
+    },
+    "rail": {
+      "head": "What we do",
+      "items": [
+        "Promotional videos",
+        "Image videos",
+        "3D animation",
+        "Social media content",
+        "AI content",
+        "Social media management",
+        "Digital marketing"
+      ]
+    },
+    "problem": {
+      "label": "The Problem",
+      "heading": "Why great content doesn't bring leads",
+      "items": [
+        {
+          "title": "First screen doesn't hold the price",
+          "text": "The service can be excellent, but visually it looks cheaper than competitors — and the client leaves before reading a word."
+        },
+        {
+          "title": "Creatives don't connect to the funnel",
+          "text": "Video, posts, site and ads never form a single path toward a lead. Each piece lives in isolation."
+        },
+        {
+          "title": "Analytics is noisy",
+          "text": "Leads are duplicated, CRM receives dirty data, ad algorithms learn from garbage and waste budget."
+        }
+      ]
+    },
+    "services": {
+      "label": "Services",
+      "heading": "Three directions — one",
+      "headingEm": "system",
+      "onSet": "on set",
+      "launch": "launch",
+      "items": [
+        {
+          "title": "Promotional videos",
+          "text": "Scripts, shooting and editing for video ads that actually convert — built around your offer and audience.",
+          "deliverables": [
+            "scripts",
+            "shooting",
+            "editing",
+            "motion"
+          ]
+        },
+        {
+          "title": "Image & brand films",
+          "text": "Cinematic brand stories — concept, art direction, location and post-production at production-house level.",
+          "deliverables": [
+            "concept",
+            "art direction",
+            "location",
+            "post"
+          ]
+        },
+        {
+          "title": "Social media & ads",
+          "text": "Content system, paid ads, pixels, CRM and analytics — one machine working toward inbound leads.",
+          "deliverables": [
+            "content",
+            "paid ads",
+            "pixels",
+            "analytics"
+          ]
+        }
+      ]
+    },
+    "process": {
+      "label": "How we work",
+      "heading": "From brief to first",
+      "headingEm": "lead",
+      "steps": [
+        {
+          "name": "Strategy",
+          "desc": "Brief, audience & positioning"
+        },
+        {
+          "name": "Ideas",
+          "desc": "Creative concept & content plan"
+        },
+        {
+          "name": "Production",
+          "desc": "Scripts, copy & motion design"
+        },
+        {
+          "name": "Shoot",
+          "desc": "Video, photo & editing"
+        },
+        {
+          "name": "Ads",
+          "desc": "Launch, creatives & A/B tests"
+        },
+        {
+          "name": "Analytics",
+          "desc": "Pixels, CRM & clean data"
+        },
+        {
+          "name": "Support",
+          "desc": "Optimisation & reports"
+        }
+      ]
+    },
+    "statement": {
+      "eyebrow": "— what sets dc.prod apart —",
+      "line1": "We don't just make",
+      "line1Em": "content.",
+      "line2": "We build",
+      "systems": "systems.",
+      "cta": "Start your project"
+    },
+    "portfolio": {
+      "label": "Selected work",
+      "heading": "Cases & projects",
+      "cases": [
+        {
+          "title": "Brand Identity Film",
+          "tag": "Image video"
+        },
+        {
+          "title": "Performance Campaign",
+          "tag": "Ads & creatives"
+        },
+        {
+          "title": "Social Content System",
+          "tag": "SMM"
+        }
+      ],
+      "ctaStart": "Start a project like this",
+      "ctaAll": "View all works"
+    },
+    "results": {
+      "label": "Results",
+      "heading": "Numbers that",
+      "headingEm": "matter",
+      "items": [
+        {
+          "label": "growth in inbound leads after updating the offer and video"
+        },
+        {
+          "label": "drop in cost per lead through new ad combinations"
+        },
+        {
+          "label": "days from brief to launching the first ad wave"
+        }
+      ]
+    },
+    "pricing": {
+      "label": "Pricing",
+      "heading": "Choose your",
+      "headingEm": "format",
+      "popular": "Popular",
+      "getStarted": "Get started",
+      "packages": [
+        {
+          "name": "Branding",
+          "tag": "Identity",
+          "price": "$1.000",
+          "priceOld": "$1.300",
+          "time": "14 working days",
+          "rows": [
+            {
+              "name": "Logo development",
+              "extra": "3–5 concepts"
+            },
+            {
+              "name": "Social media kit",
+              "extra": "avatar, highlights"
+            },
+            {
+              "name": "Brand guidelines"
+            },
+            {
+              "name": "Post templates",
+              "extra": "3 posts"
+            },
+            {
+              "name": "Ad creatives",
+              "extra": "3 creatives"
+            }
+          ]
+        },
+        {
+          "name": "Landing design",
+          "tag": "Web",
+          "price": "$1.000",
+          "priceOld": "$1.500",
+          "time": "14 working days",
+          "rows": [
+            {
+              "name": "Reference research"
+            },
+            {
+              "name": "Site architecture"
+            },
+            {
+              "name": "Prototype"
+            },
+            {
+              "name": "AI-driven visuals"
+            },
+            {
+              "name": "Landing design + responsive",
+              "extra": "up to 12 blocks"
+            }
+          ]
+        },
+        {
+          "name": "Full funnel",
+          "tag": "Production",
+          "price": "from $3.200",
+          "time": "turnkey",
+          "rows": [
+            {
+              "name": "Video production",
+              "extra": "shoot + edit"
+            },
+            {
+              "name": "Landing page"
+            },
+            {
+              "name": "Ad campaign setup"
+            },
+            {
+              "name": "Pixels, CRM, analytics"
+            },
+            {
+              "name": "First optimisation cycle"
+            }
+          ]
+        }
+      ]
+    },
+    "faq": {
+      "label": "FAQ",
+      "heading": "Common",
+      "headingEm": "questions",
+      "items": [
+        {
+          "q": "How does the process work?",
+          "a": "We start with a brief and audit, then shape the offer, prepare scripts, production, landing blocks, ad launch and analytics."
+        },
+        {
+          "q": "Can we start without an existing portfolio?",
+          "a": "Yes. At the start we use strong service packaging, team expertise and initial video formats — real cases are added as materials appear."
+        },
+        {
+          "q": "Do we need a blog right away?",
+          "a": "No. The core SEO architecture is already in place: structure, meta tags, sitemap, robots, FAQ markup and fast pages."
+        },
+        {
+          "q": "How do we avoid counting a lead twice?",
+          "a": "The form sends one event_id to the server and to browser pixels. Meta Pixel and Conversions API receive a shared ID for deduplication."
+        }
+      ]
+    },
+    "lead": {
+      "badge": "Contact",
+      "heading": "Get in",
+      "headingEm": "touch.",
+      "sub": "Fill in the form — we'll review the brief and send a proposal within one business day.",
+      "emailLabel": "Email us"
+    }
+  },
+  "LeadForm": {
+    "name": "Name",
+    "phone": "Phone",
+    "business": "Business",
+    "businessPlaceholder": "Niche, city, product",
+    "whatYouNeed": "What you need",
+    "budget": "Budget",
+    "budgetPlaceholder": "e.g. from $1.500",
+    "task": "Task",
+    "taskPlaceholder": "What you sell and the result you want",
+    "consent": "I agree to data processing and to be contacted about this request.",
+    "submit": "Send the brief",
+    "sending": "Sending…",
+    "success": "Brief received. We'll get back to you within one business day with a first launch plan.",
+    "errorRequired": "Please add your name and phone so we can get back to you.",
+    "errorSend": "We couldn't send your request. Please try again or reach us directly.",
+    "services": [
+      "Promotional video",
+      "Image video",
+      "3D / AI content",
+      "Social media",
+      "Full funnel"
+    ]
+  },
+  "About": {
+    "meta": {
+      "title": "About the studio",
+      "description": "DC Project — a full-cycle digital marketing agency in Israel. Our story, philosophy and how we deliver qualified leads, not just traffic."
+    },
+    "hero": {
+      "label": "About DC Project",
+      "heading": "A studio that builds",
+      "headingEm": "systems",
+      "sub": "Full-cycle marketing. From brief to lead delivered — with craft at every step."
+    },
+    "story": {
+      "label": "Our story",
+      "heading": "DC Project in two paragraphs",
+      "p1": "DC Project started as a video production team obsessed with cinema-grade visuals. Over time we realized great-looking work alone wasn't enough — clients needed leads, not awards. So we built the missing layers: ads strategy, landing design, CRM wiring and attribution.",
+      "p2": "Today DC Project is a full-cycle studio. We handle the complete journey from offer strategy and scriptwriting through shooting and post-production to ad launch, pixel verification and transparent analytics. Everything in one team, one brief, one invoice.",
+      "slogan": "from idea to result",
+      "capabilities": [
+        "Promotional video",
+        "Image & brand films",
+        "3D animation",
+        "AI-generated content",
+        "Social media content",
+        "Paid ad campaigns",
+        "Landing pages",
+        "CRM & pixel setup",
+        "Analytics & attribution",
+        "SMM management",
+        "Brief & offer strategy",
+        "Post-production"
+      ]
+    },
+    "values": {
+      "label": "Our principles",
+      "heading": "What we",
+      "headingEm": "stand for",
+      "items": [
+        {
+          "title": "Craft first",
+          "desc": "Every frame, every word and every data point is made at production-house level. Low-quality work does not leave the studio."
+        },
+        {
+          "title": "Systems over pieces",
+          "desc": "We don't deliver isolated files. We build the whole machine: concept → content → channels → analytics."
+        },
+        {
+          "title": "Performance is mandatory",
+          "desc": "Beautiful work that doesn't generate leads is a failure. Every project has a measurable outcome attached."
+        },
+        {
+          "title": "Transparent by default",
+          "desc": "You see every campaign metric, creative test and lead count. No black boxes, no creative-only reports."
+        }
+      ]
+    },
+    "stats": {
+      "label": "By the numbers",
+      "heading": "Real",
+      "headingEm": "impact",
+      "items": [
+        {
+          "label": "average growth in inbound leads after first campaign wave"
+        },
+        {
+          "label": "drop in cost per lead through iterative creative testing"
+        },
+        {
+          "label": "days from brief signing to first ad live"
+        },
+        {
+          "label": "clients across video, ads, branding and SMM"
+        }
+      ]
+    },
+    "cta": {
+      "label": "Ready to start?",
+      "heading": "Let's build something",
+      "headingEm": "together",
+      "sub": "Drop us a brief and we'll send a proposal within one business day.",
+      "ctaBrief": "Get a brief",
+      "ctaWorks": "See our works"
+    }
+  },
+  "Portfolio": {
+    "meta": {
+      "title": "Portfolio — our works",
+      "description": "DC Project portfolio: promotional videos, brand films, ad campaigns, social content systems. Real cases with measurable results."
+    },
+    "hero": {
+      "label": "Selected works",
+      "heading": "Our",
+      "headingEm": "portfolio",
+      "sub": "Cases across video, ads, branding and social — each with a measurable outcome."
+    },
+    "categories": [
+      "All",
+      "Image video",
+      "Ads & creatives",
+      "SMM",
+      "Full funnel",
+      "Promotional video"
+    ],
+    "cases": [
+      {
+        "title": "Brand Identity Film",
+        "tag": "Image video",
+        "client": "Luxury retail brand",
+        "result": "+42% brand recall"
+      },
+      {
+        "title": "Performance Campaign",
+        "tag": "Ads & creatives",
+        "client": "EdTech startup",
+        "result": "−31% CPL in 3 weeks"
+      },
+      {
+        "title": "Social Content System",
+        "tag": "SMM",
+        "client": "Lifestyle brand",
+        "result": "+120% organic reach"
+      },
+      {
+        "title": "Product Launch Video",
+        "tag": "Promotional video",
+        "client": "SaaS platform",
+        "result": "12K views in 48h"
+      },
+      {
+        "title": "Cinematic Brand Story",
+        "tag": "Image video",
+        "client": "Architecture firm",
+        "result": "2× more qualified leads"
+      },
+      {
+        "title": "Full Funnel Build",
+        "tag": "Full funnel",
+        "client": "B2B services company",
+        "result": "+38% inbound leads"
+      }
+    ],
+    "cta": {
+      "label": "Your project next?",
+      "heading": "Let's make something",
+      "headingEm": "great",
+      "ctaBrief": "Get a brief",
+      "ctaAbout": "About the studio"
+    }
+  },
+  "Testimonials": {
+    "meta": {
+      "title": "Client testimonials",
+      "description": "What DC Project clients say about working with us: video production, ad campaigns, social media and full-funnel results."
+    },
+    "hero": {
+      "label": "What clients say",
+      "heading": "Clients",
+      "headingEm": "speak",
+      "sub": "Real feedback from real projects — video, ads, SMM and full-funnel builds."
+    },
+    "featuredLabel": "Featured testimonials",
+    "all": {
+      "label": "All testimonials",
+      "heading": "Every",
+      "headingEm": "voice"
+    },
+    "reviews": [
+      {
+        "quote": "The team understood the product fast and turned a complex service into a clear, compelling video. Leads came in warmer from the very first month.",
+        "name": "Marina K.",
+        "company": "Service Studio",
+        "role": "Founder"
+      },
+      {
+        "quote": "They didn't just make a video — they built a complete ad system. The best part: transparent analytics with zero duplicates.",
+        "name": "Alex P.",
+        "company": "Growth Agency",
+        "role": "Head of Sales"
+      },
+      {
+        "quote": "In 12 days from brief to first live campaign. The creative quality was way above what we expected at this price point.",
+        "name": "Diana S.",
+        "company": "EdTech Platform",
+        "role": "Marketing Director"
+      },
+      {
+        "quote": "CRM was a mess before DC Project. Now every lead has a clean event_id, no duplicates, and our ads actually learn from real data.",
+        "name": "Roman V.",
+        "company": "B2B SaaS",
+        "role": "CEO"
+      },
+      {
+        "quote": "We shot a full brand film and launched paid social in one sprint. The cost per qualified lead dropped 24% in the first month.",
+        "name": "Olena M.",
+        "company": "Luxury Retail",
+        "role": "Brand Manager"
+      },
+      {
+        "quote": "Our content calendar used to be chaos. DC Project built a content system with real metrics tied to leads — completely changed how we operate.",
+        "name": "Dmytro L.",
+        "company": "Lifestyle Brand",
+        "role": "Co-founder"
+      }
+    ],
+    "cta": {
+      "label": "Your turn",
+      "heading": "Become the next",
+      "headingEm": "success story",
+      "ctaBrief": "Get a brief"
+    }
+  },
+  "Services": {
+    "seo": {
+      "meta": {
+        "title": "SEO Agency in Israel | DC Project",
+        "description": "SEO optimization for businesses in Israel. On-page SEO, technical audit, link building and long-term organic growth in Google — in Hebrew, Russian and English. Full transparency, real rankings."
+      },
+      "label": "SEO",
+      "h1": "SEO & Organic Search Promotion in Israel",
+      "body": [
+        "SEO is not a quick win — it's a compounding investment that pays dividends for years. DC Project offers full-cycle SEO for businesses in Israel looking to rank in Google for Hebrew, English and Russian search queries.",
+        "Our process starts with a complete technical audit covering site speed, indexing and mobile performance. Then we build a keyword strategy from actual search-demand data and map it to your site architecture.",
+        "On-page SEO includes title tags, meta descriptions, H1–H6 structure, internal linking, schema markup, image optimization and content that satisfies search intent — not just keyword density. For authority we develop a backlink strategy using guest posts, digital PR and relevant directory submissions, with no black-hat shortcuts.",
+        "You receive a monthly report with rankings, organic traffic and a clear plan for the next 30 days. GEO / AI search optimization is available as an add-on."
+      ],
+      "blocks": [
+        {
+          "heading": "What SEO promotion includes",
+          "intro": "We run full-cycle organic promotion:",
+          "list": [
+            "Technical site audit",
+            "On-page optimization",
+            "Keyword research and clustering",
+            "Link building and authority growth",
+            "Monthly ranking reports"
+          ]
+        },
+        {
+          "heading": "How the SEO process works",
+          "intro": "Promotion runs in stages, from audit to ranking growth:",
+          "ordered": true,
+          "list": [
+            "Technical audit and error fixing",
+            "Keyword research for your business",
+            "Structure and content optimization",
+            "Building the backlink profile",
+            "Reporting and next-month plan"
+          ]
+        },
+        {
+          "heading": "Languages we promote in",
+          "intro": "We work with search demand in all three languages of Israel:",
+          "list": [
+            "Hebrew",
+            "English",
+            "Russian"
+          ]
+        }
+      ],
+      "cta": "Get a free quote on WhatsApp"
+    },
+    "targeted-advertising": {
+      "meta": {
+        "title": "Facebook & TikTok Ads Agency in Israel | DC Project",
+        "description": "Meta (Facebook & Instagram), TikTok and LinkedIn advertising for Israeli businesses. Campaign setup, audience targeting, creative production and retargeting. Affordable, relevant leads."
+      },
+      "label": "Targeted ads",
+      "h1": "Targeted Ads That Bring You Clients, Not Just Clicks",
+      "body": [
+        "Running effective paid social requires the right targeting, strong creatives and a proper retargeting setup. DC Project handles all of it.",
+        "We handle end-to-end paid social: audience research and segmentation, creative production, campaign launch, testing, tracking setup and ongoing optimization. We don't touch your budget until we understand your customer.",
+        "Our retargeting setup tracks visitors, video views and content interactions, then re-engages those audiences with follow-up ads to improve conversion rates.",
+        "We run campaigns across Meta, TikTok and LinkedIn, with formats and targeting matched to each platform. Every campaign includes a monthly report with cost-per-lead, ROAS and audience performance — you see exactly where your money goes."
+      ],
+      "blocks": [
+        {
+          "heading": "What campaign setup includes",
+          "intro": "We run paid advertising end to end, from strategy to optimization:",
+          "list": [
+            "Audience research and segmentation",
+            "Creative production",
+            "Campaign launch and testing",
+            "Analytics and retargeting setup",
+            "Monthly report on cost per lead and ROAS"
+          ]
+        },
+        {
+          "heading": "Platforms we advertise on",
+          "intro": "We match channels to your audience and goal:",
+          "list": [
+            "Meta (Facebook and Instagram)",
+            "TikTok",
+            "LinkedIn for B2B"
+          ]
+        },
+        {
+          "heading": "How a campaign launch works",
+          "intro": "Each campaign is built in a clear order:",
+          "ordered": true,
+          "list": [
+            "We study your product and target customer",
+            "We prepare creatives and offers",
+            "We launch and test different combinations",
+            "We scale what works",
+            "We retarget until conversion"
+          ]
+        }
+      ],
+      "cta": "Get a free quote on WhatsApp"
+    },
+    "smm": {
+      "meta": {
+        "title": "SMM & Social Media Management in Israel | DC Project",
+        "description": "Professional social media management for businesses in Israel. Instagram, Facebook, TikTok, LinkedIn — content strategy, posting, engagement and growth. We manage it all so you focus on your business."
+      },
+      "label": "SMM",
+      "h1": "Social Media Management That Actually Grows Your Business",
+      "body": [
+        "Running a business means you don't have time to post three times a day, respond to every comment and stay on top of trending content formats. That's what DC Project is here for.",
+        "Our SMM service covers the complete cycle: audience research, content planning, copywriting, creative design, scheduling, community management and monthly performance reporting. We work across Instagram, Facebook, TikTok and LinkedIn — in Hebrew, Russian and English.",
+        "We take time to learn your brand voice, your product and your audience. The goal is content that drives engagement and leads, not just content that looks good.",
+        "We also offer standalone content packages for businesses that want to keep in-house management but need professional creative output."
+      ],
+      "blocks": [
+        {
+          "heading": "What social media management includes",
+          "intro": "We handle the full cycle of account management:",
+          "list": [
+            "Content plan and copywriting",
+            "Creative design, Stories and Reels",
+            "Regular posting on agreed platforms",
+            "Comment and direct message management",
+            "Monthly analytics and growth report"
+          ]
+        },
+        {
+          "heading": "Platforms we manage",
+          "intro": "We work across the main social platforms for business in Israel:",
+          "list": [
+            "Instagram",
+            "TikTok",
+            "Facebook",
+            "LinkedIn"
+          ]
+        },
+        {
+          "heading": "How we build content",
+          "intro": "Our content process runs step by step:",
+          "ordered": true,
+          "list": [
+            "We study your brand, product and audience",
+            "We build a monthly content plan",
+            "We produce creatives and copy",
+            "We publish and manage engagement",
+            "We review results and adjust"
+          ]
+        }
+      ],
+      "cta": "Get a free quote on WhatsApp"
+    },
+    "google-ads": {
+      "meta": {
+        "title": "Google Ads & PPC in Israel | DC Project",
+        "description": "Google Ads & search engine marketing for businesses in Israel. Search, Display, Shopping and YouTube — professional setup, targeting, budget optimization and transparent reporting. Pay for clicks that convert."
+      },
+      "label": "Google Ads",
+      "h1": "Google Ads & Search Engine Marketing in Israel",
+      "body": [
+        "Google Ads connects your business with people actively searching for what you offer. DC Project builds campaigns structured around conversions, not just clicks and impressions.",
+        "We start with deep keyword research and a tight negative-keyword list, so your budget never gets spent on irrelevant searches. Then we structure campaigns properly — clean ad groups, compelling ad copy and landing pages aligned to each search intent.",
+        "We run the full range of Google advertising: Search for high-intent buyers, Display and remarketing to stay top-of-mind, Shopping for e-commerce and YouTube for video reach. Every campaign is connected to proper conversion tracking and GA4, so we optimize against real business results — leads and sales, not vanity metrics.",
+        "You get a transparent monthly report showing cost-per-click, cost-per-lead, conversion rate and exactly where your budget went. No black box, no wasted spend."
+      ],
+      "blocks": [
+        {
+          "heading": "Which ad formats we run",
+          "intro": "We cover all main Google formats for business:",
+          "list": [
+            "Search for high-intent customers",
+            "Display and remarketing",
+            "Shopping for e-commerce",
+            "YouTube for video reach"
+          ]
+        },
+        {
+          "heading": "What campaign setup includes",
+          "intro": "Before launch and during the campaign we handle:",
+          "list": [
+            "Keyword and negative-keyword research",
+            "Campaign structure and ad copy",
+            "Conversion tracking and GA4",
+            "Budget and bid optimization"
+          ]
+        },
+        {
+          "heading": "How the launch works",
+          "intro": "A campaign is built step by step:",
+          "ordered": true,
+          "list": [
+            "We analyze the niche and demand",
+            "We collect keywords and negatives",
+            "We create structure and ads",
+            "We launch and track conversions",
+            "We optimize against results"
+          ]
+        }
+      ],
+      "cta": "Get a free quote on WhatsApp"
+    },
+    "photo-video": {
+      "meta": {
+        "title": "Product Photography & Video Production in Israel | DC Project",
+        "description": "Mobile photo and video studio for businesses in Israel. Product photography, commercial video, Reels, ads, 3D & VFX — we arrive with full professional equipment anywhere in the country. Cinema quality, business results."
+      },
+      "label": "Photo & video",
+      "h1": "Product Photography & Video Production, We Bring the Studio to You",
+      "body": [
+        "Great content does not require a studio. DC Project is a fully mobile production team that brings professional equipment to your location — office, warehouse, home, event venue or outdoor setting — with cameras, cinema lighting, stabilizers and drones.",
+        "What we produce: product and packshot photography for e-commerce and marketplaces, commercial brand photography for websites and social media, advertising video in various formats, Reels and short-form content with on-trend editing, 3D visualization and VFX, event documentation and full script writing.",
+        "Everything is delivered ready to publish. We handle scripting, shooting, editing, color grading, subtitles and format adaptation. You approve, you post, we repeat."
+      ],
+      "blocks": [
+        {
+          "heading": "What the shoot includes",
+          "intro": "We cover the full content production process, from idea to final file:",
+          "list": [
+            "Product photography for websites and marketplaces",
+            "Advertising video for social and YouTube",
+            "Reels and short-form content with on-trend editing",
+            "3D visualization and VFX for premium presentation"
+          ]
+        },
+        {
+          "heading": "How a shoot day works",
+          "intro": "The process is the same for any location, step by step:",
+          "ordered": true,
+          "list": [
+            "Brief and script development",
+            "Mobile studio arrives at your location",
+            "Filming with professional lighting and equipment",
+            "Editing, color grading and final delivery"
+          ]
+        },
+        {
+          "heading": "Why we are a studio on wheels",
+          "intro": "Great content does not require a studio — we bring it to you:",
+          "list": [
+            "We come to your office, warehouse, home or venue",
+            "We bring professional lighting and equipment",
+            "We film anywhere without losing quality"
+          ]
+        }
+      ],
+      "cta": "Get a free quote on WhatsApp"
+    },
+    "marketing-strategy": {
+      "meta": {
+        "title": "Marketing Strategy & Funnels in Israel | DC Project",
+        "description": "Performance marketing strategy and sales funnel design for Israeli businesses. GTM planning, lead generation system setup, and pipeline building, for B2B and B2C companies at any scale."
+      },
+      "label": "Strategy",
+      "h1": "Marketing Strategy, Funnels & Lead Generation",
+      "body": [
+        "Effective marketing starts with a clear strategy. DC Project builds the plan first, then executes across the right channels.",
+        "We begin by understanding your business, your market, and your ideal customer. From there we develop a performance marketing strategy and a go-to-market plan that defines exactly who to target, with what message, on which channels, and in what order.",
+        "Then we design the sales funnel, every step from first touch to closed deal. We map the offer, the landing pages, the follow-up, and the retargeting, so no lead leaks out along the way. On top of that, we set up your lead generation system: a repeatable engine that brings qualified prospects in predictably, not by luck.",
+        "Whether you're B2B or B2C, scaling up or just getting serious about growth, the result is the same, a clear, measurable pipeline instead of scattered marketing activity. Strategy first, then traffic, then leads. That's the order that actually produces revenue."
+      ],
+      "blocks": [
+        {
+          "heading": "What the strategy includes",
+          "intro": "We build marketing from plan to system:",
+          "list": [
+            "Analysis of business, market and audience",
+            "Go-to-market plan",
+            "Sales funnel design",
+            "Lead generation system"
+          ]
+        },
+        {
+          "heading": "How we build the strategy",
+          "intro": "The work runs in sequence, from analysis to launch:",
+          "ordered": true,
+          "list": [
+            "We study the business and ideal customer",
+            "We define channels and messaging",
+            "We design the funnel from touch to deal",
+            "We set up the lead acquisition system",
+            "We launch and measure results"
+          ]
+        },
+        {
+          "heading": "Who it fits",
+          "intro": "The strategy works for businesses of any type and scale:",
+          "list": [
+            "B2B and B2C",
+            "Small business and growing companies",
+            "Local and international markets"
+          ]
+        }
+      ],
+      "cta": "Get a free quote on WhatsApp"
+    },
+    "website-development": {
+      "meta": {
+        "title": "Website & Landing Page Development in Israel | DC Project",
+        "description": "Professional business websites and landing pages in Israel. WordPress, custom web design, mobile-optimized, built to convert visitors into leads, not just look good. Integrated with Pixel, GA4 and CRM from day one."
+      },
+      "label": "Websites",
+      "h1": "Business Website & Landing Page Development",
+      "body": [
+        "DC Project builds business websites and landing pages designed to convert visitors into leads, with performance and structure built in from the start.",
+        "Every project starts with strategy: who visits the site, what they need to see, and the single action you want them to take. From there we design the architecture, build a fast mobile-first layout, and write copy that guides visitors toward contacting you.",
+        "We build the format that fits your goal, a full business website, a corporate image site, a WordPress site you can update yourself, or a focused landing page for a specific campaign. Everything is responsive, fast-loading, and built on clean code that's ready for SEO from day one.",
+        "Just as important, we wire it for results: Analytics and CRM integration are connected from launch, so every visit and lead is tracked. That means your ad campaigns get clean data and your retargeting actually works.",
+        "You can also order a website together with promotion, one team that builds the site and drives qualified traffic to it. A site that works as hard as you do."
+      ],
+      "blocks": [
+        {
+          "heading": "What we build",
+          "intro": "We build sites around the business goal, not just a nice shell:",
+          "list": [
+            "Business websites and image sites",
+            "Landing pages for campaigns",
+            "WordPress sites you can manage yourself",
+            "Mobile-first adaptation"
+          ]
+        },
+        {
+          "heading": "How site work proceeds",
+          "intro": "Development runs through clear stages:",
+          "ordered": true,
+          "list": [
+            "We define the site goal and target action",
+            "We design the structure and layout",
+            "We build and fill with content",
+            "We connect analytics and CRM",
+            "We launch and test"
+          ]
+        },
+        {
+          "heading": "What we connect for results",
+          "intro": "The site is ready for promotion and lead capture from day one:",
+          "list": [
+            "Analytics and CRM integration",
+            "Lead forms and WhatsApp connection",
+            "SEO readiness from the start"
+          ]
+        }
+      ],
+      "cta": "Get a free quote on WhatsApp"
+    },
+    "automation": {
+      "meta": {
+        "title": "Business Automation & Chatbots in Israel | DC Project",
+        "description": "Chatbot setup and business automation for Israeli companies. WhatsApp, Instagram, Facebook, TikTok bots, CRM integration, warehouse automation, reduce costs and response time without adding headcount."
+      },
+      "label": "Automation",
+      "h1": "Business Automation & Chatbots, Stop Losing Leads to Slow Responses",
+      "body": [
+        "Fast response times and streamlined processes make a real difference to client experience and team efficiency. DC Project builds automation that supports both.",
+        "We set up chatbots for WhatsApp, Instagram, Facebook, and TikTok that answer instantly, qualify leads, and route them to the right place, 24/7, in your brand voice. Customers get fast answers; you get more booked clients without adding headcount.",
+        "Beyond chat, we handle full business automation: CRM setup and integration, so every lead is captured and nothing falls through the cracks; automated follow-up and lead-nurturing flows that move prospects toward a sale; and operations automation that removes repetitive manual work from your day.",
+        "The goal is simple, lower costs, faster response times, and a business that runs smoothly even when you're not watching it. We map your current processes, find what can be automated, and build it around the tools you already use.",
+        "Get in touch and we will walk you through what automation can look like for your business."
+      ],
+      "blocks": [
+        {
+          "heading": "What we automate",
+          "intro": "We remove routine work and speed up client responses:",
+          "list": [
+            "Chatbots for WhatsApp, Instagram and Facebook",
+            "CRM setup and integration",
+            "Automated lead-nurturing flows",
+            "Automation of repetitive operations"
+          ]
+        },
+        {
+          "heading": "How implementation works",
+          "intro": "We build automation around your processes, step by step:",
+          "ordered": true,
+          "list": [
+            "We map your current processes",
+            "We find what can be automated",
+            "We set up bots and integrations",
+            "We test and launch",
+            "We support and improve"
+          ]
+        },
+        {
+          "heading": "What it gives your business",
+          "intro": "The result of automation for your team:",
+          "list": [
+            "Fast client responses without team involvement",
+            "Less manual work and lower costs",
+            "No lead gets lost"
+          ]
+        }
+      ],
+      "cta": "Get a free quote on WhatsApp"
+    },
+    "geo-ai-seo": {
+      "meta": {
+        "title": "GEO & AI Search Optimization in Israel | DC Project",
+        "description": "GEO optimization, positioning your business to appear in Google AI Overviews, ChatGPT, Perplexity and other AI search answers. The next frontier of organic visibility. Available as premium SEO add-on."
+      },
+      "label": "GEO / AI",
+      "h1": "GEO & AI Search Optimization for Forward-Thinking Businesses",
+      "body": [
+        "Search is changing. More and more people don't scroll through ten blue links anymore, they ask ChatGPT, Perplexity, or Google's AI Overview, and they read the single answer they're given. The question for your business is simple: when AI gives that answer, does it mention you?",
+        "That's what GEO, Generative Engine Optimization, does. DC Project positions your business to appear inside AI-generated answers, the fastest-growing visibility channel of the coming years. While your competitors still fight over traditional rankings, you can be the brand the AI recommends.",
+        "GEO works best as a premium layer on top of solid SEO. We structure your content so AI models can understand, trust, and cite it: clear entity signals, authoritative answers to real questions, and the technical markup that helps machines read your site correctly.",
+        "This is an emerging field. We help businesses build visibility in AI search now, while the channel is still developing."
+      ],
+      "blocks": [
+        {
+          "heading": "What GEO optimization is",
+          "intro": "We prepare your business for the new way of searching through AI:",
+          "list": [
+            "Appearing in ChatGPT and Perplexity answers",
+            "Presence in Google AI Overview",
+            "Structuring content for AI models"
+          ]
+        },
+        {
+          "heading": "How we work on GEO",
+          "intro": "Preparing for AI search runs step by step:",
+          "ordered": true,
+          "list": [
+            "We analyze how AI describes your niche",
+            "We structure content and trust signals",
+            "We prepare authoritative answers to queries",
+            "We track mentions in AI answers"
+          ]
+        },
+        {
+          "heading": "Who needs it now",
+          "intro": "GEO gives an advantage to those who enter the channel early:",
+          "list": [
+            "Businesses in competitive niches",
+            "Companies already investing in SEO",
+            "Brands where expertise matters"
+          ]
+        }
+      ],
+      "cta": "Get a free quote on WhatsApp"
+    }
+  }
+}

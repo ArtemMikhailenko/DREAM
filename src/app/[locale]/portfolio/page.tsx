@@ -1,63 +1,58 @@
 import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 
-export const metadata: Metadata = {
-  title: "Portfolio — our works",
-  description:
-    "dc.prod portfolio: promotional videos, brand films, ad campaigns, social content systems. Real cases with measurable results.",
-  alternates: { canonical: "/portfolio" },
-};
-
-const cases = [
-  {
-    title: "Brand Identity Film",
-    tag: "Image video",
-    client: "Luxury retail brand",
-    result: "+42% brand recall",
-    img: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=70",
-  },
-  {
-    title: "Performance Campaign",
-    tag: "Ads & creatives",
-    client: "EdTech startup",
-    result: "−31% CPL in 3 weeks",
-    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=70",
-  },
-  {
-    title: "Social Content System",
-    tag: "SMM",
-    client: "Lifestyle brand",
-    result: "+120% organic reach",
-    img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=900&q=70",
-  },
-  {
-    title: "Product Launch Video",
-    tag: "Promotional video",
-    client: "SaaS platform",
-    result: "12K views in 48h",
-    img: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=70",
-  },
-  {
-    title: "Cinematic Brand Story",
-    tag: "Image video",
-    client: "Architecture firm",
-    result: "2× more qualified leads",
-    img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=900&q=70",
-  },
-  {
-    title: "Full Funnel Build",
-    tag: "Full funnel",
-    client: "B2B services company",
-    result: "+38% inbound leads",
-    img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=70",
-  },
+const caseImages = [
+  "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=70",
+  "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=70",
+  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=900&q=70",
+  "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=70",
+  "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=900&q=70",
+  "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=70",
 ];
 
-const categories = ["All", "Image video", "Ads & creatives", "SMM", "Full funnel", "Promotional video"];
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Portfolio.meta" });
+  const path = locale === "en" ? "/portfolio" : `/${locale}/portfolio`;
+  return {
+    title: t("title"),
+    description: t("description"),
+    alternates: {
+      canonical: path,
+      languages: {
+        en: "/portfolio",
+        ru: "/ru/portfolio",
+        he: "/he/portfolio",
+        "x-default": "/portfolio",
+      },
+    },
+  };
+}
 
-export default function PortfolioPage() {
+export default async function PortfolioPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations("Portfolio");
+  const categories = t.raw("categories") as string[];
+  const cases = t.raw("cases") as {
+    title: string;
+    tag: string;
+    client: string;
+    result: string;
+  }[];
+
   return (
     <>
       <ScrollAnimations />
@@ -68,13 +63,11 @@ export default function PortfolioPage() {
         <div className="bg-wood" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Works</div>
         <div className="wrap page-hero-inner">
-          <p className="label">Selected works</p>
+          <p className="label">{t("hero.label")}</p>
           <h1 className="page-hero-h">
-            Our<br /><em>portfolio</em>
+            {t("hero.heading")} <em>{t("hero.headingEm")}</em>
           </h1>
-          <p className="page-hero-sub">
-            Cases across video, ads, branding and social — each with a measurable outcome.
-          </p>
+          <p className="page-hero-sub">{t("hero.sub")}</p>
         </div>
       </section>
 
@@ -100,7 +93,7 @@ export default function PortfolioPage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className="portfolio-case-img"
-                  src={c.img}
+                  src={caseImages[i]}
                   alt={c.title}
                   loading={i < 3 ? "eager" : "lazy"}
                   decoding="async"
@@ -122,11 +115,11 @@ export default function PortfolioPage() {
       <section className="section s-concrete" id="cta">
         <div className="bg-wood" aria-hidden="true" />
         <div className="wrap" style={{ textAlign: "center" }}>
-          <p className="label">Your project next?</p>
-          <h2 className="sec-h">Let&apos;s make<br />something <em>great</em></h2>
+          <p className="label">{t("cta.label")}</p>
+          <h2 className="sec-h">{t("cta.heading")} <em>{t("cta.headingEm")}</em></h2>
           <div className="hero-actions" style={{ justifyContent: "center", marginTop: 40 }}>
-            <a className="btn-p" href="/#lead">Get a brief ↗</a>
-            <a className="btn-o" href="/about">About the studio ↗</a>
+            <Link className="btn-p" href="/#lead">{t("cta.ctaBrief")} ↗</Link>
+            <Link className="btn-o" href="/about">{t("cta.ctaAbout")} ↗</Link>
           </div>
         </div>
       </section>

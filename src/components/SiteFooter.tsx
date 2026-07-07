@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 export function SiteFooter() {
   return (
@@ -31,19 +31,19 @@ export function SiteFooter() {
           <div className="footer-col">
             <h4 className="footer-h">Services</h4>
             <ul className="footer-list">
-              <li><a href="/#services">Promotional videos</a></li>
-              <li><a href="/#services">Image &amp; brand films</a></li>
-              <li><a href="/#services">Social media &amp; ads</a></li>
-              <li><a href="/#services">3D &amp; AI content</a></li>
+              <li><Link href="/#services">Promotional videos</Link></li>
+              <li><Link href="/#services">Image &amp; brand films</Link></li>
+              <li><Link href="/#services">Social media &amp; ads</Link></li>
+              <li><Link href="/#services">3D &amp; AI content</Link></li>
             </ul>
           </div>
           <div className="footer-col">
             <h4 className="footer-h">Studio</h4>
             <ul className="footer-list">
               <li><Link href="/about">About</Link></li>
-              <li><a href="/#process">Process</a></li>
+              <li><Link href="/#process">Process</Link></li>
               <li><Link href="/portfolio">Works</Link></li>
-              <li><a href="/#packages">Pricing</a></li>
+              <li><Link href="/#packages">Pricing</Link></li>
             </ul>
           </div>
           <div className="footer-col">
@@ -51,7 +51,7 @@ export function SiteFooter() {
             <ul className="footer-list">
               <li><a href="mailto:hello@dc.prod">hello@dc.prod</a></li>
               <li><a href="tel:+10000000000">+1 000 000 0000</a></li>
-              <li><a href="/#lead">Get a brief ↗</a></li>
+              <li><Link href="/#lead">Get a brief ↗</Link></li>
             </ul>
           </div>
         </div>
