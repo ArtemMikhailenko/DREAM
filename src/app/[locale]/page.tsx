@@ -267,7 +267,7 @@ export default async function Home({
           <div className="svc-layout">
             <div className="svc-list">
               {svcItems.map((s, i) => (
-                <div className="svc-row" key={i} data-img={services[i].img}>
+                <Link href="/services" className="svc-row" key={i} data-img={services[i].img}>
                   <span className="svc-row-bar" aria-hidden="true" />
                   <span className="svc-row-num">0{i + 1}</span>
                   <div className="svc-row-head">
@@ -283,8 +283,11 @@ export default async function Home({
                     </ul>
                   </div>
                   <span className="svc-row-arrow">↗</span>
-                </div>
+                </Link>
               ))}
+              <Link href="/services" className="svc-all-link">
+                {t("services.all")} <span aria-hidden="true">↗</span>
+              </Link>
             </div>
             <div className="svc-side">
               <div className="svc-side-img" style={{ aspectRatio: "4/5" }}>

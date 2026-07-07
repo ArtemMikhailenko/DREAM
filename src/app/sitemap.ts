@@ -12,6 +12,7 @@ const LOCALES: { code: string; prefix: string }[] = [
 // Public pages. Service pages are added here as they ship.
 const PAGES: { path: string; priority: number; freq: "weekly" | "monthly" }[] = [
   { path: "", priority: 1, freq: "weekly" },
+  { path: "/services", priority: 0.9, freq: "weekly" },
   { path: "/services/seo", priority: 0.9, freq: "weekly" },
   { path: "/services/targeted-advertising", priority: 0.9, freq: "weekly" },
   { path: "/services/smm", priority: 0.9, freq: "weekly" },

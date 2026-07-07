@@ -65,7 +65,7 @@ export function SiteNav() {
           </Link>
           <ul className="nav-links">
             <li><Link href="/about">{t("aboutUs")}</Link></li>
-            <li><Link href="/#services">{t("services")}</Link></li>
+            <li><Link href="/services">{t("services")}</Link></li>
             <li><Link href="/portfolio">{t("works")}</Link></li>
             <li><Link href="/#packages">{t("pricing")}</Link></li>
             <li><Link href="/#lead">{t("contacts")}</Link></li>
@@ -94,7 +94,7 @@ export function SiteNav() {
         <div className="wrap nav-drawer-inner">
           <ul className="nav-drawer-links">
             <li><Link href="/about" onClick={close}>{t("aboutUs")}</Link></li>
-            <li><Link href="/#services" onClick={close}>{t("services")}</Link></li>
+            <li><Link href="/services" onClick={close}>{t("services")}</Link></li>
             <li><Link href="/portfolio" onClick={close}>{t("works")}</Link></li>
             <li><Link href="/#packages" onClick={close}>{t("pricing")}</Link></li>
             <li><Link href="/#lead" onClick={close}>{t("contacts")}</Link></li>

@@ -87,7 +87,8 @@
             "analytics"
           ]
         }
-      ]
+      ],
+      "all": "All services"
     },
     "process": {
       "label": "How we work",
@@ -517,6 +518,54 @@
       "heading": "Become the next",
       "headingEm": "success story",
       "ctaBrief": "Get a brief"
+    }
+  },
+  "ServicesIndex": {
+    "meta": {
+      "title": "Digital Marketing Services in Israel | DC Project",
+      "description": "Full-service digital marketing in Israel: SEO, targeted ads, Google Ads, SMM, photo & video, websites, automation and GEO/AI search. One team, from strategy to results."
+    },
+    "label": "What we do",
+    "h1": "Our Services",
+    "sub": "From strategy to launch, everything your business needs to grow online, under one roof.",
+    "more": "Learn more",
+    "items": {
+      "seo": {
+        "title": "SEO promotion",
+        "teaser": "Organic growth that brings qualified traffic month after month."
+      },
+      "targeted-advertising": {
+        "title": "Targeted advertising",
+        "teaser": "Meta and TikTok ads that reach the right audience and convert."
+      },
+      "smm": {
+        "title": "SMM",
+        "teaser": "A content system that turns social channels into a lead source."
+      },
+      "google-ads": {
+        "title": "Google Ads & PPC",
+        "teaser": "Search and PPC campaigns that capture high-intent demand."
+      },
+      "photo-video": {
+        "title": "Photo & video",
+        "teaser": "A mobile studio that brings cinema-quality content to you."
+      },
+      "marketing-strategy": {
+        "title": "Marketing strategy & funnels",
+        "teaser": "Strategy first, then a measurable pipeline from touch to deal."
+      },
+      "website-development": {
+        "title": "Websites & landing pages",
+        "teaser": "Fast, SEO-ready sites built to convert visitors into leads."
+      },
+      "automation": {
+        "title": "Automation & chatbots",
+        "teaser": "Chatbots and CRM flows that respond instantly and lose no lead."
+      },
+      "geo-ai-seo": {
+        "title": "GEO / AI search",
+        "teaser": "Get your business recommended inside ChatGPT and AI answers."
+      }
     }
   },
   "Services": {
