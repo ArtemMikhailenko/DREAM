@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono, Archivo_Black, Caveat } from "next/font/google";
+import { Geist, Geist_Mono, Oswald, Caveat } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -18,10 +18,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const display = Archivo_Black({
+// Oswald: condensed poster face with full Cyrillic (Archivo Black had none, so
+// Russian headings fell back to Impact and clipped). Load 700 only; CSS rules
+// that request font-weight:400 resolve to the single heavy face.
+const display = Oswald({
   variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400"],
+  subsets: ["latin", "cyrillic"],
+  weight: ["700"],
 });
 
 const caveat = Caveat({
