@@ -156,7 +156,7 @@ body::after{
 
 /* the headline — compact so the photo stays clear above the text block */
 .hero-h1{
-  font-family:var(--font-display),"Archivo Black","Arial Black",Impact,sans-serif;
+  font-family:var(--font-hero),"Arial Black",sans-serif;
   font-size:clamp(3rem,7.6vw,8.6rem);
   font-weight:400;
   line-height:.9;

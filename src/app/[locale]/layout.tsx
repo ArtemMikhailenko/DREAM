@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono, Oswald, Caveat } from "next/font/google";
+import { Geist, Geist_Mono, Oswald, Archivo_Black, Caveat } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -25,6 +25,14 @@ const display = Oswald({
   variable: "--font-display",
   subsets: ["latin", "cyrillic"],
   weight: ["700"],
+});
+
+// Archivo Black — kept only for the always-English hero headline
+// ("From idea to result"), where the original heavy grotesque look matters.
+const heroDisplay = Archivo_Black({
+  variable: "--font-hero",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 const caveat = Caveat({
@@ -78,7 +86,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={dir}
-      className={`${geistSans.variable} ${geistMono.variable} ${display.variable} ${caveat.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${display.variable} ${heroDisplay.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>
