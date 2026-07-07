@@ -35,12 +35,12 @@ const heroDisplay = Archivo_Black({
   weight: ["400"],
 });
 
-// Heebo — heavy Hebrew display face. Oswald has no Hebrew glyphs, so Hebrew
-// headings fell back to a system font; Heebo gives them a proper bold face.
-const hebrewDisplay = Heebo({
+// Secular One — bold Hebrew poster/display face. Oswald has no Hebrew glyphs,
+// so Hebrew headings cascade to this via the --font-hebrew stack.
+const hebrewDisplay = Secular_One({
   variable: "--font-hebrew",
   subsets: ["hebrew"],
-  weight: ["800"],
+  weight: ["400"],
 });
 
 const caveat = Caveat({
