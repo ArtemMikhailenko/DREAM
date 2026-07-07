@@ -237,9 +237,12 @@ export default async function Home({
         </div>
       </div>
 
+      {/* ── Problem + Services: one shared, continuous gromophon backdrop ── */}
+      <div className="bg-run">
+        <div className="bg-gromophon" aria-hidden="true" />
+
       {/* ── Problem ── */}
       <section className="section s-dark2" id="problem">
-        <div className="bg-gromophon" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Problem</div>
         <div className="wrap">
           <p className="label">{t("problem.label")}</p>
@@ -259,7 +262,6 @@ export default async function Home({
 
       {/* ── Services ── */}
       <section className="section s-concrete" id="services">
-        <div className="bg-gromophon" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Services</div>
         <div className="wrap">
           <p className="label">{t("services.label")}</p>
@@ -304,6 +306,7 @@ export default async function Home({
           </div>
         </div>
       </section>
+      </div>{/* /.bg-run */}
 
       {/* ── Ticker — ghost ── */}
       <div className="ticker ticker-ghost" aria-hidden="true">

@@ -667,6 +667,11 @@ body::after{
 /* Flat tint (not a per-section gradient) so stacked gromophon sections read as
    one continuous pinned backdrop instead of two blocks with a dark seam. */
 .bg-gromophon::after{content:"";position:absolute;inset:0;background:rgba(10,10,9,.72)}
+/* One gromophon shared across two stacked sections (Problem + Services): the
+   backdrop lives on the run wrapper and the sections go transparent. This stays
+   continuous on mobile too, where background-attachment:fixed is disabled. */
+.bg-run{position:relative}
+.bg-run > .section{background:transparent}
 
 /* pinned wood backdrop */
 .bg-wood{position:absolute;inset:0;z-index:0;pointer-events:none;
