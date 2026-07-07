@@ -664,8 +664,9 @@ body::after{
 /* pinned gromophon backdrop across The Problem + Services */
 .bg-gromophon{position:absolute;inset:0;z-index:0;pointer-events:none;
   background:url("/background/gromophon.png") center 40% / cover fixed}
-.bg-gromophon::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(10,10,9,.8) 0%,rgba(10,10,9,.64) 45%,rgba(10,10,9,.82) 100%)}
+/* Flat tint (not a per-section gradient) so stacked gromophon sections read as
+   one continuous pinned backdrop instead of two blocks with a dark seam. */
+.bg-gromophon::after{content:"";position:absolute;inset:0;background:rgba(10,10,9,.72)}
 
 /* pinned wood backdrop */
 .bg-wood{position:absolute;inset:0;z-index:0;pointer-events:none;
