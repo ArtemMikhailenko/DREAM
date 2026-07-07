@@ -742,6 +742,7 @@ body::after{
   /* portrait-cropped textures for mobile (less zoom than the landscape originals) */
   .bg-graffiti{background-image:url("/background/grafitty-portrait.png")}
   .bg-wood{background-image:url("/background/wood-portrait.png")}
+  .bg-gromophon{background-image:url("/background/gromophon-portrait.png")}
   .bg-gray,.bg-gray-pin,.bg-struct{background-image:url("/background/gray-portrait.png")}
   .hero-bg picture{display:block;width:100%;height:100%}
 }
