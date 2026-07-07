@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono, Oswald, Archivo_Black, Heebo, Caveat } from "next/font/google";
+import { Geist, Geist_Mono, Oswald, Archivo_Black, Secular_One, Caveat } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
