@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono, Oswald, Archivo_Black, Secular_One, Caveat } from "next/font/google";
+import { Geist, Geist_Mono, Oswald, Archivo_Black, Rubik, Caveat } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -35,12 +35,12 @@ const heroDisplay = Archivo_Black({
   weight: ["400"],
 });
 
-// Secular One — bold Hebrew poster/display face. Oswald has no Hebrew glyphs,
-// so Hebrew headings cascade to this via the --font-hebrew stack.
-const hebrewDisplay = Secular_One({
+// Rubik — brand Hebrew face (client-supplied). Oswald has no Hebrew glyphs, so
+// Hebrew headings cascade to this via the --font-hebrew stack.
+const hebrewDisplay = Rubik({
   variable: "--font-hebrew",
   subsets: ["hebrew"],
-  weight: ["400"],
+  weight: ["800"],
 });
 
 const caveat = Caveat({
