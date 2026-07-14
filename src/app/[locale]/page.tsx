@@ -1,4 +1,5 @@
 import { LeadForm } from "@/components/LeadForm";
+import { Showreel } from "@/components/Showreel";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { CursorFX } from "@/components/CursorFX";
 import { SiteNav } from "@/components/SiteNav";
@@ -236,6 +237,9 @@ export default async function Home({
           ))}
         </div>
       </div>
+
+      {/* ── Showreel (localized VSL) ── */}
+      <Showreel />
 
       {/* ── Problem + Services: one shared, continuous gromophon backdrop ── */}
       <div className="bg-run">

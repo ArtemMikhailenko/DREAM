@@ -904,3 +904,13 @@ body::after{
 .wa-optin:hover{border-color:rgba(37,211,102,.5);background:rgba(37,211,102,.09)}
 .wa-optin input[type="checkbox"]{accent-color:#25d366;width:16px;height:16px;flex:none;cursor:pointer}
 .wa-optin span{color:var(--cream2)}
+
+/* ══════════ Showreel (localized VSL) ══════════ */
+.showreel-player{position:relative;z-index:1;max-width:1000px;margin:44px auto 0;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1px solid var(--bd2);background:#000;box-shadow:0 40px 110px rgba(0,0,0,.55),0 0 90px rgba(232,168,104,.1)}
+.showreel-player video{width:100%;height:100%;object-fit:cover;display:block}
+.showreel-play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;border:0;cursor:pointer;background:radial-gradient(circle at 50% 46%,rgba(10,10,9,.12),rgba(10,10,9,.55))}
+.showreel-play-btn{width:88px;height:88px;border-radius:50%;background:var(--accent);color:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:0 0 44px rgba(232,168,104,.55);transition:transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .2s}
+.showreel-play:hover .showreel-play-btn{transform:scale(1.09);box-shadow:0 0 66px rgba(232,168,104,.75)}
+.showreel-play-btn svg{width:34px;height:34px;margin-left:5px}
+.showreel-play-label{font-family:var(--font-geist-mono,monospace);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--chalk)}
+@media (max-width:600px){.showreel-play-btn{width:66px;height:66px}.showreel-play-btn svg{width:26px;height:26px}}

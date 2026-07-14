@@ -1016,5 +1016,11 @@
       ],
       "cta": "Get a free quote on WhatsApp"
     }
+  },
+  "Showreel": {
+    "label": "Watch",
+    "heading": "See it in",
+    "headingEm": "60 seconds",
+    "play": "Play video"
   }
 }
