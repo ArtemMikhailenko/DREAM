@@ -819,10 +819,15 @@ body::after{
 .svc-hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
 .svc-hero-chip{font-family:var(--font-geist-mono,monospace);font-size:.66rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--cream2);border:1px solid var(--bd2);border-radius:999px;padding:8px 15px;transition:border-color .2s,color .2s}
 .svc-hero-chip:hover{border-color:var(--accent);color:var(--chalk)}
-/* Signature hero photo (black+gold render) */
-.svc-hero-photo{position:relative;border:1px solid var(--bd2);border-radius:20px;overflow:hidden;background:#0a0a09;box-shadow:0 34px 90px rgba(0,0,0,.5),0 0 70px rgba(232,168,104,.12)}
-.svc-hero-photo img{display:block;width:100%;height:100%;aspect-ratio:16/10;object-fit:cover}
-.svc-hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,rgba(10,10,9,.4),transparent 48%),radial-gradient(120% 90% at 85% 15%,rgba(232,168,104,.12),transparent 55%);box-shadow:inset 0 0 60px rgba(10,10,9,.5)}
+/* Signature hero photo (black+gold render) — blended into the hero, not boxed.
+   The render's own black background dissolves into the dark hero via an edge
+   mask, with a soft amber glow behind it. */
+.svc-hero-photo{position:relative;isolation:isolate;margin-right:clamp(-64px,-4vw,-24px)}
+.svc-hero-photo::before{content:"";position:absolute;inset:4% 0;z-index:-1;pointer-events:none;
+  background:radial-gradient(60% 58% at 58% 48%,rgba(232,168,104,.22),transparent 72%);filter:blur(34px)}
+.svc-hero-photo img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;transform:scale(1.04);
+  -webkit-mask-image:radial-gradient(128% 122% at 60% 50%,#000 44%,rgba(0,0,0,.5) 76%,transparent 100%);
+  mask-image:radial-gradient(128% 122% at 60% 50%,#000 44%,rgba(0,0,0,.5) 76%,transparent 100%)}
 @media (max-width:900px){
   .svc-hero-grid{grid-template-columns:1fr;gap:38px}
   .svc-hero-panel,.svc-hero-photo{order:2}
