@@ -88,18 +88,6 @@ export async function ServicePage({ namespace }: { namespace: string }) {
               </div>
               <h1 className="page-hero-h">{t("h1")}</h1>
               {body[0] ? <p className="page-hero-sub">{body[0]}</p> : null}
-              {heroImage && chips.length ? (
-                <div className="svc-hero-facts">
-                  {blocks[0]?.heading ? (
-                    <p className="svc-hero-facts-t">{blocks[0].heading}</p>
-                  ) : null}
-                  <ul>
-                    {chips.map((c, i) => (
-                      <li key={i}>{c}</li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
               <div className="hero-actions">
                 <a className="btn-p" href={WHATSAPP_URL} target="_blank" rel="noopener">
                   {t("cta")} ↗

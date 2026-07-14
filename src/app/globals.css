@@ -841,7 +841,10 @@ body::after{
    It fills the hero height, bleeds off the top/right/bottom, and dissolves into
    the copy on the left. No visible frame — it reads as the hero itself. ── */
 .svc-hero--photo .svc-hero-grid{grid-template-columns:1fr}
-.svc-hero--photo .svc-hero-left{max-width:600px}
+.svc-hero--photo .svc-hero-left{max-width:640px}
+.svc-hero--photo .page-hero-h{font-size:clamp(2rem,4.6vw,5rem);line-height:1}
+.svc-hero--photo .page-hero-sub{margin-top:26px}
+.svc-hero--photo .hero-actions{margin-top:40px}
 .svc-hero--photo .page-hero-inner{position:relative;z-index:2}
 .svc-hero-media{position:absolute;inset:0 0 0 auto;width:min(66%,1040px);z-index:0;pointer-events:none;
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 42%,#000 100%);
