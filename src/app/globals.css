@@ -815,9 +815,17 @@ body::after{
 .svc-hero-panel ul{position:relative;z-index:1;list-style:none;margin:0;padding:0}
 .svc-hero-panel li{display:flex;gap:14px;align-items:flex-start;padding:15px 0;border-top:1px solid var(--bd);color:var(--chalk);font-size:1.02rem;line-height:1.4}
 .svc-hero-panel li::before{content:"";margin-top:.5em;width:7px;height:7px;flex:none;border-radius:2px;background:var(--accent);box-shadow:0 0 10px rgba(232,168,104,.6)}
+/* Deliverable chips (shown on the left when a hero photo takes the right) */
+.svc-hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.svc-hero-chip{font-family:var(--font-geist-mono,monospace);font-size:.66rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--cream2);border:1px solid var(--bd2);border-radius:999px;padding:8px 15px;transition:border-color .2s,color .2s}
+.svc-hero-chip:hover{border-color:var(--accent);color:var(--chalk)}
+/* Signature hero photo (black+gold render) */
+.svc-hero-photo{position:relative;border:1px solid var(--bd2);border-radius:20px;overflow:hidden;background:#0a0a09;box-shadow:0 34px 90px rgba(0,0,0,.5),0 0 70px rgba(232,168,104,.12)}
+.svc-hero-photo img{display:block;width:100%;height:100%;aspect-ratio:16/10;object-fit:cover}
+.svc-hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,rgba(10,10,9,.4),transparent 48%),radial-gradient(120% 90% at 85% 15%,rgba(232,168,104,.12),transparent 55%);box-shadow:inset 0 0 60px rgba(10,10,9,.5)}
 @media (max-width:900px){
   .svc-hero-grid{grid-template-columns:1fr;gap:38px}
-  .svc-hero-panel{order:2}
+  .svc-hero-panel,.svc-hero-photo{order:2}
 }
 .service-block{position:relative}
 .service-block > *{position:relative;z-index:1}

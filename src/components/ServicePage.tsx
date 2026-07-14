@@ -25,6 +25,15 @@ const SLUGS = [
 // Site textures rotated behind feature blocks for per-page variety.
 const BLOCK_BG = ["bg-gromophon", "bg-gray-pin", "bg-wood"];
 
+// Signature hero photo per service (black+gold renders). Services without one
+// fall back to the "what's included" panel.
+const HERO_IMAGE: Record<string, string> = {
+  "targeted-advertising": "/services/targeted-advertising.webp",
+  smm: "/services/smm.webp",
+  "photo-video": "/services/photo-video.webp",
+  automation: "/services/automation.webp",
+};
+
 type Block = {
   heading: string;
   intro: string;
@@ -48,6 +57,7 @@ export async function ServicePage({ namespace }: { namespace: string }) {
   const marquee = (blocks[0]?.list ?? []).length ? blocks[0].list : [t("label")];
   // Deliverable chips under the hero — the first block's capabilities.
   const chips = (blocks[0]?.list ?? []).slice(0, 4);
+  const heroImage = HERO_IMAGE[slug];
 
   return (
     <>
@@ -68,13 +78,25 @@ export async function ServicePage({ namespace }: { namespace: string }) {
               </div>
               <h1 className="page-hero-h">{t("h1")}</h1>
               {body[0] ? <p className="page-hero-sub">{body[0]}</p> : null}
+              {heroImage && chips.length ? (
+                <div className="svc-hero-chips">
+                  {chips.map((c, i) => (
+                    <span className="svc-hero-chip" key={i}>{c}</span>
+                  ))}
+                </div>
+              ) : null}
               <div className="hero-actions">
                 <a className="btn-p" href={WHATSAPP_URL} target="_blank" rel="noopener">
                   {t("cta")} ↗
                 </a>
               </div>
             </div>
-            {chips.length && blocks[0] ? (
+            {heroImage ? (
+              <div className="svc-hero-photo" aria-hidden="true">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={heroImage} alt="" loading="eager" decoding="async" />
+              </div>
+            ) : chips.length && blocks[0] ? (
               <aside className="svc-hero-panel">
                 <p className="svc-hero-panel-t">{blocks[0].heading}</p>
                 <ul>
