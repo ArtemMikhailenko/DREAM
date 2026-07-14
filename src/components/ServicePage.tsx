@@ -65,8 +65,18 @@ export async function ServicePage({ namespace }: { namespace: string }) {
       <SiteNav />
 
       {/* ── Hero ── */}
-      <section className="page-hero s-ink svc-hero">
-        <div className="bg-gray seam-down pin" aria-hidden="true" />
+      <section className={`page-hero s-ink svc-hero${heroImage ? " svc-hero--photo" : ""}`}>
+        {heroImage ? (
+          <>
+            <div className="svc-hero-media" aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={heroImage} alt="" loading="eager" decoding="async" />
+            </div>
+            <div className="svc-hero-scrim" aria-hidden="true" />
+          </>
+        ) : (
+          <div className="bg-gray seam-down pin" aria-hidden="true" />
+        )}
         <div className="hero-glow" aria-hidden="true" />
         <div className="wrap page-hero-inner">
           <div className="svc-hero-grid">
@@ -91,12 +101,7 @@ export async function ServicePage({ namespace }: { namespace: string }) {
                 </a>
               </div>
             </div>
-            {heroImage ? (
-              <div className="svc-hero-photo" aria-hidden="true">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={heroImage} alt="" loading="eager" decoding="async" />
-              </div>
-            ) : chips.length && blocks[0] ? (
+            {!heroImage && chips.length && blocks[0] ? (
               <aside className="svc-hero-panel">
                 <p className="svc-hero-panel-t">{blocks[0].heading}</p>
                 <ul>

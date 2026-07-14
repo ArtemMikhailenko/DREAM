@@ -819,18 +819,39 @@ body::after{
 .svc-hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
 .svc-hero-chip{font-family:var(--font-geist-mono,monospace);font-size:.66rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--cream2);border:1px solid var(--bd2);border-radius:999px;padding:8px 15px;transition:border-color .2s,color .2s}
 .svc-hero-chip:hover{border-color:var(--accent);color:var(--chalk)}
-/* Signature hero photo (black+gold render) — blended into the hero, not boxed.
-   The render's own black background dissolves into the dark hero via an edge
-   mask, with a soft amber glow behind it. */
-.svc-hero-photo{position:relative;isolation:isolate;margin-right:clamp(-64px,-4vw,-24px)}
-.svc-hero-photo::before{content:"";position:absolute;inset:4% 0;z-index:-1;pointer-events:none;
-  background:radial-gradient(60% 58% at 58% 48%,rgba(232,168,104,.22),transparent 72%);filter:blur(34px)}
-.svc-hero-photo img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;transform:scale(1.04);
-  -webkit-mask-image:radial-gradient(128% 122% at 60% 50%,#000 44%,rgba(0,0,0,.5) 76%,transparent 100%);
-  mask-image:radial-gradient(128% 122% at 60% 50%,#000 44%,rgba(0,0,0,.5) 76%,transparent 100%)}
 @media (max-width:900px){
   .svc-hero-grid{grid-template-columns:1fr;gap:38px}
-  .svc-hero-panel,.svc-hero-photo{order:2}
+  .svc-hero-panel{order:2}
+}
+
+/* ── Photo services: the render is an immersive right-half backdrop, not a card.
+   It fills the hero height, bleeds off the top/right/bottom, and dissolves into
+   the copy on the left. No visible frame — it reads as the hero itself. ── */
+.svc-hero--photo .svc-hero-grid{grid-template-columns:1fr}
+.svc-hero--photo .svc-hero-left{max-width:600px}
+.svc-hero--photo .page-hero-inner{position:relative;z-index:2}
+.svc-hero-media{position:absolute;inset:0 0 0 auto;width:min(66%,1040px);z-index:0;pointer-events:none;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 42%,#000 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 42%,#000 100%)}
+.svc-hero-media img{width:100%;height:100%;object-fit:cover;object-position:center}
+.svc-hero-media::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,var(--ink) 0,transparent 16%,transparent 84%,var(--ink) 100%)}
+/* left scrim keeps the copy readable over the fade zone + soft amber lift */
+.svc-hero-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,var(--ink) 0,rgba(5,5,4,.55) 34%,transparent 60%),
+            radial-gradient(50% 60% at 74% 46%,rgba(232,168,104,.1),transparent 70%)}
+[dir="rtl"] .svc-hero-media{inset:0 auto 0 0;
+  -webkit-mask-image:linear-gradient(270deg,transparent 0,#000 42%,#000 100%);
+  mask-image:linear-gradient(270deg,transparent 0,#000 42%,#000 100%)}
+[dir="rtl"] .svc-hero-scrim{background:linear-gradient(270deg,var(--ink) 0,rgba(5,5,4,.55) 34%,transparent 60%),
+  radial-gradient(50% 60% at 26% 46%,rgba(232,168,104,.1),transparent 70%)}
+@media (max-width:900px){
+  .svc-hero-media{position:relative;inset:auto;order:3;width:auto;margin-top:30px;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 12%,#000 88%,transparent 100%);
+    mask-image:linear-gradient(180deg,transparent 0,#000 12%,#000 88%,transparent 100%)}
+  .svc-hero-media img{aspect-ratio:16/10;height:auto}
+  .svc-hero-media::after,.svc-hero-scrim{display:none}
+  .svc-hero--photo .svc-hero-left{max-width:none}
 }
 .service-block{position:relative}
 .service-block > *{position:relative;z-index:1}
