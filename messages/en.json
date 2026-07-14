@@ -1021,6 +1021,7 @@
     "label": "Watch",
     "heading": "See it in",
     "headingEm": "60 seconds",
-    "play": "Play video"
+    "play": "Play video",
+    "trigger": "Watch the film"
   }
 }

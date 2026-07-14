@@ -1,5 +1,5 @@
 import { LeadForm } from "@/components/LeadForm";
-import { Showreel } from "@/components/Showreel";
+import { HeroVideo } from "@/components/HeroVideo";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { CursorFX } from "@/components/CursorFX";
 import { SiteNav } from "@/components/SiteNav";
@@ -216,6 +216,7 @@ export default async function Home({
               <a className="btn-p" href="#lead">{t("hero.ctaPrimary")}</a>
               <Link className="btn-o" href="/portfolio">{t("hero.ctaSecondary")} ↗</Link>
             </div>
+            <HeroVideo />
           </div>
           <aside className="hero-rail" aria-label={t("rail.head")}>
             <p className="hero-rail-head">{t("rail.head")}</p>
@@ -237,9 +238,6 @@ export default async function Home({
           ))}
         </div>
       </div>
-
-      {/* ── Showreel (localized VSL) ── */}
-      <Showreel />
 
       {/* ── Problem + Services: one shared, continuous gromophon backdrop ── */}
       <div className="bg-run">

@@ -918,12 +918,26 @@ body::after{
 .wa-optin input[type="checkbox"]{accent-color:#25d366;width:16px;height:16px;flex:none;cursor:pointer}
 .wa-optin span{color:var(--cream2)}
 
-/* ══════════ Showreel (localized VSL) ══════════ */
-.showreel-player{position:relative;z-index:1;max-width:1000px;margin:44px auto 0;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1px solid var(--bd2);background:#000;box-shadow:0 40px 110px rgba(0,0,0,.55),0 0 90px rgba(232,168,104,.1)}
-.showreel-player video{width:100%;height:100%;object-fit:cover;display:block}
-.showreel-play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;border:0;cursor:pointer;background:radial-gradient(circle at 50% 46%,rgba(10,10,9,.12),rgba(10,10,9,.55))}
-.showreel-play-btn{width:88px;height:88px;border-radius:50%;background:var(--accent);color:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:0 0 44px rgba(232,168,104,.55);transition:transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .2s}
-.showreel-play:hover .showreel-play-btn{transform:scale(1.09);box-shadow:0 0 66px rgba(232,168,104,.75)}
-.showreel-play-btn svg{width:34px;height:34px;margin-left:5px}
-.showreel-play-label{font-family:var(--font-geist-mono,monospace);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--chalk)}
-@media (max-width:600px){.showreel-play-btn{width:66px;height:66px}.showreel-play-btn svg{width:26px;height:26px}}
+/* ══════════ Hero showreel — trigger + expanding modal ══════════ */
+.hero-reel{display:inline-flex;align-items:center;gap:16px;margin-top:26px;padding:8px 8px 8px 8px;border:0;background:transparent;cursor:pointer;border-radius:14px;transition:transform .2s}
+.hero-reel:hover{transform:translateY(-2px)}
+.hero-reel-poster{position:relative;width:96px;height:58px;flex:none;border-radius:10px;background-size:cover;background-position:center;border:1px solid var(--bd2);box-shadow:0 8px 26px rgba(0,0,0,.5)}
+.hero-reel-poster::after{content:"";position:absolute;inset:0;border-radius:10px;box-shadow:inset 0 0 30px rgba(10,10,9,.5)}
+.hero-reel-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:0 0 22px rgba(232,168,104,.6);transition:transform .2s,box-shadow .2s}
+.hero-reel:hover .hero-reel-play{transform:translate(-50%,-50%) scale(1.12);box-shadow:0 0 34px rgba(232,168,104,.85)}
+.hero-reel-play svg{width:15px;height:15px;margin-left:2px}
+.hero-reel-txt{display:flex;flex-direction:column;gap:3px;text-align:left}
+.hero-reel-label{color:var(--chalk);font-size:.98rem;font-weight:600}
+.hero-reel-sub{font-family:var(--font-geist-mono,monospace);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+[dir="rtl"] .hero-reel-txt{text-align:right}
+
+/* Expanding modal */
+.reel-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(5,5,4,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);animation:reel-fade .22s ease}
+.reel-modal-inner{position:relative;width:min(94vw,1080px);aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;border:1px solid var(--bd2);box-shadow:0 40px 120px rgba(0,0,0,.7),0 0 90px rgba(232,168,104,.12);animation:reel-pop .28s cubic-bezier(.2,.8,.2,1)}
+.reel-modal-inner video{width:100%;height:100%;display:block;object-fit:contain;background:#000}
+.reel-close{position:absolute;top:-46px;right:0;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid var(--bd2);background:rgba(10,10,9,.6);color:var(--chalk);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
+.reel-close:hover{background:var(--accent);color:var(--ink);border-color:var(--accent)}
+[dir="rtl"] .reel-close{right:auto;left:0}
+@keyframes reel-fade{from{opacity:0}to{opacity:1}}
+@keyframes reel-pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@media (max-width:600px){.reel-close{top:-44px}}
