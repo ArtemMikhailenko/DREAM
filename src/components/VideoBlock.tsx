@@ -28,14 +28,27 @@ export function VideoBlock() {
   }, [playing]);
 
   return (
-    <section className="section s-ink" id="showreel">
+    <section className="section s-ink vblock-sec" id="showreel">
       <div className="bg-gray seam-mid pin" aria-hidden="true" />
       <div className="hero-glow" aria-hidden="true" />
-      <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
-        <p className="label">{t("label")}</p>
-        <h2 className="sec-h">
-          {t("heading")} <em>{t("headingEm")}</em>
-        </h2>
+      <div className="s-bg-word" aria-hidden="true">Reel</div>
+
+      <div className="wrap vblock-layout">
+        <div className="vblock-copy">
+          <p className="label">{t("label")}</p>
+          <h2 className="sec-h">
+            {t("heading")} <em>{t("headingEm")}</em>
+          </h2>
+          <p className="vblock-lead">{t("lead")}</p>
+          <div className="vblock-meta" aria-hidden="true">
+            <span><i className="vblock-rec" /> Showreel</span>
+            <span>0:60</span>
+            <span>{lang === "ru" ? "RU" : "EN"}</span>
+          </div>
+          <a className="btn-p vblock-book" href="#lead">
+            {t("book")} <span aria-hidden="true">↗</span>
+          </a>
+        </div>
 
         <div className={`vblock${playing ? " is-playing" : ""}`}>
           <span className="vblock-corner tl" aria-hidden="true" />
