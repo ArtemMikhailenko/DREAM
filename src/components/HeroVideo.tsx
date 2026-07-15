@@ -26,13 +26,18 @@ export function HeroVideo() {
 
   return (
     <>
-      <button type="button" className="hero-reel" onClick={() => setOpen(true)}>
+      <button
+        type="button"
+        className="hero-reel"
+        onClick={() => setOpen(true)}
+        style={{ backgroundImage: `url(/videos/vsl-${lang}-poster.webp)` }}
+      >
         <span className="hero-reel-play" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M8 5v14l11-7z" />
           </svg>
         </span>
-        <span className="hero-reel-txt">
+        <span className="hero-reel-cap">
           <span className="hero-reel-label">{t("trigger")}</span>
           <span className="hero-reel-sub">{t("label")} · 0:60</span>
         </span>
