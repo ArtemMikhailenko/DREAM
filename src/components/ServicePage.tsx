@@ -138,34 +138,39 @@ export async function ServicePage({ namespace }: { namespace: string }) {
       {blocks.map((b, i) => (
         <section
           key={i}
-          className={`section ${i % 2 === 0 ? "s-dark2" : "s-dark"}`}
+          className={`section svc-block-sec ${i % 2 === 0 ? "s-dark2" : "s-dark"}${i % 2 === 1 ? " rev" : ""}`}
         >
           <div className={BLOCK_BG[(pos + i) % BLOCK_BG.length]} aria-hidden="true" />
-          <div className="wrap service-block">
-            <span className="service-block-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-            <div className="svc-block-head">
+          <div className="wrap svc-block2">
+            <div className="svc-block2-head">
+              <span className="svc-block2-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+              <span className="svc-block2-glyph" aria-hidden="true"><ServiceGlyph slug={slug} /></span>
               <h2 className="sec-h">{b.heading}</h2>
               <p className="service-block-intro">{b.intro}</p>
             </div>
-            {b.ordered ? (
-              <ol className="svc-steps">
-                {b.list.map((li, j) => (
-                  <li className="svc-step" key={j}>
-                    <span className="svc-step-n" aria-hidden="true">{String(j + 1).padStart(2, "0")}</span>
-                    <span className="svc-step-t">{li}</span>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <div className="svc-cards">
-                {b.list.map((li, j) => (
-                  <div className="svc-card" key={j}>
-                    <span className="svc-card-mark" aria-hidden="true">✳</span>
-                    <span className="svc-card-txt">{li}</span>
-                  </div>
-                ))}
-              </div>
-            )}
+            <div className="svc-block2-body">
+              {b.ordered ? (
+                <ol className="svc-steps">
+                  {b.list.map((li, j) => (
+                    <li className="svc-step" key={j}>
+                      <span className="svc-step-n" aria-hidden="true">{String(j + 1).padStart(2, "0")}</span>
+                      <span className="svc-step-t">{li}</span>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <div className="svc-cards">
+                  {b.list.map((li, j) => (
+                    <div className="svc-card" key={j}>
+                      <span className="svc-card-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 6" /></svg>
+                      </span>
+                      <span className="svc-card-txt">{li}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </section>
       ))}

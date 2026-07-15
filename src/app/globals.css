@@ -887,7 +887,7 @@ body::after{
 .svc-lead-wrap{position:relative;z-index:1}
 .svc-lead{position:relative;padding-left:28px;font-family:var(--font-display),var(--font-hebrew),sans-serif;font-weight:400;font-size:clamp(1.6rem,3vw,2.7rem);line-height:1.2;letter-spacing:-.01em;color:var(--cream);text-transform:none;max-width:1200px}
 .svc-lead::before{content:"";position:absolute;left:0;top:.12em;bottom:.12em;width:5px;border-radius:3px;background:var(--accent);box-shadow:0 0 18px rgba(232,168,104,.5)}
-.svc-lead-cols{margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px 46px}
+.svc-lead-cols{margin-top:38px;display:grid;grid-template-columns:repeat(2,1fr);gap:24px 56px;max-width:1080px}
 .svc-lead-cols p{color:var(--cream2);line-height:1.75;font-size:1.02rem}
 [dir="rtl"] .svc-lead{padding-left:0;padding-right:28px}
 [dir="rtl"] .svc-lead::before{left:auto;right:0}
@@ -914,6 +914,32 @@ body::after{
 .svc-step:hover .svc-step-n{color:var(--accent);-webkit-text-stroke-color:var(--accent)}
 .svc-step-t{color:var(--chalk);font-size:clamp(1.05rem,1.7vw,1.35rem);font-weight:500;line-height:1.35}
 [dir="rtl"] .svc-step:hover{padding-left:0;padding-right:14px}
+
+/* ── Feature block: two-column editorial layout ── */
+.svc-block-sec{overflow:hidden}
+.svc-block2{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:clamp(34px,4.4vw,72px);align-items:start}
+.svc-block-sec.rev .svc-block2{grid-template-columns:minmax(0,1.14fr) minmax(0,.86fr)}
+.svc-block-sec.rev .svc-block2-head{order:2}
+.svc-block-sec.rev .svc-block2-body{order:1}
+[dir="rtl"] .svc-block-sec.rev .svc-block2-head{order:1}
+[dir="rtl"] .svc-block-sec.rev .svc-block2-body{order:2}
+.svc-block2-head{position:sticky;top:96px;align-self:start}
+.svc-block2-head .sec-h{font-size:clamp(1.9rem,3.2vw,3rem);margin-top:22px}
+.svc-block2-head .service-block-intro{margin-top:16px}
+.svc-block2-num{display:block;font-family:var(--font-display),var(--font-hebrew),sans-serif;font-size:clamp(3.4rem,7vw,6rem);line-height:.82;color:transparent;-webkit-text-stroke:1.5px rgba(232,168,104,.55);user-select:none}
+.svc-block2-glyph{display:inline-flex;align-items:center;justify-content:center;width:60px;height:60px;margin-top:20px;border-radius:15px;border:1px solid var(--bd2);background:linear-gradient(155deg,var(--accent-soft),rgba(255,255,255,0));color:var(--accent);box-shadow:0 10px 30px rgba(0,0,0,.28)}
+.svc-block2-glyph svg{width:30px;height:30px}
+.svc-block2-body .svc-cards{grid-template-columns:1fr}
+.svc-block2-body .svc-steps{max-width:none}
+.svc-card-mark svg{width:16px;height:16px}
+@media (max-width:900px){
+  .svc-block2,.svc-block-sec.rev .svc-block2{grid-template-columns:1fr;gap:30px}
+  .svc-block-sec.rev .svc-block2-head,.svc-block-sec.rev .svc-block2-body,
+  [dir="rtl"] .svc-block-sec.rev .svc-block2-head,[dir="rtl"] .svc-block-sec.rev .svc-block2-body{order:0}
+  .svc-block2-head{position:static}
+  .svc-block2-body .svc-cards{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){.svc-block2-body .svc-cards{grid-template-columns:1fr}}
 
 /* WhatsApp opt-in — standalone consent box */
 .wa-optin{padding:14px 16px;border:1px solid rgba(37,211,102,.28);border-radius:10px;background:rgba(37,211,102,.06);transition:border-color .18s,background .18s}
