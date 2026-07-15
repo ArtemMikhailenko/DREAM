@@ -556,8 +556,8 @@ body::after{
 .portfolio-cta-row{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:32px;padding-top:28px;border-top:1px solid var(--bd)}
 
 /* ═════════ PORTFOLIO FILTER (portfolio page) ═════════ */
-.portfolio-filter{display:flex;flex-wrap:wrap;gap:10px}
-.portfolio-filter-item{display:inline-flex;align-items:center;padding:8px 18px;border:1px solid var(--bd2);border-radius:999px;font-family:var(--font-geist-mono,monospace);font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.portfolio-filter{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:38px}
+.portfolio-filter-item{display:inline-flex;align-items:center;padding:8px 18px;border:1px solid var(--bd2);border-radius:999px;background:transparent;font-family:var(--font-geist-mono,monospace);font-size:.7rem;font-weight:700;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
 .portfolio-filter-item:hover,.portfolio-filter-item.active{background:var(--cream);color:var(--ink);border-color:var(--cream)}
 
 /* ═════════ PORTFOLIO GRID LG (6 items, portfolio page) ═════════ */
