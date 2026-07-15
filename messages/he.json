@@ -1018,9 +1018,10 @@
   },
   "Showreel": {
     "label": "צפו",
-    "heading": "הכול ב",
-    "headingEm": "60 שניות",
+    "heading": "הסרטון",
+    "headingEm": "שמסביר הכול",
     "play": "נגן",
-    "trigger": "צפו בסרטון"
+    "trigger": "צפו בסרטון",
+    "book": "לקביעת ייעוץ"
   }
 }

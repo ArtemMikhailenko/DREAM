@@ -1019,9 +1019,10 @@
   },
   "Showreel": {
     "label": "Watch",
-    "heading": "See it in",
-    "headingEm": "60 seconds",
+    "heading": "The film",
+    "headingEm": "that explains everything",
     "play": "Play video",
-    "trigger": "Watch the film"
+    "trigger": "Watch the film",
+    "book": "Book a consultation"
   }
 }
