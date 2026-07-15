@@ -922,17 +922,19 @@ body::after{
 .wa-optin span{color:var(--cream2)}
 
 /* ══════════ Hero showreel — trigger + expanding modal ══════════ */
-.hero-reel{display:inline-flex;align-items:center;gap:16px;margin-top:26px;padding:8px 8px 8px 8px;border:0;background:transparent;cursor:pointer;border-radius:14px;transition:transform .2s}
-.hero-reel:hover{transform:translateY(-2px)}
-.hero-reel-poster{position:relative;width:96px;height:58px;flex:none;border-radius:10px;background-size:cover;background-position:center;border:1px solid var(--bd2);box-shadow:0 8px 26px rgba(0,0,0,.5)}
-.hero-reel-poster::after{content:"";position:absolute;inset:0;border-radius:10px;box-shadow:inset 0 0 30px rgba(10,10,9,.5)}
-.hero-reel-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:0 0 22px rgba(232,168,104,.6);transition:transform .2s,box-shadow .2s}
-.hero-reel:hover .hero-reel-play{transform:translate(-50%,-50%) scale(1.12);box-shadow:0 0 34px rgba(232,168,104,.85)}
-.hero-reel-play svg{width:15px;height:15px;margin-left:2px}
-.hero-reel-txt{display:flex;flex-direction:column;gap:3px;text-align:left}
-.hero-reel-label{color:var(--chalk);font-size:.98rem;font-weight:600}
-.hero-reel-sub{font-family:var(--font-geist-mono,monospace);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.hero-reel{display:inline-flex;align-items:center;gap:18px;margin-top:34px;padding:11px 26px 11px 11px;border:1px solid var(--bd2);background:rgba(232,168,104,.07);cursor:pointer;border-radius:999px;transition:background .2s,border-color .2s,transform .2s}
+.hero-reel:hover{background:var(--accent-soft);border-color:var(--accent);transform:translateY(-2px)}
+.hero-reel-play{position:relative;width:62px;height:62px;flex:none;border-radius:50%;background:var(--accent);color:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:0 0 34px rgba(232,168,104,.6)}
+.hero-reel-play::before,.hero-reel-play::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);animation:reel-pulse 2.6s cubic-bezier(.2,.7,.2,1) infinite;pointer-events:none}
+.hero-reel-play::after{animation-delay:1.3s}
+@keyframes reel-pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(2);opacity:0}}
+.hero-reel-play svg{width:23px;height:23px;margin-left:3px}
+.hero-reel:hover .hero-reel-play{box-shadow:0 0 48px rgba(232,168,104,.85)}
+.hero-reel-txt{display:flex;flex-direction:column;gap:4px;text-align:left}
+.hero-reel-label{color:var(--chalk);font-size:1.08rem;font-weight:700;letter-spacing:.01em}
+.hero-reel-sub{font-family:var(--font-geist-mono,monospace);font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 [dir="rtl"] .hero-reel-txt{text-align:right}
+[dir="rtl"] .hero-reel{padding:11px 11px 11px 26px}
 
 /* Expanding modal */
 .reel-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(5,5,4,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);animation:reel-fade .22s ease}
