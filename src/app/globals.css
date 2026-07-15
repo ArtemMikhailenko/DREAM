@@ -971,3 +971,26 @@ body::after{
 @keyframes reel-fade{from{opacity:0}to{opacity:1}}
 @keyframes reel-pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 @media (max-width:600px){.reel-close{top:-44px}}
+
+/* ══════════ Case detail page ══════════ */
+.case-back{display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;font-family:var(--font-geist-mono,monospace);font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .15s}
+.case-back:hover{color:var(--accent)}
+.case-meta{display:flex;flex-wrap:wrap;gap:16px 56px;margin-top:34px}
+.case-meta > div{display:flex;flex-direction:column;gap:6px}
+.case-meta-l{font-family:var(--font-geist-mono,monospace);font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.case-meta b{font-size:1.1rem;font-weight:600;color:var(--chalk)}
+.case-meta-res{color:var(--accent) !important}
+.case-cover{position:relative;z-index:1;border-radius:18px;overflow:hidden;border:1px solid var(--bd2);box-shadow:0 40px 100px rgba(0,0,0,.5)}
+.case-cover img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.case-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.85fr);gap:clamp(36px,5vw,80px);align-items:start}
+.case-overview p:not(.label){color:var(--cream2);line-height:1.75;font-size:1.06rem;max-width:640px}
+.case-overview p + p{margin-top:20px}
+.case-services{position:sticky;top:100px;border:1px solid var(--bd2);border-radius:16px;padding:26px 28px;background:linear-gradient(162deg,rgba(255,255,255,.035),transparent 70%)}
+.case-services-t{font-family:var(--font-geist-mono,monospace);font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
+.case-services ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.case-services li{position:relative;padding:14px 0 14px 26px;border-top:1px solid var(--bd);color:var(--chalk);font-size:1rem;line-height:1.4}
+.case-services li:first-child{border-top:0}
+.case-services li::before{content:"";position:absolute;left:0;top:1.35em;width:7px;height:7px;border-radius:2px;background:var(--accent);box-shadow:0 0 10px rgba(232,168,104,.6)}
+[dir="rtl"] .case-services li{padding-left:0;padding-right:26px}
+[dir="rtl"] .case-services li::before{left:auto;right:0}
+@media (max-width:900px){.case-grid{grid-template-columns:1fr;gap:32px}.case-services{position:static}}

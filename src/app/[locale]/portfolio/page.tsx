@@ -5,15 +5,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { PortfolioBrowser } from "@/components/PortfolioBrowser";
-
-const caseImages = [
-  "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=70",
-  "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=70",
-  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=900&q=70",
-  "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=70",
-  "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=900&q=70",
-  "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=70",
-];
+import { CASE_IMAGES, CASE_SLUGS } from "@/lib/portfolio";
 
 export async function generateMetadata({
   params,
@@ -76,7 +68,7 @@ export default async function PortfolioPage({
       <section className="section s-dark" id="cases">
         <div className="bg-wood" aria-hidden="true" />
         <div className="wrap">
-          <PortfolioBrowser categories={categories} cases={cases} images={caseImages} />
+          <PortfolioBrowser categories={categories} cases={cases} images={CASE_IMAGES} slugs={[...CASE_SLUGS]} />
         </div>
       </section>
 

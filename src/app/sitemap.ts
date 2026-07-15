@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { CASE_SLUGS } from "@/lib/portfolio";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dcprod.agency";
 
@@ -23,6 +24,11 @@ const PAGES: { path: string; priority: number; freq: "weekly" | "monthly" }[] = 
   { path: "/services/automation", priority: 0.8, freq: "weekly" },
   { path: "/services/geo-ai-seo", priority: 0.8, freq: "weekly" },
   { path: "/portfolio", priority: 0.9, freq: "weekly" },
+  ...CASE_SLUGS.map((slug) => ({
+    path: `/portfolio/${slug}`,
+    priority: 0.7,
+    freq: "monthly" as const,
+  })),
   { path: "/about", priority: 0.8, freq: "monthly" },
   { path: "/testimonials", priority: 0.7, freq: "monthly" },
 ];

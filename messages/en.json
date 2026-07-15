@@ -418,37 +418,103 @@
         "title": "Brand Identity Film",
         "tag": "Image video",
         "client": "Luxury retail brand",
-        "result": "+42% brand recall"
+        "result": "+42% brand recall",
+        "summary": "A cinematic identity film that repositioned a luxury retailer as a premium brand — and lifted recall by 42%.",
+        "body": [
+          "The brand had a great product but a flat, generic presence — nothing that felt premium or memorable. We built a cinematic identity film around a single, ownable idea: craft you can feel.",
+          "From concept and art direction to location, shooting and post, we delivered a film that runs across the site, social and paid — and became the anchor of the whole brand system."
+        ],
+        "services": [
+          "Concept & script",
+          "Art direction",
+          "Location shoot",
+          "Editing & color"
+        ]
       },
       {
         "title": "Performance Campaign",
         "tag": "Ads & creatives",
         "client": "EdTech startup",
-        "result": "−31% CPL in 3 weeks"
+        "result": "−31% CPL in 3 weeks",
+        "summary": "A creative-led paid campaign for an EdTech startup that cut cost-per-lead by 31% in three weeks.",
+        "body": [
+          "The startup was burning budget on ads that looked like everyone else's. We rebuilt the creative from scratch — new hooks, formats and messaging tested against real audience data.",
+          "Within three weeks the winning creatives cut cost-per-lead by 31% while scaling volume, with clean measurement so every shekel was accountable."
+        ],
+        "services": [
+          "Creative strategy",
+          "Ad production",
+          "A/B testing",
+          "Analytics & tracking"
+        ]
       },
       {
         "title": "Social Content System",
         "tag": "SMM",
         "client": "Lifestyle brand",
-        "result": "+120% organic reach"
+        "result": "+120% organic reach",
+        "summary": "A repeatable content system for a lifestyle brand that more than doubled organic reach.",
+        "body": [
+          "Posting was inconsistent and off-brand, and reach had flatlined. We designed a content system — formats, a content plan and a production rhythm the team could actually sustain.",
+          "With on-trend Reels, strong creative and consistent publishing, organic reach grew 120% and the channel turned into a real source of leads."
+        ],
+        "services": [
+          "Content plan",
+          "Creative & Reels",
+          "Regular publishing",
+          "Community management"
+        ]
       },
       {
         "title": "Product Launch Video",
         "tag": "Promotional video",
         "client": "SaaS platform",
-        "result": "12K views in 48h"
+        "result": "12K views in 48h",
+        "summary": "A launch video for a SaaS platform that pulled 12,000 views in the first 48 hours.",
+        "body": [
+          "The team had a big launch but no story to carry it. We wrote and produced a punchy launch video that made the product's value obvious in seconds.",
+          "Cut for social and the site, it drove 12,000 views in the first 48 hours and gave the whole launch a clear, shareable centerpiece."
+        ],
+        "services": [
+          "Script & concept",
+          "Production",
+          "Motion & editing",
+          "Format adaptation"
+        ]
       },
       {
         "title": "Cinematic Brand Story",
         "tag": "Image video",
         "client": "Architecture firm",
-        "result": "2× more qualified leads"
+        "result": "2× more qualified leads",
+        "summary": "A cinematic brand story for an architecture firm that doubled qualified inbound leads.",
+        "body": [
+          "The firm's work was stunning but their online presence didn't show it. We built a cinematic brand story that put their craft and process on screen.",
+          "The film reframed how prospects saw them — and doubled the number of qualified leads reaching out."
+        ],
+        "services": [
+          "Concept & script",
+          "Cinematography",
+          "Post-production",
+          "Site integration"
+        ]
       },
       {
         "title": "Full Funnel Build",
         "tag": "Full funnel",
         "client": "B2B services company",
-        "result": "+38% inbound leads"
+        "result": "+38% inbound leads",
+        "summary": "An end-to-end funnel for a B2B services company that grew inbound leads by 38%.",
+        "body": [
+          "Marketing was scattered — good pieces that never connected into a path to a sale. We built the strategy first, then the funnel: offer, landing pages, follow-up and retargeting.",
+          "With a clear, measurable pipeline in place, inbound leads grew 38% — predictably, not by luck."
+        ],
+        "services": [
+          "Marketing strategy",
+          "Funnel design",
+          "Landing pages",
+          "Lead system & CRM"
+        ]
       }
     ],
     "cta": {
@@ -457,6 +523,16 @@
       "headingEm": "great",
       "ctaBrief": "Get a brief",
       "ctaAbout": "About the studio"
+    },
+    "ui": {
+      "back": "All works",
+      "overview": "Overview",
+      "clientLabel": "Client",
+      "resultLabel": "Result",
+      "servicesLabel": "What we did",
+      "cta": "Start a project",
+      "ctaAll": "See all works",
+      "next": "Next work"
     }
   },
   "Testimonials": {

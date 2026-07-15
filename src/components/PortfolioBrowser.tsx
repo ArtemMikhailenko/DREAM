@@ -9,10 +9,12 @@ export function PortfolioBrowser({
   categories,
   cases,
   images,
+  slugs,
 }: {
   categories: string[];
   cases: Case[];
   images: string[];
+  slugs: string[];
 }) {
   // categories[0] is the "All" option.
   const [active, setActive] = useState(categories[0]);
@@ -36,7 +38,7 @@ export function PortfolioBrowser({
       <div className="portfolio-grid portfolio-grid-lg">
         {cases.map((c, i) =>
           showAll || c.tag === active ? (
-            <Link className="portfolio-case" href="/#lead" key={i}>
+            <Link className="portfolio-case" href={`/portfolio/${slugs[i]}`} key={i}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 className="portfolio-case-img"
