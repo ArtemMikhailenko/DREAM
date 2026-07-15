@@ -216,6 +216,7 @@ export default async function Home({
               <a className="btn-p" href="#lead">{t("hero.ctaPrimary")}</a>
               <Link className="btn-o" href="/portfolio">{t("hero.ctaSecondary")} ↗</Link>
             </div>
+            <HeroVideo />
           </div>
           <aside className="hero-rail" aria-label={t("rail.head")}>
             <p className="hero-rail-head">{t("rail.head")}</p>
@@ -226,7 +227,6 @@ export default async function Home({
             </ul>
           </aside>
         </div>
-        <HeroVideo />
       </section>
 
       {/* ── Ticker — cream ── */}

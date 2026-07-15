@@ -921,22 +921,21 @@ body::after{
 .wa-optin input[type="checkbox"]{accent-color:#25d366;width:16px;height:16px;flex:none;cursor:pointer}
 .wa-optin span{color:var(--cream2)}
 
-/* ══════════ Hero showreel — tilted floating trigger + expanding modal ══════════ */
-.hero-reel{position:absolute;z-index:4;right:clamp(28px,7vw,150px);top:57%;width:clamp(196px,17vw,240px);aspect-ratio:16/10;padding:0;display:block;border:1px solid var(--bd2);border-radius:16px;background-size:cover;background-position:center;overflow:hidden;cursor:pointer;transform:rotate(-5deg);box-shadow:0 28px 66px rgba(0,0,0,.6),0 0 56px rgba(232,168,104,.18);transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s}
-.hero-reel::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(10,10,9,.12),rgba(10,10,9,.78))}
-.hero-reel:hover{transform:rotate(-5deg) scale(1.04) translateY(-4px);box-shadow:0 40px 88px rgba(0,0,0,.7),0 0 84px rgba(232,168,104,.32)}
-.hero-reel-play{position:absolute;top:43%;left:50%;transform:translate(-50%,-50%);z-index:2;width:52px;height:52px;border-radius:50%;background:var(--accent);color:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(232,168,104,.7)}
-.hero-reel-play::before,.hero-reel-play::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);animation:reel-pulse 2.6s cubic-bezier(.2,.7,.2,1) infinite;pointer-events:none}
-.hero-reel-play::after{animation-delay:1.3s}
-@keyframes reel-pulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.95);opacity:0}}
-.hero-reel-play svg{width:19px;height:19px;margin-left:2px}
-.hero-reel-cap{position:absolute;left:15px;right:15px;bottom:13px;z-index:2;display:flex;flex-direction:column;gap:2px;text-align:left}
-.hero-reel-label{color:var(--chalk);font-size:.92rem;font-weight:700;line-height:1.1}
-.hero-reel-sub{font-family:var(--font-geist-mono,monospace);font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-@media (max-width:900px){
-  .hero-reel{position:relative;right:auto;top:auto;transform:rotate(-3deg);width:min(72vw,280px);margin:6px auto 30px;align-self:center}
-  .hero-reel:hover{transform:rotate(-3deg) scale(1.03)}
-}
+/* ══════════ Hero showreel — video card trigger + expanding modal ══════════ */
+.hero-reel{display:inline-flex;align-items:center;gap:16px;margin-top:30px;padding:8px 20px 8px 8px;border:1px solid var(--bd2);border-radius:16px;background:rgba(20,19,17,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);cursor:pointer;transition:border-color .2s,background .2s,transform .2s}
+.hero-reel:hover{border-color:var(--accent);background:rgba(232,168,104,.08);transform:translateY(-2px)}
+.hero-reel-poster{position:relative;width:132px;height:78px;flex:none;border-radius:11px;background-size:cover;background-position:center;overflow:hidden;box-shadow:0 8px 26px rgba(0,0,0,.5)}
+.hero-reel-poster::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,9,.05),rgba(10,10,9,.4))}
+.hero-reel-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;width:42px;height:42px;border-radius:50%;background:var(--accent);color:var(--ink);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(232,168,104,.7)}
+.hero-reel-play::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent);animation:reel-pulse 2.4s cubic-bezier(.2,.7,.2,1) infinite;pointer-events:none}
+@keyframes reel-pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.8);opacity:0}}
+.hero-reel-play svg{width:16px;height:16px;margin-left:2px}
+.hero-reel:hover .hero-reel-play{box-shadow:0 0 36px rgba(232,168,104,.9)}
+.hero-reel-cap{display:flex;flex-direction:column;gap:4px;text-align:left}
+.hero-reel-label{color:var(--chalk);font-size:1.02rem;font-weight:700;line-height:1.1}
+.hero-reel-sub{font-family:var(--font-geist-mono,monospace);font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+[dir="rtl"] .hero-reel-cap{text-align:right}
+[dir="rtl"] .hero-reel{padding:8px 8px 8px 20px}
 
 /* Expanding modal */
 .reel-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(5,5,4,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);animation:reel-fade .22s ease}
