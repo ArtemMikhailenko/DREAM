@@ -718,6 +718,10 @@ export interface Home {
      */
     bgMobile?: (number | null) | Media;
     kicker?: string | null;
+    /**
+     * Главный SEO-заголовок страницы (тег H1). Крупный слоган «From idea to result.» — это визуал, он задан в коде и на индексацию не влияет.
+     */
+    h1?: string | null;
     desc?: string | null;
     ctaPrimary?: string | null;
     ctaSecondary?: string | null;
@@ -1210,6 +1214,7 @@ export interface HomeSelect<T extends boolean = true> {
         bg?: T;
         bgMobile?: T;
         kicker?: T;
+        h1?: T;
         desc?: T;
         ctaPrimary?: T;
         ctaSecondary?: T;

@@ -211,11 +211,15 @@ export default async function Home({
               <span className="hero-kicker-dot" />
               <span className="hero-kicker-text">{t("hero.kicker")}</span>
             </div>
-            <h1 className="hero-h1">
+            {/* The slogan is the visual hook, not the page's subject — it carries no
+                keywords and reads the same in every language, so it is a div. The H1
+                below states what the page is actually about, per the SEO spec. */}
+            <div className="hero-h1" aria-hidden="true">
               From idea<br />
               <span className="hero-h1-arrow" aria-hidden="true" />
               <em>to result.</em>
-            </h1>
+            </div>
+            <h1 className="hero-h1-seo">{t("hero.h1")}</h1>
             <p className="hero-desc">{t("hero.desc")}</p>
             <div className="hero-actions">
               <a className="btn-p" href="#lead">{t("hero.ctaPrimary")}</a>

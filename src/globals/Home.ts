@@ -47,6 +47,12 @@ export const Home: GlobalConfig = {
                   ],
                 },
                 text("kicker", "Бейдж над заголовком"),
+                text("h1", "Заголовок H1", {
+                  admin: {
+                    description:
+                      "Главный SEO-заголовок страницы (тег H1). Крупный слоган «From idea to result.» — это визуал, он задан в коде и на индексацию не влияет.",
+                  },
+                }),
                 area("desc", "Описание"),
                 {
                   type: "row",
