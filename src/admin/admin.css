@@ -1,55 +1,80 @@
-/* dc.prod admin skin — dark canvas with the site's amber accent. */
+/* ══════════════════════════════════════════════════════
+   dc.prod admin skin — dark canvas, amber accent
+   Loaded after Payload's own stylesheet so it wins.
+   ══════════════════════════════════════════════════════ */
 
 :root {
   --dcp-amber: #e8a868;
   --dcp-amber-2: #c98143;
+  --dcp-soft: rgba(232, 168, 104, 0.12);
+  --dcp-line: rgba(244, 241, 234, 0.1);
+  --dcp-line-2: rgba(244, 241, 234, 0.22);
+  --dcp-chalk: #f4f1ea;
+  --dcp-muted: rgba(244, 241, 234, 0.52);
 }
 
-/* Payload theme tokens (dark is the default we ship). */
+/* ── Theme tokens ── */
 html[data-theme="dark"] {
-  --theme-bg: #0b0a09;
-  --theme-elevation-0: #0b0a09;
-  --theme-elevation-50: #131210;
-  --theme-elevation-100: #1a1815;
-  --theme-elevation-150: #201d19;
-  --theme-elevation-200: #262320;
+  --theme-bg: #0a0908;
+  --theme-elevation-0: #0a0908;
+  --theme-elevation-50: #121110;
+  --theme-elevation-100: #181614;
+  --theme-elevation-150: #1e1b18;
+  --theme-elevation-200: #24211d;
+  --theme-elevation-250: #2b2723;
   --theme-success-500: #6bbf7b;
   --theme-error-500: #e5484d;
 }
 
-/* Accent everything Payload paints in its default blue. */
-html[data-theme="dark"] {
-  --theme-success-550: var(--dcp-amber);
-}
-
+/* ── Accent: buttons, links, focus ── */
 .btn--style-primary {
   background-color: var(--dcp-amber) !important;
   border-color: var(--dcp-amber) !important;
-  color: #0b0a09 !important;
+  color: #0a0908 !important;
   font-weight: 700;
+  letter-spacing: 0.02em;
 }
 .btn--style-primary:hover {
   background-color: var(--dcp-amber-2) !important;
   border-color: var(--dcp-amber-2) !important;
 }
-
-/* Links, active nav items and focus rings pick up the accent. */
-.nav__link:hover,
-.nav__link--active,
-.nav-group__toggle:hover {
-  color: var(--dcp-amber);
+.btn--style-secondary:hover {
+  border-color: var(--dcp-amber) !important;
+  color: var(--dcp-amber) !important;
 }
-.nav__link--active {
-  border-left: 2px solid var(--dcp-amber);
-}
-a:not(.btn):hover {
+a:not(.btn):not(.dcp-link):not(.dcp-stat):hover {
   color: var(--dcp-amber);
 }
 *:focus-visible {
-  outline-color: var(--dcp-amber) !important;
+  outline: 2px solid var(--dcp-amber) !important;
+  outline-offset: 2px;
 }
 
-/* Brand lockup (Logo component). */
+/* ── Sidebar nav ── */
+.nav {
+  border-right: 1px solid var(--dcp-line);
+}
+.nav__link {
+  border-left: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.nav__link:hover {
+  color: var(--dcp-amber);
+  background: rgba(232, 168, 104, 0.06);
+}
+.nav__link--active {
+  color: var(--dcp-amber) !important;
+  border-left-color: var(--dcp-amber);
+  background: var(--dcp-soft);
+}
+.nav-group__label {
+  font-size: 0.62rem !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase;
+  color: var(--dcp-muted) !important;
+}
+
+/* ── Brand lockup ── */
 .dcp-logo {
   display: flex;
   align-items: center;
@@ -65,23 +90,230 @@ a:not(.btn):hover {
   line-height: 1.15;
 }
 .dcp-logo-text b {
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   letter-spacing: 0.06em;
-  color: #f4f1ea;
+  color: var(--dcp-chalk);
 }
 .dcp-logo-text i {
   font-style: normal;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(244, 241, 234, 0.5);
+  color: var(--dcp-muted);
 }
 
-/* Login card gets a subtle amber glow so it doesn't read as stock Payload. */
-.login__brand {
-  margin-bottom: 8px;
+/* ── Login ── */
+.login .form-wrap,
+.create-first-user .form-wrap {
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 90px rgba(232, 168, 104, 0.08);
+  border: 1px solid var(--dcp-line);
+  border-radius: 16px;
+  padding: 34px;
+  background: var(--theme-elevation-50);
 }
-.login .form-wrap {
-  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 90px rgba(232, 168, 104, 0.1);
+
+/* ══════════ Custom dashboard ══════════ */
+.dcp-dash {
+  margin-bottom: 38px;
+}
+
+/* Hero */
+.dcp-dash-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  flex-wrap: wrap;
+  padding: 32px 34px;
+  border: 1px solid var(--dcp-line);
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(232, 168, 104, 0.14), transparent 55%),
+    var(--theme-elevation-50);
+  overflow: hidden;
+}
+.dcp-dash-kicker {
+  margin: 0 0 6px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dcp-amber);
+}
+.dcp-dash-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.1;
+  color: var(--dcp-chalk);
+}
+.dcp-dash-sub {
+  margin: 12px 0 0;
+  max-width: 62ch;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--dcp-muted);
+}
+.dcp-dash-site {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--dcp-line-2);
+  color: var(--dcp-chalk) !important;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+.dcp-dash-site:hover {
+  background: var(--dcp-amber);
+  border-color: var(--dcp-amber);
+  color: #0a0908 !important;
+}
+
+/* Stats */
+.dcp-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+@media (max-width: 1100px) {
+  .dcp-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .dcp-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.dcp-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 22px;
+  border: 1px solid var(--dcp-line);
   border-radius: 14px;
+  background: var(--theme-elevation-50);
+  text-decoration: none;
+  transition: transform 0.18s, border-color 0.18s, background 0.18s;
+}
+.dcp-stat:hover {
+  transform: translateY(-2px);
+  border-color: var(--dcp-amber);
+  background: var(--theme-elevation-100);
+}
+.dcp-stat-v {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--dcp-chalk);
+}
+.dcp-stat-l {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dcp-muted);
+}
+/* Unhandled leads deserve to shout. */
+.dcp-stat.is-hot {
+  border-color: rgba(232, 168, 104, 0.5);
+  background: var(--dcp-soft);
+}
+.dcp-stat.is-hot .dcp-stat-v {
+  color: var(--dcp-amber);
+}
+
+/* Quick links */
+.dcp-dash-head {
+  margin: 30px 0 12px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dcp-muted);
+}
+.dcp-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+.dcp-link {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 20px 22px;
+  border: 1px solid var(--dcp-line);
+  border-radius: 14px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 65%),
+    var(--theme-elevation-50);
+  text-decoration: none;
+  transition: transform 0.18s, border-color 0.18s;
+}
+.dcp-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--dcp-amber);
+}
+.dcp-link-t {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dcp-chalk);
+}
+.dcp-link-d {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--dcp-muted);
+}
+.dcp-link-a {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  color: var(--dcp-amber);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.18s, transform 0.18s;
+}
+.dcp-link:hover .dcp-link-a {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Payload 3.86 renders the dashboard as a draggable widget grid whose only widget
+   is a generic list of every collection and global — it repeats our quick links and
+   is the part that reads as stock. Hide it and let our panel be the dashboard;
+   nothing is lost, since every section stays in the left nav. */
+.modular-dashboard {
+  display: none !important;
+}
+
+/* ── Tables / lists ── */
+.table table {
+  border-color: var(--dcp-line);
+}
+.table thead th {
+  font-size: 0.66rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dcp-muted) !important;
+}
+.row-1 .cell-name a,
+.table td a {
+  font-weight: 600;
+}
+
+/* ── Locale switcher: make the active content language obvious ── */
+.localizer .popup-button {
+  border: 1px solid var(--dcp-line-2);
+  border-radius: 999px;
+  padding: 5px 12px;
+  color: var(--dcp-amber);
+  font-weight: 700;
 }

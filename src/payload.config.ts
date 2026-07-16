@@ -31,6 +31,13 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     theme: "dark",
+    // Local convenience only: set PAYLOAD_AUTOLOGIN_EMAIL in .env to skip the login
+    // screen while working on the admin. Never enabled outside development, and the
+    // variable is absent in production, so this cannot weaken the live panel.
+    autoLogin:
+      process.env.NODE_ENV === "development" && process.env.PAYLOAD_AUTOLOGIN_EMAIL
+        ? { email: process.env.PAYLOAD_AUTOLOGIN_EMAIL }
+        : false,
     meta: {
       titleSuffix: " — dc.prod",
       description: "Панель управления сайтом dc.prod",
@@ -40,6 +47,8 @@ export default buildConfig({
         Logo: "@/admin/Brand#Logo",
         Icon: "@/admin/Brand#Icon",
       },
+      // Branded landing above Payload's default card grid.
+      beforeDashboard: ["@/admin/Dashboard#Dashboard"],
     },
   },
   // The site ships en (root), /ru and /he (RTL) — mirror that here so every
