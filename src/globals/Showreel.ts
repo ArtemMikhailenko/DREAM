@@ -7,7 +7,7 @@ import { area, splitHeading, stringList, text } from "../fields/shared";
 export const Showreel: GlobalConfig = {
   slug: "showreel",
   label: "Шоурил",
-  admin: { group: "PLACEHOLDER", preview: previewPath(() => "/#showreel") },
+  admin: { group: "Главная", preview: previewPath(() => "/#showreel") },
   access: { read: () => true },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [

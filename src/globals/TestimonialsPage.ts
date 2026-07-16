@@ -7,7 +7,7 @@ import { area, metaGroup, splitHeading, text } from "../fields/shared";
 export const TestimonialsPage: GlobalConfig = {
   slug: "testimonials-page",
   label: "Страница «Отзывы»",
-  admin: { group: "PLACEHOLDER", preview: previewPath(() => "/testimonials") },
+  admin: { group: "Страницы", preview: previewPath(() => "/testimonials") },
   access: { read: () => true },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [

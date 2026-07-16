@@ -7,7 +7,7 @@ import { area, metaGroup, splitHeading, stringList, text } from "../fields/share
 export const PortfolioPage: GlobalConfig = {
   slug: "portfolio-page",
   label: "Страница «Портфолио»",
-  admin: { group: "PLACEHOLDER", preview: previewPath(() => "/portfolio") },
+  admin: { group: "Страницы", preview: previewPath(() => "/portfolio") },
   access: { read: () => true },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [

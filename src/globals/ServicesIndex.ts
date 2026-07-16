@@ -10,7 +10,7 @@ import { area, metaGroup, stringList, text } from "../fields/shared";
 export const ServicesIndex: GlobalConfig = {
   slug: "services-index",
   label: "Страница «Услуги»",
-  admin: { group: "PLACEHOLDER", preview: previewPath(() => "/services") },
+  admin: { group: "Страницы", preview: previewPath(() => "/services") },
   access: { read: () => true },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [

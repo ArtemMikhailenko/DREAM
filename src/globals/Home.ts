@@ -10,7 +10,7 @@ import { area, metaGroup, splitHeading, stringList, text } from "../fields/share
 export const Home: GlobalConfig = {
   slug: "home",
   label: "Главная",
-  admin: { group: "PLACEHOLDER", preview: previewPath(() => "/") },
+  admin: { group: "Главная", preview: previewPath(() => "/") },
   access: { read: () => true },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [

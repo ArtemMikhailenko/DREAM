@@ -6,7 +6,7 @@ import { area, metaGroup, splitHeading, stringList, text } from "../fields/share
 export const About: GlobalConfig = {
   slug: "about",
   label: "Страница «О студии»",
-  admin: { group: "PLACEHOLDER", preview: previewPath(() => "/about") },
+  admin: { group: "Страницы", preview: previewPath(() => "/about") },
   access: { read: () => true },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [
