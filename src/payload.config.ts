@@ -49,6 +49,8 @@ export default buildConfig({
       },
       // Branded landing above Payload's default card grid.
       beforeDashboard: ["@/admin/Dashboard#Dashboard"],
+      // Fills the empty stretch of the header with the link editors want most.
+      actions: ["@/admin/HeaderActions#HeaderActions"],
     },
   },
   // The site ships en (root), /ru and /he (RTL) — mirror that here so every

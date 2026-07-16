@@ -74,6 +74,91 @@ a:not(.btn):not(.dcp-link):not(.dcp-stat):hover {
   color: var(--dcp-muted) !important;
 }
 
+/* ══════════ Header ══════════ */
+/* Stock header is transparent and borderless, so it floats over the content with
+   no anchor. Give it a surface, a hairline and room to breathe. */
+.app-header {
+  border-bottom: 1px solid var(--dcp-line);
+  background: rgba(10, 9, 8, 0.82);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.app-header__bg {
+  background: transparent !important;
+}
+.app-header__wrapper {
+  gap: 14px;
+}
+
+/* Brand mark sits next to the breadcrumb — make it read as a logo, not an icon. */
+.app-header .graphic-icon,
+.app-header__wrapper svg.graphic-icon {
+  filter: drop-shadow(0 0 12px rgba(232, 168, 104, 0.4));
+}
+
+/* Breadcrumb */
+.step-nav {
+  font-size: 0.82rem;
+}
+.step-nav a {
+  color: var(--dcp-muted);
+  text-decoration: none;
+}
+.step-nav a:hover {
+  color: var(--dcp-amber);
+}
+/* The trailing crumb is the current page — give it weight. */
+.step-nav > *:last-child {
+  color: var(--dcp-chalk);
+  font-weight: 600;
+}
+
+/* "Открыть сайт" action */
+.dcp-head-site {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--dcp-line-2);
+  color: var(--dcp-chalk) !important;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+.dcp-head-site svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.dcp-head-site:hover {
+  background: var(--dcp-amber);
+  border-color: var(--dcp-amber);
+  color: #0a0908 !important;
+}
+@media (max-width: 900px) {
+  .dcp-head-site span {
+    display: none;
+  }
+  .dcp-head-site {
+    padding: 0 10px;
+  }
+}
+
+/* Locale switcher + account: match the pill language of the action */
+.app-header__account {
+  border: 1px solid var(--dcp-line-2);
+  border-radius: 999px;
+  transition: border-color 0.18s;
+}
+.app-header__account:hover {
+  border-color: var(--dcp-amber);
+}
+
 /* ── Brand lockup ── */
 .dcp-logo {
   display: flex;
