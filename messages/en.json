@@ -1100,6 +1100,28 @@
     "play": "Play video",
     "trigger": "Watch the film",
     "book": "Book a consultation",
-    "lead": "60 seconds on why most content doesn't convert — and the system that actually brings clients."
+    "lead": "60 seconds on why most content doesn't convert — and the system that actually brings clients.",
+    "close": "Close",
+    "orbit": [
+      "Clients",
+      "Stability"
+    ],
+    "feats": [
+      {
+        "t": "Fast to watch",
+        "s": "60 seconds",
+        "d": "Concise. Focused. No fluff."
+      },
+      {
+        "t": "Built on",
+        "s": "Real cases",
+        "d": "Real client problems. Real results."
+      },
+      {
+        "t": "Made to",
+        "s": "Bring results",
+        "d": "Strategy that converts content into clients."
+      }
+    ]
   }
 }
