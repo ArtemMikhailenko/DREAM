@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { getPayload } from "payload";
+import config from "@payload-config";
 import {
   forwardLeadToCrm,
   isDuplicateEvent,
@@ -8,6 +10,38 @@ import {
   validateLead,
   type LeadPayload,
 } from "@/lib/lead";
+
+/**
+ * Store a copy of the lead in the CMS so the team still has it if the CRM webhook
+ * is down or misconfigured. Never block the response on it — a failed archive must
+ * not lose a lead that the CRM already accepted.
+ */
+async function archiveLead(lead: LeadPayload, crmForwarded: boolean) {
+  try {
+    const payload = await getPayload({ config });
+    await payload.create({
+      collection: "leads",
+      // Bypass the collection's `create: false` rule — this route is the only writer.
+      overrideAccess: true,
+      data: {
+        eventId: lead.eventId,
+        name: lead.name,
+        phone: lead.phone,
+        business: lead.business,
+        service: lead.service,
+        budget: lead.budget,
+        message: lead.message,
+        page: lead.page,
+        utm: lead.utm ?? {},
+        whatsappOptIn: Boolean(lead.whatsappOptIn),
+        status: "new",
+        crmForwarded,
+      },
+    });
+  } catch (err) {
+    console.error("[lead] could not archive to CMS:", err);
+  }
+}
 
 export async function POST(request: Request) {
   const payload = (await request.json()) as Partial<LeadPayload>;
@@ -34,6 +68,8 @@ export async function POST(request: Request) {
     sendMetaConversionsApi(lead, context),
     logWhatsappConsent(lead, context),
   ]);
+
+  await archiveLead(lead, crmResult.status === "fulfilled");
 
   if (crmResult.status === "rejected") {
     return NextResponse.json(

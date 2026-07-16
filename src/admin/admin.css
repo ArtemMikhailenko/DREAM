@@ -1,0 +1,87 @@
+/* dc.prod admin skin — dark canvas with the site's amber accent. */
+
+:root {
+  --dcp-amber: #e8a868;
+  --dcp-amber-2: #c98143;
+}
+
+/* Payload theme tokens (dark is the default we ship). */
+html[data-theme="dark"] {
+  --theme-bg: #0b0a09;
+  --theme-elevation-0: #0b0a09;
+  --theme-elevation-50: #131210;
+  --theme-elevation-100: #1a1815;
+  --theme-elevation-150: #201d19;
+  --theme-elevation-200: #262320;
+  --theme-success-500: #6bbf7b;
+  --theme-error-500: #e5484d;
+}
+
+/* Accent everything Payload paints in its default blue. */
+html[data-theme="dark"] {
+  --theme-success-550: var(--dcp-amber);
+}
+
+.btn--style-primary {
+  background-color: var(--dcp-amber) !important;
+  border-color: var(--dcp-amber) !important;
+  color: #0b0a09 !important;
+  font-weight: 700;
+}
+.btn--style-primary:hover {
+  background-color: var(--dcp-amber-2) !important;
+  border-color: var(--dcp-amber-2) !important;
+}
+
+/* Links, active nav items and focus rings pick up the accent. */
+.nav__link:hover,
+.nav__link--active,
+.nav-group__toggle:hover {
+  color: var(--dcp-amber);
+}
+.nav__link--active {
+  border-left: 2px solid var(--dcp-amber);
+}
+a:not(.btn):hover {
+  color: var(--dcp-amber);
+}
+*:focus-visible {
+  outline-color: var(--dcp-amber) !important;
+}
+
+/* Brand lockup (Logo component). */
+.dcp-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.dcp-logo-mark {
+  display: inline-flex;
+  filter: drop-shadow(0 0 18px rgba(232, 168, 104, 0.35));
+}
+.dcp-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.dcp-logo-text b {
+  font-size: 1.35rem;
+  letter-spacing: 0.06em;
+  color: #f4f1ea;
+}
+.dcp-logo-text i {
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(244, 241, 234, 0.5);
+}
+
+/* Login card gets a subtle amber glow so it doesn't read as stock Payload. */
+.login__brand {
+  margin-bottom: 8px;
+}
+.login .form-wrap {
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), 0 0 90px rgba(232, 168, 104, 0.1);
+  border-radius: 14px;
+}
