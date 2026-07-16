@@ -6,8 +6,8 @@ import { useTranslations, useLocale } from "next-intl";
 export function VideoBlock() {
   const t = useTranslations("Showreel");
   const locale = useLocale();
-  // RU has its own cut; EN + HE (until the Hebrew cut ships) use the English one.
-  const lang = locale === "ru" ? "ru" : "en";
+  // Each locale has its own cut; anything else falls back to the English one.
+  const lang = locale === "ru" ? "ru" : locale === "he" ? "he" : "en";
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [showCta, setShowCta] = useState(false);
@@ -43,7 +43,7 @@ export function VideoBlock() {
           <div className="vblock-meta" aria-hidden="true">
             <span><i className="vblock-rec" /> Showreel</span>
             <span>0:60</span>
-            <span>{lang === "ru" ? "RU" : "EN"}</span>
+            <span>{lang === "ru" ? "RU" : lang === "he" ? "HE" : "EN"}</span>
           </div>
           <a className="btn-p vblock-book" href="#lead">
             {t("book")} <span aria-hidden="true">↗</span>
