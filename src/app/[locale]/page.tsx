@@ -161,9 +161,9 @@ export default async function Home({
       <section className="hero">
         <div className="hero-bg" aria-hidden="true">
           <picture>
-            <source media="(max-width:900px)" srcSet="/background/hero-portrait.png" />
+            <source media="(max-width:900px)" srcSet="/background/hero-portrait.webp" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/background/hero.png" alt="" />
+            <img src="/background/hero.webp" alt="" />
           </picture>
         </div>
 
@@ -351,7 +351,7 @@ export default async function Home({
         <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="sec-bg" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/background/notebook.png" alt="" loading="lazy" decoding="async" />
+          <img src="/background/notebook.webp" alt="" loading="lazy" decoding="async" />
         </div>
         <div className="bg-struct" aria-hidden="true" />
         <div className="wrap statement-inner">

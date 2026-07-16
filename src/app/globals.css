@@ -165,7 +165,7 @@ body::after{
   overflow-wrap:break-word;
   hyphens:none;
   /* brushed-silver/white fill + distressed grain from the hero texture, clipped to glyphs */
-  background-image:url("/background/hero.png"),
+  background-image:url("/background/hero.webp"),
     linear-gradient(180deg,#ffffff 0%,#eceae4 20%,#a8a6a1 47%,#83817c 53%,#e6e4de 80%,#ffffff 100%);
   background-size:cover,auto;
   background-position:center;
@@ -631,7 +631,7 @@ body::after{
 .statement-h{font-family:var(--font-display),var(--font-hebrew),sans-serif;font-size:clamp(2rem,4.4vw,4.6rem);font-weight:400;line-height:.96;letter-spacing:-.02em;text-transform:uppercase;color:var(--chalk);max-width:860px}
 .statement-h em{font-style:italic;color:var(--muted)}
 .statement-h-ul{position:relative;display:inline-block;
-  background-image:url("/background/notebook.png"),
+  background-image:url("/background/notebook.webp"),
     linear-gradient(180deg,#ffffff 0%,#eceae4 22%,#a8a6a1 50%,#83817c 56%,#e6e4de 82%,#ffffff 100%);
   background-size:cover,auto;background-position:center;background-repeat:no-repeat;background-blend-mode:overlay;
   -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
@@ -657,13 +657,13 @@ body::after{
 /* No filter on this layer: background-attachment:fixed must stay viewport-anchored,
    and a filter/transform here would re-anchor it to the element box. */
 .bg-graffiti{position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:url("/background/grafitty.png") center center / cover fixed}
+  background:url("/background/grafitty.webp") center center / cover fixed}
 .bg-graffiti::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(10,10,9,.72) 0%,rgba(10,10,9,.5) 45%,rgba(10,10,9,.74) 100%)}
 
 /* pinned gromophon backdrop across The Problem + Services */
 .bg-gromophon{position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:url("/background/gromophon.png") center 40% / cover fixed}
+  background:url("/background/gromophon.webp") center 40% / cover fixed}
 /* Flat tint (not a per-section gradient) so stacked gromophon sections read as
    one continuous pinned backdrop instead of two blocks with a dark seam. */
 .bg-gromophon::after{content:"";position:absolute;inset:0;background:rgba(10,10,9,.72)}
@@ -675,18 +675,18 @@ body::after{
 
 /* pinned wood backdrop */
 .bg-wood{position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:url("/background/wood.png") center center / cover fixed}
+  background:url("/background/wood.webp") center center / cover fixed}
 .bg-wood::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(10,10,9,.72) 0%,rgba(10,10,9,.52) 45%,rgba(10,10,9,.74) 100%)}
 
 /* pinned neutral grey backdrop (viewport-anchored — continuous across stacked sections) */
 .bg-gray-pin{position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:url("/background/gray.png") center center / cover fixed}
+  background:url("/background/gray.webp") center center / cover fixed}
 .bg-gray-pin::after{content:"";position:absolute;inset:0;background:rgba(10,10,9,.4)}
 
 /* neutral concrete-grey backdrop — fills otherwise-empty dark sections */
 .bg-gray{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
-  background:url("/background/gray.png") center center / cover;
+  background:url("/background/gray.webp") center center / cover;
   -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%);
   mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%)}
 .bg-gray::after{content:"";position:absolute;inset:0;background:rgba(10,10,9,.34)}
@@ -697,7 +697,7 @@ body::after{
 .bg-gray.seam-mid{-webkit-mask-image:none;mask-image:none}
 
 /* concrete-grey structure layer dropped OVER a photo (blend) to add grain/texture */
-.bg-struct{position:absolute;inset:0;z-index:0;pointer-events:none;background:url("/background/gray.png") center center / cover;mix-blend-mode:overlay;opacity:.6;
+.bg-struct{position:absolute;inset:0;z-index:0;pointer-events:none;background:url("/background/gray.webp") center center / cover;mix-blend-mode:overlay;opacity:.6;
   -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%);
   mask-image:linear-gradient(180deg,transparent 0,#000 14%,#000 86%,transparent 100%)}
 /* pin the grey texture to the viewport (parallax) — mask still controls the fades */
@@ -705,7 +705,7 @@ body::after{
 
 /* pinned darts backdrop (About hero) — dartboard sits right, copy reads over the dark left */
 .bg-darts{position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:url("/background/darts.png") center right / cover fixed;
+  background:url("/background/darts.webp") center right / cover fixed;
   -webkit-mask-image:linear-gradient(180deg,#000 0,#000 68%,transparent 100%);
   mask-image:linear-gradient(180deg,#000 0,#000 68%,transparent 100%)}
 .bg-darts::after{content:"";position:absolute;inset:0;
@@ -746,10 +746,10 @@ body::after{
 @media (max-width:900px), (hover:none) and (pointer:coarse){
   .bg-graffiti,.bg-gromophon,.bg-wood,.bg-darts,.bg-gray-pin,.bg-gray.pin{background-attachment:scroll}
   /* portrait-cropped textures for mobile (less zoom than the landscape originals) */
-  .bg-graffiti{background-image:url("/background/grafitty-portrait.png")}
-  .bg-wood{background-image:url("/background/wood-portrait.png")}
-  .bg-gromophon{background-image:url("/background/gromophon-portrait.png")}
-  .bg-gray,.bg-gray-pin,.bg-struct{background-image:url("/background/gray-portrait.png")}
+  .bg-graffiti{background-image:url("/background/grafitty-portrait.webp")}
+  .bg-wood{background-image:url("/background/wood-portrait.webp")}
+  .bg-gromophon{background-image:url("/background/gromophon-portrait.webp")}
+  .bg-gray,.bg-gray-pin,.bg-struct{background-image:url("/background/gray-portrait.webp")}
   .hero-bg picture{display:block;width:100%;height:100%}
 }
 

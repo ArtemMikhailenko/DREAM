@@ -94,8 +94,14 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={dir}
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} ${display.variable} ${heroDisplay.variable} ${hebrewDisplay.variable} ${caveat.variable} h-full antialiased`}
     >
+      <head>
+        {/* Warm up the connection to the image CDN used by portfolio/case media */}
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+      </head>
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>
           <Analytics />

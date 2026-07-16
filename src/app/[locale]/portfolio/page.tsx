@@ -68,7 +68,12 @@ export default async function PortfolioPage({
       <section className="section s-dark" id="cases">
         <div className="bg-wood" aria-hidden="true" />
         <div className="wrap">
-          <PortfolioBrowser categories={categories} cases={cases} images={CASE_IMAGES} slugs={[...CASE_SLUGS]} />
+          <PortfolioBrowser
+            categories={categories}
+            cases={cases}
+            images={CASE_IMAGES.map((u) => u.replace("w=1600", "w=1000"))}
+            slugs={[...CASE_SLUGS]}
+          />
         </div>
       </section>
 
