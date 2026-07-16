@@ -54,9 +54,7 @@ export const metadata: Metadata = {
   // No template: every page's title is authored whole in the CMS and already ends
   // with the brand, per the SEO spec. A "%s | dc.prod" template appended a second
   // brand ("… | DC Project | dc.prod") and pushed titles past the SERP cut-off.
-  title: {
-    default: "DC Project, Digital Marketing Agency in Israel | SMM, Ads & Content",
-  },
+  title: "DC Project, Digital Marketing Agency in Israel | SMM, Ads & Content",
   description:
     "dc.prod is a full-cycle production studio: promotional & image videos, 3D animation, social media content, AI content and digital marketing — from idea to result.",
   applicationName: "dc.prod",
