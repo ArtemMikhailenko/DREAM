@@ -89,6 +89,12 @@ a:not(.btn):not(.dcp-link):not(.dcp-stat):hover {
 .app-header__wrapper {
   gap: 14px;
 }
+/* The localizer is absolute and its slot is reserved by a fixed-width spacer, so a
+   long locale label ("Локаль: Русский", Hebrew) overhangs the spacer to the left.
+   Keep the actions clear of it rather than trusting that reservation. */
+.app-header__actions-wrapper {
+  margin-right: 18px;
+}
 
 /* Brand mark sits next to the breadcrumb — make it read as a logo, not an icon. */
 .app-header .graphic-icon,
@@ -394,11 +400,12 @@ a:not(.btn):not(.dcp-link):not(.dcp-stat):hover {
   font-weight: 600;
 }
 
-/* ── Locale switcher: make the active content language obvious ── */
+/* ── Locale switcher: make the active content language obvious ──
+   Colour and weight only. The localizer is absolutely positioned and Payload
+   reserves its slot with a fixed-width spacer, so anything that widens this
+   button (padding, borders) makes it overhang to the left and collide with the
+   header actions. */
 .localizer .popup-button {
-  border: 1px solid var(--dcp-line-2);
-  border-radius: 999px;
-  padding: 5px 12px;
   color: var(--dcp-amber);
   font-weight: 700;
 }
