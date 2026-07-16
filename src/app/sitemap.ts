@@ -1,14 +1,13 @@
 import type { MetadataRoute } from "next";
 import { CASE_SLUGS } from "@/lib/portfolio";
+import { routing } from "@/i18n/routing";
+import { LOCALE_PREFIX } from "@/i18n/paths";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dcprod.agency";
 
-// Locale → URL prefix. English is the root (no prefix); /ru and /he are prefixed.
-const LOCALES: { code: string; prefix: string }[] = [
-  { code: "en", prefix: "" },
-  { code: "ru", prefix: "/ru" },
-  { code: "he", prefix: "/he" },
-];
+// Prefixes come from the shared map, so the sitemap can never disagree with the
+// canonical/hreflang tags the pages emit (Hebrew: code `he`, path /heb).
+const LOCALES = routing.locales.map((code) => ({ code, prefix: LOCALE_PREFIX[code] }));
 
 // Public pages. Service pages are added here as they ship.
 const PAGES: { path: string; priority: number; freq: "weekly" | "monthly" }[] = [
@@ -22,7 +21,8 @@ const PAGES: { path: string; priority: number; freq: "weekly" | "monthly" }[] = 
   { path: "/services/marketing-strategy", priority: 0.8, freq: "weekly" },
   { path: "/services/website-development", priority: 0.8, freq: "weekly" },
   { path: "/services/automation", priority: 0.8, freq: "weekly" },
-  { path: "/services/geo-ai-seo", priority: 0.8, freq: "weekly" },
+  // Ниша только зарождается (140 запросов/мес) — реже обход, ниже приоритет.
+  { path: "/services/geo-ai-seo", priority: 0.7, freq: "monthly" },
   { path: "/portfolio", priority: 0.9, freq: "weekly" },
   ...CASE_SLUGS.map((slug) => ({
     path: `/portfolio/${slug}`,

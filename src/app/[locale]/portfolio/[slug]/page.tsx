@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { alternates } from "@/i18n/paths";
+import type { Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -35,20 +37,10 @@ export async function generateMetadata({
   if (i < 0) return {};
   const t = await getTranslations({ locale, namespace: "Portfolio" });
   const c = (t.raw("cases") as Case[])[i];
-  const path = (loc: string) =>
-    loc === "en" ? `/portfolio/${slug}` : `/${loc}/portfolio/${slug}`;
   return {
     title: `${c.title} — ${c.client}`,
     description: c.summary,
-    alternates: {
-      canonical: path(locale),
-      languages: {
-        en: path("en"),
-        ru: path("ru"),
-        he: path("he"),
-        "x-default": path("en"),
-      },
-    },
+    alternates: alternates(locale as Locale, `/portfolio/${slug}`),
   };
 }
 

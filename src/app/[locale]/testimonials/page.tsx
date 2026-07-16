@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { alternates } from "@/i18n/paths";
+import type { Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -13,19 +15,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Testimonials.meta" });
-  const path = locale === "en" ? "/testimonials" : `/${locale}/testimonials`;
   return {
     title: t("title"),
     description: t("description"),
-    alternates: {
-      canonical: path,
-      languages: {
-        en: "/testimonials",
-        ru: "/ru/testimonials",
-        he: "/he/testimonials",
-        "x-default": "/testimonials",
-      },
-    },
+    alternates: alternates(locale as Locale, "/testimonials"),
   };
 }
 

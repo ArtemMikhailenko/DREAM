@@ -7,6 +7,8 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Link } from "@/i18n/navigation";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { alternates } from "@/i18n/paths";
+import type { Locale } from "@/i18n/routing";
 
 const services = [
   {
@@ -78,10 +80,7 @@ export async function generateMetadata({
   return {
     title: { absolute: t("title") },
     description: t("description"),
-    alternates: {
-      canonical: locale === "en" ? "/" : `/${locale}`,
-      languages: { en: "/", ru: "/ru", he: "/he", "x-default": "/" },
-    },
+    alternates: alternates(locale as Locale),
   };
 }
 
