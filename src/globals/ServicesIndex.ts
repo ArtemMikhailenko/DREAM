@@ -1,4 +1,5 @@
 import type { GlobalConfig } from "payload";
+import { previewPath } from "../fields/preview";
 import { revalidateGlobal } from "../hooks/revalidate";
 import { area, metaGroup, stringList, text } from "../fields/shared";
 
@@ -9,7 +10,7 @@ import { area, metaGroup, stringList, text } from "../fields/shared";
 export const ServicesIndex: GlobalConfig = {
   slug: "services-index",
   label: "Страница «Услуги»",
-  admin: { group: "Страницы" },
+  admin: { group: "PLACEHOLDER", preview: previewPath(() => "/services") },
   access: { read: () => true },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [

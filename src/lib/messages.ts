@@ -20,6 +20,24 @@ type Row = { text?: string | null };
 const flat = (rows?: Row[] | null): string[] =>
   (rows ?? []).map((r) => r?.text ?? "").filter(Boolean);
 
+/**
+ * Upload field → public URL.
+ *
+ * Media travels through the message tree next to the copy it belongs to, so the
+ * components keep reading everything from one place. Returns undefined when no
+ * file is set, which lets each component fall back to its shipped default.
+ */
+const imgUrl = (v: unknown, size?: "card" | "hero" | "thumb"): string | undefined => {
+  if (!v || typeof v !== "object") return undefined;
+  const media = v as { url?: string | null; sizes?: Record<string, { url?: string | null }> };
+  const url = (size && media.sizes?.[size]?.url) || media.url;
+  if (!url) return undefined;
+  // Payload builds absolute URLs from `serverURL`. Keep only the path: media is
+  // served from this same origin, and a wrong/unset NEXT_PUBLIC_SITE_URL would
+  // otherwise bake localhost into production markup.
+  return url.startsWith("http") ? new URL(url).pathname : url;
+};
+
 /** Strip Payload bookkeeping (id, createdAt…) that would otherwise leak into messages. */
 const clean = (obj: unknown): Record<string, unknown> => {
   if (!obj || typeof obj !== "object") return {};
@@ -30,7 +48,8 @@ const clean = (obj: unknown): Record<string, unknown> => {
 
 export async function buildMessages(locale: Locale) {
   const payload = await getPayload({ config });
-  const opts = { locale, depth: 0 as const, fallbackLocale: "en" as const };
+  // depth 1 populates upload fields into full Media docs (url + sizes).
+  const opts = { locale, depth: 1 as const, fallbackLocale: "en" as const };
 
   const [nav, home, showreel, servicesIndex, portfolioPage, testimonialsPage, about, leadForm] =
     await Promise.all([
@@ -66,6 +85,7 @@ export async function buildMessages(locale: Locale) {
         list: flat(b.list),
       })),
       cta: s.cta,
+      image: imgUrl(s.hero, "hero"),
     };
     indexItems[s.slug] = {
       title: s.index?.title ?? "",
@@ -77,20 +97,32 @@ export async function buildMessages(locale: Locale) {
     Nav: clean(nav),
     Home: {
       meta: clean(home.meta),
-      hero: clean(home.hero),
+      hero: {
+        ...clean(home.hero),
+        bg: imgUrl(home.hero?.bg, "hero"),
+        bgMobile: imgUrl(home.hero?.bgMobile, "card"),
+      },
       rail: { head: home.rail?.head, items: flat(home.rail?.items) },
       problem: clean(home.problem),
       services: {
         ...clean(home.services),
-        items: (home.services?.items ?? []).map((i) => ({
+        items: (home.services?.items ?? []).map((i, idx) => ({
           title: i.title,
           text: i.text,
           deliverables: flat(i.deliverables),
+          image: imgUrl(home.services?.cardImages?.[idx]?.image, "card"),
         })),
       },
       process: clean(home.process),
       statement: clean(home.statement),
-      portfolio: clean(home.portfolio),
+      portfolio: {
+        ...clean(home.portfolio),
+        cases: (home.portfolio?.cases ?? []).map((c, idx) => ({
+          title: c.title,
+          tag: c.tag,
+          image: imgUrl(home.portfolio?.cardImages?.[idx]?.image, "card"),
+        })),
+      },
       results: clean(home.results),
       pricing: clean(home.pricing),
       faq: clean(home.faq),
@@ -123,6 +155,7 @@ export async function buildMessages(locale: Locale) {
         summary: c.summary,
         body: flat(c.body),
         services: flat(c.services),
+        image: imgUrl(c.cover, "hero"),
       })),
       cta: clean(portfolioPage.cta),
       ui: clean(portfolioPage.ui),

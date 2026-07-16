@@ -1,11 +1,12 @@
 import type { GlobalConfig } from "payload";
+import { previewPath } from "../fields/preview";
 import { revalidateGlobal } from "../hooks/revalidate";
 import { area, metaGroup, splitHeading, stringList, text } from "../fields/shared";
 
 export const About: GlobalConfig = {
   slug: "about",
   label: "Страница «О студии»",
-  admin: { group: "Страницы" },
+  admin: { group: "PLACEHOLDER", preview: previewPath(() => "/about") },
   access: { read: () => true },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [

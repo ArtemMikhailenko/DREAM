@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { previewPath } from "../fields/preview";
 import { revalidateCollection } from "../hooks/revalidate";
 import { area, stringList, text } from "../fields/shared";
 
@@ -11,6 +12,7 @@ export const Cases: CollectionConfig = {
     useAsTitle: "title",
     defaultColumns: ["title", "client", "tag", "order"],
     description: "Кейсы портфолио. Категория («Тег») должна совпадать с фильтром на странице портфолио.",
+    preview: previewPath((doc) => `/portfolio/${doc.slug ?? ""}`),
   },
   access: { read: () => true },
   hooks: { afterChange: [revalidateCollection] },

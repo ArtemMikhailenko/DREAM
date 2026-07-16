@@ -157,6 +157,10 @@ export interface Service {
   slug: string;
   order: number;
   /**
+   * Большое изображение справа в шапке страницы. Если пусто — шапка рисуется без фото.
+   */
+  hero?: (number | null) | Media;
+  /**
    * Бейдж в шапке страницы и в списке услуг.
    */
   label?: string | null;
@@ -196,47 +200,6 @@ export interface Service {
     title?: string | null;
     description?: string | null;
   };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Кейсы портфолио. Категория («Тег») должна совпадать с фильтром на странице портфолио.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "cases".
- */
-export interface Case {
-  id: number;
-  /**
-   * Адрес: /portfolio/<slug>
-   */
-  slug: string;
-  order: number;
-  /**
-   * Показывается в сетке портфолио и на странице кейса (16:9).
-   */
-  cover?: (number | null) | Media;
-  title?: string | null;
-  /**
-   * Должен совпадать с одной из категорий фильтра.
-   */
-  tag?: string | null;
-  client?: string | null;
-  result?: string | null;
-  summary?: string | null;
-  body?:
-    | {
-        text: string;
-        id?: string | null;
-      }[]
-    | null;
-  services?:
-    | {
-        text: string;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -288,6 +251,47 @@ export interface Media {
       filename?: string | null;
     };
   };
+}
+/**
+ * Кейсы портфолио. Категория («Тег») должна совпадать с фильтром на странице портфолио.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cases".
+ */
+export interface Case {
+  id: number;
+  /**
+   * Адрес: /portfolio/<slug>
+   */
+  slug: string;
+  order: number;
+  /**
+   * Показывается в сетке портфолио и на странице кейса (16:9).
+   */
+  cover?: (number | null) | Media;
+  title?: string | null;
+  /**
+   * Должен совпадать с одной из категорий фильтра.
+   */
+  tag?: string | null;
+  client?: string | null;
+  result?: string | null;
+  summary?: string | null;
+  body?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  services?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -467,6 +471,7 @@ export interface PayloadMigration {
 export interface ServicesSelect<T extends boolean = true> {
   slug?: T;
   order?: T;
+  hero?: T;
   label?: T;
   h1?: T;
   body?:
@@ -704,6 +709,14 @@ export interface Home {
    * Крупный заголовок с 3D-эффектом задан в коде — здесь остальное.
    */
   hero?: {
+    /**
+     * Широкое фото. Пусто — останется фон из кода.
+     */
+    bg?: (number | null) | Media;
+    /**
+     * Вертикальный кроп для экранов до 900px.
+     */
+    bgMobile?: (number | null) | Media;
     kicker?: string | null;
     desc?: string | null;
     ctaPrimary?: string | null;
@@ -740,7 +753,16 @@ export interface Home {
     launch?: string | null;
     all?: string | null;
     /**
-     * 3 направления — картинки заданы в коде.
+     * По порядку: 1-е фото — к 1-му направлению и т.д.
+     */
+    cardImages?:
+      | {
+          image?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Тексты 3 направлений. Фото — в блоке «Фото карточек» выше.
      */
     items?:
       | {
@@ -783,7 +805,16 @@ export interface Home {
     label?: string | null;
     heading?: string | null;
     /**
-     * 3 карточки-превью на главной. Полные кейсы — в разделе «Кейсы».
+     * По порядку: 1-е фото — к 1-й карточке и т.д.
+     */
+    cardImages?:
+      | {
+          image?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * 3 карточки-превью на главной. Фото — в блоке выше. Полные кейсы — в разделе «Кейсы».
      */
     cases?:
       | {
@@ -1176,6 +1207,8 @@ export interface HomeSelect<T extends boolean = true> {
   hero?:
     | T
     | {
+        bg?: T;
+        bgMobile?: T;
         kicker?: T;
         desc?: T;
         ctaPrimary?: T;
@@ -1214,6 +1247,12 @@ export interface HomeSelect<T extends boolean = true> {
         onSet?: T;
         launch?: T;
         all?: T;
+        cardImages?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+            };
         items?:
           | T
           | {
@@ -1257,6 +1296,12 @@ export interface HomeSelect<T extends boolean = true> {
     | {
         label?: T;
         heading?: T;
+        cardImages?:
+          | T
+          | {
+              image?: T;
+              id?: T;
+            };
         cases?:
           | T
           | {

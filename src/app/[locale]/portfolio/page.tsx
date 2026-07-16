@@ -44,6 +44,7 @@ export default async function PortfolioPage({
     tag: string;
     client: string;
     result: string;
+    image?: string;
   }[];
 
   return (
@@ -71,7 +72,9 @@ export default async function PortfolioPage({
           <PortfolioBrowser
             categories={categories}
             cases={cases}
-            images={CASE_IMAGES.map((u) => u.replace("w=1600", "w=1000"))}
+            // Covers come from the CMS (Кейсы → Обложка); the shipped stock photo
+            // is the fallback for a case that has none yet.
+            images={cases.map((c, i) => c.image ?? CASE_IMAGES[i].replace("w=1600", "w=1000"))}
             slugs={[...CASE_SLUGS]}
           />
         </div>

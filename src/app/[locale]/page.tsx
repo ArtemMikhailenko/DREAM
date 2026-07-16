@@ -95,13 +95,19 @@ export default async function Home({
   const t = await getTranslations("Home");
   const railItems = t.raw("rail.items") as string[];
   const problemItems = t.raw("problem.items") as { title: string; text: string }[];
+  const heroBg = t.raw("hero") as { bg?: string; bgMobile?: string };
   const svcItems = t.raw("services.items") as {
     title: string;
     text: string;
     deliverables: string[];
+    image?: string;
   }[];
   const processStepsT = t.raw("process.steps") as { name: string; desc: string }[];
-  const portfolioCasesT = t.raw("portfolio.cases") as { title: string; tag: string }[];
+  const portfolioCasesT = t.raw("portfolio.cases") as {
+    title: string;
+    tag: string;
+    image?: string;
+  }[];
   const resultItems = t.raw("results.items") as { label: string }[];
   const pkgItems = t.raw("pricing.packages") as {
     name: string;
@@ -161,9 +167,9 @@ export default async function Home({
       <section className="hero">
         <div className="hero-bg" aria-hidden="true">
           <picture>
-            <source media="(max-width:900px)" srcSet="/background/hero-portrait.webp" />
+            <source media="(max-width:900px)" srcSet={heroBg.bgMobile ?? "/background/hero-portrait.webp"} />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/background/hero.webp" alt="" />
+            <img src={heroBg.bg ?? "/background/hero.webp"} alt="" />
           </picture>
         </div>
 
@@ -298,12 +304,12 @@ export default async function Home({
             <div className="svc-side">
               <div className="svc-side-img" style={{ aspectRatio: "4/5" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={services[0].img} alt="" loading="lazy" decoding="async" />
+                <img src={svcItems[0]?.image ?? services[0].img} alt="" loading="lazy" decoding="async" />
                 <span className="svc-side-tag">{t("services.onSet")}</span>
               </div>
               <div className="svc-side-img" style={{ aspectRatio: "16/10" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={services[2].img} alt="" loading="lazy" decoding="async" />
+                <img src={svcItems[2]?.image ?? services[2].img} alt="" loading="lazy" decoding="async" />
                 <span className="svc-side-tag">{t("services.launch")}</span>
               </div>
             </div>
@@ -375,7 +381,7 @@ export default async function Home({
             {portfolioCasesT.map((c, i) => (
               <div className="portfolio-case" key={i}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="portfolio-case-img" src={portfolioCases[i].img} alt={c.title} loading="lazy" decoding="async" />
+                <img className="portfolio-case-img" src={c.image ?? portfolioCases[i].img} alt={c.title} loading="lazy" decoding="async" />
                 <div className="portfolio-case-grad" />
                 <div className="portfolio-case-info">
                   <span className="portfolio-case-tag">{c.tag}</span>

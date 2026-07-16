@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { previewPath } from "../fields/preview";
 import { revalidateCollection } from "../hooks/revalidate";
 import { area, metaGroup, stringList, text } from "../fields/shared";
 
@@ -16,6 +17,7 @@ export const Services: CollectionConfig = {
     useAsTitle: "h1",
     defaultColumns: ["label", "slug", "order"],
     description: "Страницы услуг. Порядок задаётся полем «Порядок».",
+    preview: previewPath((doc) => `/services/${doc.slug ?? ""}`),
   },
   access: { read: () => true },
   hooks: { afterChange: [revalidateCollection] },
@@ -53,6 +55,17 @@ export const Services: CollectionConfig = {
         {
           label: "Страница",
           fields: [
+            {
+              name: "hero",
+              type: "upload",
+              relationTo: "media",
+              label: "Фото в шапке",
+              // Not localized: the same photo serves all three languages.
+              admin: {
+                description:
+                  "Большое изображение справа в шапке страницы. Если пусто — шапка рисуется без фото.",
+              },
+            },
             text("label", "Короткое название", {
               admin: { description: "Бейдж в шапке страницы и в списке услуг." },
             }),

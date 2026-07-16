@@ -1,4 +1,5 @@
 import type { GlobalConfig } from "payload";
+import { previewPath } from "../fields/preview";
 import { revalidateGlobal } from "../hooks/revalidate";
 import { area, metaGroup, splitHeading, stringList, text } from "../fields/shared";
 
@@ -9,7 +10,7 @@ import { area, metaGroup, splitHeading, stringList, text } from "../fields/share
 export const Home: GlobalConfig = {
   slug: "home",
   label: "Главная",
-  admin: { group: "Главная" },
+  admin: { group: "PLACEHOLDER", preview: previewPath(() => "/") },
   access: { read: () => true },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [
@@ -26,6 +27,25 @@ export const Home: GlobalConfig = {
               label: "Первый экран",
               admin: { description: "Крупный заголовок с 3D-эффектом задан в коде — здесь остальное." },
               fields: [
+                {
+                  type: "row",
+                  fields: [
+                    {
+                      name: "bg",
+                      type: "upload",
+                      relationTo: "media",
+                      label: "Фон (десктоп)",
+                      admin: { width: "50%", description: "Широкое фото. Пусто — останется фон из кода." },
+                    },
+                    {
+                      name: "bgMobile",
+                      type: "upload",
+                      relationTo: "media",
+                      label: "Фон (мобильный)",
+                      admin: { width: "50%", description: "Вертикальный кроп для экранов до 900px." },
+                    },
+                  ],
+                },
                 text("kicker", "Бейдж над заголовком"),
                 area("desc", "Описание"),
                 {
@@ -89,13 +109,27 @@ export const Home: GlobalConfig = {
                   ],
                 },
                 {
+                  // Images live outside the localized array on purpose: one photo
+                  // serves all three languages, so editors pick it once. Matched to
+                  // the items below by position.
+                  name: "cardImages",
+                  type: "array",
+                  label: "Фото карточек",
+                  maxRows: 3,
+                  labels: { singular: "Фото", plural: "Фото карточек" },
+                  admin: { description: "По порядку: 1-е фото — к 1-му направлению и т.д." },
+                  fields: [
+                    { name: "image", type: "upload", relationTo: "media", label: "Фото" },
+                  ],
+                },
+                {
                   name: "items",
                   type: "array",
                   label: "Направления",
                   localized: true,
                   labels: { singular: "Направление", plural: "Направления" },
                   maxRows: 3,
-                  admin: { description: "3 направления — картинки заданы в коде." },
+                  admin: { description: "Тексты 3 направлений. Фото — в блоке «Фото карточек» выше." },
                   fields: [
                     { name: "title", type: "text", label: "Заголовок", required: true },
                     { name: "text", type: "textarea", label: "Текст" },
@@ -165,13 +199,24 @@ export const Home: GlobalConfig = {
                 text("label", "Надзаголовок"),
                 text("heading", "Заголовок"),
                 {
+                  name: "cardImages",
+                  type: "array",
+                  label: "Фото карточек",
+                  maxRows: 3,
+                  labels: { singular: "Фото", plural: "Фото карточек" },
+                  admin: { description: "По порядку: 1-е фото — к 1-й карточке и т.д." },
+                  fields: [
+                    { name: "image", type: "upload", relationTo: "media", label: "Фото" },
+                  ],
+                },
+                {
                   name: "cases",
                   type: "array",
                   label: "Карточки",
                   localized: true,
                   labels: { singular: "Карточка", plural: "Карточки" },
                   maxRows: 3,
-                  admin: { description: "3 карточки-превью на главной. Полные кейсы — в разделе «Кейсы»." },
+                  admin: { description: "3 карточки-превью на главной. Фото — в блоке выше. Полные кейсы — в разделе «Кейсы»." },
                   fields: [
                     { name: "title", type: "text", label: "Название", required: true },
                     { name: "tag", type: "text", label: "Тег" },

@@ -16,6 +16,7 @@ type Case = {
   summary: string;
   body: string[];
   services: string[];
+  image?: string;
 };
 
 export function generateStaticParams() {
@@ -65,7 +66,7 @@ export default async function CasePage({
   const ui = t.raw("ui") as Record<string, string>;
   const cases = t.raw("cases") as Case[];
   const c = cases[i];
-  const img = CASE_IMAGES[i];
+  const img = c.image ?? CASE_IMAGES[i];
   const nextIdx = (i + 1) % CASE_SLUGS.length;
 
   return (

@@ -25,14 +25,6 @@ const SLUGS = [
 // Site textures rotated behind feature blocks for per-page variety.
 const BLOCK_BG = ["bg-gromophon", "bg-gray-pin", "bg-wood"];
 
-// Signature hero photo per service (black+gold renders). Services without one
-// fall back to the "what's included" panel.
-const HERO_IMAGE: Record<string, string> = {
-  "targeted-advertising": "/services/targeted-advertising.webp",
-  smm: "/services/smm.webp",
-  "photo-video": "/services/photo-video.webp",
-  automation: "/services/automation.webp",
-};
 
 type Block = {
   heading: string;
@@ -57,7 +49,9 @@ export async function ServicePage({ namespace }: { namespace: string }) {
   const marquee = (blocks[0]?.list ?? []).length ? blocks[0].list : [t("label")];
   // Deliverable chips under the hero — the first block's capabilities.
   const chips = (blocks[0]?.list ?? []).slice(0, 4);
-  const heroImage = HERO_IMAGE[slug];
+  // Hero photo comes from the CMS (Услуги → Фото в шапке). Services without one
+  // fall back to the "what's included" panel.
+  const heroImage = t.has("image") ? (t.raw("image") as string | undefined) : undefined;
 
   return (
     <>

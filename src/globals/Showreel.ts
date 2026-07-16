@@ -1,4 +1,5 @@
 import type { GlobalConfig } from "payload";
+import { previewPath } from "../fields/preview";
 import { revalidateGlobal } from "../hooks/revalidate";
 import { area, splitHeading, stringList, text } from "../fields/shared";
 
@@ -6,7 +7,7 @@ import { area, splitHeading, stringList, text } from "../fields/shared";
 export const Showreel: GlobalConfig = {
   slug: "showreel",
   label: "Шоурил",
-  admin: { group: "Главная" },
+  admin: { group: "PLACEHOLDER", preview: previewPath(() => "/#showreel") },
   access: { read: () => true },
   hooks: { afterChange: [revalidateGlobal] },
   fields: [
