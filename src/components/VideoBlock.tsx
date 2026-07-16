@@ -30,6 +30,12 @@ export function VideoBlock() {
   const [showCta, setShowCta] = useState(false);
 
   const feats = t.raw("feats") as { t: string; s: string; d: string }[];
+  const orbit = t.raw("orbit") as string[];
+
+  // Emphasise only the first word of the accent phrase (amber), like the ref.
+  const emWords = t("headingEm").split(" ");
+  const emFirst = emWords[0];
+  const emRest = emWords.slice(1).join(" ");
 
   // Morph the theater frame between the inline card rect and its full-screen
   // rect (FLIP) so the player looks like it flies out and expands to fill the view.
@@ -109,7 +115,7 @@ export function VideoBlock() {
         <div className="vblock-copy">
           <p className="label">{t("label")}</p>
           <h2 className="sec-h">
-            {t("heading")} <em>{t("headingEm")}</em>
+            {t("heading")} <em>{emFirst}</em>{emRest ? ` ${emRest}` : ""}
           </h2>
           <p className="vblock-lead">{t("lead")}</p>
           <div className="vblock-meta" aria-hidden="true">
@@ -140,19 +146,20 @@ export function VideoBlock() {
           <span className="vb-ring vb-ring-2" />
           <span className="vb-orbit-dot vb-dot-1" />
           <span className="vb-orbit-dot vb-dot-2" />
-          <button
-            type="button"
-            className="vb-orbit-core"
-            onClick={openTheater}
-            tabIndex={-1}
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-          </button>
           <span className="vb-orbit-node vb-node-t">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 4-6 8-6s8 2 8 6" /></svg>
+            <span className="vb-node-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 4-6 8-6s8 2 8 6" /></svg>
+            </span>
+            <span className="vb-node-l">{orbit[0]}</span>
           </span>
           <span className="vb-orbit-node vb-node-b">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M4 18l5-5 3 3 8-8" /><path d="M15 6h5v5" /></svg>
+            <span className="vb-node-ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><circle cx="12" cy="12" r="9" /><circle cx="9" cy="10.5" r="1" fill="currentColor" stroke="none" /><circle cx="15" cy="10.5" r="1" fill="currentColor" stroke="none" /><path d="M8.5 15.5c1-1 5-1 7 0" /></svg>
+            </span>
+            <span className="vb-node-l">{orbit[1]}</span>
+          </span>
+          <span className="vb-orbit-core">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
           </span>
         </div>
 
