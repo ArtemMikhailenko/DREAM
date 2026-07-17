@@ -13,10 +13,10 @@ export type LeadPayload = {
   eventId: string;
   name: string;
   phone: string;
+  email: string;
+  city?: string;
   business?: string;
   service?: string;
-  budget?: string;
-  message?: string;
   page?: string;
   utm?: Record<string, string>;
   /** Standalone WhatsApp opt-in (Meta). Optional — never a condition of the lead. */
@@ -50,8 +50,19 @@ export function isDuplicateEvent(eventId: string) {
   return false;
 }
 
+/**
+ * The quote form marks name, phone, email, business field and service as required.
+ * City is optional and the WhatsApp opt-in must never gate a submission.
+ */
 export function validateLead(payload: Partial<LeadPayload>) {
-  return Boolean(payload.eventId && payload.name && payload.phone);
+  return Boolean(
+    payload.eventId &&
+      payload.name &&
+      payload.phone &&
+      payload.email &&
+      payload.business &&
+      payload.service,
+  );
 }
 
 export async function forwardLeadToCrm(payload: LeadPayload) {

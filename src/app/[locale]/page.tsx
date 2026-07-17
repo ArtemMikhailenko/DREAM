@@ -1,4 +1,4 @@
-import { LeadForm } from "@/components/LeadForm";
+import { QuoteForm } from "@/components/QuoteForm";
 import { VideoBlock } from "@/components/VideoBlock";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { CursorFX } from "@/components/CursorFX";
@@ -224,6 +224,11 @@ export default async function Home({
             <div className="hero-actions">
               <a className="btn-p" href="#lead">{t("hero.ctaPrimary")}</a>
               <Link className="btn-o" href="/portfolio">{t("hero.ctaSecondary")} ↗</Link>
+            </div>
+            {/* Quote form sits in the hero, under the H1, per the SEO spec. The
+                homepage isn't tied to one service, so the dropdown opens unset. */}
+            <div className="hero-quote">
+              <QuoteForm />
             </div>
           </div>
           <aside className="hero-rail" aria-label={t("rail.head")}>
@@ -549,7 +554,7 @@ export default async function Home({
                 </a>
               </div>
             </div>
-            <LeadForm />
+            <QuoteForm />
           </div>
         </div>
       </section>

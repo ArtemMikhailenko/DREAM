@@ -13,6 +13,7 @@ import config from "../payload.config";
 import en from "../../messages/en.json";
 import ru from "../../messages/ru.json";
 import he from "../../messages/he.json";
+import { FORM_COPY } from "./form";
 
 type Locale = "en" | "ru" | "he";
 const MESSAGES: Record<Locale, typeof en> = { en, ru: ru as typeof en, he: he as typeof en };
@@ -25,16 +26,15 @@ const list = (v?: unknown) =>
 async function run() {
   const payload = await getPayload({ config });
 
-  const globalData = (m: typeof en) => ({
+  const globalData = (m: typeof en, locale: Locale) => ({
     nav: m.Nav,
     showreel: {
       ...m.Showreel,
       orbit: list(m.Showreel.orbit),
     },
-    "lead-form": {
-      ...m.LeadForm,
-      services: list(m.LeadForm.services),
-    },
+    // The form was respecified after messages/*.json were written (those still
+    // describe the old brief form), so its copy comes from the spec instead.
+    "lead-form": FORM_COPY[locale],
     "services-index": {
       meta: m.ServicesIndex.meta,
       label: m.ServicesIndex.label,
@@ -95,7 +95,7 @@ async function run() {
 
   // ── Globals ──
   for (const locale of LOCALES) {
-    const data = globalData(MESSAGES[locale]);
+    const data = globalData(MESSAGES[locale], locale);
     for (const [slug, value] of Object.entries(data)) {
       await payload.updateGlobal({
         slug: slug as Parameters<typeof payload.updateGlobal>[0]["slug"],

@@ -10,8 +10,8 @@ export const Leads: CollectionConfig = {
   admin: {
     group: "Заявки",
     useAsTitle: "name",
-    defaultColumns: ["name", "phone", "service", "status", "createdAt"],
-    listSearchableFields: ["name", "phone", "business", "message"],
+    defaultColumns: ["name", "phone", "email", "service", "status", "createdAt"],
+    listSearchableFields: ["name", "phone", "email", "business", "city"],
     description: "Заявки с сайта. Дублируются в CRM через вебхук — здесь хранится их копия.",
   },
   access: {
@@ -45,11 +45,16 @@ export const Leads: CollectionConfig = {
           ],
         },
         { name: "service", type: "text", label: "Услуга", admin: { readOnly: true } },
-        { name: "budget", type: "text", label: "Бюджет", admin: { readOnly: true } },
       ],
     },
-    { name: "business", type: "text", label: "Бизнес", admin: { readOnly: true } },
-    { name: "message", type: "textarea", label: "Сообщение", admin: { readOnly: true } },
+    {
+      type: "row",
+      fields: [
+        { name: "email", type: "email", label: "Email", admin: { readOnly: true } },
+        { name: "city", type: "text", label: "Город", admin: { readOnly: true } },
+      ],
+    },
+    { name: "business", type: "text", label: "Сфера бизнеса", admin: { readOnly: true } },
     { name: "note", type: "textarea", label: "Заметка менеджера" },
     {
       type: "collapsible",

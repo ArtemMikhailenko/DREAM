@@ -320,9 +320,9 @@ export interface Lead {
   phone: string;
   status?: ('new' | 'in_progress' | 'won' | 'lost') | null;
   service?: string | null;
-  budget?: string | null;
+  email?: string | null;
+  city?: string | null;
   business?: string | null;
-  message?: string | null;
   note?: string | null;
   page?: string | null;
   locale?: string | null;
@@ -615,9 +615,9 @@ export interface LeadsSelect<T extends boolean = true> {
   phone?: T;
   status?: T;
   service?: T;
-  budget?: T;
+  email?: T;
+  city?: T;
   business?: T;
-  message?: T;
   note?: T;
   page?: T;
   locale?: T;
@@ -1164,29 +1164,34 @@ export interface Nav {
   createdAt?: string | null;
 }
 /**
+ * Форма «Получить расчёт» в шапке главной и всех страниц услуг. Порядок услуг в списке менять нельзя — по нему подставляется услуга текущей страницы.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "lead-form".
  */
 export interface LeadForm {
   id: number;
+  title?: string | null;
+  /**
+   * Рядом с аватарами клиентов, например «450+ довольных клиентов».
+   */
+  trust?: string | null;
   name?: string | null;
   phone?: string | null;
+  email?: string | null;
+  city?: string | null;
   business?: string | null;
   businessPlaceholder?: string | null;
-  budget?: string | null;
-  budgetPlaceholder?: string | null;
-  task?: string | null;
-  taskPlaceholder?: string | null;
-  whatYouNeed?: string | null;
+  interestedIn?: string | null;
+  notSure?: string | null;
   services?:
     | {
         text: string;
         id?: string | null;
       }[]
     | null;
-  consent?: string | null;
   /**
-   * Отдельная галочка (требование Meta). Никогда не должна быть условием отправки заявки.
+   * Отдельная галочка (требование Meta). Не должна быть условием отправки заявки.
    */
   whatsappOptIn?: string | null;
   submit?: string | null;
@@ -1633,22 +1638,22 @@ export interface NavSelect<T extends boolean = true> {
  * via the `definition` "lead-form_select".
  */
 export interface LeadFormSelect<T extends boolean = true> {
+  title?: T;
+  trust?: T;
   name?: T;
   phone?: T;
+  email?: T;
+  city?: T;
   business?: T;
   businessPlaceholder?: T;
-  budget?: T;
-  budgetPlaceholder?: T;
-  task?: T;
-  taskPlaceholder?: T;
-  whatYouNeed?: T;
+  interestedIn?: T;
+  notSure?: T;
   services?:
     | T
     | {
         text?: T;
         id?: T;
       };
-  consent?: T;
   whatsappOptIn?: T;
   submit?: T;
   sending?: T;

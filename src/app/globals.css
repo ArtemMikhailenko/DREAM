@@ -1088,3 +1088,56 @@ body::after{
 [dir="rtl"] .case-services li{padding-left:0;padding-right:26px}
 [dir="rtl"] .case-services li::before{left:auto;right:0}
 @media (max-width:900px){.case-grid{grid-template-columns:1fr;gap:32px}.case-services{position:static}}
+
+/* ══════════ Quote form (hero of every landing page) ══════════ */
+.qf{position:relative;z-index:2;width:100%;max-width:560px;padding:22px;border:1px solid var(--bd2);border-radius:18px;background:rgba(10,9,8,.72);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 30px 90px rgba(0,0,0,.55),0 0 60px rgba(232,168,104,.08);text-align:left}
+.qf-head{display:flex;align-items:center;gap:10px}
+.qf-head-ic{width:30px;height:30px;flex:none;border-radius:50%;background:#25d366;color:#08240f;display:flex;align-items:center;justify-content:center}
+.qf-head-ic svg{width:19px;height:19px}
+.qf-title{margin:0;font-family:var(--font-display),var(--font-hebrew),sans-serif;font-size:1.45rem;line-height:1;text-transform:uppercase;color:var(--cream)}
+
+/* Trust row — avatars are placeholders until real client photos land. */
+.qf-trust{display:flex;align-items:center;gap:10px;margin-top:12px}
+.qf-avatars{display:inline-flex}
+.qf-avatars i{width:26px;height:26px;border-radius:50%;border:2px solid #0a0908;background:linear-gradient(140deg,var(--accent),var(--accent-2))}
+.qf-avatars i+i{margin-left:-9px}
+.qf-avatars i:nth-child(2){background:linear-gradient(140deg,#8f8b84,#5d5a55)}
+.qf-avatars i:nth-child(3){background:linear-gradient(140deg,#d9cdbd,#9c8f7d)}
+.qf-trust-t{font-family:var(--font-geist-mono,monospace);font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--cream2)}
+
+.qf-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.qf-wide{grid-column:1 / -1}
+.qf-field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.qf-label{font-family:var(--font-geist-mono,monospace);font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.qf-field input,.qf-field select{width:100%;height:42px;padding:0 12px;border:1px solid var(--bd2);border-radius:9px;background:rgba(255,255,255,.04);color:var(--chalk);font-size:.92rem;transition:border-color .16s,background .16s}
+.qf-field select{cursor:pointer;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 17px) 19px,calc(100% - 12px) 19px;background-size:5px 5px,5px 5px;background-repeat:no-repeat;padding-right:34px}
+[dir="rtl"] .qf-field select{background-position:17px 19px,12px 19px;padding-right:12px;padding-left:34px}
+.qf-field option{background:#141210;color:var(--chalk)}
+.qf-field input::placeholder{color:rgba(244,241,234,.32)}
+.qf-field input:focus,.qf-field select:focus{outline:none;border-color:var(--accent);background:rgba(255,255,255,.06)}
+
+.qf-optin{display:flex;align-items:flex-start;gap:9px;margin-top:14px;padding:11px 13px;border:1px solid rgba(37,211,102,.28);border-radius:10px;background:rgba(37,211,102,.06);cursor:pointer;transition:border-color .16s,background .16s}
+.qf-optin:hover{border-color:rgba(37,211,102,.5);background:rgba(37,211,102,.09)}
+.qf-optin input{accent-color:#25d366;width:15px;height:15px;flex:none;margin-top:1px;cursor:pointer}
+.qf-optin span{font-size:.78rem;line-height:1.4;color:var(--cream2)}
+
+.qf-submit{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;height:50px;margin-top:14px;border:0;border-radius:999px;background:#25d366;color:#062910;font-family:var(--font-geist-mono,monospace);font-size:.86rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 12px 34px rgba(37,211,102,.28);transition:transform .18s,box-shadow .18s,background .18s}
+.qf-submit:hover:not(:disabled){background:#1fbe5b;transform:translateY(-2px);box-shadow:0 16px 42px rgba(37,211,102,.4)}
+.qf-submit:disabled{opacity:.6;cursor:default}
+.qf-submit-ic{width:19px;height:19px;flex:none}
+
+.qf-msg{margin:12px 0 0;font-size:.84rem;line-height:1.45}
+.qf-msg.is-ok{color:#6bbf7b}
+.qf-msg.is-error{color:#e5484d}
+
+@media (max-width:560px){
+  .qf{padding:18px}
+  .qf-grid{grid-template-columns:1fr}
+}
+
+/* Quote form inside the hero column */
+.hero-quote{display:flex;justify-content:center;margin-top:34px}
+
+/* Quote form inside the service hero */
+.svc-hero-quote{margin-top:30px;max-width:560px}
+[dir="rtl"] .svc-hero-quote{margin-left:auto}

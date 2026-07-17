@@ -4,6 +4,7 @@ import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { ServiceGlyph } from "@/components/ServiceGlyph";
+import { QuoteForm, type ServiceSlug } from "@/components/QuoteForm";
 
 // WhatsApp CTA target. Set NEXT_PUBLIC_WHATSAPP_URL in prod, e.g. https://wa.me/9725XXXXXXXX
 const WHATSAPP_URL =
@@ -86,6 +87,11 @@ export async function ServicePage({ namespace }: { namespace: string }) {
                 <a className="btn-p" href={WHATSAPP_URL} target="_blank" rel="noopener">
                   {t("cta")} ↗
                 </a>
+              </div>
+              {/* Quote form in the hero, under the H1 and before the H2 blocks, per
+                  the SEO spec. The dropdown preselects this page's own service. */}
+              <div className="svc-hero-quote">
+                <QuoteForm service={slug as ServiceSlug} />
               </div>
             </div>
             {!heroImage && chips.length && blocks[0] ? (
