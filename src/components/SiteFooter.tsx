@@ -7,7 +7,7 @@ export function SiteFooter() {
         <div className="footer-grid">
           <div className="footer-col footer-brand-col">
             <p className="footer-mark brush">dc.prod</p>
-            <p className="footer-tagline">Studio that builds systems —<br />from idea to result.</p>
+            <p className="footer-tagline">Studio that builds systems,<br />from idea to result.</p>
             <div className="footer-social">
               <a href="https://wa.me/0" target="_blank" rel="noopener" aria-label="WhatsApp">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">

@@ -13,21 +13,21 @@ import type { Locale } from "@/i18n/routing";
 const services = [
   {
     title: "Promotional videos",
-    text: "Scripts, shooting and editing for video ads that actually convert — built around your offer and audience.",
+    text: "Scripts, shooting and editing for video ads that actually convert, built around your offer and audience.",
     img: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=700&q=72",
     tag: "video",
     deliverables: ["scripts", "shooting", "editing", "motion"],
   },
   {
     title: "Image & brand films",
-    text: "Cinematic brand stories — concept, art direction, location and post-production at production-house level.",
+    text: "Cinematic brand stories: concept, art direction, location and post-production at production-house level.",
     img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=700&q=72",
     tag: "image",
     deliverables: ["concept", "art direction", "location", "post"],
   },
   {
     title: "Social media & ads",
-    text: "Content system, paid ads, pixels, CRM and analytics — one machine working toward inbound leads.",
+    text: "Content system, paid ads, pixels, CRM and analytics, one machine working toward inbound leads.",
     img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=700&q=72",
     tag: "smm",
     deliverables: ["content", "paid ads", "pixels", "analytics"],
@@ -457,7 +457,7 @@ export default async function Home({
                   {pkg.rows.map((row, idx) => (
                     <li className="pkg-feature-li" key={idx}>
                       <span className="pkg-feature-check">✓</span>
-                      <span>{row.name}{row.extra ? <em className="pkg-feature-extra"> — {row.extra}</em> : null}</span>
+                      <span>{row.name}{row.extra ? <em className="pkg-feature-extra">, {row.extra}</em> : null}</span>
                     </li>
                   ))}
                 </ul>
