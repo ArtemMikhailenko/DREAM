@@ -48,8 +48,6 @@ export async function ServicePage({ namespace }: { namespace: string }) {
 
   // Short punchy phrases for the contrast marquee — the first block's list.
   const marquee = (blocks[0]?.list ?? []).length ? blocks[0].list : [t("label")];
-  // Deliverable chips under the hero — the first block's capabilities.
-  const chips = (blocks[0]?.list ?? []).slice(0, 4);
   // Hero photo comes from the CMS (Услуги → Фото в шапке). Services without one
   // fall back to the "what's included" panel.
   const heroImage = t.has("image") ? (t.raw("image") as string | undefined) : undefined;
@@ -88,22 +86,13 @@ export async function ServicePage({ namespace }: { namespace: string }) {
                   {t("cta")} ↗
                 </a>
               </div>
-              {/* Quote form in the hero, under the H1 and before the H2 blocks, per
-                  the SEO spec. The dropdown preselects this page's own service. */}
-              <div className="svc-hero-quote">
-                <QuoteForm service={slug as ServiceSlug} />
-              </div>
             </div>
-            {!heroImage && chips.length && blocks[0] ? (
-              <aside className="svc-hero-panel">
-                <p className="svc-hero-panel-t">{blocks[0].heading}</p>
-                <ul>
-                  {chips.map((c, i) => (
-                    <li key={i}>{c}</li>
-                  ))}
-                </ul>
-              </aside>
-            ) : null}
+            {/* Quote form fills the right column, over the photo backdrop on the
+                services that have one. It's in the hero per the SEO spec, and the
+                dropdown preselects this page's own service. */}
+            <div className="svc-hero-right">
+              <QuoteForm service={slug as ServiceSlug} />
+            </div>
           </div>
         </div>
       </section>
