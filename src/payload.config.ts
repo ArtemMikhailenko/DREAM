@@ -2,6 +2,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { buildConfig } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { en } from "@payloadcms/translations/languages/en";
 import { ru } from "@payloadcms/translations/languages/ru";
@@ -66,6 +67,17 @@ export default buildConfig({
   },
   collections: [Services, Cases, Testimonials, Media, Leads, Users],
   globals: [Home, Showreel, ServicesIndex, PortfolioPage, TestimonialsPage, About, Nav, LeadForm],
+  // Uploaded files: Vercel Blob in production (files must survive redeploys), local
+  // disk in development. The plugin only switches on when its token is present, so
+  // `npm run dev` without one keeps writing to public/uploads exactly as before.
+  plugins: process.env.BLOB_READ_WRITE_TOKEN
+    ? [
+        vercelBlobStorage({
+          collections: { media: true },
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+        }),
+      ]
+    : [],
   editor: lexicalEditor(),
   db: postgresAdapter({
     pool: { connectionString: process.env.DATABASE_URI || "" },
