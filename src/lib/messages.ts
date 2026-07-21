@@ -32,10 +32,15 @@ const imgUrl = (v: unknown, size?: "card" | "hero" | "thumb"): string | undefine
   const media = v as { url?: string | null; sizes?: Record<string, { url?: string | null }> };
   const url = (size && media.sizes?.[size]?.url) || media.url;
   if (!url) return undefined;
-  // Payload builds absolute URLs from `serverURL`. Keep only the path: media is
-  // served from this same origin, and a wrong/unset NEXT_PUBLIC_SITE_URL would
-  // otherwise bake localhost into production markup.
-  return url.startsWith("http") ? new URL(url).pathname : url;
+  if (!url.startsWith("http")) return url;
+  const parsed = new URL(url);
+  // Payload's own media route is built from `serverURL`, so strip the origin to
+  // keep it same-origin (a wrong NEXT_PUBLIC_SITE_URL would otherwise bake in
+  // localhost). External CDN URLs — Vercel Blob — must stay absolute.
+  if (parsed.pathname.startsWith("/payload-api/") || parsed.pathname.startsWith("/api/")) {
+    return parsed.pathname;
+  }
+  return url;
 };
 
 /** Strip Payload bookkeeping (id, createdAt…) that would otherwise leak into messages. */

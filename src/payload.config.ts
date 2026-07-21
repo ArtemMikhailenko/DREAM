@@ -73,7 +73,9 @@ export default buildConfig({
   plugins: process.env.BLOB_READ_WRITE_TOKEN
     ? [
         vercelBlobStorage({
-          collections: { media: true },
+          // Serve straight from the Blob CDN instead of streaming through a Next
+          // function on every image request — these are public website images.
+          collections: { media: { disablePayloadAccessControl: true } },
           token: process.env.BLOB_READ_WRITE_TOKEN,
         }),
       ]
