@@ -225,11 +225,6 @@ export default async function Home({
               <a className="btn-p" href="#lead">{t("hero.ctaPrimary")}</a>
               <Link className="btn-o" href="/portfolio">{t("hero.ctaSecondary")} ↗</Link>
             </div>
-            {/* Quote form sits in the hero, under the H1, per the SEO spec. The
-                homepage isn't tied to one service, so the dropdown opens unset. */}
-            <div className="hero-quote">
-              <QuoteForm />
-            </div>
           </div>
           <aside className="hero-rail" aria-label={t("rail.head")}>
             <p className="hero-rail-head">{t("rail.head")}</p>
