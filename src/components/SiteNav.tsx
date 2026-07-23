@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { CONTACTS } from "@/lib/contacts";
 
 export function SiteNav() {
   const t = useTranslations("Nav");
@@ -42,9 +43,9 @@ export function SiteNav() {
       <path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.6 1.4 5.5 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.3-8.3zM12 21.8h-.1c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.5-1.5-3.3-1.5-5.1 0-5.4 4.4-9.8 9.8-9.8 2.6 0 5.1 1 6.9 2.9 1.8 1.9 2.9 4.4 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8z" />
     </svg>
   );
-  const TG = (
+  const FB = (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M21.9 4.4 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 12.5l-5-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.6z" />
+      <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z" />
     </svg>
   );
   const IG = (
@@ -72,11 +73,11 @@ export function SiteNav() {
           </ul>
           <div className="nav-side">
             {LangSwitch}
-            <a className="nav-call" href="tel:+1000">{t("callUs")}</a>
+            <a className="nav-call" href={`tel:${CONTACTS.phone}`}>{t("callUs")}</a>
             <div className="nav-social">
-              <a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp">{WA}</a>
-              <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram">{TG}</a>
-              <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">{IG}</a>
+              <a href={CONTACTS.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp">{WA}</a>
+              <a href={CONTACTS.facebook} target="_blank" rel="noopener" aria-label="Facebook">{FB}</a>
+              <a href={CONTACTS.instagram} target="_blank" rel="noopener" aria-label="Instagram">{IG}</a>
             </div>
             <button
               type="button"
@@ -101,11 +102,11 @@ export function SiteNav() {
           </ul>
           <div className="nav-drawer-foot">
             {LangSwitch}
-            <a className="nav-call" href="tel:+1000">{t("callUs")}</a>
+            <a className="nav-call" href={`tel:${CONTACTS.phone}`}>{t("callUs")}</a>
             <div className="nav-social nav-drawer-social">
-              <a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp">{WA}</a>
-              <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram">{TG}</a>
-              <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">{IG}</a>
+              <a href={CONTACTS.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp">{WA}</a>
+              <a href={CONTACTS.facebook} target="_blank" rel="noopener" aria-label="Facebook">{FB}</a>
+              <a href={CONTACTS.instagram} target="_blank" rel="noopener" aria-label="Instagram">{IG}</a>
             </div>
           </div>
         </div>

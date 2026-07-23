@@ -6,11 +6,11 @@ import { Link } from "@/i18n/navigation";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
+import { CONTACTS } from "@/lib/contacts";
 
 const SLUG = "/services";
 
-const WHATSAPP_URL =
-  process.env.NEXT_PUBLIC_WHATSAPP_URL ?? "https://wa.me/972000000000";
+const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_URL ?? CONTACTS.whatsapp;
 
 // Fixed display order + short mono category tag per service.
 const SLUGS: { slug: string; tag: string }[] = [

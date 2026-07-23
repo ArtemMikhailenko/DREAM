@@ -5,10 +5,11 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { ServiceGlyph } from "@/components/ServiceGlyph";
 import { QuoteForm, type ServiceSlug } from "@/components/QuoteForm";
+import { CONTACTS } from "@/lib/contacts";
 
-// WhatsApp CTA target. Set NEXT_PUBLIC_WHATSAPP_URL in prod, e.g. https://wa.me/9725XXXXXXXX
-const WHATSAPP_URL =
-  process.env.NEXT_PUBLIC_WHATSAPP_URL ?? "https://wa.me/972000000000";
+// WhatsApp CTA target. NEXT_PUBLIC_WHATSAPP_URL overrides in prod; falls back to
+// the real number in lib/contacts.ts.
+const WHATSAPP_URL = process.env.NEXT_PUBLIC_WHATSAPP_URL ?? CONTACTS.whatsapp;
 
 // Canonical service order — drives the hero index and sibling cross-links.
 const SLUGS = [

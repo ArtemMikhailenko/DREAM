@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { alternates } from "@/i18n/paths";
 import type { Locale } from "@/i18n/routing";
+import { CONTACTS } from "@/lib/contacts";
 
 const services = [
   {
@@ -517,33 +518,43 @@ export default async function Home({
               <h2 className="contact-h">{t("lead.heading")} <em>{t("lead.headingEm")}</em></h2>
               <p className="contact-sub">{t("lead.sub")}</p>
               <div className="contact-cards">
-                <a className="contact-card" href="https://t.me/" target="_blank" rel="noopener">
+                <a className="contact-card" href={CONTACTS.whatsapp} target="_blank" rel="noopener">
                   <span className="contact-card-ic" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.4 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6 12.5l-5-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 2.8c.9-.3 1.7.2 1.4 1.6z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-1.6-.8-2.6-1.4-3.7-3.2-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .1.2 2 3.1 4.9 4.3 1.8.7 2.5.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4-.1-.2-.3-.3-.6-.5z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.7.9 3.6 1.4 5.5 1.4h.1c6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.3-8.3zM12 21.8h-.1c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.5-1.5-3.3-1.5-5.1 0-5.4 4.4-9.8 9.8-9.8 2.6 0 5.1 1 6.9 2.9 1.8 1.9 2.9 4.4 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8z"/></svg>
                   </span>
                   <span className="contact-card-body">
-                    <span className="contact-card-label">Telegram</span>
-                    <span className="contact-card-detail">@dcprod</span>
+                    <span className="contact-card-label">WhatsApp</span>
+                    <span className="contact-card-detail">{CONTACTS.phoneDisplay}</span>
                   </span>
                   <span className="contact-card-arrow" aria-hidden="true">↗</span>
                 </a>
-                <a className="contact-card" href="https://instagram.com/" target="_blank" rel="noopener">
+                <a className="contact-card" href={CONTACTS.facebook} target="_blank" rel="noopener">
+                  <span className="contact-card-ic" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
+                  </span>
+                  <span className="contact-card-body">
+                    <span className="contact-card-label">Facebook</span>
+                    <span className="contact-card-detail">dreamchase.prod</span>
+                  </span>
+                  <span className="contact-card-arrow" aria-hidden="true">↗</span>
+                </a>
+                <a className="contact-card" href={CONTACTS.instagram} target="_blank" rel="noopener">
                   <span className="contact-card-ic" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
                   </span>
                   <span className="contact-card-body">
                     <span className="contact-card-label">Instagram</span>
-                    <span className="contact-card-detail">@dc.prod</span>
+                    <span className="contact-card-detail">@dreamchase.prod</span>
                   </span>
                   <span className="contact-card-arrow" aria-hidden="true">↗</span>
                 </a>
-                <a className="contact-card" href="mailto:hi@dcprod.agency">
+                <a className="contact-card" href={`mailto:${CONTACTS.email}`}>
                   <span className="contact-card-ic" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
                   </span>
                   <span className="contact-card-body">
                     <span className="contact-card-label">{t("lead.emailLabel")}</span>
-                    <span className="contact-card-detail">hi@dcprod.agency</span>
+                    <span className="contact-card-detail">{CONTACTS.email}</span>
                   </span>
                   <span className="contact-card-arrow" aria-hidden="true">↗</span>
                 </a>

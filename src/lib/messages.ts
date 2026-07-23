@@ -56,7 +56,7 @@ export async function buildMessages(locale: Locale) {
   // depth 1 populates upload fields into full Media docs (url + sizes).
   const opts = { locale, depth: 1 as const, fallbackLocale: "en" as const };
 
-  const [nav, home, showreel, servicesIndex, portfolioPage, testimonialsPage, about, leadForm] =
+  const [nav, home, showreel, servicesIndex, portfolioPage, testimonialsPage, about, leadForm, footer] =
     await Promise.all([
       payload.findGlobal({ slug: "nav", ...opts }),
       payload.findGlobal({ slug: "home", ...opts }),
@@ -66,6 +66,7 @@ export async function buildMessages(locale: Locale) {
       payload.findGlobal({ slug: "testimonials-page", ...opts }),
       payload.findGlobal({ slug: "about", ...opts }),
       payload.findGlobal({ slug: "lead-form", ...opts }),
+      payload.findGlobal({ slug: "footer", ...opts }),
     ]);
 
   const [services, cases, reviews] = await Promise.all([
@@ -100,6 +101,10 @@ export async function buildMessages(locale: Locale) {
 
   return {
     Nav: clean(nav),
+    Footer: {
+      ...clean(footer),
+      services: flat(footer.services),
+    },
     Home: {
       meta: clean(home.meta),
       hero: {

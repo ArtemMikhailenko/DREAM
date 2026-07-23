@@ -1,0 +1,47 @@
+/** Footer copy, localized. Used by the seed and by the one-off footer seeder. */
+const list = (v: string[]) => v.map((text) => ({ text }));
+
+export const FOOTER_COPY = {
+  en: {
+    tagline: "Studio that builds systems, from idea to result.",
+    servicesHead: "Services",
+    services: list(["Promotional videos", "Image & brand films", "Social media & ads", "3D & AI content"]),
+    studioHead: "Studio",
+    about: "About",
+    process: "Process",
+    works: "Works",
+    pricing: "Pricing",
+    contactsHead: "Contacts",
+    getBrief: "Get a brief",
+    fromIdea: "From idea to result",
+    rights: "Built in-house · all rights reserved",
+  },
+  ru: {
+    tagline: "Студия, которая строит системы, от идеи до результата.",
+    servicesHead: "Услуги",
+    services: list(["Промо-видео", "Имиджевые фильмы", "Соцсети и реклама", "3D и AI-контент"]),
+    studioHead: "Студия",
+    about: "О студии",
+    process: "Процесс",
+    works: "Работы",
+    pricing: "Цены",
+    contactsHead: "Контакты",
+    getBrief: "Оставить заявку",
+    fromIdea: "От идеи до результата",
+    rights: "Сделано студией · все права защищены",
+  },
+  he: {
+    tagline: "סטודיו שבונה מערכות, מרעיון לתוצאה.",
+    servicesHead: "שירותים",
+    services: list(["סרטוני פרסום", "סרטוני תדמית", "רשתות חברתיות ופרסום", "תוכן תלת-ממד ו-AI"]),
+    studioHead: "הסטודיו",
+    about: "אודות",
+    process: "תהליך",
+    works: "עבודות",
+    pricing: "מחירים",
+    contactsHead: "צור קשר",
+    getBrief: "קבלת בריף",
+    fromIdea: "מרעיון לתוצאה",
+    rights: "נבנה בבית · כל הזכויות שמורות",
+  },
+} as const;

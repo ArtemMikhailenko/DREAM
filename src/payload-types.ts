@@ -104,6 +104,7 @@ export interface Config {
     about: About;
     nav: Nav;
     'lead-form': LeadForm;
+    footer: Footer;
   };
   globalsSelect: {
     home: HomeSelect<false> | HomeSelect<true>;
@@ -114,6 +115,7 @@ export interface Config {
     about: AboutSelect<false> | AboutSelect<true>;
     nav: NavSelect<false> | NavSelect<true>;
     'lead-form': LeadFormSelect<false> | LeadFormSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: 'en' | 'ru' | 'he';
   widgets: {
@@ -1204,6 +1206,32 @@ export interface LeadForm {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  tagline?: string | null;
+  servicesHead?: string | null;
+  services?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  studioHead?: string | null;
+  about?: string | null;
+  process?: string | null;
+  works?: string | null;
+  pricing?: string | null;
+  contactsHead?: string | null;
+  getBrief?: string | null;
+  fromIdea?: string | null;
+  rights?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home_select".
  */
 export interface HomeSelect<T extends boolean = true> {
@@ -1660,6 +1688,32 @@ export interface LeadFormSelect<T extends boolean = true> {
   success?: T;
   errorRequired?: T;
   errorSend?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  tagline?: T;
+  servicesHead?: T;
+  services?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  studioHead?: T;
+  about?: T;
+  process?: T;
+  works?: T;
+  pricing?: T;
+  contactsHead?: T;
+  getBrief?: T;
+  fromIdea?: T;
+  rights?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

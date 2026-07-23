@@ -14,6 +14,7 @@ import en from "../../messages/en.json";
 import ru from "../../messages/ru.json";
 import he from "../../messages/he.json";
 import { FORM_COPY } from "./form";
+import { FOOTER_COPY } from "./footer";
 
 type Locale = "en" | "ru" | "he";
 const MESSAGES: Record<Locale, typeof en> = { en, ru: ru as typeof en, he: he as typeof en };
@@ -28,6 +29,7 @@ async function run() {
 
   const globalData = (m: typeof en, locale: Locale) => ({
     nav: m.Nav,
+    footer: FOOTER_COPY[locale],
     showreel: {
       ...m.Showreel,
       orbit: list(m.Showreel.orbit),

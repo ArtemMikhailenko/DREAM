@@ -19,6 +19,7 @@ import { About } from "./globals/About";
 import { Nav } from "./globals/Nav";
 import { Showreel } from "./globals/Showreel";
 import { LeadForm } from "./globals/LeadForm";
+import { Footer } from "./globals/Footer";
 import { ServicesIndex } from "./globals/ServicesIndex";
 import { PortfolioPage } from "./globals/PortfolioPage";
 import { TestimonialsPage } from "./globals/TestimonialsPage";
@@ -66,7 +67,7 @@ export default buildConfig({
     fallback: true,
   },
   collections: [Services, Cases, Testimonials, Media, Leads, Users],
-  globals: [Home, Showreel, ServicesIndex, PortfolioPage, TestimonialsPage, About, Nav, LeadForm],
+  globals: [Home, Showreel, ServicesIndex, PortfolioPage, TestimonialsPage, About, Nav, LeadForm, Footer],
   // Uploaded files: Vercel Blob in production (files must survive redeploys), local
   // disk in development. The plugin only switches on when its token is present, so
   // `npm run dev` without one keeps writing to public/uploads exactly as before.
