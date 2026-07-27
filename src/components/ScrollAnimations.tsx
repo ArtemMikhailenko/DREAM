@@ -7,51 +7,40 @@ export function ScrollAnimations() {
     let ctx: any;
 
     // Reveal failsafe — set up SYNCHRONOUSLY (independent of the async GSAP import).
-    // After a soft <Link> navigation ScrollTrigger sometimes never fires, leaving
-    // headings/labels stuck (clip-path / opacity:0) until a hard reload. This sweeps
-    // in-view targets still hidden and reveals them with a plain CSS transition — no
-    // GSAP dependency, so it works even if the gsap import is slow or a trigger is dead.
+    // After a soft <Link> navigation, a font re-flow, or a fast scroll, ScrollTrigger
+    // sometimes never fires — or fires but stalls — leaving a section stuck at
+    // opacity:0 or frozen half-faded until a hard reload. An IntersectionObserver
+    // watches every target and, a beat after it enters view, reveals whatever GSAP
+    // left unfinished. No GSAP dependency, so it holds even if the import is slow or
+    // a trigger is dead.
     const REVEAL_SEL =
-      ".label,.sec-h,.page-hero-h,.portfolio-case,.case-col,.faq-item,.rev-item,.svc-row,.problem-row,.process-step,.pkg-card";
-    // maxHidden = how opaque still counts as "needs rescuing". Use 0.05 during the
-    // intro (only truly-hidden elements, so we never cut a playing tween short) and
-    // ~0.99 for the late settle sweeps (rescue anything the intro left part-way).
-    const revealStuck = (maxHidden = 0.05) => {
-      const vh = window.innerHeight;
-      document.querySelectorAll<HTMLElement>(REVEAL_SEL).forEach((el) => {
-        const r = el.getBoundingClientRect();
-        if (r.top > vh * 0.9) return; // still below the fold — let GSAP play it in
-        const cs = getComputedStyle(el);
-        if (parseFloat(cs.opacity) < maxHidden || cs.clipPath.includes("100%")) {
-          el.style.transition = "opacity .45s ease, clip-path .45s ease, transform .45s ease";
-          el.style.opacity = "1";
-          el.style.transform = "none";
-          el.style.clipPath = "inset(0px 0px 0px 0px)";
-        }
-      });
+      ".label,.sec-h,.page-hero-h,.portfolio-case,.case-col,.faq-item,.rev-item,.svc-row,.problem-row,.process-step,.process-step-dot,.pkg-card";
+    const revealEl = (el: HTMLElement) => {
+      el.style.transition = "opacity .5s ease, clip-path .5s ease, transform .5s ease";
+      el.style.opacity = "1";
+      el.style.transform = "none";
+      el.style.clipPath = "inset(0px 0px 0px 0px)";
     };
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => { revealStuck(); ticking = false; });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    // Early sweeps clear anything stuck fully-hidden; the last two run a stricter
-    // pass that also rescues elements a dead trigger left frozen mid-reveal.
-    const sweepTimers = [
-      window.setTimeout(() => revealStuck(0.05), 350),
-      window.setTimeout(() => revealStuck(0.05), 900),
-      window.setTimeout(() => revealStuck(0.99), 2600),
-      window.setTimeout(() => revealStuck(0.99), 4200),
-    ];
-    // A hidden tab pauses GSAP's ticker, so triggers scrolled past while away never
-    // fire. Rescue whatever is on screen when the tab comes back.
-    const onVis = () => { if (!document.hidden) revealStuck(0.99); };
-    document.addEventListener("visibilitychange", onVis);
-    // The web-font swap re-flows the tall display headings after first paint — the
-    // usual reason ScrollTrigger latches stale start positions and reveals stick.
-    if (document.fonts?.ready) void document.fonts.ready.then(() => revealStuck(0.05));
+    // When a target scrolls into view GSAP gets ~1.6s to play its intro; if the
+    // trigger never fired or stalled part-way, reveal it outright. Keying off each
+    // element's own visibility (not a page-load timer) means it also covers sections
+    // reached long after load, and it rescues half-faded stragglers — not just the
+    // fully-hidden ones a global sweep would catch.
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          io.unobserve(el);
+          window.setTimeout(() => {
+            const cs = getComputedStyle(el);
+            if (parseFloat(cs.opacity) < 0.99 || cs.clipPath.includes("100%")) revealEl(el);
+          }, 1600);
+        });
+      },
+      { threshold: 0.01 }
+    );
+    document.querySelectorAll<HTMLElement>(REVEAL_SEL).forEach((el) => io.observe(el));
 
     async function init() {
       const { gsap } = await import("gsap");
@@ -322,9 +311,7 @@ export function ScrollAnimations() {
     let cleanupExtras: (() => void) | undefined;
     init();
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      document.removeEventListener("visibilitychange", onVis);
-      sweepTimers.forEach((t) => window.clearTimeout(t));
+      io.disconnect();
       cleanupExtras?.();
       ctx?.revert();
     };
