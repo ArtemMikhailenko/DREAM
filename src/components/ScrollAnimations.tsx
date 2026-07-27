@@ -13,14 +13,17 @@ export function ScrollAnimations() {
     // GSAP dependency, so it works even if the gsap import is slow or a trigger is dead.
     const REVEAL_SEL =
       ".label,.sec-h,.page-hero-h,.portfolio-case,.case-col,.faq-item,.rev-item,.svc-row,.problem-row,.process-step,.pkg-card";
-    const revealStuck = () => {
+    // maxHidden = how opaque still counts as "needs rescuing". Use 0.05 during the
+    // intro (only truly-hidden elements, so we never cut a playing tween short) and
+    // ~0.99 for the late settle sweeps (rescue anything the intro left part-way).
+    const revealStuck = (maxHidden = 0.05) => {
       const vh = window.innerHeight;
       document.querySelectorAll<HTMLElement>(REVEAL_SEL).forEach((el) => {
         const r = el.getBoundingClientRect();
-        if (r.bottom < 0 || r.top > vh * 0.82) return; // not solidly in view — let GSAP play
+        if (r.top > vh * 0.9) return; // still below the fold — let GSAP play it in
         const cs = getComputedStyle(el);
-        if (parseFloat(cs.opacity) < 0.05 || cs.clipPath.includes("100%")) {
-          el.style.transition = "opacity .5s ease, clip-path .5s ease, transform .5s ease";
+        if (parseFloat(cs.opacity) < maxHidden || cs.clipPath.includes("100%")) {
+          el.style.transition = "opacity .45s ease, clip-path .45s ease, transform .45s ease";
           el.style.opacity = "1";
           el.style.transform = "none";
           el.style.clipPath = "inset(0px 0px 0px 0px)";
@@ -34,7 +37,21 @@ export function ScrollAnimations() {
       requestAnimationFrame(() => { revealStuck(); ticking = false; });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    const sweepTimers = [350, 900, 1800, 3200].map((t) => window.setTimeout(revealStuck, t));
+    // Early sweeps clear anything stuck fully-hidden; the last two run a stricter
+    // pass that also rescues elements a dead trigger left frozen mid-reveal.
+    const sweepTimers = [
+      window.setTimeout(() => revealStuck(0.05), 350),
+      window.setTimeout(() => revealStuck(0.05), 900),
+      window.setTimeout(() => revealStuck(0.99), 2600),
+      window.setTimeout(() => revealStuck(0.99), 4200),
+    ];
+    // A hidden tab pauses GSAP's ticker, so triggers scrolled past while away never
+    // fire. Rescue whatever is on screen when the tab comes back.
+    const onVis = () => { if (!document.hidden) revealStuck(0.99); };
+    document.addEventListener("visibilitychange", onVis);
+    // The web-font swap re-flows the tall display headings after first paint — the
+    // usual reason ScrollTrigger latches stale start positions and reveals stick.
+    if (document.fonts?.ready) void document.fonts.ready.then(() => revealStuck(0.05));
 
     async function init() {
       const { gsap } = await import("gsap");
@@ -288,9 +305,15 @@ export function ScrollAnimations() {
       const timers = [120, 400, 900, 1600].map((t) => window.setTimeout(refresh, t));
       const pendingImgs = Array.from(document.querySelectorAll("img")).filter((im) => !im.complete);
       pendingImgs.forEach((im) => im.addEventListener("load", refresh, { once: true }));
+      // Fonts re-flow the layout; a stale refresh here is the top cause of dead triggers.
+      if (document.fonts?.ready) void document.fonts.ready.then(refresh);
+      // Re-align when returning to a backgrounded tab (its ticker was paused).
+      const onVisRefresh = () => { if (!document.hidden) refresh(); };
+      document.addEventListener("visibilitychange", onVisRefresh);
 
       cleanupExtras = () => {
         window.removeEventListener("load", onLoad);
+        document.removeEventListener("visibilitychange", onVisRefresh);
         timers.forEach((t) => window.clearTimeout(t));
         pendingImgs.forEach((im) => im.removeEventListener("load", refresh));
       };
@@ -300,6 +323,7 @@ export function ScrollAnimations() {
     init();
     return () => {
       window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("visibilitychange", onVis);
       sweepTimers.forEach((t) => window.clearTimeout(t));
       cleanupExtras?.();
       ctx?.revert();
