@@ -38,8 +38,8 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
   ];
   const collections: NavItem[] = [
     { href: "/studio/collections/testimonials", label: "Отзывы", icon: IconDoc },
+    { href: "/studio/collections/cases", label: "Портфолио", icon: IconDoc },
     { href: "#", label: "Услуги", icon: IconDoc, soon: true },
-    { href: "#", label: "Портфолио", icon: IconDoc, soon: true },
   ];
 
   const isActive = (href: string) => (href === "/studio" ? pathname === "/studio" : pathname.startsWith(href));

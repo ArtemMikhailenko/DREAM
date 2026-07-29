@@ -292,3 +292,18 @@ export const TESTIMONIAL_FIELDS: FieldDef<keyof TestimonialFields>[] = [
   { key: "company", label: "Компания" },
   { key: "role", label: "Должность" },
 ];
+
+/* ── Collections: Cases (portfolio) ─────────────────── */
+
+export type CaseFields = { title: string; tag: string; client: string; result: string; summary: string };
+export type CaseLocaleData = { fields: CaseFields; body: string[]; services: string[] };
+export type CaseDoc = { id: number; slug: string; order: number; locales: Record<Locale, CaseLocaleData> };
+export type CaseListItem = { id: number; slug: string; order: number; title: string; tag: string };
+
+export const CASE_FIELDS: FieldDef<keyof CaseFields>[] = [
+  { key: "title", label: "Название" },
+  { key: "tag", label: "Тег (категория)" },
+  { key: "client", label: "Клиент" },
+  { key: "result", label: "Результат" },
+  { key: "summary", label: "Краткое описание", multiline: true },
+];
