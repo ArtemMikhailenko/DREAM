@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getSession } from "@/studio/lib/auth";
-import { saveNav, saveFooter, type NavContent, type FooterContent } from "@/studio/lib/content";
+import { saveNav, saveFooter, saveLeadForm, type NavContent, type FooterContent, type LeadFormContent } from "@/studio/lib/content";
 
 export async function saveNavAction(content: NavContent): Promise<{ ok: true }> {
   if (!(await getSession())) throw new Error("unauthorized");
@@ -16,6 +16,13 @@ export async function saveNavAction(content: NavContent): Promise<{ ok: true }> 
 export async function saveFooterAction(content: FooterContent): Promise<{ ok: true }> {
   if (!(await getSession())) throw new Error("unauthorized");
   await saveFooter(content);
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
+export async function saveLeadFormAction(content: LeadFormContent): Promise<{ ok: true }> {
+  if (!(await getSession())) throw new Error("unauthorized");
+  await saveLeadForm(content);
   revalidatePath("/", "layout");
   return { ok: true };
 }

@@ -238,3 +238,123 @@ export async function saveFooter(content: FooterContent): Promise<void> {
     client.release();
   }
 }
+
+/* ── Lead form ──────────────────────────────────────── */
+
+export type LeadFormFields = {
+  title: string; trust: string;
+  name: string; phone: string; email: string; city: string;
+  business: string; businessPlaceholder: string; interestedIn: string; notSure: string;
+  whatsappOptIn: string; submit: string; sending: string;
+  success: string; errorRequired: string; errorSend: string;
+};
+export type LeadFormContent = Record<Locale, { fields: LeadFormFields; services: string[] }>;
+
+export type FieldDef<K> = { key: K; label: string; multiline?: boolean };
+
+export const LEADFORM_SECTIONS: { title: string; fields: FieldDef<keyof LeadFormFields>[] }[] = [
+  { title: "Шапка формы", fields: [{ key: "title", label: "Заголовок" }, { key: "trust", label: "Трастовая строка" }] },
+  {
+    title: "Поля",
+    fields: [
+      { key: "name", label: "Имя" }, { key: "phone", label: "Телефон / WhatsApp" },
+      { key: "email", label: "Email" }, { key: "city", label: "Город (опционально)" },
+      { key: "business", label: "Сфера бизнеса" }, { key: "businessPlaceholder", label: "Сфера бизнеса — подсказка" },
+      { key: "interestedIn", label: "Интересует услуга" }, { key: "notSure", label: "Плейсхолдер на главной" },
+    ],
+  },
+  {
+    title: "Согласие и кнопка",
+    fields: [
+      { key: "whatsappOptIn", label: "Согласие на WhatsApp", multiline: true },
+      { key: "submit", label: "Кнопка отправки" }, { key: "sending", label: "Кнопка: отправка…" },
+    ],
+  },
+  {
+    title: "Сообщения",
+    fields: [
+      { key: "success", label: "Успешная отправка", multiline: true },
+      { key: "errorRequired", label: "Ошибка: не заполнены поля", multiline: true },
+      { key: "errorSend", label: "Ошибка: не удалось отправить", multiline: true },
+    ],
+  },
+];
+
+type LeadFormRow = Record<string, string | null> & { loc: string };
+
+const emptyLeadForm = (): LeadFormFields => ({
+  title: "", trust: "", name: "", phone: "", email: "", city: "", business: "", businessPlaceholder: "",
+  interestedIn: "", notSure: "", whatsappOptIn: "", submit: "", sending: "", success: "", errorRequired: "", errorSend: "",
+});
+
+export async function getLeadForm(): Promise<LeadFormContent> {
+  const [locRows, svcRows] = await Promise.all([
+    query<LeadFormRow>(
+      `SELECT _locale::text AS loc, title, trust, name, phone, email, city, business, business_placeholder,
+              interested_in, not_sure, whatsapp_opt_in, submit, sending, success, error_required, error_send
+         FROM lead_form_locales`,
+    ),
+    query<{ loc: string; text: string | null }>(
+      `SELECT _locale::text AS loc, text FROM lead_form_services ORDER BY _locale, _order`,
+    ),
+  ]);
+
+  const out: LeadFormContent = {
+    en: { fields: emptyLeadForm(), services: [] },
+    ru: { fields: emptyLeadForm(), services: [] },
+    he: { fields: emptyLeadForm(), services: [] },
+  };
+  for (const r of locRows) {
+    if (!(r.loc in out)) continue;
+    out[r.loc as Locale].fields = {
+      title: r.title ?? "", trust: r.trust ?? "", name: r.name ?? "", phone: r.phone ?? "", email: r.email ?? "",
+      city: r.city ?? "", business: r.business ?? "", businessPlaceholder: r.business_placeholder ?? "",
+      interestedIn: r.interested_in ?? "", notSure: r.not_sure ?? "", whatsappOptIn: r.whatsapp_opt_in ?? "",
+      submit: r.submit ?? "", sending: r.sending ?? "", success: r.success ?? "",
+      errorRequired: r.error_required ?? "", errorSend: r.error_send ?? "",
+    };
+  }
+  for (const r of svcRows) {
+    if (r.loc in out && r.text != null) out[r.loc as Locale].services.push(r.text);
+  }
+  return out;
+}
+
+export async function saveLeadForm(content: LeadFormContent): Promise<void> {
+  const parent = (await query<{ id: number }>(`SELECT id FROM lead_form ORDER BY id LIMIT 1`))[0];
+  if (!parent) throw new Error("lead_form parent row missing");
+  const clip = (s: string) => (s ?? "").slice(0, 600);
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    for (const loc of ["en", "ru", "he"] as Locale[]) {
+      const f = content[loc].fields;
+      await client.query(
+        `UPDATE lead_form_locales
+           SET title=$1, trust=$2, name=$3, phone=$4, email=$5, city=$6, business=$7, business_placeholder=$8,
+               interested_in=$9, not_sure=$10, whatsapp_opt_in=$11, submit=$12, sending=$13, success=$14,
+               error_required=$15, error_send=$16
+         WHERE _parent_id=$17 AND _locale::text=$18`,
+        [clip(f.title), clip(f.trust), clip(f.name), clip(f.phone), clip(f.email), clip(f.city), clip(f.business),
+         clip(f.businessPlaceholder), clip(f.interestedIn), clip(f.notSure), clip(f.whatsappOptIn), clip(f.submit),
+         clip(f.sending), clip(f.success), clip(f.errorRequired), clip(f.errorSend), parent.id, loc],
+      );
+      // Services: order & count are fixed (page preselection depends on position),
+      // so update text in place by _order rather than replacing rows.
+      const items = content[loc].services;
+      for (let i = 0; i < items.length; i++) {
+        await client.query(
+          `UPDATE lead_form_services SET text=$1 WHERE _parent_id=$2 AND _locale::text=$3 AND _order=$4`,
+          [clip(items[i]), parent.id, loc, i + 1],
+        );
+      }
+    }
+    await client.query("COMMIT");
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
+}

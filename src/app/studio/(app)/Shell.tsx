@@ -28,8 +28,9 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
   const content: NavItem[] = [
     { href: "/studio/content/nav", label: "Навигация", icon: IconDoc },
     { href: "/studio/content/footer", label: "Футер", icon: IconDoc },
+    { href: "/studio/content/lead-form", label: "Форма заявки", icon: IconDoc },
     { href: "#", label: "Главная", icon: IconDoc, soon: true },
-    { href: "#", label: "Портфолио", icon: IconDoc, soon: true },
+    { href: "#", label: "О студии", icon: IconDoc, soon: true },
   ];
 
   const isActive = (href: string) => (href === "/studio" ? pathname === "/studio" : pathname.startsWith(href));
