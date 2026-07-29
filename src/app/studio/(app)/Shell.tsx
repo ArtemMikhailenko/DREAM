@@ -27,7 +27,7 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
   ];
   const content: NavItem[] = [
     { href: "/studio/content/nav", label: "Навигация", icon: IconDoc },
-    { href: "#", label: "Футер", icon: IconDoc, soon: true },
+    { href: "/studio/content/footer", label: "Футер", icon: IconDoc },
     { href: "#", label: "Главная", icon: IconDoc, soon: true },
     { href: "#", label: "Портфолио", icon: IconDoc, soon: true },
   ];
