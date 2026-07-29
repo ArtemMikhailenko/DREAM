@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import type { Session } from "@/studio/lib/auth";
+import { GLOBAL_PAGES } from "@/studio/lib/globals-schema";
 import { logoutAction } from "../login/actions";
 
 const IconOverview = () => (
@@ -41,6 +42,7 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
     { href: "/studio/collections/cases", label: "Портфолио", icon: IconDoc },
     { href: "/studio/collections/testimonials", label: "Отзывы", icon: IconDoc },
   ];
+  const pages: NavItem[] = GLOBAL_PAGES.map((p) => ({ href: `/studio/pages/${p.key}`, label: p.label, icon: IconDoc }));
 
   const isActive = (href: string) => (href === "/studio" ? pathname === "/studio" : pathname.startsWith(href));
 
@@ -75,6 +77,8 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
           {content.map(renderItem)}
           <div className="st-nav-label">Коллекции</div>
           {collections.map(renderItem)}
+          <div className="st-nav-label">Страницы</div>
+          {pages.map(renderItem)}
         </nav>
 
         <div className="st-side-foot">
