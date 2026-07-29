@@ -279,3 +279,16 @@ export const HOME_SECTIONS: {
     ],
   },
 ];
+
+/* ── Collections: Testimonials ──────────────────────── */
+
+export type TestimonialFields = { quote: string; name: string; company: string; role: string };
+export type TestimonialDoc = { id: number; order: number; locales: Record<Locale, TestimonialFields> };
+export type TestimonialListItem = { id: number; order: number; name: string; company: string };
+
+export const TESTIMONIAL_FIELDS: FieldDef<keyof TestimonialFields>[] = [
+  { key: "quote", label: "Отзыв", multiline: true },
+  { key: "name", label: "Имя" },
+  { key: "company", label: "Компания" },
+  { key: "role", label: "Должность" },
+];

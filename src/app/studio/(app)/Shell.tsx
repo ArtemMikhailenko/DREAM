@@ -36,6 +36,11 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
     { href: "/studio/content/footer", label: "Футер", icon: IconDoc },
     { href: "/studio/content/lead-form", label: "Форма заявки", icon: IconDoc },
   ];
+  const collections: NavItem[] = [
+    { href: "/studio/collections/testimonials", label: "Отзывы", icon: IconDoc },
+    { href: "#", label: "Услуги", icon: IconDoc, soon: true },
+    { href: "#", label: "Портфолио", icon: IconDoc, soon: true },
+  ];
 
   const isActive = (href: string) => (href === "/studio" ? pathname === "/studio" : pathname.startsWith(href));
 
@@ -68,6 +73,8 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
           {work.map(renderItem)}
           <div className="st-nav-label">Контент</div>
           {content.map(renderItem)}
+          <div className="st-nav-label">Коллекции</div>
+          {collections.map(renderItem)}
         </nav>
 
         <div className="st-side-foot">
