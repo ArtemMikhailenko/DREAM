@@ -14,6 +14,9 @@ const IconInbox = () => (
 const IconDoc = () => (
   <svg className="st-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 3v5h5" /><path d="M6 3h8l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" /><path d="M9 13h6M9 17h6" /></svg>
 );
+const IconImage = () => (
+  <svg className="st-nav-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><path d="m21 15-5-5L5 21" /></svg>
+);
 
 type NavItem = { href: string; label: string; icon: React.FC; badge?: number; soon?: boolean };
 
@@ -24,6 +27,7 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
   const work: NavItem[] = [
     { href: "/studio", label: "Обзор", icon: IconOverview },
     { href: "/studio/leads", label: "Заявки", icon: IconInbox, badge: newLeads || undefined },
+    { href: "/studio/media", label: "Медиа", icon: IconImage },
   ];
   const content: NavItem[] = [
     { href: "/studio/content/home", label: "Главная", icon: IconDoc },
