@@ -1,5 +1,6 @@
 import { listMedia, type MediaItem } from "@/studio/lib/media";
 import { MediaGrid } from "./MediaGrid";
+import { MediaUpload } from "./MediaUpload";
 
 export const dynamic = "force-dynamic";
 
@@ -17,14 +18,17 @@ export default async function MediaPage() {
       <div className="st-head">
         <div>
           <h1 className="st-title">Медиа</h1>
-          <p className="st-sub">Библиотека изображений сайта{items.length ? ` · ${items.length}` : ""}. Загрузка новых — скоро.</p>
+          <p className="st-sub">Библиотека изображений сайта{items.length ? ` · ${items.length}` : ""}</p>
         </div>
       </div>
 
       {dbError ? (
         <div className="st-error">Не удалось загрузить медиатеку. Проверьте подключение к базе.</div>
       ) : (
-        <MediaGrid items={items} />
+        <>
+          <MediaUpload />
+          <MediaGrid items={items} />
+        </>
       )}
     </>
   );
