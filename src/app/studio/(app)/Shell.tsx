@@ -26,9 +26,10 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
     { href: "/studio/leads", label: "Заявки", icon: IconInbox, badge: newLeads || undefined },
   ];
   const content: NavItem[] = [
+    { href: "/studio/content/nav", label: "Навигация", icon: IconDoc },
+    { href: "#", label: "Футер", icon: IconDoc, soon: true },
     { href: "#", label: "Главная", icon: IconDoc, soon: true },
     { href: "#", label: "Портфолио", icon: IconDoc, soon: true },
-    { href: "#", label: "Услуги", icon: IconDoc, soon: true },
   ];
 
   const isActive = (href: string) => (href === "/studio" ? pathname === "/studio" : pathname.startsWith(href));
