@@ -8,6 +8,8 @@ import type {
   FooterContent,
   LeadFormFields,
   LeadFormContent,
+  AboutFields,
+  AboutContent,
 } from "./content-schema";
 
 /**
@@ -245,6 +247,117 @@ export async function saveLeadForm(content: LeadFormContent): Promise<void> {
         await client.query(
           `UPDATE lead_form_services SET text=$1 WHERE _parent_id=$2 AND _locale::text=$3 AND _order=$4`,
           [clip(items[i]), parent.id, loc, i + 1],
+        );
+      }
+    }
+    await client.query("COMMIT");
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
+}
+
+/* ── About ──────────────────────────────────────────── */
+
+// `desc` is a reserved SQL word — always quote it as "desc".
+type AboutLocRow = Record<string, string | null> & { loc: string };
+
+const emptyAbout = (): AboutFields => ({
+  metaTitle: "", metaDescription: "", heroLabel: "", heroHeading: "", heroHeadingEm: "", heroSub: "",
+  storyLabel: "", storyHeading: "", storyP1: "", storyP2: "", storySlogan: "",
+  valuesLabel: "", valuesHeading: "", valuesHeadingEm: "",
+  statsLabel: "", statsHeading: "", statsHeadingEm: "",
+  ctaLabel: "", ctaHeading: "", ctaHeadingEm: "", ctaSub: "", ctaCtaBrief: "", ctaCtaWorks: "",
+});
+
+export async function getAbout(): Promise<AboutContent> {
+  const [locRows, capRows, valRows, statRows] = await Promise.all([
+    query<AboutLocRow>(
+      `SELECT _locale::text AS loc, meta_title, meta_description, hero_label, hero_heading, hero_heading_em, hero_sub,
+              story_label, story_heading, story_p1, story_p2, story_slogan,
+              values_label, values_heading, values_heading_em, stats_label, stats_heading, stats_heading_em,
+              cta_label, cta_heading, cta_heading_em, cta_sub, cta_cta_brief, cta_cta_works
+         FROM about_locales`,
+    ),
+    query<{ loc: string; text: string | null }>(`SELECT _locale::text AS loc, text FROM about_story_capabilities ORDER BY _locale, _order`),
+    query<{ loc: string; title: string | null; desc: string | null }>(`SELECT _locale::text AS loc, title, "desc" FROM about_values_items ORDER BY _locale, _order`),
+    query<{ loc: string; label: string | null }>(`SELECT _locale::text AS loc, label FROM about_stats_items ORDER BY _locale, _order`),
+  ]);
+
+  const mk = (): AboutContent[Locale] => ({ fields: emptyAbout(), capabilities: [], values: [], stats: [] });
+  const out: AboutContent = { en: mk(), ru: mk(), he: mk() };
+
+  for (const r of locRows) {
+    if (!(r.loc in out)) continue;
+    out[r.loc as Locale].fields = {
+      metaTitle: r.meta_title ?? "", metaDescription: r.meta_description ?? "",
+      heroLabel: r.hero_label ?? "", heroHeading: r.hero_heading ?? "", heroHeadingEm: r.hero_heading_em ?? "", heroSub: r.hero_sub ?? "",
+      storyLabel: r.story_label ?? "", storyHeading: r.story_heading ?? "", storyP1: r.story_p1 ?? "", storyP2: r.story_p2 ?? "", storySlogan: r.story_slogan ?? "",
+      valuesLabel: r.values_label ?? "", valuesHeading: r.values_heading ?? "", valuesHeadingEm: r.values_heading_em ?? "",
+      statsLabel: r.stats_label ?? "", statsHeading: r.stats_heading ?? "", statsHeadingEm: r.stats_heading_em ?? "",
+      ctaLabel: r.cta_label ?? "", ctaHeading: r.cta_heading ?? "", ctaHeadingEm: r.cta_heading_em ?? "", ctaSub: r.cta_sub ?? "", ctaCtaBrief: r.cta_cta_brief ?? "", ctaCtaWorks: r.cta_cta_works ?? "",
+    };
+  }
+  for (const r of capRows) if (r.loc in out && r.text) out[r.loc as Locale].capabilities.push(r.text);
+  for (const r of valRows) if (r.loc in out) out[r.loc as Locale].values.push({ title: r.title ?? "", desc: r.desc ?? "" });
+  for (const r of statRows) if (r.loc in out) out[r.loc as Locale].stats.push(r.label ?? "");
+  return out;
+}
+
+export async function saveAbout(content: AboutContent): Promise<void> {
+  const parent = (await query<{ id: number }>(`SELECT id FROM about ORDER BY id LIMIT 1`))[0];
+  if (!parent) throw new Error("about parent row missing");
+  const clip = (s: string) => (s ?? "").slice(0, 800);
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    for (const loc of ["en", "ru", "he"] as Locale[]) {
+      const d = content[loc];
+      const f = d.fields;
+      await client.query(
+        `UPDATE about_locales SET
+           meta_title=$1, meta_description=$2, hero_label=$3, hero_heading=$4, hero_heading_em=$5, hero_sub=$6,
+           story_label=$7, story_heading=$8, story_p1=$9, story_p2=$10, story_slogan=$11,
+           values_label=$12, values_heading=$13, values_heading_em=$14,
+           stats_label=$15, stats_heading=$16, stats_heading_em=$17,
+           cta_label=$18, cta_heading=$19, cta_heading_em=$20, cta_sub=$21, cta_cta_brief=$22, cta_cta_works=$23
+         WHERE _parent_id=$24 AND _locale::text=$25`,
+        [clip(f.metaTitle), clip(f.metaDescription), clip(f.heroLabel), clip(f.heroHeading), clip(f.heroHeadingEm), clip(f.heroSub),
+         clip(f.storyLabel), clip(f.storyHeading), clip(f.storyP1), clip(f.storyP2), clip(f.storySlogan),
+         clip(f.valuesLabel), clip(f.valuesHeading), clip(f.valuesHeadingEm),
+         clip(f.statsLabel), clip(f.statsHeading), clip(f.statsHeadingEm),
+         clip(f.ctaLabel), clip(f.ctaHeading), clip(f.ctaHeadingEm), clip(f.ctaSub), clip(f.ctaCtaBrief), clip(f.ctaCtaWorks),
+         parent.id, loc],
+      );
+
+      // capabilities (free list) — replace.
+      const caps = d.capabilities.map((t) => clip(t).trim()).filter(Boolean).slice(0, 20);
+      await client.query(`DELETE FROM about_story_capabilities WHERE _parent_id=$1 AND _locale::text=$2`, [parent.id, loc]);
+      for (let i = 0; i < caps.length; i++) {
+        await client.query(
+          `INSERT INTO about_story_capabilities (id, _order, _parent_id, _locale, text) VALUES ($1, $2, $3, $4::_locales, $5)`,
+          [genId(), i + 1, parent.id, loc, caps[i]],
+        );
+      }
+
+      // values (free list of title + desc) — replace.
+      const vals = d.values.map((v) => ({ title: clip(v.title).trim(), desc: clip(v.desc).trim() })).filter((v) => v.title).slice(0, 12);
+      await client.query(`DELETE FROM about_values_items WHERE _parent_id=$1 AND _locale::text=$2`, [parent.id, loc]);
+      for (let i = 0; i < vals.length; i++) {
+        await client.query(
+          `INSERT INTO about_values_items (id, _order, _parent_id, _locale, title, "desc") VALUES ($1, $2, $3, $4::_locales, $5, $6)`,
+          [genId(), i + 1, parent.id, loc, vals[i].title, vals[i].desc],
+        );
+      }
+
+      // stats — number is coded in the page; count/order fixed, update label in place.
+      for (let i = 0; i < d.stats.length; i++) {
+        await client.query(
+          `UPDATE about_stats_items SET label=$1 WHERE _parent_id=$2 AND _locale::text=$3 AND _order=$4`,
+          [clip(d.stats[i]), parent.id, loc, i + 1],
         );
       }
     }

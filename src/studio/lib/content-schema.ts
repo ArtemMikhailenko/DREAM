@@ -124,3 +124,71 @@ export const LEADFORM_SECTIONS: { title: string; fields: FieldDef<keyof LeadForm
     ],
   },
 ];
+
+/* ── About ──────────────────────────────────────────── */
+
+export type AboutFields = {
+  metaTitle: string; metaDescription: string;
+  heroLabel: string; heroHeading: string; heroHeadingEm: string; heroSub: string;
+  storyLabel: string; storyHeading: string; storyP1: string; storyP2: string; storySlogan: string;
+  valuesLabel: string; valuesHeading: string; valuesHeadingEm: string;
+  statsLabel: string; statsHeading: string; statsHeadingEm: string;
+  ctaLabel: string; ctaHeading: string; ctaHeadingEm: string; ctaSub: string; ctaCtaBrief: string; ctaCtaWorks: string;
+};
+export type AboutValueItem = { title: string; desc: string };
+export type AboutLocaleData = {
+  fields: AboutFields;
+  capabilities: string[];
+  values: AboutValueItem[];
+  stats: string[];
+};
+export type AboutContent = Record<Locale, AboutLocaleData>;
+
+/** `list` marks which sub-list renders after a section's scalar fields. */
+export const ABOUT_SECTIONS: {
+  title: string;
+  list?: "capabilities" | "values" | "stats";
+  fields: FieldDef<keyof AboutFields>[];
+}[] = [
+  { title: "SEO", fields: [{ key: "metaTitle", label: "Meta title" }, { key: "metaDescription", label: "Meta description", multiline: true }] },
+  {
+    title: "Шапка",
+    fields: [
+      { key: "heroLabel", label: "Надзаголовок" }, { key: "heroHeading", label: "Заголовок" },
+      { key: "heroHeadingEm", label: "Заголовок — выделенное" }, { key: "heroSub", label: "Подзаголовок", multiline: true },
+    ],
+  },
+  {
+    title: "История",
+    list: "capabilities",
+    fields: [
+      { key: "storyLabel", label: "Надзаголовок" }, { key: "storyHeading", label: "Заголовок" },
+      { key: "storyP1", label: "Абзац 1", multiline: true }, { key: "storyP2", label: "Абзац 2", multiline: true },
+      { key: "storySlogan", label: "Слоган" },
+    ],
+  },
+  {
+    title: "Принципы",
+    list: "values",
+    fields: [
+      { key: "valuesLabel", label: "Надзаголовок" }, { key: "valuesHeading", label: "Заголовок" },
+      { key: "valuesHeadingEm", label: "Заголовок — выделенное" },
+    ],
+  },
+  {
+    title: "Цифры",
+    list: "stats",
+    fields: [
+      { key: "statsLabel", label: "Надзаголовок" }, { key: "statsHeading", label: "Заголовок" },
+      { key: "statsHeadingEm", label: "Заголовок — выделенное" },
+    ],
+  },
+  {
+    title: "Блок призыва",
+    fields: [
+      { key: "ctaLabel", label: "Надзаголовок" }, { key: "ctaHeading", label: "Заголовок" },
+      { key: "ctaHeadingEm", label: "Заголовок — выделенное" }, { key: "ctaSub", label: "Подзаголовок", multiline: true },
+      { key: "ctaCtaBrief", label: "Кнопка «Бриф»" }, { key: "ctaCtaWorks", label: "Кнопка «Работы»" },
+    ],
+  },
+];
