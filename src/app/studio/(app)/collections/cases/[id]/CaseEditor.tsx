@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { CASE_FIELDS, LOCALES, type CaseDoc, type CaseFields, type Locale } from "@/studio/lib/content-schema";
 import { deleteCaseAction, saveCaseAction } from "../../actions";
 import { StringList } from "../../../content/_lists";
+import { ImagePicker } from "../../../_ImagePicker";
 
 export function CaseEditor({ initial }: { initial: CaseDoc }) {
   const [doc, setDoc] = useState<CaseDoc>(initial);
@@ -67,7 +68,10 @@ export function CaseEditor({ initial }: { initial: CaseDoc }) {
               <input id="order" className="st-input" type="number" value={doc.order} onChange={(e) => setTop("order", e.target.value)} />
             </div>
           </div>
-          <p className="st-sub" style={{ margin: "12px 0 0", fontSize: "0.8rem", color: "var(--s-faint)" }}>ⓘ Обложка кейса — через раздел «Медиа» (скоро).</p>
+          <div style={{ marginTop: 16 }}>
+            <ImagePicker label="Обложка кейса (16:9)" valueId={doc.coverId} valueThumb={doc.coverThumb}
+              onChange={(id, thumb) => { setDoc((d) => ({ ...d, coverId: id, coverThumb: thumb })); touch(); }} />
+          </div>
         </div>
 
         <div className="st-card" style={{ padding: "22px 24px" }}>

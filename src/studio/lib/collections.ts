@@ -106,7 +106,9 @@ export async function listCases(): Promise<CaseListItem[]> {
 }
 
 export async function getCase(id: number): Promise<CaseDoc | null> {
-  const head = (await query<{ slug: string; ord: string }>(`SELECT slug, "order" AS ord FROM cases WHERE id=$1`, [id]))[0];
+  const head = (await query<{ slug: string; ord: string; cover_id: number | null; cover_thumb: string | null }>(
+    `SELECT c.slug, c."order" AS ord, c.cover_id, COALESCE(m.sizes_thumb_url, m.url) AS cover_thumb
+       FROM cases c LEFT JOIN media m ON m.id = c.cover_id WHERE c.id=$1`, [id]))[0];
   if (!head) return null;
   const [locRows, bodyRows, svcRows] = await Promise.all([
     query<{ loc: string; title: string | null; tag: string | null; client: string | null; result: string | null; summary: string | null }>(
@@ -122,7 +124,7 @@ export async function getCase(id: number): Promise<CaseDoc | null> {
   }
   for (const r of bodyRows) if (r.loc in locales && r.text) locales[r.loc as Locale].body.push(r.text);
   for (const r of svcRows) if (r.loc in locales && r.text) locales[r.loc as Locale].services.push(r.text);
-  return { id, slug: head.slug, order: Number(head.ord ?? 0), locales };
+  return { id, slug: head.slug, order: Number(head.ord ?? 0), coverId: head.cover_id, coverThumb: head.cover_thumb, locales };
 }
 
 export async function createCase(): Promise<number> {
@@ -145,7 +147,7 @@ export async function updateCase(doc: CaseDoc): Promise<void> {
   try {
     await client.query("BEGIN");
     try {
-      await client.query(`UPDATE cases SET slug=$1, "order"=$2, updated_at=now() WHERE id=$3`, [slug, doc.order || 0, doc.id]);
+      await client.query(`UPDATE cases SET slug=$1, "order"=$2, cover_id=$3, updated_at=now() WHERE id=$4`, [slug, doc.order || 0, doc.coverId ?? null, doc.id]);
     } catch (e) {
       if ((e as { code?: string })?.code === "23505") { const err = new Error("SLUG_TAKEN"); throw err; }
       throw e;
@@ -199,7 +201,9 @@ export async function listServices(): Promise<ServiceListItem[]> {
 }
 
 export async function getService(id: number): Promise<ServiceDoc | null> {
-  const head = (await query<{ slug: string; ord: string }>(`SELECT slug, "order" AS ord FROM services WHERE id=$1`, [id]))[0];
+  const head = (await query<{ slug: string; ord: string; hero_id: number | null; hero_thumb: string | null }>(
+    `SELECT s.slug, s."order" AS ord, s.hero_id, COALESCE(m.sizes_thumb_url, m.url) AS hero_thumb
+       FROM services s LEFT JOIN media m ON m.id = s.hero_id WHERE s.id=$1`, [id]))[0];
   if (!head) return null;
 
   const [locRows, bodyRows, blockRows, listRows] = await Promise.all([
@@ -229,14 +233,14 @@ export async function getService(id: number): Promise<ServiceDoc | null> {
     if (!(r.loc in locales)) continue;
     locales[r.loc as Locale].blocks.push({ heading: r.heading ?? "", intro: r.intro ?? "", ordered: Boolean(r.ordered), list: listByBlock[r.block_id] ?? [] });
   }
-  return { id, slug: head.slug, order: Number(head.ord ?? 0), locales };
+  return { id, slug: head.slug, order: Number(head.ord ?? 0), heroId: head.hero_id, heroThumb: head.hero_thumb, locales };
 }
 
 export async function updateService(doc: ServiceDoc): Promise<void> {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    await client.query(`UPDATE services SET "order"=$1, updated_at=now() WHERE id=$2`, [doc.order || 0, doc.id]);
+    await client.query(`UPDATE services SET "order"=$1, hero_id=$2, updated_at=now() WHERE id=$3`, [doc.order || 0, doc.heroId ?? null, doc.id]);
     for (const loc of LOCS) {
       const d = doc.locales[loc];
       const f = d.fields;

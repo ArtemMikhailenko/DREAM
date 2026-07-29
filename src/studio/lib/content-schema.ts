@@ -297,7 +297,7 @@ export const TESTIMONIAL_FIELDS: FieldDef<keyof TestimonialFields>[] = [
 
 export type CaseFields = { title: string; tag: string; client: string; result: string; summary: string };
 export type CaseLocaleData = { fields: CaseFields; body: string[]; services: string[] };
-export type CaseDoc = { id: number; slug: string; order: number; locales: Record<Locale, CaseLocaleData> };
+export type CaseDoc = { id: number; slug: string; order: number; coverId: number | null; coverThumb: string | null; locales: Record<Locale, CaseLocaleData> };
 export type CaseListItem = { id: number; slug: string; order: number; title: string; tag: string };
 
 export const CASE_FIELDS: FieldDef<keyof CaseFields>[] = [
@@ -317,7 +317,7 @@ export type ServiceFields = {
 };
 export type ServiceBlock = { heading: string; intro: string; ordered: boolean; list: string[] };
 export type ServiceLocaleData = { fields: ServiceFields; body: string[]; blocks: ServiceBlock[] };
-export type ServiceDoc = { id: number; slug: string; order: number; locales: Record<Locale, ServiceLocaleData> };
+export type ServiceDoc = { id: number; slug: string; order: number; heroId: number | null; heroThumb: string | null; locales: Record<Locale, ServiceLocaleData> };
 export type ServiceListItem = { id: number; slug: string; order: number; label: string; h1: string };
 
 export const SERVICE_SECTIONS: { title: string; fields: FieldDef<keyof ServiceFields>[] }[] = [

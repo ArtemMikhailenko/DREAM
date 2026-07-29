@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { LOCALES, SERVICE_SECTIONS, type Locale, type ServiceBlock, type ServiceDoc, type ServiceFields } from "@/studio/lib/content-schema";
 import { saveServiceAction } from "../../actions";
 import { StringList } from "../../../content/_lists";
+import { ImagePicker } from "../../../_ImagePicker";
 
 export function ServiceEditor({ initial }: { initial: ServiceDoc }) {
   const [doc, setDoc] = useState<ServiceDoc>(initial);
@@ -53,7 +54,10 @@ export function ServiceEditor({ initial }: { initial: ServiceDoc }) {
               <input id="order" className="st-input" type="number" value={doc.order} onChange={(e) => { setDoc((x) => ({ ...x, order: Number(e.target.value) || 0 })); touch(); }} />
             </div>
           </div>
-          <p className="st-sub" style={{ margin: "12px 0 0", fontSize: "0.8rem", color: "var(--s-faint)" }}>ⓘ Фото в шапке — через раздел «Медиа» (скоро).</p>
+          <div style={{ marginTop: 16 }}>
+            <ImagePicker label="Фото в шапке" valueId={doc.heroId} valueThumb={doc.heroThumb}
+              onChange={(id, thumb) => { setDoc((x) => ({ ...x, heroId: id, heroThumb: thumb })); touch(); }} />
+          </div>
         </div>
 
         {SERVICE_SECTIONS.map((section) => (

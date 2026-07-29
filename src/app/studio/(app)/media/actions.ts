@@ -3,6 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { getSession } from "@/studio/lib/auth";
 import { uploadImage } from "@/studio/lib/upload";
+import { listMedia, type MediaItem } from "@/studio/lib/media";
+
+export async function listMediaAction(): Promise<MediaItem[]> {
+  if (!(await getSession())) throw new Error("unauthorized");
+  return listMedia();
+}
 
 export async function uploadMediaAction(formData: FormData): Promise<{ ok: boolean; error?: string }> {
   if (!(await getSession())) throw new Error("unauthorized");
