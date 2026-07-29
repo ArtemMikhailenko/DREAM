@@ -307,3 +307,21 @@ export const CASE_FIELDS: FieldDef<keyof CaseFields>[] = [
   { key: "result", label: "Результат" },
   { key: "summary", label: "Краткое описание", multiline: true },
 ];
+
+/* ── Collections: Services ──────────────────────────── */
+
+export type ServiceFields = {
+  label: string; h1: string; cta: string;
+  indexTitle: string; indexTeaser: string;
+  metaTitle: string; metaDescription: string;
+};
+export type ServiceBlock = { heading: string; intro: string; ordered: boolean; list: string[] };
+export type ServiceLocaleData = { fields: ServiceFields; body: string[]; blocks: ServiceBlock[] };
+export type ServiceDoc = { id: number; slug: string; order: number; locales: Record<Locale, ServiceLocaleData> };
+export type ServiceListItem = { id: number; slug: string; order: number; label: string; h1: string };
+
+export const SERVICE_SECTIONS: { title: string; fields: FieldDef<keyof ServiceFields>[] }[] = [
+  { title: "Страница", fields: [{ key: "label", label: "Короткое название" }, { key: "h1", label: "Заголовок H1" }, { key: "cta", label: "Текст кнопки" }] },
+  { title: "Карточка в списке /services", fields: [{ key: "indexTitle", label: "Название" }, { key: "indexTeaser", label: "Описание", multiline: true }] },
+  { title: "SEO", fields: [{ key: "metaTitle", label: "Meta title" }, { key: "metaDescription", label: "Meta description", multiline: true }] },
+];

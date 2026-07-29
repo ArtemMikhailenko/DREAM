@@ -3,9 +3,9 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getSession } from "@/studio/lib/auth";
-import { createTestimonial, deleteTestimonial, updateTestimonial, createCase, deleteCase, updateCase } from "@/studio/lib/collections";
+import { createTestimonial, deleteTestimonial, updateTestimonial, createCase, deleteCase, updateCase, updateService } from "@/studio/lib/collections";
 import type { TestimonialDoc } from "@/studio/lib/content";
-import type { CaseDoc } from "@/studio/lib/collections";
+import type { CaseDoc, ServiceDoc } from "@/studio/lib/collections";
 
 export async function createTestimonialAction(): Promise<void> {
   if (!(await getSession())) throw new Error("unauthorized");
@@ -56,4 +56,12 @@ export async function deleteCaseAction(id: number): Promise<void> {
   revalidatePath("/", "layout");
   revalidatePath("/studio/collections/cases");
   redirect("/studio/collections/cases");
+}
+
+export async function saveServiceAction(doc: ServiceDoc): Promise<{ ok: true }> {
+  if (!(await getSession())) throw new Error("unauthorized");
+  await updateService(doc);
+  revalidatePath("/", "layout");
+  revalidatePath("/studio/collections/services");
+  return { ok: true };
 }

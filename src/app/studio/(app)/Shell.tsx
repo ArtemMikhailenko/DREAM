@@ -37,9 +37,9 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
     { href: "/studio/content/lead-form", label: "Форма заявки", icon: IconDoc },
   ];
   const collections: NavItem[] = [
-    { href: "/studio/collections/testimonials", label: "Отзывы", icon: IconDoc },
+    { href: "/studio/collections/services", label: "Услуги", icon: IconDoc },
     { href: "/studio/collections/cases", label: "Портфолио", icon: IconDoc },
-    { href: "#", label: "Услуги", icon: IconDoc, soon: true },
+    { href: "/studio/collections/testimonials", label: "Отзывы", icon: IconDoc },
   ];
 
   const isActive = (href: string) => (href === "/studio" ? pathname === "/studio" : pathname.startsWith(href));

@@ -4,9 +4,10 @@ import type {
   Locale,
   TestimonialDoc, TestimonialFields, TestimonialListItem,
   CaseDoc, CaseFields, CaseListItem,
+  ServiceDoc, ServiceFields, ServiceBlock, ServiceLocaleData, ServiceListItem,
 } from "./content-schema";
 
-export type { TestimonialDoc, TestimonialFields, TestimonialListItem, CaseDoc, CaseFields, CaseListItem } from "./content-schema";
+export type { TestimonialDoc, TestimonialFields, TestimonialListItem, CaseDoc, CaseFields, CaseListItem, ServiceDoc, ServiceListItem } from "./content-schema";
 
 const genId = () => crypto.randomBytes(12).toString("hex");
 
@@ -177,4 +178,104 @@ export async function updateCase(doc: CaseDoc): Promise<void> {
 
 export async function deleteCase(id: number): Promise<void> {
   await query(`DELETE FROM cases WHERE id=$1`, [id]);
+}
+
+/* ── Services (edit-only) ───────────────────────────── */
+// Slug is bound to shipped routes, so it is read-only here and new/delete are not
+// exposed. Blocks are a localized array with a nested list; both cascade-delete,
+// so a locale's blocks are replaced wholesale on save.
+
+const emptyServiceFields = (): ServiceFields => ({ label: "", h1: "", cta: "", indexTitle: "", indexTeaser: "", metaTitle: "", metaDescription: "" });
+const emptyServiceLoc = (): ServiceLocaleData => ({ fields: emptyServiceFields(), body: [], blocks: [] });
+
+export async function listServices(): Promise<ServiceListItem[]> {
+  const rows = await query<{ id: number; slug: string; ord: string; label: string | null; h1: string | null }>(
+    `SELECT s.id, s.slug, s."order" AS ord, l.label, l.h1
+       FROM services s
+       LEFT JOIN services_locales l ON l._parent_id = s.id AND l._locale::text = 'ru'
+      ORDER BY s."order" ASC, s.id ASC`,
+  );
+  return rows.map((r) => ({ id: r.id, slug: r.slug, order: Number(r.ord ?? 0), label: r.label ?? "", h1: r.h1 ?? "" }));
+}
+
+export async function getService(id: number): Promise<ServiceDoc | null> {
+  const head = (await query<{ slug: string; ord: string }>(`SELECT slug, "order" AS ord FROM services WHERE id=$1`, [id]))[0];
+  if (!head) return null;
+
+  const [locRows, bodyRows, blockRows, listRows] = await Promise.all([
+    query<{ loc: string; label: string | null; h1: string | null; cta: string | null; index_title: string | null; index_teaser: string | null; meta_title: string | null; meta_description: string | null }>(
+      `SELECT _locale::text AS loc, label, h1, cta, index_title, index_teaser, meta_title, meta_description FROM services_locales WHERE _parent_id=$1`, [id]),
+    query<{ loc: string; text: string | null }>(`SELECT _locale::text AS loc, text FROM services_body WHERE _parent_id=$1 ORDER BY _locale, _order`, [id]),
+    query<{ block_id: string; loc: string; heading: string | null; intro: string | null; ordered: boolean | null }>(
+      `SELECT id AS block_id, _locale::text AS loc, heading, intro, ordered FROM services_blocks WHERE _parent_id=$1 ORDER BY _locale, _order`, [id]),
+    query<{ block_id: string; text: string | null }>(
+      `SELECT bl._parent_id AS block_id, bl.text FROM services_blocks_list bl JOIN services_blocks b ON b.id = bl._parent_id WHERE b._parent_id=$1 ORDER BY bl._order`, [id]),
+  ]);
+
+  const listByBlock: Record<string, string[]> = {};
+  for (const r of listRows) { (listByBlock[r.block_id] ??= []).push(r.text ?? ""); }
+
+  const locales: Record<Locale, ServiceLocaleData> = { en: emptyServiceLoc(), ru: emptyServiceLoc(), he: emptyServiceLoc() };
+  for (const r of locRows) {
+    if (!(r.loc in locales)) continue;
+    locales[r.loc as Locale].fields = {
+      label: r.label ?? "", h1: r.h1 ?? "", cta: r.cta ?? "",
+      indexTitle: r.index_title ?? "", indexTeaser: r.index_teaser ?? "",
+      metaTitle: r.meta_title ?? "", metaDescription: r.meta_description ?? "",
+    };
+  }
+  for (const r of bodyRows) if (r.loc in locales && r.text) locales[r.loc as Locale].body.push(r.text);
+  for (const r of blockRows) {
+    if (!(r.loc in locales)) continue;
+    locales[r.loc as Locale].blocks.push({ heading: r.heading ?? "", intro: r.intro ?? "", ordered: Boolean(r.ordered), list: listByBlock[r.block_id] ?? [] });
+  }
+  return { id, slug: head.slug, order: Number(head.ord ?? 0), locales };
+}
+
+export async function updateService(doc: ServiceDoc): Promise<void> {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query(`UPDATE services SET "order"=$1, updated_at=now() WHERE id=$2`, [doc.order || 0, doc.id]);
+    for (const loc of LOCS) {
+      const d = doc.locales[loc];
+      const f = d.fields;
+      await client.query(
+        `INSERT INTO services_locales (_parent_id, _locale, label, h1, cta, index_title, index_teaser, meta_title, meta_description)
+         VALUES ($1, $2::_locales, $3, $4, $5, $6, $7, $8, $9)
+         ON CONFLICT (_locale, _parent_id) DO UPDATE SET label=EXCLUDED.label, h1=EXCLUDED.h1, cta=EXCLUDED.cta,
+           index_title=EXCLUDED.index_title, index_teaser=EXCLUDED.index_teaser, meta_title=EXCLUDED.meta_title, meta_description=EXCLUDED.meta_description`,
+        [doc.id, loc, clip(f.label), clip(f.h1), clip(f.cta), clip(f.indexTitle), clip(f.indexTeaser), clip(f.metaTitle), clip(f.metaDescription)],
+      );
+
+      // body list
+      const body = d.body.map((t) => clip(t).trim()).filter(Boolean).slice(0, 30);
+      await client.query(`DELETE FROM services_body WHERE _parent_id=$1 AND _locale::text=$2`, [doc.id, loc]);
+      for (let i = 0; i < body.length; i++) {
+        await client.query(`INSERT INTO services_body (id, _order, _parent_id, _locale, text) VALUES ($1,$2,$3,$4::_locales,$5)`, [genId(), i + 1, doc.id, loc, body[i]]);
+      }
+
+      // blocks (+ nested list) — delete cascades the nested list, then reinsert.
+      const blocks = d.blocks.filter((b) => (b.heading ?? "").trim() || (b.list ?? []).some((x) => x.trim())).slice(0, 12);
+      await client.query(`DELETE FROM services_blocks WHERE _parent_id=$1 AND _locale::text=$2`, [doc.id, loc]);
+      for (let bi = 0; bi < blocks.length; bi++) {
+        const b: ServiceBlock = blocks[bi];
+        const blockId = genId();
+        await client.query(
+          `INSERT INTO services_blocks (id, _order, _parent_id, _locale, heading, intro, ordered) VALUES ($1,$2,$3,$4::_locales,$5,$6,$7)`,
+          [blockId, bi + 1, doc.id, loc, clip(b.heading), clip(b.intro), Boolean(b.ordered)],
+        );
+        const items = (b.list ?? []).map((t) => clip(t).trim()).filter(Boolean).slice(0, 20);
+        for (let li = 0; li < items.length; li++) {
+          await client.query(`INSERT INTO services_blocks_list (id, _order, _parent_id, _locale, text) VALUES ($1,$2,$3,$4::_locales,$5)`, [genId(), li + 1, blockId, loc, items[li]]);
+        }
+      }
+    }
+    await client.query("COMMIT");
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
 }
