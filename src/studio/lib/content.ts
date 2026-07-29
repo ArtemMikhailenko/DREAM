@@ -10,6 +10,8 @@ import type {
   LeadFormContent,
   AboutFields,
   AboutContent,
+  HomeFields,
+  HomeContent,
 } from "./content-schema";
 
 /**
@@ -359,6 +361,152 @@ export async function saveAbout(content: AboutContent): Promise<void> {
           `UPDATE about_stats_items SET label=$1 WHERE _parent_id=$2 AND _locale::text=$3 AND _order=$4`,
           [clip(d.stats[i]), parent.id, loc, i + 1],
         );
+      }
+    }
+    await client.query("COMMIT");
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
+}
+
+/* ── Home (text sections) ───────────────────────────── */
+// This covers the scalar copy and the flat lists (rail, problem, process,
+// results, faq). The nested item lists (services cards, portfolio cases, pricing
+// packages) and images are NOT touched here — they stay editable in Payload until
+// their own studio slice lands.
+
+type HomeLocRow = Record<string, string | null> & { loc: string };
+
+const emptyHome = (): HomeFields => ({
+  metaTitle: "", metaDescription: "", heroKicker: "", heroH1: "", heroDesc: "", heroCtaPrimary: "", heroCtaSecondary: "",
+  railHead: "", problemLabel: "", problemHeading: "",
+  servicesLabel: "", servicesHeading: "", servicesHeadingEm: "", servicesOnSet: "", servicesLaunch: "", servicesAll: "",
+  processLabel: "", processHeading: "", processHeadingEm: "",
+  statementEyebrow: "", statementLine1: "", statementLine1Em: "", statementLine2: "", statementSystems: "", statementCta: "",
+  portfolioLabel: "", portfolioHeading: "", portfolioCtaStart: "", portfolioCtaAll: "",
+  resultsLabel: "", resultsHeading: "", resultsHeadingEm: "",
+  pricingLabel: "", pricingHeading: "", pricingHeadingEm: "", pricingPopular: "", pricingGetStarted: "",
+  faqLabel: "", faqHeading: "", faqHeadingEm: "",
+  leadBadge: "", leadHeading: "", leadHeadingEm: "", leadSub: "", leadEmailLabel: "",
+});
+
+export async function getHome(): Promise<HomeContent> {
+  const [locRows, railRows, probRows, procRows, resRows, faqRows] = await Promise.all([
+    query<HomeLocRow>(
+      `SELECT _locale::text AS loc, meta_title, meta_description, hero_kicker, hero_h1, hero_desc, hero_cta_primary, hero_cta_secondary,
+              rail_head, problem_label, problem_heading, services_label, services_heading, services_heading_em, services_on_set, services_launch, services_all,
+              process_label, process_heading, process_heading_em, statement_eyebrow, statement_line1, statement_line1_em, statement_line2, statement_systems, statement_cta,
+              portfolio_label, portfolio_heading, portfolio_cta_start, portfolio_cta_all, results_label, results_heading, results_heading_em,
+              pricing_label, pricing_heading, pricing_heading_em, pricing_popular, pricing_get_started, faq_label, faq_heading, faq_heading_em,
+              lead_badge, lead_heading, lead_heading_em, lead_sub, lead_email_label
+         FROM home_locales`,
+    ),
+    query<{ loc: string; text: string | null }>(`SELECT _locale::text AS loc, text FROM home_rail_items ORDER BY _locale, _order`),
+    query<{ loc: string; title: string | null; text: string | null }>(`SELECT _locale::text AS loc, title, text FROM home_problem_items ORDER BY _locale, _order`),
+    query<{ loc: string; name: string | null; desc: string | null }>(`SELECT _locale::text AS loc, name, "desc" FROM home_process_steps ORDER BY _locale, _order`),
+    query<{ loc: string; label: string | null }>(`SELECT _locale::text AS loc, label FROM home_results_items ORDER BY _locale, _order`),
+    query<{ loc: string; q: string | null; a: string | null }>(`SELECT _locale::text AS loc, q, a FROM home_faq_items ORDER BY _locale, _order`),
+  ]);
+
+  const mk = (): HomeContent[Locale] => ({ fields: emptyHome(), rail: [], problem: [], process: [], results: [], faq: [] });
+  const out: HomeContent = { en: mk(), ru: mk(), he: mk() };
+
+  for (const r of locRows) {
+    if (!(r.loc in out)) continue;
+    const g = (k: string) => r[k] ?? "";
+    out[r.loc as Locale].fields = {
+      metaTitle: g("meta_title"), metaDescription: g("meta_description"),
+      heroKicker: g("hero_kicker"), heroH1: g("hero_h1"), heroDesc: g("hero_desc"), heroCtaPrimary: g("hero_cta_primary"), heroCtaSecondary: g("hero_cta_secondary"),
+      railHead: g("rail_head"), problemLabel: g("problem_label"), problemHeading: g("problem_heading"),
+      servicesLabel: g("services_label"), servicesHeading: g("services_heading"), servicesHeadingEm: g("services_heading_em"), servicesOnSet: g("services_on_set"), servicesLaunch: g("services_launch"), servicesAll: g("services_all"),
+      processLabel: g("process_label"), processHeading: g("process_heading"), processHeadingEm: g("process_heading_em"),
+      statementEyebrow: g("statement_eyebrow"), statementLine1: g("statement_line1"), statementLine1Em: g("statement_line1_em"), statementLine2: g("statement_line2"), statementSystems: g("statement_systems"), statementCta: g("statement_cta"),
+      portfolioLabel: g("portfolio_label"), portfolioHeading: g("portfolio_heading"), portfolioCtaStart: g("portfolio_cta_start"), portfolioCtaAll: g("portfolio_cta_all"),
+      resultsLabel: g("results_label"), resultsHeading: g("results_heading"), resultsHeadingEm: g("results_heading_em"),
+      pricingLabel: g("pricing_label"), pricingHeading: g("pricing_heading"), pricingHeadingEm: g("pricing_heading_em"), pricingPopular: g("pricing_popular"), pricingGetStarted: g("pricing_get_started"),
+      faqLabel: g("faq_label"), faqHeading: g("faq_heading"), faqHeadingEm: g("faq_heading_em"),
+      leadBadge: g("lead_badge"), leadHeading: g("lead_heading"), leadHeadingEm: g("lead_heading_em"), leadSub: g("lead_sub"), leadEmailLabel: g("lead_email_label"),
+    };
+  }
+  for (const r of railRows) if (r.loc in out && r.text) out[r.loc as Locale].rail.push(r.text);
+  for (const r of probRows) if (r.loc in out) out[r.loc as Locale].problem.push({ title: r.title ?? "", text: r.text ?? "" });
+  for (const r of procRows) if (r.loc in out) out[r.loc as Locale].process.push({ name: r.name ?? "", desc: r.desc ?? "" });
+  for (const r of resRows) if (r.loc in out) out[r.loc as Locale].results.push(r.label ?? "");
+  for (const r of faqRows) if (r.loc in out) out[r.loc as Locale].faq.push({ q: r.q ?? "", a: r.a ?? "" });
+  return out;
+}
+
+export async function saveHome(content: HomeContent): Promise<void> {
+  const parent = (await query<{ id: number }>(`SELECT id FROM home ORDER BY id LIMIT 1`))[0];
+  if (!parent) throw new Error("home parent row missing");
+  const clip = (s: string) => (s ?? "").slice(0, 2000);
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    for (const loc of ["en", "ru", "he"] as Locale[]) {
+      const d = content[loc];
+      const f = d.fields;
+      await client.query(
+        `UPDATE home_locales SET
+           meta_title=$1, meta_description=$2, hero_kicker=$3, hero_h1=$4, hero_desc=$5, hero_cta_primary=$6, hero_cta_secondary=$7,
+           rail_head=$8, problem_label=$9, problem_heading=$10,
+           services_label=$11, services_heading=$12, services_heading_em=$13, services_on_set=$14, services_launch=$15, services_all=$16,
+           process_label=$17, process_heading=$18, process_heading_em=$19,
+           statement_eyebrow=$20, statement_line1=$21, statement_line1_em=$22, statement_line2=$23, statement_systems=$24, statement_cta=$25,
+           portfolio_label=$26, portfolio_heading=$27, portfolio_cta_start=$28, portfolio_cta_all=$29,
+           results_label=$30, results_heading=$31, results_heading_em=$32,
+           pricing_label=$33, pricing_heading=$34, pricing_heading_em=$35, pricing_popular=$36, pricing_get_started=$37,
+           faq_label=$38, faq_heading=$39, faq_heading_em=$40,
+           lead_badge=$41, lead_heading=$42, lead_heading_em=$43, lead_sub=$44, lead_email_label=$45
+         WHERE _parent_id=$46 AND _locale::text=$47`,
+        [clip(f.metaTitle), clip(f.metaDescription), clip(f.heroKicker), clip(f.heroH1), clip(f.heroDesc), clip(f.heroCtaPrimary), clip(f.heroCtaSecondary),
+         clip(f.railHead), clip(f.problemLabel), clip(f.problemHeading),
+         clip(f.servicesLabel), clip(f.servicesHeading), clip(f.servicesHeadingEm), clip(f.servicesOnSet), clip(f.servicesLaunch), clip(f.servicesAll),
+         clip(f.processLabel), clip(f.processHeading), clip(f.processHeadingEm),
+         clip(f.statementEyebrow), clip(f.statementLine1), clip(f.statementLine1Em), clip(f.statementLine2), clip(f.statementSystems), clip(f.statementCta),
+         clip(f.portfolioLabel), clip(f.portfolioHeading), clip(f.portfolioCtaStart), clip(f.portfolioCtaAll),
+         clip(f.resultsLabel), clip(f.resultsHeading), clip(f.resultsHeadingEm),
+         clip(f.pricingLabel), clip(f.pricingHeading), clip(f.pricingHeadingEm), clip(f.pricingPopular), clip(f.pricingGetStarted),
+         clip(f.faqLabel), clip(f.faqHeading), clip(f.faqHeadingEm),
+         clip(f.leadBadge), clip(f.leadHeading), clip(f.leadHeadingEm), clip(f.leadSub), clip(f.leadEmailLabel),
+         parent.id, loc],
+      );
+
+      // rail (free string list)
+      const rail = d.rail.map((t) => clip(t).trim()).filter(Boolean).slice(0, 20);
+      await client.query(`DELETE FROM home_rail_items WHERE _parent_id=$1 AND _locale::text=$2`, [parent.id, loc]);
+      for (let i = 0; i < rail.length; i++) {
+        await client.query(`INSERT INTO home_rail_items (id, _order, _parent_id, _locale, text) VALUES ($1,$2,$3,$4::_locales,$5)`, [genId(), i + 1, parent.id, loc, rail[i]]);
+      }
+
+      // problem (free list: title + text)
+      const prob = d.problem.map((p) => ({ title: clip(p.title).trim(), text: clip(p.text).trim() })).filter((p) => p.title || p.text).slice(0, 12);
+      await client.query(`DELETE FROM home_problem_items WHERE _parent_id=$1 AND _locale::text=$2`, [parent.id, loc]);
+      for (let i = 0; i < prob.length; i++) {
+        await client.query(`INSERT INTO home_problem_items (id, _order, _parent_id, _locale, title, text) VALUES ($1,$2,$3,$4::_locales,$5,$6)`, [genId(), i + 1, parent.id, loc, prob[i].title, prob[i].text]);
+      }
+
+      // process (free list: name + desc)
+      const proc = d.process.map((p) => ({ name: clip(p.name).trim(), desc: clip(p.desc).trim() })).filter((p) => p.name || p.desc).slice(0, 12);
+      await client.query(`DELETE FROM home_process_steps WHERE _parent_id=$1 AND _locale::text=$2`, [parent.id, loc]);
+      for (let i = 0; i < proc.length; i++) {
+        await client.query(`INSERT INTO home_process_steps (id, _order, _parent_id, _locale, name, "desc") VALUES ($1,$2,$3,$4::_locales,$5,$6)`, [genId(), i + 1, parent.id, loc, proc[i].name, proc[i].desc]);
+      }
+
+      // results — numbers are coded in the page; fixed count, update label in place
+      for (let i = 0; i < d.results.length; i++) {
+        await client.query(`UPDATE home_results_items SET label=$1 WHERE _parent_id=$2 AND _locale::text=$3 AND _order=$4`, [clip(d.results[i]), parent.id, loc, i + 1]);
+      }
+
+      // faq (free list: q + a)
+      const faq = d.faq.map((x) => ({ q: clip(x.q).trim(), a: clip(x.a).trim() })).filter((x) => x.q || x.a).slice(0, 20);
+      await client.query(`DELETE FROM home_faq_items WHERE _parent_id=$1 AND _locale::text=$2`, [parent.id, loc]);
+      for (let i = 0; i < faq.length; i++) {
+        await client.query(`INSERT INTO home_faq_items (id, _order, _parent_id, _locale, q, a) VALUES ($1,$2,$3,$4::_locales,$5,$6)`, [genId(), i + 1, parent.id, loc, faq[i].q, faq[i].a]);
       }
     }
     await client.query("COMMIT");

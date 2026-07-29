@@ -192,3 +192,90 @@ export const ABOUT_SECTIONS: {
     ],
   },
 ];
+
+/* ── Home ───────────────────────────────────────────── */
+
+export type HomeFields = {
+  metaTitle: string; metaDescription: string;
+  heroKicker: string; heroH1: string; heroDesc: string; heroCtaPrimary: string; heroCtaSecondary: string;
+  railHead: string;
+  problemLabel: string; problemHeading: string;
+  servicesLabel: string; servicesHeading: string; servicesHeadingEm: string; servicesOnSet: string; servicesLaunch: string; servicesAll: string;
+  processLabel: string; processHeading: string; processHeadingEm: string;
+  statementEyebrow: string; statementLine1: string; statementLine1Em: string; statementLine2: string; statementSystems: string; statementCta: string;
+  portfolioLabel: string; portfolioHeading: string; portfolioCtaStart: string; portfolioCtaAll: string;
+  resultsLabel: string; resultsHeading: string; resultsHeadingEm: string;
+  pricingLabel: string; pricingHeading: string; pricingHeadingEm: string; pricingPopular: string; pricingGetStarted: string;
+  faqLabel: string; faqHeading: string; faqHeadingEm: string;
+  leadBadge: string; leadHeading: string; leadHeadingEm: string; leadSub: string; leadEmailLabel: string;
+};
+export type HomeContent = Record<Locale, {
+  fields: HomeFields;
+  rail: string[];
+  problem: { title: string; text: string }[];
+  process: { name: string; desc: string }[];
+  results: string[];
+  faq: { q: string; a: string }[];
+}>;
+
+/** Which flat sub-list (if any) renders after a section's scalar fields. `note`
+ *  flags parts still edited in Payload (nested cards / images) — coming later. */
+export const HOME_SECTIONS: {
+  title: string;
+  list?: "rail" | "problem" | "process" | "results" | "faq";
+  note?: string;
+  fields: FieldDef<keyof HomeFields>[];
+}[] = [
+  { title: "SEO", fields: [{ key: "metaTitle", label: "Meta title" }, { key: "metaDescription", label: "Meta description", multiline: true }] },
+  {
+    title: "Первый экран",
+    note: "Фоновые изображения героя — в разделе «Медиа» (скоро).",
+    fields: [
+      { key: "heroKicker", label: "Кикер" }, { key: "heroH1", label: "Заголовок H1" }, { key: "heroDesc", label: "Описание", multiline: true },
+      { key: "heroCtaPrimary", label: "Кнопка (основная)" }, { key: "heroCtaSecondary", label: "Кнопка (вторая)" },
+    ],
+  },
+  { title: "Бегущая строка", list: "rail", fields: [{ key: "railHead", label: "Заголовок" }] },
+  { title: "Проблема", list: "problem", fields: [{ key: "problemLabel", label: "Надзаголовок" }, { key: "problemHeading", label: "Заголовок" }] },
+  {
+    title: "Услуги — заголовки",
+    note: "Карточки услуг и картинки редактируются пока в Payload (скоро здесь).",
+    fields: [
+      { key: "servicesLabel", label: "Надзаголовок" }, { key: "servicesHeading", label: "Заголовок" }, { key: "servicesHeadingEm", label: "Заголовок — выделенное" },
+      { key: "servicesOnSet", label: "Подпись «on set»" }, { key: "servicesLaunch", label: "Подпись «launch»" }, { key: "servicesAll", label: "Ссылка «Все услуги»" },
+    ],
+  },
+  { title: "Процесс", list: "process", fields: [{ key: "processLabel", label: "Надзаголовок" }, { key: "processHeading", label: "Заголовок" }, { key: "processHeadingEm", label: "Заголовок — выделенное" }] },
+  {
+    title: "Утверждение",
+    fields: [
+      { key: "statementEyebrow", label: "Надзаголовок" }, { key: "statementLine1", label: "Строка 1" }, { key: "statementLine1Em", label: "Строка 1 — выделенное" },
+      { key: "statementLine2", label: "Строка 2" }, { key: "statementSystems", label: "Слово «системы»" }, { key: "statementCta", label: "Кнопка" },
+    ],
+  },
+  {
+    title: "Портфолио — заголовки",
+    note: "Кейсы и картинки редактируются пока в Payload (скоро здесь).",
+    fields: [
+      { key: "portfolioLabel", label: "Надзаголовок" }, { key: "portfolioHeading", label: "Заголовок" },
+      { key: "portfolioCtaStart", label: "Кнопка «Начать»" }, { key: "portfolioCtaAll", label: "Кнопка «Все работы»" },
+    ],
+  },
+  { title: "Результаты", list: "results", fields: [{ key: "resultsLabel", label: "Надзаголовок" }, { key: "resultsHeading", label: "Заголовок" }, { key: "resultsHeadingEm", label: "Заголовок — выделенное" }] },
+  {
+    title: "Цены — заголовки",
+    note: "Тарифы редактируются пока в Payload (скоро здесь).",
+    fields: [
+      { key: "pricingLabel", label: "Надзаголовок" }, { key: "pricingHeading", label: "Заголовок" }, { key: "pricingHeadingEm", label: "Заголовок — выделенное" },
+      { key: "pricingPopular", label: "Бейдж «Популярный»" }, { key: "pricingGetStarted", label: "Кнопка «Начать»" },
+    ],
+  },
+  { title: "FAQ", list: "faq", fields: [{ key: "faqLabel", label: "Надзаголовок" }, { key: "faqHeading", label: "Заголовок" }, { key: "faqHeadingEm", label: "Заголовок — выделенное" }] },
+  {
+    title: "Форма (шапка блока)",
+    fields: [
+      { key: "leadBadge", label: "Бейдж" }, { key: "leadHeading", label: "Заголовок" }, { key: "leadHeadingEm", label: "Заголовок — выделенное" },
+      { key: "leadSub", label: "Подзаголовок", multiline: true }, { key: "leadEmailLabel", label: "Подпись email" },
+    ],
+  },
+];

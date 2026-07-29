@@ -26,11 +26,11 @@ export function Shell({ session, newLeads, children }: { session: Session; newLe
     { href: "/studio/leads", label: "Заявки", icon: IconInbox, badge: newLeads || undefined },
   ];
   const content: NavItem[] = [
+    { href: "/studio/content/home", label: "Главная", icon: IconDoc },
+    { href: "/studio/content/about", label: "О студии", icon: IconDoc },
     { href: "/studio/content/nav", label: "Навигация", icon: IconDoc },
     { href: "/studio/content/footer", label: "Футер", icon: IconDoc },
     { href: "/studio/content/lead-form", label: "Форма заявки", icon: IconDoc },
-    { href: "/studio/content/about", label: "О студии", icon: IconDoc },
-    { href: "#", label: "Главная", icon: IconDoc, soon: true },
   ];
 
   const isActive = (href: string) => (href === "/studio" ? pathname === "/studio" : pathname.startsWith(href));
