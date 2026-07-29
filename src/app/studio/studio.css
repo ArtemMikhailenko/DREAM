@@ -1,0 +1,160 @@
+/* Studio admin — self-contained dark theme, tuned to the dc.prod brand.
+   Kept separate from the site's globals.css so the panel is fully independent. */
+:root {
+  --s-bg: #0b0b0a;
+  --s-panel: #131311;
+  --s-panel-2: #1a1a17;
+  --s-hover: #201f1b;
+  --s-line: rgba(244, 241, 234, 0.1);
+  --s-line-2: rgba(244, 241, 234, 0.16);
+  --s-text: #f4f1ea;
+  --s-muted: #a29c92;
+  --s-faint: #6c675f;
+  --s-accent: #e8a868;
+  --s-accent-2: #d98b4a;
+  --s-accent-soft: rgba(232, 168, 104, 0.12);
+  --s-radius: 14px;
+  --s-radius-sm: 10px;
+  --font-ui: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--s-bg);
+  color: var(--s-text);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ── Shell ─────────────────────────────────────────── */
+.st-shell { display: grid; grid-template-columns: 248px 1fr; min-height: 100vh; }
+.st-side {
+  background: var(--s-panel);
+  border-right: 1px solid var(--s-line);
+  padding: 24px 16px;
+  display: flex; flex-direction: column; gap: 28px;
+  position: sticky; top: 0; height: 100vh;
+}
+.st-brand { display: flex; align-items: center; gap: 10px; padding: 4px 8px; }
+.st-brand-mark { font-weight: 800; letter-spacing: -0.02em; font-size: 1.25rem; }
+.st-brand-mark em { color: var(--s-accent); font-style: normal; }
+.st-brand-sub { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--s-faint); }
+
+.st-nav { display: flex; flex-direction: column; gap: 2px; }
+.st-nav-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--s-faint); padding: 8px 10px 6px; }
+.st-nav-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 10px 12px; border-radius: var(--s-radius-sm);
+  color: var(--s-muted); font-weight: 500;
+  transition: background 0.16s, color 0.16s;
+}
+.st-nav-item:hover { background: var(--s-hover); color: var(--s-text); }
+.st-nav-item.active { background: var(--s-accent-soft); color: var(--s-text); }
+.st-nav-item.active .st-nav-ic { color: var(--s-accent); }
+.st-nav-ic { width: 18px; height: 18px; flex-shrink: 0; color: var(--s-faint); }
+.st-nav-badge { margin-left: auto; font-family: var(--font-mono); font-size: 0.7rem; background: var(--s-panel-2); color: var(--s-muted); padding: 1px 8px; border-radius: 999px; border: 1px solid var(--s-line); }
+.st-nav-item.active .st-nav-badge { background: var(--s-accent); color: #1a1205; border-color: transparent; }
+
+.st-side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 10px; }
+.st-user { display: flex; align-items: center; gap: 10px; padding: 8px 10px; }
+.st-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--s-accent), var(--s-accent-2)); color: #1a1205; display: grid; place-items: center; font-weight: 700; flex-shrink: 0; }
+.st-user-meta { min-width: 0; }
+.st-user-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.st-user-role { font-size: 0.72rem; color: var(--s-faint); }
+
+.st-main { padding: 32px 40px; min-width: 0; }
+.st-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 26px; }
+.st-title { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+.st-sub { color: var(--s-muted); margin: 6px 0 0; }
+
+/* ── Buttons ───────────────────────────────────────── */
+.st-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: var(--s-radius-sm); border: 1px solid var(--s-line-2); background: var(--s-panel-2); color: var(--s-text); font-weight: 600; font-size: 0.86rem; cursor: pointer; transition: background 0.16s, border-color 0.16s, transform 0.1s; font-family: inherit; }
+.st-btn:hover { background: var(--s-hover); border-color: var(--s-line-2); }
+.st-btn:active { transform: translateY(1px); }
+.st-btn-primary { background: linear-gradient(135deg, var(--s-accent), var(--s-accent-2)); color: #1a1205; border-color: transparent; }
+.st-btn-primary:hover { filter: brightness(1.05); background: linear-gradient(135deg, var(--s-accent), var(--s-accent-2)); }
+.st-btn-ghost { background: transparent; border-color: transparent; color: var(--s-muted); }
+.st-btn-ghost:hover { background: var(--s-hover); color: var(--s-text); }
+
+/* ── Tabs ──────────────────────────────────────────── */
+.st-tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+.st-tab { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--s-line); color: var(--s-muted); font-weight: 600; font-size: 0.84rem; transition: background 0.16s, color 0.16s, border-color 0.16s; }
+.st-tab:hover { background: var(--s-hover); color: var(--s-text); }
+.st-tab.active { background: var(--s-text); color: #14130f; border-color: transparent; }
+.st-tab-count { font-family: var(--font-mono); font-size: 0.74rem; opacity: 0.7; }
+
+/* ── Cards / panels ────────────────────────────────── */
+.st-card { background: var(--s-panel); border: 1px solid var(--s-line); border-radius: var(--s-radius); }
+.st-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 26px; }
+.st-stat { background: var(--s-panel); border: 1px solid var(--s-line); border-radius: var(--s-radius); padding: 18px 20px; }
+.st-stat-n { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+.st-stat-l { color: var(--s-muted); font-size: 0.82rem; margin-top: 8px; }
+
+/* ── Table ─────────────────────────────────────────── */
+.st-table-wrap { overflow-x: auto; border: 1px solid var(--s-line); border-radius: var(--s-radius); }
+.st-table { width: 100%; border-collapse: collapse; min-width: 720px; }
+.st-table thead th { text-align: left; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--s-faint); padding: 14px 18px; background: var(--s-panel); border-bottom: 1px solid var(--s-line); position: sticky; top: 0; }
+.st-table tbody tr { border-bottom: 1px solid var(--s-line); cursor: pointer; transition: background 0.14s; }
+.st-table tbody tr:last-child { border-bottom: none; }
+.st-table tbody tr:hover { background: var(--s-panel); }
+.st-table td { padding: 15px 18px; vertical-align: middle; }
+.st-cell-name { font-weight: 600; }
+.st-cell-sub { color: var(--s-faint); font-size: 0.8rem; margin-top: 2px; }
+.st-cell-mono { font-family: var(--font-mono); font-size: 0.82rem; color: var(--s-muted); }
+
+/* ── Status pills ──────────────────────────────────── */
+.st-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px; font-size: 0.76rem; font-weight: 600; border: 1px solid transparent; white-space: nowrap; }
+.st-pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.st-pill.new { color: #7fb4ff; background: rgba(127, 180, 255, 0.12); }
+.st-pill.in_progress { color: var(--s-accent); background: var(--s-accent-soft); }
+.st-pill.won { color: #6bd39a; background: rgba(107, 211, 154, 0.12); }
+.st-pill.lost { color: #e07a7a; background: rgba(224, 122, 122, 0.12); }
+
+/* ── Empty state ───────────────────────────────────── */
+.st-empty { text-align: center; padding: 64px 20px; color: var(--s-faint); }
+.st-empty-ic { font-size: 2.4rem; margin-bottom: 10px; opacity: 0.6; }
+
+/* ── Forms ─────────────────────────────────────────── */
+.st-field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+.st-label { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s-faint); }
+.st-input, .st-select, .st-textarea {
+  width: 100%; padding: 11px 13px; border-radius: var(--s-radius-sm);
+  background: var(--s-panel-2); border: 1px solid var(--s-line-2); color: var(--s-text);
+  font-family: inherit; font-size: 0.9rem; transition: border-color 0.16s, background 0.16s;
+}
+.st-input:focus, .st-select:focus, .st-textarea:focus { outline: none; border-color: var(--s-accent); background: var(--s-bg); }
+.st-textarea { resize: vertical; min-height: 92px; }
+
+/* ── Detail layout ─────────────────────────────────── */
+.st-detail { display: grid; grid-template-columns: 1fr 320px; gap: 22px; align-items: start; }
+.st-detail-main { padding: 26px 28px; }
+.st-detail-side { padding: 22px; display: flex; flex-direction: column; gap: 4px; }
+.st-kv { display: grid; grid-template-columns: 120px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--s-line); }
+.st-kv:last-child { border-bottom: none; }
+.st-kv-k { color: var(--s-faint); font-size: 0.82rem; }
+.st-kv-v { word-break: break-word; }
+.st-back { display: inline-flex; align-items: center; gap: 6px; color: var(--s-muted); font-size: 0.86rem; margin-bottom: 18px; }
+.st-back:hover { color: var(--s-text); }
+
+/* ── Login ─────────────────────────────────────────── */
+.st-login { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+.st-login-card { width: 100%; max-width: 380px; background: var(--s-panel); border: 1px solid var(--s-line); border-radius: var(--s-radius); padding: 34px 32px; }
+.st-login-brand { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; margin-bottom: 4px; }
+.st-login-brand em { color: var(--s-accent); font-style: normal; }
+.st-login-sub { color: var(--s-muted); margin-bottom: 26px; font-size: 0.88rem; }
+.st-error { background: rgba(224, 122, 122, 0.1); border: 1px solid rgba(224, 122, 122, 0.3); color: #e79a9a; padding: 10px 13px; border-radius: var(--s-radius-sm); font-size: 0.84rem; margin-bottom: 16px; }
+.st-login .st-btn-primary { width: 100%; justify-content: center; margin-top: 6px; padding: 12px; }
+
+@media (max-width: 900px) {
+  .st-shell { grid-template-columns: 1fr; }
+  .st-side { position: static; height: auto; flex-direction: row; align-items: center; flex-wrap: wrap; gap: 14px; }
+  .st-nav { flex-direction: row; flex-wrap: wrap; }
+  .st-nav-label, .st-side-foot { display: none; }
+  .st-main { padding: 22px 18px; }
+  .st-detail { grid-template-columns: 1fr; }
+}

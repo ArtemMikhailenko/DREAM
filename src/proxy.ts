@@ -19,8 +19,8 @@ export default function middleware(req: NextRequest) {
 
 export const config = {
   // Run on all pathnames except: api routes, the Payload admin and its REST API,
-  // uploaded media, Next internals, and files with a dot (robots.txt, sitemap.xml,
-  // images, etc. stay untouched). Without the admin exclusions the locale router
-  // would rewrite /admin to /en/admin and the CMS would 404.
-  matcher: ["/((?!api|admin|payload-api|uploads|_next|_vercel|.*\\..*).*)"],
+  // the custom /studio admin, uploaded media, Next internals, and files with a dot
+  // (robots.txt, sitemap.xml, images, etc. stay untouched). Without these exclusions
+  // the locale router would rewrite e.g. /admin to /en/admin and the panel would 404.
+  matcher: ["/((?!api|admin|studio|payload-api|uploads|_next|_vercel|.*\\..*).*)"],
 };
