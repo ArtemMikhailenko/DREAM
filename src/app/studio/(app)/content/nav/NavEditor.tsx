@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { LOCALES, NAV_FIELDS, type Locale, type NavContent } from "@/studio/lib/content";
+import { LOCALES, NAV_FIELDS, type Locale, type NavContent } from "@/studio/lib/content-schema";
 import { saveNavAction } from "../actions";
 
 export function NavEditor({ initial }: { initial: NavContent }) {

@@ -1,44 +1,27 @@
 import crypto from "crypto";
 import { pool, query } from "./db";
+import type {
+  Locale,
+  NavFields,
+  NavContent,
+  FooterFields,
+  FooterContent,
+  LeadFormFields,
+  LeadFormContent,
+} from "./content-schema";
 
 /**
- * Read/write for Payload's localized globals, straight over SQL. Payload stores a
- * global as a parent row plus one `*_locales` row per language (en/ru/he); here we
- * load all three at once and update them in place. Writes bypass Payload, so the
- * caller must revalidate the affected routes itself.
+ * Server-only read/write for Payload's localized globals, straight over SQL.
+ * A global is a parent row plus one `*_locales` row per language (en/ru/he), with
+ * list fields in ordered sub-tables. Writes bypass Payload, so callers must
+ * revalidate the affected routes themselves.
+ *
+ * Types and UI field descriptors live in ./content-schema (client-safe) and are
+ * re-exported here for server consumers.
  */
-
-export type Locale = "en" | "ru" | "he";
-export const LOCALES: { code: Locale; label: string; rtl?: boolean }[] = [
-  { code: "en", label: "EN" },
-  { code: "ru", label: "RU" },
-  { code: "he", label: "עברית", rtl: true },
-];
+export * from "./content-schema";
 
 /* ── Navigation ─────────────────────────────────────── */
-
-export type NavFields = {
-  aboutUs: string;
-  services: string;
-  works: string;
-  pricing: string;
-  contacts: string;
-  callUs: string;
-  studio: string;
-  language: string;
-};
-export type NavContent = Record<Locale, NavFields>;
-
-export const NAV_FIELDS: { key: keyof NavFields; label: string }[] = [
-  { key: "aboutUs", label: "О нас" },
-  { key: "services", label: "Услуги" },
-  { key: "works", label: "Работы" },
-  { key: "pricing", label: "Цены" },
-  { key: "contacts", label: "Контакты" },
-  { key: "callUs", label: "Кнопка «Позвонить»" },
-  { key: "studio", label: "Подпись логотипа" },
-  { key: "language", label: "Лейбл «Язык»" },
-];
 
 type NavRow = {
   loc: string;
@@ -93,52 +76,6 @@ export async function saveNav(content: NavContent): Promise<void> {
 }
 
 /* ── Footer ─────────────────────────────────────────── */
-
-export type FooterFields = {
-  tagline: string;
-  servicesHead: string;
-  studioHead: string;
-  about: string;
-  process: string;
-  works: string;
-  pricing: string;
-  contactsHead: string;
-  getBrief: string;
-  fromIdea: string;
-  rights: string;
-};
-export type FooterLocaleData = { fields: FooterFields; services: string[] };
-export type FooterContent = Record<Locale, FooterLocaleData>;
-
-/** Scalar fields grouped into the sections the footer renders. */
-export const FOOTER_SECTIONS: { title: string; fields: { key: keyof FooterFields; label: string }[] }[] = [
-  { title: "Основное", fields: [{ key: "tagline", label: "Слоган под логотипом" }] },
-  { title: "Колонка «Услуги»", fields: [{ key: "servicesHead", label: "Заголовок" }] },
-  {
-    title: "Колонка «Студия»",
-    fields: [
-      { key: "studioHead", label: "Заголовок" },
-      { key: "about", label: "О нас" },
-      { key: "process", label: "Процесс" },
-      { key: "works", label: "Работы" },
-      { key: "pricing", label: "Цены" },
-    ],
-  },
-  {
-    title: "Колонка «Контакты»",
-    fields: [
-      { key: "contactsHead", label: "Заголовок" },
-      { key: "getBrief", label: "Ссылка «Оставить заявку»" },
-    ],
-  },
-  {
-    title: "Нижняя строка",
-    fields: [
-      { key: "fromIdea", label: "Слоган в копирайте" },
-      { key: "rights", label: "Права" },
-    ],
-  },
-];
 
 type FooterLocRow = {
   loc: string;
@@ -240,45 +177,6 @@ export async function saveFooter(content: FooterContent): Promise<void> {
 }
 
 /* ── Lead form ──────────────────────────────────────── */
-
-export type LeadFormFields = {
-  title: string; trust: string;
-  name: string; phone: string; email: string; city: string;
-  business: string; businessPlaceholder: string; interestedIn: string; notSure: string;
-  whatsappOptIn: string; submit: string; sending: string;
-  success: string; errorRequired: string; errorSend: string;
-};
-export type LeadFormContent = Record<Locale, { fields: LeadFormFields; services: string[] }>;
-
-export type FieldDef<K> = { key: K; label: string; multiline?: boolean };
-
-export const LEADFORM_SECTIONS: { title: string; fields: FieldDef<keyof LeadFormFields>[] }[] = [
-  { title: "Шапка формы", fields: [{ key: "title", label: "Заголовок" }, { key: "trust", label: "Трастовая строка" }] },
-  {
-    title: "Поля",
-    fields: [
-      { key: "name", label: "Имя" }, { key: "phone", label: "Телефон / WhatsApp" },
-      { key: "email", label: "Email" }, { key: "city", label: "Город (опционально)" },
-      { key: "business", label: "Сфера бизнеса" }, { key: "businessPlaceholder", label: "Сфера бизнеса — подсказка" },
-      { key: "interestedIn", label: "Интересует услуга" }, { key: "notSure", label: "Плейсхолдер на главной" },
-    ],
-  },
-  {
-    title: "Согласие и кнопка",
-    fields: [
-      { key: "whatsappOptIn", label: "Согласие на WhatsApp", multiline: true },
-      { key: "submit", label: "Кнопка отправки" }, { key: "sending", label: "Кнопка: отправка…" },
-    ],
-  },
-  {
-    title: "Сообщения",
-    fields: [
-      { key: "success", label: "Успешная отправка", multiline: true },
-      { key: "errorRequired", label: "Ошибка: не заполнены поля", multiline: true },
-      { key: "errorSend", label: "Ошибка: не удалось отправить", multiline: true },
-    ],
-  },
-];
 
 type LeadFormRow = Record<string, string | null> & { loc: string };
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { FOOTER_SECTIONS, LOCALES, type FooterContent, type FooterFields, type Locale } from "@/studio/lib/content";
+import { FOOTER_SECTIONS, LOCALES, type FooterContent, type FooterFields, type Locale } from "@/studio/lib/content-schema";
 import { saveFooterAction } from "../actions";
 
 export function FooterEditor({ initial }: { initial: FooterContent }) {

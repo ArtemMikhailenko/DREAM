@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { LEADFORM_SECTIONS, LOCALES, type LeadFormContent, type LeadFormFields, type Locale } from "@/studio/lib/content";
+import { LEADFORM_SECTIONS, LOCALES, type LeadFormContent, type LeadFormFields, type Locale } from "@/studio/lib/content-schema";
 import { saveLeadFormAction } from "../actions";
 
 export function LeadFormEditor({ initial }: { initial: LeadFormContent }) {
