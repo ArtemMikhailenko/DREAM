@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { getSession } from "@/studio/lib/auth";
-import { saveNav, saveFooter, saveLeadForm, saveAbout, saveHome, type NavContent, type FooterContent, type LeadFormContent, type AboutContent, type HomeContent } from "@/studio/lib/content";
+import { saveNav, saveFooter, saveLeadForm, saveAbout, saveHome, saveHomeImages, type NavContent, type FooterContent, type LeadFormContent, type AboutContent, type HomeContent } from "@/studio/lib/content";
 
 export async function saveNavAction(content: NavContent): Promise<{ ok: true }> {
   if (!(await getSession())) throw new Error("unauthorized");
@@ -37,6 +37,13 @@ export async function saveAboutAction(content: AboutContent): Promise<{ ok: true
 export async function saveHomeAction(content: HomeContent): Promise<{ ok: true }> {
   if (!(await getSession())) throw new Error("unauthorized");
   await saveHome(content);
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
+export async function saveHomeImagesAction(bgId: number | null, bgMobileId: number | null): Promise<{ ok: true }> {
+  if (!(await getSession())) throw new Error("unauthorized");
+  await saveHomeImages(bgId, bgMobileId);
   revalidatePath("/", "layout");
   return { ok: true };
 }

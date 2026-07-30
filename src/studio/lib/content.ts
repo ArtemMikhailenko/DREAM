@@ -12,6 +12,7 @@ import type {
   AboutContent,
   HomeFields,
   HomeContent,
+  HomeImages,
 } from "./content-schema";
 
 /**
@@ -437,6 +438,30 @@ export async function getHome(): Promise<HomeContent> {
   for (const r of resRows) if (r.loc in out) out[r.loc as Locale].results.push(r.label ?? "");
   for (const r of faqRows) if (r.loc in out) out[r.loc as Locale].faq.push({ q: r.q ?? "", a: r.a ?? "" });
   return out;
+}
+
+export async function getHomeImages(): Promise<HomeImages> {
+  const r = (await query<{ hero_bg_id: number | null; hero_bg_mobile_id: number | null; bg_thumb: string | null; bg_mobile_thumb: string | null }>(
+    `SELECT h.hero_bg_id, h.hero_bg_mobile_id,
+            COALESCE(mb.sizes_card_url, mb.url) AS bg_thumb,
+            COALESCE(mm.sizes_card_url, mm.url) AS bg_mobile_thumb
+       FROM home h
+       LEFT JOIN media mb ON mb.id = h.hero_bg_id
+       LEFT JOIN media mm ON mm.id = h.hero_bg_mobile_id
+      ORDER BY h.id LIMIT 1`,
+  ))[0];
+  return {
+    bgId: r?.hero_bg_id ?? null,
+    bgThumb: r?.bg_thumb ?? null,
+    bgMobileId: r?.hero_bg_mobile_id ?? null,
+    bgMobileThumb: r?.bg_mobile_thumb ?? null,
+  };
+}
+
+export async function saveHomeImages(bgId: number | null, bgMobileId: number | null): Promise<void> {
+  const parent = (await query<{ id: number }>(`SELECT id FROM home ORDER BY id LIMIT 1`))[0];
+  if (!parent) throw new Error("home parent row missing");
+  await query(`UPDATE home SET hero_bg_id=$1, hero_bg_mobile_id=$2, updated_at=now() WHERE id=$3`, [bgId, bgMobileId, parent.id]);
 }
 
 export async function saveHome(content: HomeContent): Promise<void> {

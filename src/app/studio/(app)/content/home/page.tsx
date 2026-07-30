@@ -1,13 +1,15 @@
-import { getHome, type HomeContent } from "@/studio/lib/content";
+import { getHome, getHomeImages, type HomeContent } from "@/studio/lib/content";
+import type { HomeImages } from "@/studio/lib/content-schema";
 import { HomeEditor } from "./HomeEditor";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomeContentPage() {
   let data: HomeContent | null = null;
+  let images: HomeImages | null = null;
   let dbError = false;
   try {
-    data = await getHome();
+    [data, images] = await Promise.all([getHome(), getHomeImages()]);
   } catch {
     dbError = true;
   }
@@ -21,10 +23,10 @@ export default async function HomeContentPage() {
         </div>
       </div>
 
-      {dbError || !data ? (
+      {dbError || !data || !images ? (
         <div className="st-error">Не удалось загрузить данные. Проверьте подключение к базе.</div>
       ) : (
-        <HomeEditor initial={data} />
+        <HomeEditor initial={data} initialImages={images} />
       )}
     </>
   );

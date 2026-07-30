@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { HOME_SECTIONS, LOCALES, type HomeContent, type HomeFields, type Locale } from "@/studio/lib/content-schema";
-import { saveHomeAction } from "../actions";
+import { HOME_SECTIONS, LOCALES, type HomeContent, type HomeFields, type HomeImages, type Locale } from "@/studio/lib/content-schema";
+import { saveHomeAction, saveHomeImagesAction } from "../actions";
 import { ObjectList, StringList } from "../_lists";
+import { ImagePicker } from "../../_ImagePicker";
 
 type LocData = HomeContent[Locale];
 
-export function HomeEditor({ initial }: { initial: HomeContent }) {
+export function HomeEditor({ initial, initialImages }: { initial: HomeContent; initialImages: HomeImages }) {
   const [content, setContent] = useState<HomeContent>(initial);
   const [baseline, setBaseline] = useState<HomeContent>(initial);
   const [locale, setLocale] = useState<Locale>("ru");
@@ -28,6 +29,16 @@ export function HomeEditor({ initial }: { initial: HomeContent }) {
     await saveHomeAction(content);
     setBaseline(content);
     setJustSaved(true);
+  });
+
+  // Hero background images — non-localized, saved separately.
+  const [images, setImages] = useState<HomeImages>(initialImages);
+  const [imgBase, setImgBase] = useState<HomeImages>(initialImages);
+  const [savingImg, startImg] = useTransition();
+  const imgDirty = JSON.stringify(images) !== JSON.stringify(imgBase);
+  const saveImages = () => startImg(async () => {
+    await saveHomeImagesAction(images.bgId, images.bgMobileId);
+    setImgBase(images);
   });
 
   const renderList = (id: NonNullable<(typeof HOME_SECTIONS)[number]["list"]>) => {
@@ -66,6 +77,21 @@ export function HomeEditor({ initial }: { initial: HomeContent }) {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 680 }}>
+        <div className="st-card" style={{ padding: "22px 24px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+            <div className="st-label" style={{ fontSize: "0.7rem", margin: 0 }}>Фон героя (общий для всех языков)</div>
+            <button type="button" className="st-btn st-btn-primary" onClick={saveImages} disabled={!imgDirty || savingImg} style={{ padding: "7px 14px" }}>
+              {savingImg ? "Сохраняем…" : imgDirty ? "Сохранить фон" : "Фон сохранён"}
+            </button>
+          </div>
+          <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+            <ImagePicker label="Фон (десктоп)" valueId={images.bgId} valueThumb={images.bgThumb}
+              onChange={(id, thumb) => setImages((s) => ({ ...s, bgId: id, bgThumb: thumb }))} />
+            <ImagePicker label="Фон (мобайл)" valueId={images.bgMobileId} valueThumb={images.bgMobileThumb}
+              onChange={(id, thumb) => setImages((s) => ({ ...s, bgMobileId: id, bgMobileThumb: thumb }))} />
+          </div>
+        </div>
+
         {HOME_SECTIONS.map((section) => (
           <div className="st-card" style={{ padding: "22px 24px" }} key={section.title}>
             <div className="st-label" style={{ marginBottom: 16, fontSize: "0.7rem" }}>{section.title}</div>

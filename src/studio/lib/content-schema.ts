@@ -218,6 +218,9 @@ export type HomeContent = Record<Locale, {
   faq: { q: string; a: string }[];
 }>;
 
+/** Hero background images — not localized, so kept separate from HomeContent. */
+export type HomeImages = { bgId: number | null; bgThumb: string | null; bgMobileId: number | null; bgMobileThumb: string | null };
+
 /** Which flat sub-list (if any) renders after a section's scalar fields. `note`
  *  flags parts still edited in Payload (nested cards / images) — coming later. */
 export const HOME_SECTIONS: {
