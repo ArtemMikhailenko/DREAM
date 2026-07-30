@@ -58,6 +58,9 @@ export const metadata: Metadata = {
   description:
     "dc.prod is a full-cycle production studio: promotional & image videos, 3D animation, social media content, AI content and digital marketing — from idea to result.",
   applicationName: "dc.prod",
+  // Meta domain verification. Kept in the page head rather than a DNS TXT record so
+  // it survives DNS/host moves — the ads account and pixel depend on it.
+  other: { "facebook-domain-verification": "tm7ve4fhbg5cdo8j530ztxsxpzkps5" },
   robots: {
     index: true,
     follow: true,
