@@ -209,6 +209,7 @@ export type HomeFields = {
   faqLabel: string; faqHeading: string; faqHeadingEm: string;
   leadBadge: string; leadHeading: string; leadHeadingEm: string; leadSub: string; leadEmailLabel: string;
 };
+export type HomePricingPackage = { name: string; tag: string; price: string; priceOld: string; time: string; rows: { name: string; extra: string }[] };
 export type HomeContent = Record<Locale, {
   fields: HomeFields;
   rail: string[];
@@ -216,6 +217,7 @@ export type HomeContent = Record<Locale, {
   process: { name: string; desc: string }[];
   results: string[];
   faq: { q: string; a: string }[];
+  pricing: HomePricingPackage[];
 }>;
 
 /** Hero background images — not localized, so kept separate from HomeContent. */

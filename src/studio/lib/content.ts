@@ -395,7 +395,8 @@ const emptyHome = (): HomeFields => ({
 });
 
 export async function getHome(): Promise<HomeContent> {
-  const [locRows, railRows, probRows, procRows, resRows, faqRows] = await Promise.all([
+  const homeId = (await query<{ id: number }>(`SELECT id FROM home ORDER BY id LIMIT 1`))[0]?.id;
+  const [locRows, railRows, probRows, procRows, resRows, faqRows, pkgRows, pkgRowRows] = await Promise.all([
     query<HomeLocRow>(
       `SELECT _locale::text AS loc, meta_title, meta_description, hero_kicker, hero_h1, hero_desc, hero_cta_primary, hero_cta_secondary,
               rail_head, problem_label, problem_heading, services_label, services_heading, services_heading_em, services_on_set, services_launch, services_all,
@@ -410,9 +411,13 @@ export async function getHome(): Promise<HomeContent> {
     query<{ loc: string; name: string | null; desc: string | null }>(`SELECT _locale::text AS loc, name, "desc" FROM home_process_steps ORDER BY _locale, _order`),
     query<{ loc: string; label: string | null }>(`SELECT _locale::text AS loc, label FROM home_results_items ORDER BY _locale, _order`),
     query<{ loc: string; q: string | null; a: string | null }>(`SELECT _locale::text AS loc, q, a FROM home_faq_items ORDER BY _locale, _order`),
+    query<{ pkg_id: string; loc: string; name: string | null; tag: string | null; price: string | null; price_old: string | null; time: string | null }>(
+      `SELECT id AS pkg_id, _locale::text AS loc, name, tag, price, price_old, time FROM home_pricing_packages WHERE _parent_id=$1 ORDER BY _locale, _order`, [homeId]),
+    query<{ pkg_id: string; name: string | null; extra: string | null }>(
+      `SELECT r._parent_id AS pkg_id, r.name, r.extra FROM home_pricing_packages_rows r JOIN home_pricing_packages p ON p.id=r._parent_id WHERE p._parent_id=$1 ORDER BY r._order`, [homeId]),
   ]);
 
-  const mk = (): HomeContent[Locale] => ({ fields: emptyHome(), rail: [], problem: [], process: [], results: [], faq: [] });
+  const mk = (): HomeContent[Locale] => ({ fields: emptyHome(), rail: [], problem: [], process: [], results: [], faq: [], pricing: [] });
   const out: HomeContent = { en: mk(), ru: mk(), he: mk() };
 
   for (const r of locRows) {
@@ -437,6 +442,12 @@ export async function getHome(): Promise<HomeContent> {
   for (const r of procRows) if (r.loc in out) out[r.loc as Locale].process.push({ name: r.name ?? "", desc: r.desc ?? "" });
   for (const r of resRows) if (r.loc in out) out[r.loc as Locale].results.push(r.label ?? "");
   for (const r of faqRows) if (r.loc in out) out[r.loc as Locale].faq.push({ q: r.q ?? "", a: r.a ?? "" });
+  const rowsByPkg: Record<string, { name: string; extra: string }[]> = {};
+  for (const r of pkgRowRows) (rowsByPkg[r.pkg_id] ??= []).push({ name: r.name ?? "", extra: r.extra ?? "" });
+  for (const p of pkgRows) {
+    if (!(p.loc in out)) continue;
+    out[p.loc as Locale].pricing.push({ name: p.name ?? "", tag: p.tag ?? "", price: p.price ?? "", priceOld: p.price_old ?? "", time: p.time ?? "", rows: rowsByPkg[p.pkg_id] ?? [] });
+  }
   return out;
 }
 
@@ -532,6 +543,25 @@ export async function saveHome(content: HomeContent): Promise<void> {
       await client.query(`DELETE FROM home_faq_items WHERE _parent_id=$1 AND _locale::text=$2`, [parent.id, loc]);
       for (let i = 0; i < faq.length; i++) {
         await client.query(`INSERT INTO home_faq_items (id, _order, _parent_id, _locale, q, a) VALUES ($1,$2,$3,$4::_locales,$5,$6)`, [genId(), i + 1, parent.id, loc, faq[i].q, faq[i].a]);
+      }
+
+      // pricing packages (+ nested rows) — delete cascades the rows, then reinsert.
+      const pkgs = (d.pricing ?? []).filter((p) => (p.name ?? "").trim() || (p.price ?? "").trim()).slice(0, 8);
+      await client.query(`DELETE FROM home_pricing_packages WHERE _parent_id=$1 AND _locale::text=$2`, [parent.id, loc]);
+      for (let pi = 0; pi < pkgs.length; pi++) {
+        const p = pkgs[pi];
+        const pkgId = genId();
+        await client.query(
+          `INSERT INTO home_pricing_packages (id, _order, _parent_id, _locale, name, tag, price, price_old, time) VALUES ($1,$2,$3,$4::_locales,$5,$6,$7,$8,$9)`,
+          [pkgId, pi + 1, parent.id, loc, clip(p.name), clip(p.tag), clip(p.price), clip(p.priceOld), clip(p.time)],
+        );
+        const rows = (p.rows ?? []).filter((r) => (r.name ?? "").trim() || (r.extra ?? "").trim()).slice(0, 20);
+        for (let ri = 0; ri < rows.length; ri++) {
+          await client.query(
+            `INSERT INTO home_pricing_packages_rows (id, _order, _parent_id, _locale, name, extra) VALUES ($1,$2,$3,$4::_locales,$5,$6)`,
+            [genId(), ri + 1, pkgId, loc, clip(rows[ri].name), clip(rows[ri].extra)],
+          );
+        }
       }
     }
     await client.query("COMMIT");
