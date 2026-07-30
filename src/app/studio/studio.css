@@ -10,6 +10,7 @@
   --s-text: #f4f1ea;
   --s-muted: #a29c92;
   --s-faint: #6c675f;
+  --s-label: #cdc7bd;
   --s-accent: #e8a868;
   --s-accent-2: #d98b4a;
   --s-accent-soft: rgba(232, 168, 104, 0.12);
@@ -120,10 +121,11 @@ a { color: inherit; text-decoration: none; }
 .st-empty-ic { font-size: 2.4rem; margin-bottom: 10px; opacity: 0.6; }
 
 /* ── Forms ─────────────────────────────────────────── */
-.st-field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
-.st-label { font-family: var(--font-mono); font-size: 0.64rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--s-faint); }
+.st-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+/* Sentence case, not tiny mono caps — these are labels an editor reads, not code. */
+.st-label { font-family: inherit; font-size: 0.83rem; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--s-label); }
 .st-input, .st-select, .st-textarea {
-  width: 100%; padding: 11px 13px; border-radius: var(--s-radius-sm);
+  width: 100%; padding: 10px 12px; border-radius: var(--s-radius-sm);
   background: var(--s-panel-2); border: 1px solid var(--s-line-2); color: var(--s-text);
   font-family: inherit; font-size: 0.9rem; transition: border-color 0.16s, background 0.16s;
 }
@@ -140,6 +142,91 @@ a { color: inherit; text-decoration: none; }
 .st-kv-v { word-break: break-word; }
 .st-back { display: inline-flex; align-items: center; gap: 6px; color: var(--s-muted); font-size: 0.86rem; margin-bottom: 18px; }
 .st-back:hover { color: var(--s-text); }
+
+/* ── Editor chrome ─────────────────────────────────── */
+/* Full-bleed sticky bar: cancels .st-main's padding so it spans the pane. */
+.st-bar {
+  position: sticky; top: 0; z-index: 40;
+  margin: -32px -40px 22px; padding: 13px 40px;
+  background: var(--s-bg); border-bottom: 1px solid var(--s-line);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.st-bar-spacer { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.st-bar-state { font-size: 0.8rem; color: var(--s-faint); white-space: nowrap; }
+.st-bar-state.dirty { color: var(--s-accent); }
+.st-bar-state.saved { color: #6bd39a; }
+.st-kbd {
+  font-family: var(--font-mono); font-size: 0.66rem; padding: 2px 6px; border-radius: 5px;
+  border: 1px solid var(--s-line-2); color: var(--s-faint); background: var(--s-panel-2);
+}
+
+/* Locale tabs carry a "untranslated fields" count. */
+.st-loc { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 999px; border: 1px solid var(--s-line); color: var(--s-muted); font-weight: 600; font-size: 0.84rem; cursor: pointer; font-family: inherit; transition: background .16s, color .16s, border-color .16s; }
+.st-loc:hover { background: var(--s-hover); color: var(--s-text); }
+.st-loc.active { background: var(--s-text); color: #14130f; border-color: transparent; }
+.st-loc-gap { font-family: var(--font-mono); font-size: 0.68rem; padding: 0 6px; border-radius: 999px; background: rgba(232,168,104,.18); color: var(--s-accent); }
+.st-loc.active .st-loc-gap { background: rgba(20,19,15,.14); color: #14130f; }
+
+/* Two-column editor: fields + section rail. The whole pair is capped, so the
+   fields grow into the space instead of leaving a void beside a narrow column. */
+.st-editor { display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 30px; align-items: start; max-width: 1180px; }
+.st-editor-main { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.st-toc { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 1px; }
+.st-toc-head { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--s-faint); padding: 0 10px 8px; }
+.st-toc-item {
+  text-align: left; padding: 7px 10px; border-radius: 8px; border: none; background: none;
+  color: var(--s-muted); font-size: 0.83rem; font-family: inherit; cursor: pointer;
+  border-left: 2px solid transparent; transition: background .14s, color .14s;
+}
+.st-toc-item:hover { background: var(--s-hover); color: var(--s-text); }
+.st-toc-item.active { color: var(--s-text); border-left-color: var(--s-accent); background: var(--s-accent-soft); }
+
+/* Section card */
+.st-sec { background: var(--s-panel); border: 1px solid var(--s-line); border-radius: var(--s-radius); padding: 20px 22px; scroll-margin-top: 86px; }
+.st-sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+
+/* Two-column field grid: short fields pair up, long text spans the row. */
+.st-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 18px; }
+.st-grid > .st-wide { grid-column: 1 / -1; }
+
+/* A heading split into plain + accented halves, shown with the joined result so
+   editors can see the line they are actually writing. */
+.st-pair { grid-column: 1 / -1; border: 1px solid var(--s-line); border-radius: 10px; padding: 13px 14px 4px; margin-bottom: 14px; }
+.st-pair-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
+.st-preview { margin: 2px 0 12px; padding: 9px 12px; border-radius: 8px; background: var(--s-panel-2); border: 1px solid var(--s-line); font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
+.st-preview em { font-style: italic; color: var(--s-accent); }
+.st-preview-cap { display: block; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--s-faint); font-weight: 400; margin-bottom: 5px; }
+.st-sec-title { font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; }
+.st-sec-hint { font-size: 0.78rem; color: var(--s-faint); }
+
+/* Field head with counter / flags */
+.st-field-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.st-hint { font-size: 0.76rem; color: var(--s-faint); margin: -2px 0 0; }
+.st-count { font-family: var(--font-mono); font-size: 0.68rem; color: var(--s-faint); white-space: nowrap; }
+.st-count.warn { color: var(--s-accent); }
+.st-count.over { color: #e07a7a; }
+.st-flag { font-size: 0.64rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 1px 6px; border-radius: 4px; background: rgba(232,168,104,.14); color: var(--s-accent); }
+
+/* Draggable list rows */
+.st-drag-row { display: flex; gap: 6px; align-items: flex-start; border-radius: 10px; transition: opacity .12s, box-shadow .12s; }
+.st-drag-row.dragging { opacity: 0.35; }
+.st-drag-row.over { box-shadow: 0 -2px 0 0 var(--s-accent); }
+.st-grip {
+  flex-shrink: 0; width: 26px; align-self: stretch; min-height: 40px; cursor: grab;
+  display: grid; place-items: center; color: var(--s-faint); border-radius: 8px;
+  border: 1px solid transparent; user-select: none; font-size: 0.9rem;
+}
+.st-grip:hover { background: var(--s-hover); color: var(--s-text); border-color: var(--s-line); }
+.st-grip:active { cursor: grabbing; }
+.st-card-block { border: 1px solid var(--s-line-2); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; background: var(--s-panel-2); }
+
+@media (max-width: 1100px) {
+  .st-editor { grid-template-columns: 1fr; }
+  .st-toc { display: none; }
+}
+@media (max-width: 900px) {
+  .st-bar { margin: -22px -18px 16px; padding: 11px 18px; }
+}
 
 /* ── Media library ─────────────────────────────────── */
 .st-media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }

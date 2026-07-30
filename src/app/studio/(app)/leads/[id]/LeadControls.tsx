@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { STATUSES, type LeadStatus } from "@/studio/lib/leads";
+import { STATUSES, type LeadStatus } from "@/studio/lib/leads-schema";
 import { saveNoteAction, updateStatusAction } from "../actions";
 
 export function LeadControls({

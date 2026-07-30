@@ -3,64 +3,34 @@
 import { useState, useTransition } from "react";
 import { LOCALES, NAV_FIELDS, type Locale, type NavContent } from "@/studio/lib/content-schema";
 import { saveNavAction } from "../actions";
+import { EditorBar, FieldGrid, Section, fillEmptyFrom, useGaps, useSaveShortcut } from "../../_editor";
 
 export function NavEditor({ initial }: { initial: NavContent }) {
   const [content, setContent] = useState<NavContent>(initial);
   const [baseline, setBaseline] = useState<NavContent>(initial);
   const [locale, setLocale] = useState<Locale>("ru");
-  const [pending, start] = useTransition();
-  const [justSaved, setJustSaved] = useState(false);
+  const [saving, start] = useTransition();
 
   const dirty = JSON.stringify(content) !== JSON.stringify(baseline);
-  const rtl = LOCALES.find((l) => l.code === locale)?.rtl;
+  const dir = LOCALES.find((l) => l.code === locale)?.rtl ? "rtl" : "ltr";
+  const gaps = useGaps(content);
 
-  const setField = (key: keyof NavContent[Locale], value: string) => {
+  const save = () => start(async () => { await saveNavAction(content); setBaseline(content); });
+  useSaveShortcut(dirty, save);
+
+  const setField = (key: keyof NavContent[Locale], value: string) =>
     setContent((c) => ({ ...c, [locale]: { ...c[locale], [key]: value } }));
-    setJustSaved(false);
-  };
-
-  const save = () => {
-    start(async () => {
-      await saveNavAction(content);
-      setBaseline(content);
-      setJustSaved(true);
-    });
-  };
+  const fillFrom = (from: Locale) => setContent((c) => ({ ...c, [locale]: fillEmptyFrom(c[locale], c[from]) }));
 
   return (
     <>
-      <div className="st-tabs">
-        {LOCALES.map((l) => (
-          <button
-            key={l.code}
-            type="button"
-            className={`st-tab${locale === l.code ? " active" : ""}`}
-            onClick={() => setLocale(l.code)}
-          >
-            {l.label}
-          </button>
-        ))}
-        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
-          {justSaved && !dirty ? <span style={{ color: "#6bd39a", fontSize: "0.84rem" }}>✓ Сохранено</span> : null}
-          <button type="button" className="st-btn st-btn-primary" onClick={save} disabled={!dirty || pending}>
-            {pending ? "Сохраняем…" : "Сохранить"}
-          </button>
-        </div>
-      </div>
+      <EditorBar locale={locale} setLocale={setLocale} gaps={gaps} dirty={dirty} saving={saving} onSave={save} onFillFrom={fillFrom}
+        previewHref={locale === "en" ? "/" : `/${locale === "he" ? "heb" : locale}`} />
 
-      <div className="st-card" style={{ padding: "26px 28px", maxWidth: 640 }}>
-        {NAV_FIELDS.map((f) => (
-          <div className="st-field" key={f.key}>
-            <label className="st-label" htmlFor={f.key}>{f.label}</label>
-            <input
-              id={f.key}
-              className="st-input"
-              value={content[locale][f.key]}
-              dir={rtl ? "rtl" : "ltr"}
-              onChange={(e) => setField(f.key, e.target.value)}
-            />
-          </div>
-        ))}
+      <div className="st-editor-main">
+        <Section title="Пункты меню" hint="Шапка сайта на всех страницах">
+          <FieldGrid fields={NAV_FIELDS} values={content[locale]} dir={dir} onChange={(k, v) => setField(k as keyof NavContent[Locale], v)} />
+        </Section>
       </div>
     </>
   );

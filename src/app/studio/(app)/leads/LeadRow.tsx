@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import type { Lead, LeadStatus } from "@/studio/lib/leads";
+import type { Lead, LeadStatus } from "@/studio/lib/leads-schema";
 
 const STATUS_LABEL: Record<LeadStatus, string> = {
   new: "Новая",

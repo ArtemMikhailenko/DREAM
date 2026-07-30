@@ -3,92 +3,49 @@
 import { useState, useTransition } from "react";
 import { FOOTER_SECTIONS, LOCALES, type FooterContent, type FooterFields, type Locale } from "@/studio/lib/content-schema";
 import { saveFooterAction } from "../actions";
+import { StringList } from "../_lists";
+import { EditorBar, FieldGrid, Section, SectionNav, fillEmptyFrom, useGaps, useSaveShortcut } from "../../_editor";
 
 export function FooterEditor({ initial }: { initial: FooterContent }) {
   const [content, setContent] = useState<FooterContent>(initial);
   const [baseline, setBaseline] = useState<FooterContent>(initial);
   const [locale, setLocale] = useState<Locale>("ru");
-  const [pending, start] = useTransition();
-  const [justSaved, setJustSaved] = useState(false);
+  const [saving, start] = useTransition();
 
   const dirty = JSON.stringify(content) !== JSON.stringify(baseline);
-  const rtl = LOCALES.find((l) => l.code === locale)?.rtl ?? false;
-  const dir = rtl ? "rtl" : "ltr";
+  const dir = LOCALES.find((l) => l.code === locale)?.rtl ? "rtl" : "ltr";
+  const d = content[locale];
+  const gaps = useGaps(content);
 
-  const touched = () => setJustSaved(false);
-  const setField = (key: keyof FooterFields, value: string) => {
+  const save = () => start(async () => { await saveFooterAction(content); setBaseline(content); });
+  useSaveShortcut(dirty, save);
+
+  const setField = (key: keyof FooterFields, value: string) =>
     setContent((c) => ({ ...c, [locale]: { ...c[locale], fields: { ...c[locale].fields, [key]: value } } }));
-    touched();
-  };
-  const mutateServices = (fn: (arr: string[]) => string[]) => {
-    setContent((c) => ({ ...c, [locale]: { ...c[locale], services: fn([...c[locale].services]) } }));
-    touched();
-  };
-  const setService = (i: number, v: string) => mutateServices((a) => { a[i] = v; return a; });
-  const addService = () => mutateServices((a) => { a.push(""); return a; });
-  const removeService = (i: number) => mutateServices((a) => { a.splice(i, 1); return a; });
-  const moveService = (i: number, d: -1 | 1) => mutateServices((a) => {
-    const j = i + d;
-    if (j < 0 || j >= a.length) return a;
-    [a[i], a[j]] = [a[j], a[i]];
-    return a;
-  });
-
-  const save = () => start(async () => {
-    await saveFooterAction(content);
-    setBaseline(content);
-    setJustSaved(true);
-  });
-
-  const services = content[locale].services;
+  const setServices = (v: string[]) => setContent((c) => ({ ...c, [locale]: { ...c[locale], services: v } }));
+  const fillFrom = (from: Locale) => setContent((c) => ({ ...c, [locale]: fillEmptyFrom(c[locale], c[from]) }));
 
   return (
     <>
-      <div className="st-tabs">
-        {LOCALES.map((l) => (
-          <button key={l.code} type="button" className={`st-tab${locale === l.code ? " active" : ""}`} onClick={() => setLocale(l.code)}>
-            {l.label}
-          </button>
-        ))}
-        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
-          {justSaved && !dirty ? <span style={{ color: "#6bd39a", fontSize: "0.84rem" }}>✓ Сохранено</span> : null}
-          <button type="button" className="st-btn st-btn-primary" onClick={save} disabled={!dirty || pending}>
-            {pending ? "Сохраняем…" : "Сохранить"}
-          </button>
-        </div>
-      </div>
+      <EditorBar locale={locale} setLocale={setLocale} gaps={gaps} dirty={dirty} saving={saving} onSave={save} onFillFrom={fillFrom}
+        previewHref={locale === "en" ? "/" : `/${locale === "he" ? "heb" : locale}`} />
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 640 }}>
-        {FOOTER_SECTIONS.map((section) => (
-          <div className="st-card" style={{ padding: "22px 24px" }} key={section.title}>
-            <div className="st-label" style={{ marginBottom: 16, fontSize: "0.7rem" }}>{section.title}</div>
-            {section.fields.map((f) => (
-              <div className="st-field" key={f.key}>
-                <label className="st-label" htmlFor={f.key}>{f.label}</label>
-                <input id={f.key} className="st-input" dir={dir} value={content[locale].fields[f.key]} onChange={(e) => setField(f.key, e.target.value)} />
-              </div>
-            ))}
-
-            {section.title === "Колонка «Услуги»" ? (
-              <div className="st-field" style={{ marginBottom: 0 }}>
-                <label className="st-label">Пункты списка</label>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {services.map((s, i) => (
-                    <div key={i} style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                      <input className="st-input" dir={dir} value={s} onChange={(e) => setService(i, e.target.value)} placeholder="Пункт…" />
-                      <button type="button" className="st-btn st-btn-ghost" title="Вверх" onClick={() => moveService(i, -1)} disabled={i === 0} style={{ padding: "8px 10px" }}>↑</button>
-                      <button type="button" className="st-btn st-btn-ghost" title="Вниз" onClick={() => moveService(i, 1)} disabled={i === services.length - 1} style={{ padding: "8px 10px" }}>↓</button>
-                      <button type="button" className="st-btn st-btn-ghost" title="Удалить" onClick={() => removeService(i)} style={{ padding: "8px 10px", color: "#e07a7a" }}>✕</button>
-                    </div>
-                  ))}
-                  {services.length < 12 ? (
-                    <button type="button" className="st-btn" onClick={addService} style={{ alignSelf: "flex-start" }}>+ Добавить пункт</button>
-                  ) : null}
+      <div className="st-editor">
+        <div className="st-editor-main">
+          {FOOTER_SECTIONS.map((section) => (
+            <Section key={section.title} title={section.title}>
+              <FieldGrid fields={section.fields} values={d.fields} dir={dir} onChange={(k, v) => setField(k as keyof FooterFields, v)} />
+              {section.title === "Колонка «Услуги»" ? (
+                <div className="st-field" style={{ marginBottom: 0 }}>
+                  <label className="st-label" style={{ display: "block", marginBottom: 8 }}>Пункты списка</label>
+                  <StringList items={d.services} onChange={setServices} dir={dir} addLabel="+ Пункт" max={12} />
                 </div>
-              </div>
-            ) : null}
-          </div>
-        ))}
+              ) : null}
+            </Section>
+          ))}
+        </div>
+
+        <SectionNav titles={FOOTER_SECTIONS.map((s) => s.title)} />
       </div>
     </>
   );

@@ -1,32 +1,10 @@
 import { query } from "./db";
+import type { Lead, LeadStatus } from "./leads-schema";
 
-export type LeadStatus = "new" | "in_progress" | "won" | "lost";
-
-export type Lead = {
-  id: number;
-  name: string | null;
-  phone: string | null;
-  email: string | null;
-  city: string | null;
-  business: string | null;
-  service: string | null;
-  status: LeadStatus | null;
-  note: string | null;
-  page: string | null;
-  locale: string | null;
-  whatsapp_opt_in: boolean | null;
-  utm: Record<string, unknown> | null;
-  crm_forwarded: boolean | null;
-  created_at: string;
-  updated_at: string;
-};
-
-export const STATUSES: { value: LeadStatus; label: string }[] = [
-  { value: "new", label: "Новые" },
-  { value: "in_progress", label: "В работе" },
-  { value: "won", label: "Закрыты" },
-  { value: "lost", label: "Отказ" },
-];
+// Types and STATUSES live in ./leads-schema (client-safe) — re-exported here for
+// server callers. Client components must import them from the schema directly.
+export { STATUSES } from "./leads-schema";
+export type { Lead, LeadStatus } from "./leads-schema";
 
 const COLS =
   "id, name, phone, email, city, business, service, status, note, page, locale, whatsapp_opt_in, utm, crm_forwarded, created_at, updated_at";

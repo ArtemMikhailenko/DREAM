@@ -3,85 +3,50 @@
 import { useState, useTransition } from "react";
 import { LEADFORM_SECTIONS, LOCALES, type LeadFormContent, type LeadFormFields, type Locale } from "@/studio/lib/content-schema";
 import { saveLeadFormAction } from "../actions";
+import { StringList } from "../_lists";
+import { EditorBar, FieldGrid, Section, SectionNav, fillEmptyFrom, useGaps, useSaveShortcut } from "../../_editor";
+
+const SERVICES_TITLE = "Услуги в списке";
 
 export function LeadFormEditor({ initial }: { initial: LeadFormContent }) {
   const [content, setContent] = useState<LeadFormContent>(initial);
   const [baseline, setBaseline] = useState<LeadFormContent>(initial);
   const [locale, setLocale] = useState<Locale>("ru");
-  const [pending, start] = useTransition();
-  const [justSaved, setJustSaved] = useState(false);
+  const [saving, start] = useTransition();
 
   const dirty = JSON.stringify(content) !== JSON.stringify(baseline);
-  const rtl = LOCALES.find((l) => l.code === locale)?.rtl ?? false;
-  const dir = rtl ? "rtl" : "ltr";
+  const dir = LOCALES.find((l) => l.code === locale)?.rtl ? "rtl" : "ltr";
+  const d = content[locale];
+  const gaps = useGaps(content);
 
-  const setField = (key: keyof LeadFormFields, value: string) => {
+  const save = () => start(async () => { await saveLeadFormAction(content); setBaseline(content); });
+  useSaveShortcut(dirty, save);
+
+  const setField = (key: keyof LeadFormFields, value: string) =>
     setContent((c) => ({ ...c, [locale]: { ...c[locale], fields: { ...c[locale].fields, [key]: value } } }));
-    setJustSaved(false);
-  };
-  const setService = (i: number, value: string) => {
-    setContent((c) => {
-      const services = [...c[locale].services];
-      services[i] = value;
-      return { ...c, [locale]: { ...c[locale], services } };
-    });
-    setJustSaved(false);
-  };
-
-  const save = () => start(async () => {
-    await saveLeadFormAction(content);
-    setBaseline(content);
-    setJustSaved(true);
-  });
-
-  const services = content[locale].services;
+  const setServices = (v: string[]) => setContent((c) => ({ ...c, [locale]: { ...c[locale], services: v } }));
+  const fillFrom = (from: Locale) => setContent((c) => ({ ...c, [locale]: fillEmptyFrom(c[locale], c[from]) }));
 
   return (
     <>
-      <div className="st-tabs">
-        {LOCALES.map((l) => (
-          <button key={l.code} type="button" className={`st-tab${locale === l.code ? " active" : ""}`} onClick={() => setLocale(l.code)}>
-            {l.label}
-          </button>
-        ))}
-        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 12 }}>
-          {justSaved && !dirty ? <span style={{ color: "#6bd39a", fontSize: "0.84rem" }}>✓ Сохранено</span> : null}
-          <button type="button" className="st-btn st-btn-primary" onClick={save} disabled={!dirty || pending}>
-            {pending ? "Сохраняем…" : "Сохранить"}
-          </button>
-        </div>
-      </div>
+      <EditorBar locale={locale} setLocale={setLocale} gaps={gaps} dirty={dirty} saving={saving} onSave={save} onFillFrom={fillFrom}
+        previewHref={locale === "en" ? "/" : `/${locale === "he" ? "heb" : locale}`} />
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 640 }}>
-        {LEADFORM_SECTIONS.map((section) => (
-          <div className="st-card" style={{ padding: "22px 24px" }} key={section.title}>
-            <div className="st-label" style={{ marginBottom: 16, fontSize: "0.7rem" }}>{section.title}</div>
-            {section.fields.map((f) => (
-              <div className="st-field" key={f.key}>
-                <label className="st-label" htmlFor={f.key}>{f.label}</label>
-                {f.multiline ? (
-                  <textarea id={f.key} className="st-textarea" dir={dir} value={content[locale].fields[f.key]} onChange={(e) => setField(f.key, e.target.value)} />
-                ) : (
-                  <input id={f.key} className="st-input" dir={dir} value={content[locale].fields[f.key]} onChange={(e) => setField(f.key, e.target.value)} />
-                )}
-              </div>
-            ))}
-          </div>
-        ))}
+      <div className="st-editor">
+        <div className="st-editor-main">
+          {LEADFORM_SECTIONS.map((section) => (
+            <Section key={section.title} title={section.title}>
+              <FieldGrid fields={section.fields} values={d.fields} dir={dir} onChange={(k, v) => setField(k as keyof LeadFormFields, v)} />
+            </Section>
+          ))}
 
-        <div className="st-card" style={{ padding: "22px 24px" }}>
-          <div className="st-label" style={{ marginBottom: 6, fontSize: "0.7rem" }}>Услуги в выпадающем списке</div>
-          <p className="st-sub" style={{ margin: "0 0 16px", fontSize: "0.82rem" }}>
-            Порядок и количество менять нельзя — по позиции подставляется услуга страницы. Меняйте только текст.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {services.map((s, i) => (
-              <div className="st-field" key={i} style={{ marginBottom: 0 }}>
-                <input className="st-input" dir={dir} value={s} onChange={(e) => setService(i, e.target.value)} />
-              </div>
-            ))}
-          </div>
+          <Section title={SERVICES_TITLE} hint="Порядок и количество менять нельзя">
+            <p className="st-hint" style={{ marginBottom: 10 }}>По позиции в этом списке подставляется услуга текущей страницы — меняйте только текст.</p>
+            <StringList items={d.services} onChange={setServices} dir={dir} fixed />
+          </Section>
         </div>
+
+        <SectionNav titles={[...LEADFORM_SECTIONS.map((s) => s.title), SERVICES_TITLE]} />
       </div>
     </>
   );
