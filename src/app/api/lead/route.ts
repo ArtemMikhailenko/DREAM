@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPayload } from "payload";
-import config from "@payload-config";
+import { query } from "@/studio/lib/db";
 import {
   forwardLeadToCrm,
   isDuplicateEvent,
@@ -12,34 +11,24 @@ import {
 } from "@/lib/lead";
 
 /**
- * Store a copy of the lead in the CMS so the team still has it if the CRM webhook
- * is down or misconfigured. Never block the response on it — a failed archive must
- * not lose a lead that the CRM already accepted.
+ * Store a copy of the lead in the database so the team still has it if the CRM
+ * webhook is down or misconfigured. Never block the response on it — a failed
+ * archive must not lose a lead the CRM already accepted. The event_id unique index
+ * dedupes retries.
  */
 async function archiveLead(lead: LeadPayload, crmForwarded: boolean) {
   try {
-    const payload = await getPayload({ config });
-    await payload.create({
-      collection: "leads",
-      // Bypass the collection's `create: false` rule — this route is the only writer.
-      overrideAccess: true,
-      data: {
-        eventId: lead.eventId,
-        name: lead.name,
-        phone: lead.phone,
-        email: lead.email,
-        city: lead.city,
-        business: lead.business,
-        service: lead.service,
-        page: lead.page,
-        utm: lead.utm ?? {},
-        whatsappOptIn: Boolean(lead.whatsappOptIn),
-        status: "new",
-        crmForwarded,
-      },
-    });
+    await query(
+      `INSERT INTO leads (event_id, name, phone, email, city, business, service, page, utm, whatsapp_opt_in, status, crm_forwarded, updated_at, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb, $10, 'new'::enum_leads_status, $11, now(), now())
+       ON CONFLICT (event_id) DO NOTHING`,
+      [
+        lead.eventId, lead.name, lead.phone, lead.email ?? null, lead.city ?? null, lead.business ?? null,
+        lead.service ?? null, lead.page ?? null, JSON.stringify(lead.utm ?? {}), Boolean(lead.whatsappOptIn), crmForwarded,
+      ],
+    );
   } catch (err) {
-    console.error("[lead] could not archive to CMS:", err);
+    console.error("[lead] could not archive to DB:", err);
   }
 }
 
