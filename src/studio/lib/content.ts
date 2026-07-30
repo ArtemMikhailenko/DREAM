@@ -13,6 +13,9 @@ import type {
   HomeFields,
   HomeContent,
   HomeImages,
+  HomeCards,
+  HomeServiceCardText,
+  HomePortfolioCardText,
 } from "./content-schema";
 
 /**
@@ -473,6 +476,112 @@ export async function saveHomeImages(bgId: number | null, bgMobileId: number | n
   const parent = (await query<{ id: number }>(`SELECT id FROM home ORDER BY id LIMIT 1`))[0];
   if (!parent) throw new Error("home parent row missing");
   await query(`UPDATE home SET hero_bg_id=$1, hero_bg_mobile_id=$2, updated_at=now() WHERE id=$3`, [bgId, bgMobileId, parent.id]);
+}
+
+/* ── Home cards (services + portfolio): shared image + localized text ── */
+
+const LOC3: Locale[] = ["en", "ru", "he"];
+const emptySvcText = (): HomeServiceCardText => ({ title: "", text: "", deliverables: [] });
+const emptyPfText = (): HomePortfolioCardText => ({ title: "", tag: "" });
+
+export async function getHomeCards(): Promise<HomeCards> {
+  const homeId = (await query<{ id: number }>(`SELECT id FROM home ORDER BY id LIMIT 1`))[0]?.id;
+
+  const [svcItems, svcDeliv, svcImgs, pfCases, pfImgs] = await Promise.all([
+    query<{ id: string; loc: string; ord: number; title: string | null; text: string | null }>(
+      `SELECT id, _locale::text AS loc, _order AS ord, title, text FROM home_services_items WHERE _parent_id=$1`, [homeId]),
+    query<{ item_id: string; text: string | null }>(
+      `SELECT d._parent_id AS item_id, d.text FROM home_services_items_deliverables d JOIN home_services_items i ON i.id=d._parent_id WHERE i._parent_id=$1 ORDER BY d._order`, [homeId]),
+    query<{ ord: number; image_id: number | null; thumb: string | null }>(
+      `SELECT ci._order AS ord, ci.image_id, COALESCE(m.sizes_thumb_url, m.url) AS thumb FROM home_services_card_images ci LEFT JOIN media m ON m.id=ci.image_id WHERE ci._parent_id=$1 ORDER BY ci._order`, [homeId]),
+    query<{ loc: string; ord: number; title: string | null; tag: string | null }>(
+      `SELECT _locale::text AS loc, _order AS ord, title, tag FROM home_portfolio_cases WHERE _parent_id=$1`, [homeId]),
+    query<{ ord: number; image_id: number | null; thumb: string | null }>(
+      `SELECT ci._order AS ord, ci.image_id, COALESCE(m.sizes_thumb_url, m.url) AS thumb FROM home_portfolio_card_images ci LEFT JOIN media m ON m.id=ci.image_id WHERE ci._parent_id=$1 ORDER BY ci._order`, [homeId]),
+  ]);
+
+  const delivByItem: Record<string, string[]> = {};
+  for (const d of svcDeliv) if (d.text) (delivByItem[d.item_id] ??= []).push(d.text);
+
+  // Services cards
+  const svcByLocOrd: Record<string, Record<number, { id: string; title: string; text: string }>> = { en: {}, ru: {}, he: {} };
+  for (const it of svcItems) if (it.loc in svcByLocOrd) svcByLocOrd[it.loc][it.ord] = { id: it.id, title: it.title ?? "", text: it.text ?? "" };
+  const svcImgByOrd: Record<number, { id: number | null; thumb: string | null }> = {};
+  for (const im of svcImgs) svcImgByOrd[im.ord] = { id: im.image_id, thumb: im.thumb };
+  const svcOrders = [...new Set([...svcItems.map((r) => r.ord), ...svcImgs.map((r) => r.ord)])].sort((a, b) => a - b);
+  const services = svcOrders.map((ord) => ({
+    imageId: svcImgByOrd[ord]?.id ?? null,
+    imageThumb: svcImgByOrd[ord]?.thumb ?? null,
+    text: Object.fromEntries(LOC3.map((loc) => {
+      const it = svcByLocOrd[loc][ord];
+      return [loc, it ? { title: it.title, text: it.text, deliverables: delivByItem[it.id] ?? [] } : emptySvcText()];
+    })) as Record<Locale, HomeServiceCardText>,
+  }));
+
+  // Portfolio cards
+  const pfByLocOrd: Record<string, Record<number, { title: string; tag: string }>> = { en: {}, ru: {}, he: {} };
+  for (const c of pfCases) if (c.loc in pfByLocOrd) pfByLocOrd[c.loc][c.ord] = { title: c.title ?? "", tag: c.tag ?? "" };
+  const pfImgByOrd: Record<number, { id: number | null; thumb: string | null }> = {};
+  for (const im of pfImgs) pfImgByOrd[im.ord] = { id: im.image_id, thumb: im.thumb };
+  const pfOrders = [...new Set([...pfCases.map((r) => r.ord), ...pfImgs.map((r) => r.ord)])].sort((a, b) => a - b);
+  const portfolio = pfOrders.map((ord) => ({
+    imageId: pfImgByOrd[ord]?.id ?? null,
+    imageThumb: pfImgByOrd[ord]?.thumb ?? null,
+    text: Object.fromEntries(LOC3.map((loc) => [loc, pfByLocOrd[loc][ord] ?? emptyPfText()])) as Record<Locale, HomePortfolioCardText>,
+  }));
+
+  return { services, portfolio };
+}
+
+export async function saveHomeCards(cards: HomeCards): Promise<void> {
+  const parent = (await query<{ id: number }>(`SELECT id FROM home ORDER BY id LIMIT 1`))[0];
+  if (!parent) throw new Error("home parent row missing");
+  const pid = parent.id;
+  const clip = (s: string) => (s ?? "").slice(0, 2000);
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    // Services images (shared, non-localized) — one row per card index (keeps idx aligned).
+    await client.query(`DELETE FROM home_services_card_images WHERE _parent_id=$1`, [pid]);
+    for (let i = 0; i < cards.services.length; i++) {
+      await client.query(`INSERT INTO home_services_card_images (id, _order, _parent_id, image_id) VALUES ($1,$2,$3,$4)`, [genId(), i + 1, pid, cards.services[i].imageId ?? null]);
+    }
+    // Portfolio images
+    await client.query(`DELETE FROM home_portfolio_card_images WHERE _parent_id=$1`, [pid]);
+    for (let i = 0; i < cards.portfolio.length; i++) {
+      await client.query(`INSERT INTO home_portfolio_card_images (id, _order, _parent_id, image_id) VALUES ($1,$2,$3,$4)`, [genId(), i + 1, pid, cards.portfolio[i].imageId ?? null]);
+    }
+
+    // Text per locale
+    for (const loc of LOC3) {
+      // services items (+ deliverables cascade)
+      await client.query(`DELETE FROM home_services_items WHERE _parent_id=$1 AND _locale::text=$2`, [pid, loc]);
+      for (let i = 0; i < cards.services.length; i++) {
+        const t = cards.services[i].text[loc];
+        const itemId = genId();
+        await client.query(`INSERT INTO home_services_items (id, _order, _parent_id, _locale, title, text) VALUES ($1,$2,$3,$4::_locales,$5,$6)`, [itemId, i + 1, pid, loc, clip(t.title), clip(t.text)]);
+        const delivs = (t.deliverables ?? []).map((x) => clip(x).trim()).filter(Boolean).slice(0, 20);
+        for (let di = 0; di < delivs.length; di++) {
+          await client.query(`INSERT INTO home_services_items_deliverables (id, _order, _parent_id, _locale, text) VALUES ($1,$2,$3,$4::_locales,$5)`, [genId(), di + 1, itemId, loc, delivs[di]]);
+        }
+      }
+      // portfolio cases
+      await client.query(`DELETE FROM home_portfolio_cases WHERE _parent_id=$1 AND _locale::text=$2`, [pid, loc]);
+      for (let i = 0; i < cards.portfolio.length; i++) {
+        const t = cards.portfolio[i].text[loc];
+        await client.query(`INSERT INTO home_portfolio_cases (id, _order, _parent_id, _locale, title, tag) VALUES ($1,$2,$3,$4::_locales,$5,$6)`, [genId(), i + 1, pid, loc, clip(t.title), clip(t.tag)]);
+      }
+    }
+
+    await client.query("COMMIT");
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
 }
 
 export async function saveHome(content: HomeContent): Promise<void> {

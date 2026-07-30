@@ -223,6 +223,16 @@ export type HomeContent = Record<Locale, {
 /** Hero background images — not localized, so kept separate from HomeContent. */
 export type HomeImages = { bgId: number | null; bgThumb: string | null; bgMobileId: number | null; bgMobileThumb: string | null };
 
+/**
+ * Home service/portfolio cards. The image is shared across languages, the text is
+ * per-locale — so a card bundles both, kept out of the per-locale HomeContent.
+ */
+export type HomeServiceCardText = { title: string; text: string; deliverables: string[] };
+export type HomePortfolioCardText = { title: string; tag: string };
+export type HomeServiceCard = { imageId: number | null; imageThumb: string | null; text: Record<Locale, HomeServiceCardText> };
+export type HomePortfolioCard = { imageId: number | null; imageThumb: string | null; text: Record<Locale, HomePortfolioCardText> };
+export type HomeCards = { services: HomeServiceCard[]; portfolio: HomePortfolioCard[] };
+
 /** Which flat sub-list (if any) renders after a section's scalar fields. `note`
  *  flags parts still edited in Payload (nested cards / images) — coming later. */
 export const HOME_SECTIONS: {
