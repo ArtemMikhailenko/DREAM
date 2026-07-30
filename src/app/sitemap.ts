@@ -3,7 +3,7 @@ import { CASE_SLUGS } from "@/lib/portfolio";
 import { routing } from "@/i18n/routing";
 import { LOCALE_PREFIX } from "@/i18n/paths";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dcprod.agency";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dreamchaseprod.com";
 
 // Prefixes come from the shared map, so the sitemap can never disagree with the
 // canonical/hreflang tags the pages emit (Hebrew: code `he`, path /heb).

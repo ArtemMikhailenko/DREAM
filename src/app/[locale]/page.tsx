@@ -69,7 +69,7 @@ const results = [
   { value: "12", label: "days from brief to launching the first ad wave" },
 ];
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dcprod.agency";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dreamchaseprod.com";
 
 export async function generateMetadata({
   params,

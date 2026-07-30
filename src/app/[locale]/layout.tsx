@@ -50,7 +50,7 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://dcprod.agency"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://dreamchaseprod.com"),
   // No template: every page's title is authored whole in the CMS and already ends
   // with the brand, per the SEO spec. A "%s | dc.prod" template appended a second
   // brand ("… | DC Project | dc.prod") and pushed titles past the SERP cut-off.
