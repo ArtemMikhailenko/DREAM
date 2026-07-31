@@ -237,6 +237,9 @@ export function VideoBlock() {
       {/* ── Full-screen theater ── */}
       <div className={`vblock-stage${open ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-hidden={!open}>
         <div className="vblock-scrim" onClick={closeTheater} />
+        {/* Wrapper so the CTA can sit over the video on desktop but below it on
+            phones, where overlaying it collides with the burned-in subtitles. */}
+        <div className="vblock-box">
         <div ref={frameRef} className="vblock-theater">
           <button type="button" className="vblock-close" onClick={closeTheater} aria-label={t("close")}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -255,11 +258,12 @@ export function VideoBlock() {
             controls={open}
             onEnded={closeTheater}
           />
-          {showCta ? (
-            <a className="vblock-cta" href="#lead" onClick={closeTheater}>
-              {t("book")} <span aria-hidden="true">↗</span>
-            </a>
-          ) : null}
+        </div>
+        {showCta ? (
+          <a className="vblock-cta" href="#lead" onClick={closeTheater}>
+            {t("book")} <span aria-hidden="true">↗</span>
+          </a>
+        ) : null}
         </div>
       </div>
     </section>

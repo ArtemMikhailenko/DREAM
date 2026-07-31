@@ -71,6 +71,16 @@ const results = [
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dreamchaseprod.com";
 
+/**
+ * The hero slogan doubles as a wordmark, so it stays English on the Latin locales.
+ * Hebrew reads it in Hebrew — the two halves sit on either side of the arrow.
+ */
+const SLOGAN: Record<string, [string, string]> = {
+  en: ["From idea", "to result."],
+  ru: ["From idea", "to result."],
+  he: ["מהרעיון", "עד לתוצאה."],
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -216,9 +226,9 @@ export default async function Home({
                 keywords and reads the same in every language, so it is a div. The H1
                 below states what the page is actually about, per the SEO spec. */}
             <div className="hero-h1" aria-hidden="true">
-              From idea<br />
+              {(SLOGAN[locale] ?? SLOGAN.en)[0]}<br />
               <span className="hero-h1-arrow" aria-hidden="true" />
-              <em>to result.</em>
+              <em>{(SLOGAN[locale] ?? SLOGAN.en)[1]}</em>
             </div>
             <h1 className="hero-h1-seo">{t("hero.h1")}</h1>
             <p className="hero-desc">{t("hero.desc")}</p>
