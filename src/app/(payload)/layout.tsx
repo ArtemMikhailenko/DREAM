@@ -5,7 +5,7 @@ import React from "react";
 
 import { importMap } from "./admin/importMap.js";
 import "@payloadcms/next/css";
-// dc.prod skin — must come after Payload's own stylesheet so it wins.
+// dc.production skin — must come after Payload's own stylesheet so it wins.
 import "@/admin/admin.css";
 
 type Args = { children: React.ReactNode };

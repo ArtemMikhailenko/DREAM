@@ -23,7 +23,7 @@ export default function Image() {
           fontFamily: "Arial",
         }}
       >
-        <div style={{ fontSize: 56, fontWeight: 900, letterSpacing: -2, color: "#e8e4d8" }}>dc.prod</div>
+        <div style={{ fontSize: 56, fontWeight: 900, letterSpacing: -2, color: "#e8e4d8" }}>dc.production</div>
         <div style={{ display: "flex", gap: 48, alignItems: "flex-end" }}>
           <div style={{ maxWidth: 820, fontSize: 96, fontWeight: 900, lineHeight: 0.92, textTransform: "uppercase" }}>
             From idea — to result.

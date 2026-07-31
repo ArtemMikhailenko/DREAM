@@ -59,7 +59,7 @@ export default async function Page({
         <div className="bg-gray seam-down pin" aria-hidden="true" />
         <div className="hero-glow" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Services</div>
-        <span className="brand-watermark" aria-hidden="true">dc.prod</span>
+        <span className="brand-watermark" aria-hidden="true">dc.production</span>
         <div className="wrap page-hero-inner">
           <p className="label">{t("label")}</p>
           <h1 className="page-hero-h">{t("h1")}</h1>

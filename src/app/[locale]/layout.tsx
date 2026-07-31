@@ -52,12 +52,12 @@ const caveat = Caveat({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://dreamchaseprod.com"),
   // No template: every page's title is authored whole in the CMS and already ends
-  // with the brand, per the SEO spec. A "%s | dc.prod" template appended a second
-  // brand ("… | DC Project | dc.prod") and pushed titles past the SERP cut-off.
-  title: "DC Project, Digital Marketing Agency in Israel | SMM, Ads & Content",
+  // with the brand, per the SEO spec. A "%s | dc.production" template appended the
+  // brand a second time and pushed titles past the SERP cut-off.
+  title: "dc.production, Digital Marketing Agency in Israel | SMM, Ads & Content",
   description:
-    "dc.prod is a full-cycle production studio: promotional & image videos, 3D animation, social media content, AI content and digital marketing — from idea to result.",
-  applicationName: "dc.prod",
+    "dc.production is a full-cycle production studio: promotional & image videos, 3D animation, social media content, AI content and digital marketing — from idea to result.",
+  applicationName: "dc.production",
   // Meta domain verification. Kept in the page head rather than a DNS TXT record so
   // it survives DNS/host moves — the ads account and pixel depend on it.
   other: { "facebook-domain-verification": "tm7ve4fhbg5cdo8j530ztxsxpzkps5" },

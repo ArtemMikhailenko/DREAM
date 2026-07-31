@@ -123,7 +123,7 @@ export default async function Home({
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      name: "DC Project",
+      name: "dc.production",
       url: siteUrl,
       description: t("meta.description"),
       sameAs: [],
@@ -132,7 +132,7 @@ export default async function Home({
       "@context": "https://schema.org",
       "@type": "Service",
       name: "Digital marketing",
-      provider: { "@type": "Organization", name: "DC Project" },
+      provider: { "@type": "Organization", name: "dc.production" },
       areaServed: "Israel",
       serviceType: railItems,
     },
@@ -191,7 +191,7 @@ export default async function Home({
           Full-cycle studio /////// Video · Ads · SMM · Digital
         </span>
 
-        <span className="brand-watermark" aria-hidden="true">dc.prod</span>
+        <span className="brand-watermark" aria-hidden="true">dc.production</span>
 
         <span className="hero-note hero-note-idea" aria-hidden="true">
           idea

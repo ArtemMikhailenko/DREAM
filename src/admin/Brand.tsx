@@ -19,7 +19,7 @@ export function Logo() {
         </svg>
       </span>
       <span className="dcp-logo-text">
-        <b>DC.PROD</b>
+        <b>DC.PRODUCTION</b>
         <i>панель управления</i>
       </span>
     </div>

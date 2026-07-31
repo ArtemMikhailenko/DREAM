@@ -45,7 +45,7 @@ export function trackLeadSubmitted(payload: LeadTrackingPayload) {
   });
 
   window.fbq?.("track", "Lead", {
-    content_name: payload.service ?? "dc.prod lead",
+    content_name: payload.service ?? "dc.production lead",
     value: payload.value ?? 1,
     currency: "USD",
   }, { eventID: payload.eventId });
@@ -61,7 +61,7 @@ export function trackLeadSubmitted(payload: LeadTrackingPayload) {
 
   window.ttq?.track?.("SubmitForm", {
     event_id: payload.eventId,
-    content_name: payload.service ?? "dc.prod lead",
+    content_name: payload.service ?? "dc.production lead",
     value: payload.value ?? 1,
     currency: "USD",
   });

@@ -74,7 +74,7 @@ export default async function AboutPage({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80"
-                alt="DC Project studio"
+                alt="dc.production studio"
               />
               <p className="about-vis-slogan">{t("story.slogan")}</p>
             </div>

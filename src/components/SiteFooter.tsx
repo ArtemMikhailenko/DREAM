@@ -12,7 +12,7 @@ export async function SiteFooter() {
       <div className="wrap footer-inner">
         <div className="footer-grid">
           <div className="footer-col footer-brand-col">
-            <p className="footer-mark brush">dc.prod</p>
+            <p className="footer-mark brush">dc.production</p>
             <p className="footer-tagline">{t("tagline")}</p>
             <div className="footer-social">
               <a href={CONTACTS.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp">
@@ -62,7 +62,7 @@ export async function SiteFooter() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p className="footer-copy">© {year} dc.prod studio · {t("fromIdea")}</p>
+          <p className="footer-copy">© {year} dc.production studio · {t("fromIdea")}</p>
           <p className="footer-copy">{t("rights")}</p>
         </div>
       </div>

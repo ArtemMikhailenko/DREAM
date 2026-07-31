@@ -126,7 +126,7 @@ export async function sendMetaConversionsApi(
               fbc: context.cookies._fbc,
             },
             custom_data: {
-              content_name: payload.service ?? "dc.prod lead",
+              content_name: payload.service ?? "dc.production lead",
               value: 1,
               currency: "USD",
             },

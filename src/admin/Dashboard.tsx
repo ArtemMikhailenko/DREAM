@@ -59,7 +59,7 @@ export async function Dashboard() {
     <div className="dcp-dash">
       <header className="dcp-dash-hero">
         <div>
-          <p className="dcp-dash-kicker">dc.prod</p>
+          <p className="dcp-dash-kicker">dc.production</p>
           <h1 className="dcp-dash-title">Панель управления</h1>
           <p className="dcp-dash-sub">
             Тексты сайта на трёх языках. Переключайте язык в правом верхнем углу — он меняет

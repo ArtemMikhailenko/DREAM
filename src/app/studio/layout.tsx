@@ -6,7 +6,7 @@ const sans = Geist({ variable: "--font-geist-sans", subsets: ["latin", "cyrillic
 const mono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Студия — dc.prod",
+  title: "Студия — dc.production",
   robots: { index: false, follow: false },
 };
 

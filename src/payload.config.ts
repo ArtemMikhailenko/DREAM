@@ -41,8 +41,8 @@ export default buildConfig({
         ? { email: process.env.PAYLOAD_AUTOLOGIN_EMAIL }
         : false,
     meta: {
-      titleSuffix: " — dc.prod",
-      description: "Панель управления сайтом dc.prod",
+      titleSuffix: " — dc.production",
+      description: "Панель управления сайтом dc.production",
     },
     components: {
       graphics: {

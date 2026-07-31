@@ -61,7 +61,7 @@ export function SiteNav() {
       <nav className="nav" id="top">
         <div className="wrap nav-inner">
           <Link href="/" className="nav-logo" onClick={close}>
-            DC.PROD
+            DC.PRODUCTION
             <small>{t("studio")}</small>
           </Link>
           <ul className="nav-links">
