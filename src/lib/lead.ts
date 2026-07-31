@@ -120,6 +120,9 @@ export async function sendMetaConversionsApi(
             user_data: {
               client_ip_address: context.ip,
               client_user_agent: context.userAgent,
+              // Email is the strongest match signal Meta accepts and the form already
+              // requires it — omitting it was costing us event match quality.
+              em: hashValue(payload.email),
               ph: hashValue(payload.phone),
               fn: hashValue(payload.name.split(" ")[0]),
               fbp: context.cookies._fbp,
