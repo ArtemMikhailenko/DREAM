@@ -2,11 +2,16 @@ import Script from "next/script";
 
 const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+const gaId = process.env.NEXT_PUBLIC_GA_ID;
 const googleAdsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
 const enableDirectGoogleAds =
   process.env.NEXT_PUBLIC_GOOGLE_ADS_DIRECT_TRACKING === "true";
 const tiktokPixelId = process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
 const linkedInPartnerId = process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID;
+
+// GA4 and Google Ads share one gtag.js: loading it twice would redefine gtag and
+// drop events, so the tags are configured together off a single load.
+const gtagIds = [gaId, enableDirectGoogleAds ? googleAdsId : undefined].filter(Boolean) as string[];
 
 export function Analytics() {
   return (
@@ -34,15 +39,17 @@ export function Analytics() {
         </Script>
       ) : null}
 
-      {enableDirectGoogleAds && googleAdsId ? (
+      {gtagIds.length ? (
         <>
           <Script
-            id="google-ads-src"
-            src={`https://www.googletagmanager.com/gtag/js?id=${googleAdsId}`}
+            id="gtag-src"
+            src={`https://www.googletagmanager.com/gtag/js?id=${gtagIds[0]}`}
             strategy="afterInteractive"
           />
-          <Script id="google-ads" strategy="afterInteractive">
-            {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','${googleAdsId}');`}
+          <Script id="gtag-init" strategy="afterInteractive">
+            {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());${gtagIds
+              .map((id) => `gtag('config','${id}');`)
+              .join("")}`}
           </Script>
         </>
       ) : null}
