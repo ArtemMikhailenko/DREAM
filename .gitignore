@@ -43,3 +43,7 @@ next-env.d.ts
 
 # Payload media uploads
 /public/uploads
+
+# Local rollback snapshots from content migrations
+src/seed/seo-backup.json
+src/seed/home-meta-backup.json
