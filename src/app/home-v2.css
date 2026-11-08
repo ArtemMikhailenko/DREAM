@@ -411,3 +411,116 @@ html.intro-hold .h2 *{animation-play-state:paused!important}
 #problem .problem-row-title{padding-inline-start:clamp(0px,15vw,220px)}
 .h2-watch-wave{animation-name:h2rippleSm}
 @keyframes h2rippleSm{0%{transform:scale(1);opacity:.8}100%{transform:scale(2.1);opacity:0}}
+
+/* ═════════════════════════════════════════════════════════════
+   PHONE: short, decisive page for people arriving from an ad.
+   Same content, condensed: swipe strips instead of long stacks,
+   descriptions trimmed, one action always at hand.
+   ═════════════════════════════════════════════════════════════ */
+.mcta{display:none}
+@media(max-width:700px){
+  .section{padding-top:56px;padding-bottom:56px}
+  .sec-h{font-size:clamp(2rem,9vw,2.6rem)}
+  .label{margin-bottom:10px}
+
+  /* hero: one screen, offer + action */
+  .h2-inner{padding-bottom:18px}
+  .h2-bottom{display:none}
+  .h2-lanes{font-size:.62rem;letter-spacing:.1em;gap:4px 10px;margin-bottom:10px}
+  .h2-h1{font-size:.9rem}
+  .h2-foot{margin-bottom:6px;gap:16px}
+  .h2-proof .h2-avatars i,.h2-proof .h2-avatars b{width:28px;height:28px}
+
+  /* showreel: title + film + one button */
+  .vblock-lead,.vblock-feats,.vblock-meta{display:none!important}
+  .vblock-sec{padding-top:48px;padding-bottom:48px}
+
+  /* problem: three headlines, no paragraphs */
+  #problem .problem-row-desc,#problem .problem-row-ghost{display:none}
+  #problem .problem-row{padding:18px 0}
+  #problem .problem-list{margin-top:22px}
+  #problem .problem-row-title{font-size:1.35rem}
+
+  /* services: name + tag only */
+  #services .svc-row-desc,#services .svc-row-tags,#services .svc-side,#services .s-bg-word{display:none!important}
+  #services .svc-row{padding:18px 0}
+  #services .svc-layout{margin-top:18px}
+
+  /* process: compact rail, short note */
+  .ps{margin-top:22px}
+  .ps-step{padding:4px 0}
+  .ps-name{font-size:1rem}
+  .ps-panel{margin-top:14px;padding:14px 16px}
+  .ps-panel-name{font-size:1.1rem}
+  .ps-panel-desc{font-size:.9rem}
+
+  /* statement: tighter */
+  .s-statement{padding:64px 0!important}
+  .statement-h{font-size:clamp(1.8rem,8.5vw,2.4rem)!important}
+
+  /* numbers: 2×2 tiles */
+  .sr{grid-template-columns:1fr 1fr;margin-top:22px}
+  .sr-item{padding:16px 12px 18px!important;border-inline-start:1px solid rgba(244,241,234,.12)!important;gap:8px}
+  .sr-item:nth-child(odd){border-inline-start:0!important;padding-inline-start:0!important}
+  .sr-item:nth-child(n+3){border-top:1px solid rgba(244,241,234,.12)}
+  .sr-val{font-size:2.6rem}
+  .sr-label{font-size:.8rem;line-height:1.4}
+  .sr-n{display:none}
+  .sr-cta{display:none}
+
+  /* ad results: swipe strip, no long pinned scroll */
+  .rr{height:auto}
+  .rr .rr-pin{position:relative;height:auto;flex-direction:column;align-items:stretch;padding:48px 0 40px}
+  .rr .rr-words{position:relative;flex-direction:row;justify-content:flex-start;gap:10px;padding:0 20px}
+  .rr .rr-w{font-size:2.3rem;margin:0!important;transform:none!important}
+  .rr .rr-note{position:relative;left:auto;bottom:auto;transform:none;padding:8px 20px 0;white-space:normal}
+  .rr .rr-stage{width:100%;height:auto;perspective:none;margin-top:18px}
+  .rr .rr-ribbon{position:relative;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 20px 6px;transform:none!important;scrollbar-width:none}
+  .rr .rr-ribbon::-webkit-scrollbar{display:none}
+  .rr .rr-card{position:relative;left:auto;top:auto;flex:none;width:72vw;height:46vw;transform:none!important;opacity:1!important;scroll-snap-align:center}
+
+  /* pricing: swipe cards */
+  #packages .pkg-cards{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:22px -20px 0;padding:0 20px 8px;scrollbar-width:none}
+  #packages .pkg-cards::-webkit-scrollbar{display:none}
+  #packages .pkg-card{flex:0 0 82%;scroll-snap-align:center}
+  #packages .s-bg-word{display:none}
+
+  /* FAQ: tighter rows */
+  .faq-wrap{margin-top:22px}
+  .faq-item summary{padding:16px 6px;grid-template-columns:36px 1fr 28px}
+
+  /* contact: social row instead of four big cards */
+  .lead-sec .contact-ghost{display:none}
+  .lead-sec .contact-grid{padding-top:0;gap:22px}
+  .lead-sec .contact-h{font-size:2rem;margin-top:14px}
+  .lead-sec .contact-sub{font-size:.9rem;margin-top:8px}
+  .lead-sec .contact-cards{flex-direction:row;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .lead-sec .contact-card{flex:0 0 auto;padding:8px;border-radius:14px}
+  .lead-sec .contact-card-body,.lead-sec .contact-card-arrow{display:none}
+  .lead-sec .contact-card-ic{width:44px;height:44px}
+
+  /* footer: compact */
+  .footer{padding:40px 0 calc(96px + env(safe-area-inset-bottom,0px))}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:24px}
+
+  /* sticky action bar */
+  .mcta{display:flex;position:fixed;z-index:190;left:72px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));gap:8px;
+    transform:translateY(140%);transition:transform .45s var(--ease-out)}
+  .mcta.in{transform:none}
+  .mcta-main{flex:1;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-geist-mono,monospace);font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .mcta-wa{flex:none;width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:#25d366;color:#062910;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  .mcta-wa svg{width:24px;height:24px}
+  .pp-video{display:none}
+}
+@media(max-width:700px){
+  .rr .rr-ribbon{flex-wrap:nowrap;justify-content:flex-start}
+  .ps-panel{display:none}
+  .ps-list{grid-template-columns:1fr 1fr;column-gap:12px}
+  .ps-rail,.ps-marker{display:none}
+  .ps-step{flex-direction:row;align-items:center;gap:10px}
+  .ps-dot{width:14px;height:14px}
+  .s-statement .statement-eyebrow{display:none}
+  .footer-grid>.footer-col:nth-child(n+3){display:none}
+  .footer-inner{gap:24px}
+}
+@media(max-width:860px){#problem .problem-row-title{padding-inline-start:0}}

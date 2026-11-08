@@ -6,6 +6,7 @@ import { PromoPopups } from "@/components/home/PromoPopups";
 import { IntroDissolve } from "@/components/home/IntroDissolve";
 import { CustomCursor } from "@/components/CustomCursor";
 import { WatchButton } from "@/components/home/WatchButton";
+import { MobileCta } from "@/components/home/MobileCta";
 import { ProcessSteps } from "@/components/home/ProcessSteps";
 import { StatRow } from "@/components/home/StatRow";
 import { CardGlow } from "@/components/CardGlow";
@@ -474,6 +475,7 @@ export default async function Home({
 
       <CardGlow selector=".lead-sec .contact-card, .sr-item, .w2-card" />
       <PromoPopups copy={c} poster={poster} />
+      <MobileCta label={t("hero.ctaPrimary")} />
       <SiteFooter />
     </>
   );

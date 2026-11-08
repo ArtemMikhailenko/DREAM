@@ -18,7 +18,8 @@ export function ResultsRibbon({ items, words, note }: { items: RibbonItem[]; wor
   useEffect(() => {
     const el = root.current, rb = ribbon.current;
     if (!el || !rb) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { el.classList.add("rr-static"); return; }
+    // phones get a swipe strip instead of a long pinned scroll
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 700px)").matches) { el.classList.add("rr-static"); return; }
     const cards = Array.from(rb.children) as HTMLElement[];
     const n = cards.length;
     let raf = 0, target = 0, cur = 0;

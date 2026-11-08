@@ -58,7 +58,8 @@ export function IntroDissolve() {
       }
     }
 
-    const HOLD = 900, BREAK = 1500;
+    // phones: a quicker beat, people from ads decide in seconds
+    const HOLD = narrow ? 450 : 900, BREAK = narrow ? 900 : 1500;
     const t0 = performance.now();
     let finished = false;
     const frame = (now: number) => {
