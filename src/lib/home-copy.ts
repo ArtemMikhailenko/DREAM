@@ -26,6 +26,8 @@ export type HomeCopy = {
   workKicker: string;
   workOpen: string;
   wallLabel: string;
+  ribbonWords: [string, string];
+  ribbonNote: string;
 };
 
 const en: HomeCopy = {
@@ -64,6 +66,8 @@ const en: HomeCopy = {
   workKicker: "Case study",
   workOpen: "Open case",
   wallLabel: "Projects we have shot and launched",
+  ribbonWords: ["Results", "in motion"],
+  ribbonNote: "Real numbers from our ad accounts",
 };
 
 const ru: HomeCopy = {
@@ -102,6 +106,8 @@ const ru: HomeCopy = {
   workKicker: "Кейс",
   workOpen: "Открыть кейс",
   wallLabel: "Проекты, которые мы сняли и запустили",
+  ribbonWords: ["Результаты", "в движении"],
+  ribbonNote: "Реальные цифры из наших рекламных кабинетов",
 };
 
 const he: HomeCopy = {
@@ -140,6 +146,8 @@ const he: HomeCopy = {
   workKicker: "קייס",
   workOpen: "לפתיחת הקייס",
   wallLabel: "פרויקטים שצילמנו והשקנו",
+  ribbonWords: ["תוצאות", "בתנועה"],
+  ribbonNote: "מספרים אמיתיים מחשבונות הפרסום שלנו",
 };
 
 const COPY: Record<string, HomeCopy> = { en, ru, he };

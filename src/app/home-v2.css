@@ -297,3 +297,24 @@
 
 /* hold the hero's own entrance until the intro hands over */
 html.intro-hold .h2 *{animation-play-state:paused!important}
+
+/* ── Ad results ribbon (pinned, scroll-driven 3D band) ───────── */
+.rr{position:relative;height:320vh;background:#0b0b0a}
+.rr-pin{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center;isolation:isolate}
+.rr-pin::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(232,168,104,.08),transparent 70%);z-index:-1}
+.rr-words{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:2vw;pointer-events:none;z-index:0}
+.rr-w{display:block;font-family:var(--font-display),var(--font-hebrew),sans-serif;font-size:clamp(3.4rem,10vw,10rem);line-height:.86;text-transform:uppercase;letter-spacing:-.01em;background:linear-gradient(180deg,#f4f1ea,#8e897f);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap;will-change:transform}
+.rr-wl{align-self:center;margin-inline-end:24vw}
+.rr-wr{align-self:center;margin-inline-start:24vw}
+.rr-note{position:absolute;left:50%;bottom:9vh;transform:translateX(-50%);z-index:2;font-family:var(--font-geist-mono,monospace);font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,241,234,.55);white-space:nowrap}
+.rr-stage{position:relative;z-index:1;width:1px;height:1px;perspective:1500px;perspective-origin:50% 50%}
+.rr-ribbon{position:absolute;left:0;top:0;transform-style:preserve-3d;will-change:transform}
+.rr-card{position:absolute;left:-105px;top:-68px;width:210px;height:136px;margin:0;border-radius:12px;overflow:hidden;border:1px solid rgba(244,241,234,.18);background:#141412;box-shadow:0 20px 50px rgba(0,0,0,.5);backface-visibility:visible;transition:opacity .2s}
+.rr-card img{width:100%;height:100%;object-fit:cover;display:block}
+.rr-static{height:auto}
+.rr-static .rr-pin{position:relative;height:auto;flex-direction:column;padding:96px 0}
+.rr-static .rr-words{position:relative}
+.rr-static .rr-stage{width:100%;height:auto;perspective:none}
+.rr-static .rr-ribbon{position:relative;display:flex;flex-wrap:wrap;gap:14px;justify-content:center;transform:none}
+.rr-static .rr-card{position:relative;left:auto;top:auto}
+@media(max-width:700px){.rr{height:260vh}.rr-card{left:-80px;top:-55px;width:160px;height:110px}.rr-wl,.rr-wr{margin-inline:0}}

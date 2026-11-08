@@ -7,7 +7,8 @@ import { IntroDissolve } from "@/components/home/IntroDissolve";
 import { ProcessSteps } from "@/components/home/ProcessSteps";
 import { CountUp } from "@/components/home/CountUp";
 import { WorkArt } from "@/components/home/WorkArt";
-import { ProjectWall, type WallCase } from "@/components/home/ProjectWall";
+import { type WallCase } from "@/components/home/ProjectWall";
+import { ResultsRibbon } from "@/components/home/ResultsRibbon";
 import { CASE_IMAGES } from "@/lib/portfolio";
 import { homeCopy, noDot } from "@/lib/home-copy";
 import "../home-v2.css";
@@ -340,8 +341,14 @@ export default async function Home({
             </a>
           </div>
         </div>
-        <ProjectWall cases={wallCases} label={c.wallLabel} />
       </section>
+
+      {/* ── Ad results ribbon (placeholder images until real campaign screenshots arrive) ── */}
+      <ResultsRibbon
+        words={c.ribbonWords}
+        note={c.ribbonNote}
+        items={[...wallCases, ...wallCases, ...wallCases].slice(0, 14).map((wc, i) => ({ src: wc.image ?? CASE_IMAGES[i % CASE_IMAGES.length], alt: wc.title }))}
+      />
 
       {/* ── FAQ ── */}
       <section className="section s-concrete" id="faq">
