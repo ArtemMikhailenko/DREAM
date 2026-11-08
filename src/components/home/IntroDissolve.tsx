@@ -54,7 +54,7 @@ export function IntroDissolve() {
     const left = w / 2 - widest / 2;
     for (let y = 0; y < h; y += gap) for (let x = 0; x < w; x += gap) {
       if (data[(y * w + x) * 4 + 3] > 128) {
-        ps.push({ x, y, vx: 0, vy: 0, d: ((x - left) / Math.max(widest, 1)) * 0.55 + Math.random() * 0.25, a: 1, amber: Math.random() < 0.06 });
+        ps.push({ x, y, vx: 0, vy: 0, d: Math.random() * 0.35, a: 1, amber: Math.random() < 0.06 });
       }
     }
 
@@ -68,15 +68,17 @@ export function IntroDissolve() {
       for (const p of ps) {
         const local = Math.min(1, Math.max(0, (prog - p.d * 0.6) / 0.45));
         if (local > 0) {
-          p.vx += (Math.random() - 0.5) * 0.5 + 0.12;
-          p.vy += -0.18 - Math.random() * 0.22;
+          // fly outward from the centre, as if the word blows apart toward the viewer
+          const dx = p.x - w / 2, dy = p.y - h / 2, d = Math.hypot(dx, dy) || 1;
+          p.vx += (dx / d) * 0.55 + (Math.random() - 0.5) * 0.3;
+          p.vy += (dy / d) * 0.55 + (Math.random() - 0.5) * 0.3;
           p.x += p.vx * local; p.y += p.vy * local;
           p.a = 1 - local;
         }
         if (p.a <= 0.01) continue;
         ctx.globalAlpha = p.a;
         ctx.fillStyle = p.amber && local > 0 ? "#e8a868" : "#f4f1ea";
-        const s = local > 0 ? 1.6 : gap - 0.6;
+        const s = local > 0 ? 1.4 + local * 2.2 : gap - 0.6;
         ctx.fillRect(p.x, p.y, s, s);
       }
       ctx.globalAlpha = 1;

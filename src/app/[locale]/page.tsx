@@ -4,8 +4,11 @@ import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { HeroField, Timecode } from "@/components/home/HeroField";
 import { PromoPopups } from "@/components/home/PromoPopups";
 import { IntroDissolve } from "@/components/home/IntroDissolve";
+import { CustomCursor } from "@/components/CustomCursor";
+import { WatchButton } from "@/components/home/WatchButton";
 import { ProcessSteps } from "@/components/home/ProcessSteps";
-import { CountUp } from "@/components/home/CountUp";
+import { StatRow } from "@/components/home/StatRow";
+import { CardGlow } from "@/components/CardGlow";
 import { WorkArt } from "@/components/home/WorkArt";
 import { type WallCase } from "@/components/home/ProjectWall";
 import { ResultsRibbon } from "@/components/home/ResultsRibbon";
@@ -82,6 +85,14 @@ export default async function Home({
     tag: string;
     image?: string;
   }[];
+  const pkgItems = t.raw("pricing.packages") as {
+    name: string;
+    tag: string;
+    price: string;
+    priceOld?: string;
+    time: string;
+    rows: { name: string; extra?: string }[];
+  }[];
   const faqItems = t.raw("faq.items") as { q: string; a: string }[];
   const c = homeCopy(locale);
   const wallCases = (await getTranslations("Portfolio")).raw("cases") as WallCase[];
@@ -118,6 +129,7 @@ export default async function Home({
   return (
     <>
       <IntroDissolve />
+      <CustomCursor />
       <ScrollAnimations />
       <div className="scroll-progress" aria-hidden="true" />
       {jsonLd.map((schema, i) => (
@@ -138,18 +150,13 @@ export default async function Home({
         <div className="wrap h2-inner">
           <div className="h2-meta">
             <span>{c.heroMetaL}</span>
-            <span className="h2-meta-r"><i className="h2-live" aria-hidden="true" />{c.heroMetaR}</span>
+            <span className="h2-meta-r"><i className="h2-live" aria-hidden="true"><b /></i>{c.heroMetaR}</span>
           </div>
 
           <div className="h2-frame">
             <span className="h2-corner tl" aria-hidden="true" /><span className="h2-corner tr" aria-hidden="true" />
             <span className="h2-corner bl" aria-hidden="true" /><span className="h2-corner br" aria-hidden="true" />
             <div className="h2-rec" aria-hidden="true"><i /> REC <Timecode /></div>
-            <ul className="h2-lanes">
-              {c.heroLanes.map((l, i) => (
-                <li key={l}><span>0{i + 1}.</span> {l}</li>
-              ))}
-            </ul>
             <div className="h2-word" dir="ltr" aria-hidden="true">
               <span className="h2-word-text">dc.production</span>
               <span className="h2-script">from idea to result</span>
@@ -158,16 +165,18 @@ export default async function Home({
 
           <div className="h2-foot">
             <div className="h2-lead">
+              <p className="h2-lanes">
+                {c.heroLanes.map((l, i) => (
+                  <span key={l}>{i > 0 && <i aria-hidden="true">·</i>}{l}</span>
+                ))}
+              </p>
               <h1 className="h2-h1">{(t.has("hero.h1") && t("hero.h1")) || t("hero.desc")}</h1>
               <div className="h2-actions">
                 <a className="h2-cta glass-btn" href="#lead">
                   <span>{t("hero.ctaPrimary")}</span>
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
                 </a>
-                <a className="h2-watch" href="#showreel">
-                  <span className="h2-watch-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-                  {c.heroWatch}
-                </a>
+                <WatchButton label={c.heroWatch} />
               </div>
             </div>
             <div className="h2-proof">
@@ -277,6 +286,24 @@ export default async function Home({
         </div>
       </section>
 
+      {/* ── Statement ── */}
+      <div className="s-statement">
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
+        <div className="sec-bg" aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/background/notebook.webp" alt="" loading="lazy" decoding="async" />
+        </div>
+        <div className="bg-struct" aria-hidden="true" />
+        <div className="wrap statement-inner">
+          <p className="statement-eyebrow">{t("statement.eyebrow")}</p>
+          <p className="statement-h">
+            {t("statement.line1")} <em>{t("statement.line1Em")}</em><br />
+            {t("statement.line2")} <span className="statement-h-ul">{t("statement.systems")}</span>
+          </p>
+          <a className="statement-cta glass-btn" href="#lead">{t("statement.cta")} <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
       {/* ── Works: drawn covers, no stock photos ── */}
       <section className="section s-dark2 w2" id="portfolio">
         <div className="wrap">
@@ -285,21 +312,18 @@ export default async function Home({
               <p className="label">{t("portfolio.label")}</p>
               <h2 className="sec-h">{noDot(t("portfolio.heading"))}</h2>
             </div>
-            <Link className="w2-all" href="/portfolio">{t("portfolio.ctaAll")} <span aria-hidden="true">↗</span></Link>
+            <Link className="w2-all" href="/portfolio"><span>{t("portfolio.ctaAll")}</span><span className="min-arrow" aria-hidden="true" /></Link>
           </div>
           <div className="w2-grid">
             {portfolioCasesT.map((pc, i) => (
               <Link href="/portfolio" className="w2-card" key={i}>
                 <WorkArt variant={i} />
                 <span className="w2-chip">{pc.tag}</span>
-                <span className="w2-idx">0{i + 1}</span>
                 <div className="w2-info">
                   <h3 className="w2-title">{noDot(pc.title)}</h3>
                   <span className="w2-sub">{c.workKicker}</span>
                 </div>
-                <span className="w2-go" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg>
-                </span>
+                <span className="w2-go" aria-hidden="true" />
               </Link>
             ))}
           </div>
@@ -311,34 +335,10 @@ export default async function Home({
         <div className="wrap">
           <p className="label">{t("results.label")}</p>
           <h2 className="sec-h">{t("results.heading")} <em>{noDot(t("results.headingEm"))}</em></h2>
-          <div className="rb-grid">
-            <div className="rb-stats">
-              {c.results.map((r) => (
-                <div className="rb-stat" key={r.value}>
-                  <CountUp className="rb-val" value={r.value} />
-                  <p className="rb-label">{r.label}</p>
-                </div>
-              ))}
-            </div>
-            <div className="rb-statement">
-              <p className="rb-statement-h">
-                {c.bentoStatement[0]}
-                <span className="rb-avatars" aria-hidden="true"><i /><i /><i /><b>+</b></span>
-                <br />
-                <a className="rb-pill" href="#lead" aria-label={c.bentoStatementCta}>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                </a>
-                <em>{c.bentoStatement[1]}</em>
-              </p>
-            </div>
-            <a className="rb-cta" href="#lead">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={wallCases[4]?.image ?? CASE_IMAGES[4]} alt="" loading="lazy" decoding="async" />
-              <span className="rb-cta-shade" aria-hidden="true" />
-              <span className="rb-cta-title">{c.bentoCtaTitle}</span>
-              <span className="rb-cta-text">{c.bentoCtaText}</span>
-              <span className="rb-cta-btn">{c.bentoCtaBtn} <span aria-hidden="true">→</span></span>
-            </a>
+          <StatRow items={c.results} />
+          <div className="sr-cta">
+            <p className="sr-cta-text"><b>{c.bentoCtaTitle}</b> {c.bentoCtaText}</p>
+            <a className="h2-cta glass-btn sr-cta-btn" href="#lead"><span>{c.bentoCtaBtn}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg></a>
           </div>
         </div>
       </section>
@@ -349,6 +349,44 @@ export default async function Home({
         note={c.ribbonNote}
         items={[...wallCases, ...wallCases, ...wallCases].slice(0, 14).map((wc, i) => ({ src: wc.image ?? CASE_IMAGES[i % CASE_IMAGES.length], alt: wc.title }))}
       />
+
+      {/* ── Pricing ── */}
+      <section className="section s-pricing" id="packages">
+        <div className="bg-graffiti" aria-hidden="true" />
+        <div className="pricing-blob" aria-hidden="true" />
+        <div className="s-bg-word" aria-hidden="true">Pricing</div>
+        <div className="wrap">
+          <p className="label">{t("pricing.label")}</p>
+          <h2 className="sec-h">{t("pricing.heading")} <em>{t("pricing.headingEm")}</em></h2>
+          <div className="pkg-cards">
+            {pkgItems.map((pkg, i) => {
+              const feat = i === 1;
+              return (
+              <article className={`pkg-card${feat ? " feat" : ""}`} key={i}>
+                <div className="pkg-card-head">
+                  {feat && <span className="pkg-card-popular">★ {t("pricing.popular")}</span>}
+                  <span className="pkg-card-tag">{pkg.tag}</span>
+                </div>
+                <h3 className="pkg-card-name">{pkg.name}</h3>
+                <div className="pkg-card-price-row">
+                  <span className="pkg-card-price">{pkg.price}</span>
+                  {pkg.priceOld && <span className="pkg-card-price-old">{pkg.priceOld}</span>}
+                </div>
+                <p className="pkg-card-time">{pkg.time}</p>
+                <ul className="pkg-features">
+                  {pkg.rows.map((row, idx) => (
+                    <li className="pkg-feature-li" key={idx}>
+                      <span className="pkg-feature-check">✓</span>
+                      <span>{row.name}{row.extra ? <em className="pkg-feature-extra">, {row.extra}</em> : null}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a className="pkg-card-btn" href="#lead">{t("pricing.getStarted")} ↗</a>
+              </article>
+            );})}
+          </div>
+        </div>
+      </section>
 
       {/* ── FAQ ── */}
       <section className="section s-concrete" id="faq">
@@ -375,18 +413,6 @@ export default async function Home({
       <section className="section lead-sec" id="lead">
         <div className="bg-gray" aria-hidden="true" />
         <div className="contact-glow" aria-hidden="true" />
-        <svg className="contact-circuit contact-circuit-l" viewBox="0 0 240 160" aria-hidden="true" fill="none" stroke="currentColor">
-          <path d="M0 40 H80 L110 70 H240" strokeWidth="1" />
-          <path d="M0 90 H50 L78 118 H180" strokeWidth="1" opacity=".6" />
-          <circle cx="80" cy="40" r="3.5" /><circle cx="110" cy="70" r="3.5" />
-          <circle cx="50" cy="90" r="3" opacity=".6" /><circle cx="180" cy="118" r="3" opacity=".6" />
-        </svg>
-        <svg className="contact-circuit contact-circuit-r" viewBox="0 0 240 160" aria-hidden="true" fill="none" stroke="currentColor">
-          <path d="M240 40 H160 L130 70 H0" strokeWidth="1" />
-          <path d="M240 95 H190 L160 125 H40" strokeWidth="1" opacity=".6" />
-          <circle cx="160" cy="40" r="3.5" /><circle cx="130" cy="70" r="3.5" />
-          <circle cx="190" cy="95" r="3" opacity=".6" /><circle cx="40" cy="125" r="3" opacity=".6" />
-        </svg>
         <span className="contact-ghost" aria-hidden="true">Contact</span>
 
         <div className="wrap">
@@ -446,6 +472,7 @@ export default async function Home({
         </div>
       </section>
 
+      <CardGlow selector=".lead-sec .contact-card, .sr-item, .w2-card" />
       <PromoPopups copy={c} poster={poster} />
       <SiteFooter />
     </>

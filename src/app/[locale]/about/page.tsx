@@ -8,6 +8,9 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { ProjectWall, type WallCase } from "@/components/home/ProjectWall";
 import { homeCopy } from "@/lib/home-copy";
+import { StatRow } from "@/components/home/StatRow";
+import { CardGlow } from "@/components/CardGlow";
+import { CustomCursor } from "@/components/CustomCursor";
 
 
 export async function generateMetadata({
@@ -93,13 +96,14 @@ export default async function AboutPage({
         <div className="wrap">
           <p className="label">{t("values.label")}</p>
           <h2 className="sec-h">{t("values.heading")} <em>{t("values.headingEm")}</em></h2>
-          <div className="prob-cards" style={{ marginTop: 60 }}>
+          <div className="vg">
             {valueItems.map((v, i) => (
-              <div className="prob-card" key={i}>
-                <span className="prob-card-n">0{i + 1}</span>
-                <h3 className="prob-card-title">{v.title}</h3>
-                <p className="prob-card-desc">{v.desc}</p>
-              </div>
+              <article className="vg-card" key={i}>
+                <span className="vg-n" aria-hidden="true">0{i + 1}</span>
+                <h3 className="vg-title">{v.title}</h3>
+                <p className="vg-desc">{v.desc}</p>
+                <span className="vg-line" aria-hidden="true" />
+              </article>
             ))}
           </div>
         </div>
@@ -112,14 +116,8 @@ export default async function AboutPage({
           <p className="label">{t("stats.label")}</p>
           <h2 className="sec-h">{t("stats.heading")} <em>{t("stats.headingEm")}</em></h2>
         </div>
-        <div className="cases-strip cases-strip-4">
-          {statItems.map((s, i) => (
-            <div className="case-col" key={i}>
-              <span className="case-col-n">0{i + 1}</span>
-              <span className="case-col-val" dir="ltr">{s.value}</span>
-              <p className="case-col-desc">{s.label}</p>
-            </div>
-          ))}
+        <div className="wrap">
+          <StatRow items={statItems} />
         </div>
         <ProjectWall cases={wallCases} label={c.wallLabel} />
       </section>
@@ -140,6 +138,8 @@ export default async function AboutPage({
         </div>
       </section>
 
+      <CardGlow selector=".vg-card, .sr-item" />
+      <CustomCursor />
       <SiteFooter />
     </>
   );

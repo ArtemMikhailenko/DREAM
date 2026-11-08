@@ -67,6 +67,7 @@ export function SiteNav() {
               ["/about", t("aboutUs")],
               ["/services", t("services")],
               ["/portfolio", t("works")],
+              ["/#packages", t("pricing")],
               ["/#lead", t("contacts")],
             ] as const).map(([href, label]) => (
               <li key={href}>
@@ -102,6 +103,7 @@ export function SiteNav() {
             <li><Link href="/about" onClick={close}>{t("aboutUs")}</Link></li>
             <li><Link href="/services" onClick={close}>{t("services")}</Link></li>
             <li><Link href="/portfolio" onClick={close}>{t("works")}</Link></li>
+            <li><Link href="/#packages" onClick={close}>{t("pricing")}</Link></li>
             <li><Link href="/#lead" onClick={close}>{t("contacts")}</Link></li>
           </ul>
           <div className="nav-drawer-foot">

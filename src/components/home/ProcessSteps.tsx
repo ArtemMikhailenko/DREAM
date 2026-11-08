@@ -1,42 +1,75 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
- * Seven-step process. The rail fills once when the block scrolls into view and
- * lights the steps one after another; any step can be opened for a short note.
+ * Seven-step process. On first view a glowing marker travels the rail from
+ * step to step; each step it reaches lights up with a small "done" burst.
+ * Any step can be opened (hover / click) for a short explanation.
  */
 export function ProcessSteps({ steps }: { steps: { name: string; desc: string }[] }) {
   const root = useRef<HTMLDivElement>(null);
+  const marker = useRef<HTMLSpanElement>(null);
+  const fill = useRef<HTMLSpanElement>(null);
   const [lit, setLit] = useState(-1);
   const [active, setActive] = useState(0);
-  const [touched, setTouched] = useState(false);
-  const touchedRef = useRef(false);
-  touchedRef.current = touched;
+  const touched = useRef(false);
+  const at = useRef(0);
+
+  // put the marker (and the filled part of the rail) on step i
+  const place = useCallback((i: number, animate = true) => {
+    const el = root.current, m = marker.current, f = fill.current;
+    if (!el || !m || !f) return;
+    const dot = el.querySelectorAll<HTMLElement>(".ps-dot")[i];
+    if (!dot) return;
+    const box = el.getBoundingClientRect(), d = dot.getBoundingClientRect();
+    const vertical = window.matchMedia("(max-width:820px)").matches;
+    const rtl = getComputedStyle(el).direction === "rtl";
+    m.style.transition = f.style.transition = animate ? "" : "none";
+    if (vertical) {
+      const y = d.top + d.height / 2 - box.top;
+      m.style.transform = `translate(${d.left + d.width / 2 - box.left}px, ${y}px)`;
+      f.style.transform = `scaleY(${y / box.height})`;
+    } else {
+      const x = d.left + d.width / 2 - box.left;
+      m.style.transform = `translate(${x}px, ${d.top + d.height / 2 - box.top}px)`;
+      f.style.transform = `scaleX(${(rtl ? box.width - x : x) / box.width})`;
+    }
+    at.current = i;
+  }, []);
 
   useEffect(() => {
     const el = root.current;
     if (!el) return;
+    place(0, false);
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const timers: number[] = [];
     const io = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) return;
       io.disconnect();
-      el.classList.add("is-filling");
-      if (reduce) { setLit(steps.length - 1); return; }
-      steps.forEach((_, i) => timers.push(window.setTimeout(() => {
-        setLit(i);
-        setActive((a) => (touchedRef.current ? a : i));
-      }, 180 + i * 230)));
-    }, { threshold: 0.45 });
+      if (reduce) { setLit(steps.length - 1); place(steps.length - 1, false); return; }
+      const STEP = 620, TRAVEL = 480;
+      setLit(0);
+      steps.forEach((_, i) => {
+        if (i === 0) return;
+        timers.push(window.setTimeout(() => place(i), 300 + (i - 1) * STEP));
+        timers.push(window.setTimeout(() => {
+          setLit(i);
+          if (!touched.current) setActive(i);
+        }, 300 + (i - 1) * STEP + TRAVEL));
+      });
+    }, { threshold: 0.5 });
     io.observe(el);
-    return () => { io.disconnect(); timers.forEach((t) => window.clearTimeout(t)); };
-  }, [steps]);
+    const onResize = () => place(at.current, false);
+    window.addEventListener("resize", onResize);
+    return () => { io.disconnect(); timers.forEach(clearTimeout); window.removeEventListener("resize", onResize); };
+  }, [steps, place]);
 
-  const pick = (i: number) => { setTouched(true); setActive(i); };
+  const pick = (i: number) => { touched.current = true; setActive(i); };
 
   return (
     <div className="ps" ref={root} style={{ ["--n" as string]: steps.length }}>
-      <div className="ps-rail" aria-hidden="true"><span className="ps-fill" /></div>
+      <div className="ps-rail" aria-hidden="true"><span className="ps-fill" ref={fill} /></div>
+      <span className="ps-marker" ref={marker} aria-hidden="true" />
       <ol className="ps-list" role="tablist">
         {steps.map((s, i) => (
           <li key={s.name} className="ps-item">

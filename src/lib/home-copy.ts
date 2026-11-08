@@ -65,8 +65,8 @@ const en: HomeCopy = {
   bentoCtaBtn: "Get in touch",
   workKicker: "Case study",
   workOpen: "Open case",
-  wallLabel: "Projects we have shot and launched",
-  ribbonWords: ["Results", "in motion"],
+  wallLabel: "Our clients",
+  ribbonWords: ["Ad", "results"],
   ribbonNote: "Real numbers from our ad accounts",
 };
 
@@ -105,8 +105,8 @@ const ru: HomeCopy = {
   bentoCtaBtn: "Связаться",
   workKicker: "Кейс",
   workOpen: "Открыть кейс",
-  wallLabel: "Проекты, которые мы сняли и запустили",
-  ribbonWords: ["Результаты", "в движении"],
+  wallLabel: "Наши клиенты",
+  ribbonWords: ["Результаты", "рекламы"],
   ribbonNote: "Реальные цифры из наших рекламных кабинетов",
 };
 
@@ -145,8 +145,8 @@ const he: HomeCopy = {
   bentoCtaBtn: "צרו קשר",
   workKicker: "קייס",
   workOpen: "לפתיחת הקייס",
-  wallLabel: "פרויקטים שצילמנו והשקנו",
-  ribbonWords: ["תוצאות", "בתנועה"],
+  wallLabel: "הלקוחות שלנו",
+  ribbonWords: ["תוצאות", "הפרסום"],
   ribbonNote: "מספרים אמיתיים מחשבונות הפרסום שלנו",
 };
 
