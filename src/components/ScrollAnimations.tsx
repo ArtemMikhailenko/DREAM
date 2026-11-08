@@ -66,8 +66,11 @@ export function ScrollAnimations() {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
         tl.from(".hero-kicker",         { y: 16, opacity: 0, duration: 0.45 }, 0.08)
           .from(".hero-desc",           { y: 22, opacity: 0, duration: 0.6  }, 0.52)
-          .from(".hero .hero-actions .btn-p", { y: 20, opacity: 0, duration: 0.5  }, 0.64)
-          .from(".hero .hero-actions .btn-o", { y: 20, opacity: 0, duration: 0.5  }, 0.72);
+          // fromTo with an explicit end state: .btn-p has a CSS transform transition,
+          // which made a plain .from() latch y:20 as its end value — the primary CTA
+          // stayed 20px low on desktop and overlapped the second button on mobile.
+          .fromTo(".hero .hero-actions .btn-p", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, clearProps: "transform" }, 0.64)
+          .fromTo(".hero .hero-actions .btn-o", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, clearProps: "transform" }, 0.72);
 
         gsap.from(".hero-rail", { y: 40, opacity: 0, duration: 0.9, ease: "power3.out", delay: 0.45 });
         gsap.from(".hero-rail li", { x: 16, opacity: 0, duration: 0.4, stagger: 0.05, ease: "power2.out", delay: 0.65 });

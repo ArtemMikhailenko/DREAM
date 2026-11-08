@@ -13,7 +13,7 @@
   --cream: #ffffff;
   --cream2:#cfcdc7;
   --muted: rgba(244,241,234,.5);
-  --faint: rgba(244,241,234,.32);
+  --faint: rgba(244,241,234,.48); /* was .32 (2.6:1) — now 4.5:1, WCAG AA for the small mono labels */
   --bd:    rgba(244,241,234,.10);
   --bd2:   rgba(244,241,234,.24);
   --accent:    #e8a868;
@@ -1144,3 +1144,13 @@ body::after{
 
 
 /* Quote form inside the service hero */
+
+/* ── Spacing polish (2026-11) ──
+   Two consecutive sections on the same background read as one long empty gap
+   (120 + 120px); tighten the seam. Phones get proportionally smaller padding —
+   240px of blank between blocks is a quarter of a phone screen. */
+.section.s-dark2 + .section.s-dark2{padding-top:64px}
+@media(max-width:700px){
+  .section{padding-top:76px;padding-bottom:76px}
+  .section.s-dark2 + .section.s-dark2{padding-top:40px}
+}
