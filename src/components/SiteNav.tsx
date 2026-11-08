@@ -4,6 +4,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { CONTACTS } from "@/lib/contacts";
+import { NavLogo } from "@/components/NavLogo";
 
 export function SiteNav() {
   const t = useTranslations("Nav");
@@ -60,16 +61,20 @@ export function SiteNav() {
     <>
       <nav className="nav" id="top">
         <div className="wrap nav-inner">
-          <Link href="/" className="nav-logo" onClick={close}>
-            DC.PRODUCTION
-            <small>{t("studio")}</small>
-          </Link>
+          <NavLogo onClick={close} />
           <ul className="nav-links">
-            <li><Link href="/about">{t("aboutUs")}</Link></li>
-            <li><Link href="/services">{t("services")}</Link></li>
-            <li><Link href="/portfolio">{t("works")}</Link></li>
-            <li><Link href="/#packages">{t("pricing")}</Link></li>
-            <li><Link href="/#lead">{t("contacts")}</Link></li>
+            {([
+              ["/about", t("aboutUs")],
+              ["/services", t("services")],
+              ["/portfolio", t("works")],
+              ["/#lead", t("contacts")],
+            ] as const).map(([href, label]) => (
+              <li key={href}>
+                <Link href={href} className="nav-roll">
+                  <span className="nav-roll-in" data-t={label}>{label}</span>
+                </Link>
+              </li>
+            ))}
           </ul>
           <div className="nav-side">
             {LangSwitch}
@@ -97,7 +102,6 @@ export function SiteNav() {
             <li><Link href="/about" onClick={close}>{t("aboutUs")}</Link></li>
             <li><Link href="/services" onClick={close}>{t("services")}</Link></li>
             <li><Link href="/portfolio" onClick={close}>{t("works")}</Link></li>
-            <li><Link href="/#packages" onClick={close}>{t("pricing")}</Link></li>
             <li><Link href="/#lead" onClick={close}>{t("contacts")}</Link></li>
           </ul>
           <div className="nav-drawer-foot">

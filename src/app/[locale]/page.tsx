@@ -1,7 +1,16 @@
 import { QuoteForm } from "@/components/QuoteForm";
 import { VideoBlock } from "@/components/VideoBlock";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
-import { CursorFX } from "@/components/CursorFX";
+import { HeroField, Timecode } from "@/components/home/HeroField";
+import { PromoPopups } from "@/components/home/PromoPopups";
+import { IntroDissolve } from "@/components/home/IntroDissolve";
+import { ProcessSteps } from "@/components/home/ProcessSteps";
+import { CountUp } from "@/components/home/CountUp";
+import { WorkArt } from "@/components/home/WorkArt";
+import { ProjectWall, type WallCase } from "@/components/home/ProjectWall";
+import { CASE_IMAGES } from "@/lib/portfolio";
+import { homeCopy, noDot } from "@/lib/home-copy";
+import "../home-v2.css";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Link } from "@/i18n/navigation";
@@ -35,51 +44,7 @@ const services = [
   },
 ];
 
-const processSteps = [
-  { n: "01", name: "Strategy", desc: "Brief, audience & positioning", hi: false },
-  { n: "02", name: "Ideas", desc: "Creative concept & content plan", hi: false },
-  { n: "03", name: "Production", desc: "Scripts, copy & motion design", hi: true },
-  { n: "04", name: "Shoot", desc: "Video, photo & editing", hi: false },
-  { n: "05", name: "Ads", desc: "Launch, creatives & A/B tests", hi: false },
-  { n: "06", name: "Analytics", desc: "Pixels, CRM & clean data", hi: false },
-  { n: "07", name: "Support", desc: "Optimisation & reports", hi: false },
-];
-
-const portfolioCases = [
-  {
-    title: "Brand Identity Film",
-    tag: "Image video",
-    img: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=70",
-  },
-  {
-    title: "Performance Campaign",
-    tag: "Ads & creatives",
-    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=70",
-  },
-  {
-    title: "Social Content System",
-    tag: "SMM",
-    img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=900&q=70",
-  },
-];
-
-const results = [
-  { value: "+38%", label: "growth in inbound leads after updating the offer and video" },
-  { value: "−24%", label: "drop in cost per lead through new ad combinations" },
-  { value: "12", label: "days from brief to launching the first ad wave" },
-];
-
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dreamchaseprod.com";
-
-/**
- * The hero slogan doubles as a wordmark, so it stays English on the Latin locales.
- * Hebrew reads it in Hebrew — the two halves sit on either side of the arrow.
- */
-const SLOGAN: Record<string, [string, string]> = {
-  en: ["From idea", "to result."],
-  ru: ["From idea", "to result."],
-  he: ["מהרעיון", "עד לתוצאה."],
-};
 
 export async function generateMetadata({
   params,
@@ -105,29 +70,21 @@ export default async function Home({
   const t = await getTranslations("Home");
   const railItems = t.raw("rail.items") as string[];
   const problemItems = t.raw("problem.items") as { title: string; text: string }[];
-  const heroBg = t.raw("hero") as { bg?: string; bgMobile?: string };
   const svcItems = t.raw("services.items") as {
     title: string;
     text: string;
     deliverables: string[];
     image?: string;
   }[];
-  const processStepsT = t.raw("process.steps") as { name: string; desc: string }[];
   const portfolioCasesT = t.raw("portfolio.cases") as {
     title: string;
     tag: string;
     image?: string;
   }[];
-  const resultItems = t.raw("results.items") as { label: string }[];
-  const pkgItems = t.raw("pricing.packages") as {
-    name: string;
-    tag: string;
-    price: string;
-    priceOld?: string;
-    time: string;
-    rows: { name: string; extra?: string }[];
-  }[];
   const faqItems = t.raw("faq.items") as { q: string; a: string }[];
+  const c = homeCopy(locale);
+  const wallCases = (await getTranslations("Portfolio")).raw("cases") as WallCase[];
+  const poster = `/videos/vsl-${locale === "he" ? "he" : locale === "ru" ? "ru" : "en"}-poster.webp`;
 
   const jsonLd = [
     {
@@ -159,7 +116,7 @@ export default async function Home({
 
   return (
     <>
-      <CursorFX />
+      <IntroDissolve />
       <ScrollAnimations />
       <div className="scroll-progress" aria-hidden="true" />
       {jsonLd.map((schema, i) => (
@@ -173,90 +130,66 @@ export default async function Home({
       {/* ── Nav ── */}
       <SiteNav />
 
-      {/* ── Hero ── */}
-      <section className="hero">
-        <div className="hero-bg" aria-hidden="true">
-          <picture>
-            <source media="(max-width:900px)" srcSet={heroBg.bgMobile ?? "/background/hero-portrait.webp"} />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={heroBg.bg ?? "/background/hero.webp"} alt="" />
-          </picture>
-        </div>
-
-        <div className="hero-glow" aria-hidden="true" />
-        <svg className="hero-circuit hero-circuit-l" viewBox="0 0 240 160" aria-hidden="true" fill="none" stroke="currentColor">
-          <path d="M0 40 H80 L110 70 H240" strokeWidth="1" />
-          <path d="M0 90 H50 L78 118 H180" strokeWidth="1" opacity=".6" />
-          <circle cx="80" cy="40" r="3.5" /><circle cx="110" cy="70" r="3.5" />
-          <circle cx="50" cy="90" r="3" opacity=".6" /><circle cx="180" cy="118" r="3" opacity=".6" />
-        </svg>
-        <svg className="hero-circuit hero-circuit-r" viewBox="0 0 240 160" aria-hidden="true" fill="none" stroke="currentColor">
-          <path d="M240 40 H160 L130 70 H0" strokeWidth="1" />
-          <path d="M240 95 H190 L160 125 H40" strokeWidth="1" opacity=".6" />
-          <circle cx="160" cy="40" r="3.5" /><circle cx="130" cy="70" r="3.5" />
-          <circle cx="190" cy="95" r="3" opacity=".6" /><circle cx="40" cy="125" r="3" opacity=".6" />
-        </svg>
-
-        <span className="hero-tag" aria-hidden="true">
-          Full-cycle studio /////// Video · Ads · SMM · Digital
-        </span>
-
-        <span className="brand-watermark" aria-hidden="true">dc.production</span>
-
-        <span className="hero-note hero-note-idea" aria-hidden="true">
-          idea
-          <svg className="hn-mark" viewBox="0 0 170 80" fill="none" stroke="currentColor" preserveAspectRatio="none">
-            <path d="M20 46C13 27 50 13 88 14c41 1 66 15 60 35-6 18-46 26-84 23-30-3-52-13-53-29" strokeWidth="3" strokeLinecap="round" />
-          </svg>
-        </span>
-        <span className="hero-note hero-note-result" aria-hidden="true">
-          result
-          <svg className="hn-mark" viewBox="0 0 180 22" fill="none" stroke="currentColor" preserveAspectRatio="none">
-            <path d="M6 14C52 5 132 5 174 13" strokeWidth="3.4" strokeLinecap="round" />
-          </svg>
-        </span>
-
-        <div className="wrap hero-body">
-          <div className="hero-left">
-            <div className="hero-kicker">
-              <span className="hero-kicker-dot" />
-              <span className="hero-kicker-text">{t("hero.kicker")}</span>
-            </div>
-            {/* The slogan is the visual hook, not the page's subject — it carries no
-                keywords and reads the same in every language, so it is a div. The H1
-                below states what the page is actually about, per the SEO spec. */}
-            <div className="hero-h1" aria-hidden="true">
-              {(SLOGAN[locale] ?? SLOGAN.en)[0]}<br />
-              <span className="hero-h1-arrow" aria-hidden="true" />
-              <em>{(SLOGAN[locale] ?? SLOGAN.en)[1]}</em>
-            </div>
-            <h1 className="hero-h1-seo">{t("hero.h1")}</h1>
-            <p className="hero-desc">{t("hero.desc")}</p>
-            <div className="hero-actions">
-              <a className="btn-p" href="#lead">{t("hero.ctaPrimary")}</a>
-              <Link className="btn-o" href="/portfolio">{t("hero.ctaSecondary")} ↗</Link>
-            </div>
+      {/* ── Hero: viewfinder frame around the wordmark ── */}
+      <section className="h2">
+        <HeroField />
+        <div className="h2-vignette" aria-hidden="true" />
+        <div className="wrap h2-inner">
+          <div className="h2-meta">
+            <span>{c.heroMetaL}</span>
+            <span className="h2-meta-r"><i className="h2-live" aria-hidden="true" />{c.heroMetaR}</span>
           </div>
-          <aside className="hero-rail" aria-label={t("rail.head")}>
-            <p className="hero-rail-head">{t("rail.head")}</p>
-            <ul>
-              {railItems.map((s) => (
-                <li key={s}>{s}</li>
+
+          <div className="h2-frame">
+            <span className="h2-corner tl" aria-hidden="true" /><span className="h2-corner tr" aria-hidden="true" />
+            <span className="h2-corner bl" aria-hidden="true" /><span className="h2-corner br" aria-hidden="true" />
+            <div className="h2-rec" aria-hidden="true"><i /> REC <Timecode /></div>
+            <ul className="h2-lanes">
+              {c.heroLanes.map((l, i) => (
+                <li key={l}><span>0{i + 1}.</span> {l}</li>
               ))}
             </ul>
-          </aside>
+            <div className="h2-word" dir="ltr" aria-hidden="true">
+              <span className="h2-word-text">dc.production</span>
+              <span className="h2-script">from idea to result</span>
+            </div>
+          </div>
+
+          <div className="h2-foot">
+            <div className="h2-lead">
+              <h1 className="h2-h1">{(t.has("hero.h1") && t("hero.h1")) || t("hero.desc")}</h1>
+              <div className="h2-actions">
+                <a className="h2-cta glass-btn" href="#lead">
+                  <span>{t("hero.ctaPrimary")}</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                </a>
+                <a className="h2-watch" href="#showreel">
+                  <span className="h2-watch-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
+                  {c.heroWatch}
+                </a>
+              </div>
+            </div>
+            <div className="h2-proof">
+              <span className="h2-avatars" aria-hidden="true"><i /><i /><i /><b>100+</b></span>
+              <span className="h2-proof-t">{t("hero.kicker")}</span>
+            </div>
+          </div>
+
+          <div className="h2-bottom">
+            <div className="h2-social">
+              <a href={CONTACTS.instagram} target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+              <a href={CONTACTS.facebook} target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+              <a href={CONTACTS.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+            </div>
+            <div className="h2-marquee" aria-hidden="true">
+              <div className="h2-marquee-track">
+                {[...railItems, ...railItems].map((r, i) => <span key={i}>{r}</span>)}
+              </div>
+            </div>
+            <span className="h2-scroll" aria-hidden="true">{c.heroScroll}<i /></span>
+          </div>
         </div>
       </section>
-
-      {/* ── Ticker — cream ── */}
-      <div className="ticker ticker-cream" aria-hidden="true">
-        <div className="ticker-track">
-          {["From idea","To result","Video","Ads","SMM","Digital","AI content","3D animation",
-            "From idea","To result","Video","Ads","SMM","Digital","AI content","3D animation"].map((t, i) => (
-            <span className="ticker-item" key={i}>{t}</span>
-          ))}
-        </div>
-      </div>
 
       {/* ── Showreel video block ── */}
       <VideoBlock />
@@ -332,16 +265,6 @@ export default async function Home({
       </section>
       </div>{/* /.bg-run */}
 
-      {/* ── Ticker — ghost ── */}
-      <div className="ticker ticker-ghost" aria-hidden="true">
-        <div className="ticker-track-rev">
-          {["Promotional","Image","3D","AI content","Social","Marketing","Performance","Production",
-            "Promotional","Image","3D","AI content","Social","Marketing","Performance","Production"].map((t, i) => (
-            <span className="ticker-item" key={i}>{t}</span>
-          ))}
-        </div>
-      </div>
-
       {/* ── Process ── */}
       <section className="section s-ink" id="process">
         <div className="bg-gray seam-down pin" aria-hidden="true" />
@@ -349,134 +272,75 @@ export default async function Home({
         <div className="wrap">
           <p className="label">{t("process.label")}</p>
           <h2 className="sec-h">{t("process.heading")} <em>{t("process.headingEm")}</em></h2>
-          <div className="process-wrap">
-            <div className="process-track-line" aria-hidden="true" />
-            <div className="process-track-progress" aria-hidden="true" />
-            <div className="process-steps">
-              {processStepsT.map((step, i) => (
-                <div className="process-step" key={i}>
-                  <div className="process-step-dot" aria-hidden="true" />
-                  <span className="process-step-n">{processSteps[i].n}</span>
-                  <span className="process-step-name">{step.name}</span>
-                  <p className="process-step-desc">{step.desc}</p>
+          <ProcessSteps steps={c.steps} />
+        </div>
+      </section>
+
+      {/* ── Works: drawn covers, no stock photos ── */}
+      <section className="section s-dark2 w2" id="portfolio">
+        <div className="wrap">
+          <div className="w2-head">
+            <div>
+              <p className="label">{t("portfolio.label")}</p>
+              <h2 className="sec-h">{noDot(t("portfolio.heading"))}</h2>
+            </div>
+            <Link className="w2-all" href="/portfolio">{t("portfolio.ctaAll")} <span aria-hidden="true">↗</span></Link>
+          </div>
+          <div className="w2-grid">
+            {portfolioCasesT.map((pc, i) => (
+              <Link href="/portfolio" className="w2-card" key={i}>
+                <WorkArt variant={i} />
+                <span className="w2-chip">{pc.tag}</span>
+                <span className="w2-idx">0{i + 1}</span>
+                <div className="w2-info">
+                  <h3 className="w2-title">{noDot(pc.title)}</h3>
+                  <span className="w2-sub">{c.workKicker}</span>
+                </div>
+                <span className="w2-go" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Results bento ── */}
+      <section className="section s-dark2 rb" id="results">
+        <div className="wrap">
+          <p className="label">{t("results.label")}</p>
+          <h2 className="sec-h">{t("results.heading")} <em>{noDot(t("results.headingEm"))}</em></h2>
+          <div className="rb-grid">
+            <div className="rb-stats">
+              {c.results.map((r) => (
+                <div className="rb-stat" key={r.value}>
+                  <CountUp className="rb-val" value={r.value} />
+                  <p className="rb-label">{r.label}</p>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Statement ── */}
-      <div className="s-statement">
-        <div className="bg-gray seam-mid pin" aria-hidden="true" />
-        <div className="sec-bg" aria-hidden="true">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/background/notebook.webp" alt="" loading="lazy" decoding="async" />
-        </div>
-        <div className="bg-struct" aria-hidden="true" />
-        <div className="wrap statement-inner">
-          <p className="statement-eyebrow">{t("statement.eyebrow")}</p>
-          <p className="statement-h">
-            {t("statement.line1")} <em>{t("statement.line1Em")}</em><br />
-            {t("statement.line2")} <span className="statement-h-ul">{t("statement.systems")}</span>
-          </p>
-          <a className="statement-cta" href="#lead">{t("statement.cta")} ↗</a>
-        </div>
-      </div>
-
-      {/* ── Portfolio — compact 3-card showcase ── */}
-      <section className="section s-dark2" id="portfolio">
-        <div className="bg-gray seam-mid pin" aria-hidden="true" />
-        <div className="s-bg-word" aria-hidden="true">Works</div>
-        <div className="wrap">
-          <p className="label">{t("portfolio.label")}</p>
-          <h2 className="sec-h">{t("portfolio.heading")}</h2>
-          <div className="portfolio-grid portfolio-bento">
-            {portfolioCasesT.map((c, i) => (
-              <div className="portfolio-case" key={i}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img className="portfolio-case-img" src={c.image ?? portfolioCases[i].img} alt={c.title} loading="lazy" decoding="async" />
-                <div className="portfolio-case-grad" />
-                <div className="portfolio-case-info">
-                  <span className="portfolio-case-tag">{c.tag}</span>
-                  <h3 className="portfolio-case-title">{c.title}</h3>
-                </div>
-                <span className="portfolio-case-arrow" aria-hidden="true">↗</span>
-              </div>
-            ))}
-          </div>
-          <div className="portfolio-cta-row">
-            <a className="portfolio-cta" href="#lead">{t("portfolio.ctaStart")} ↗</a>
-            <Link className="portfolio-cta" href="/portfolio">{t("portfolio.ctaAll")} ↗</Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Results — single place for all numbers ── */}
-      <section className="section s-dark2" id="results">
-        <div className="bg-gray seam-up pin" aria-hidden="true" />
-        <div className="s-bg-word" aria-hidden="true">Results</div>
-        <div className="wrap">
-          <p className="label">{t("results.label")}</p>
-          <h2 className="sec-h">{t("results.heading")} <em>{t("results.headingEm")}</em></h2>
-        </div>
-        <div className="cases-strip">
-          {resultItems.map((c, i) => (
-            <div className="case-col" key={i}>
-              <span className="case-col-n">0{i + 1}</span>
-              <span className="case-col-val">{results[i].value}</span>
-              <p className="case-col-desc">{c.label}</p>
+            <div className="rb-statement">
+              <p className="rb-statement-h">
+                {c.bentoStatement[0]}
+                <span className="rb-avatars" aria-hidden="true"><i /><i /><i /><b>+</b></span>
+                <br />
+                <a className="rb-pill" href="#lead" aria-label={c.bentoStatementCta}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </a>
+                <em>{c.bentoStatement[1]}</em>
+              </p>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Ticker — results strip ── */}
-      <div className="ticker ticker-ghost" aria-hidden="true">
-        <div className="ticker-track-rev">
-          {["+38% leads","−24% CPL","12 days","100+ clients","+38% leads","−24% CPL","12 days","100+ clients",
-            "+38% leads","−24% CPL","12 days","100+ clients","+38% leads","−24% CPL","12 days","100+ clients"].map((t, i) => (
-            <span className="ticker-item" key={i}>{t}</span>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Pricing ── */}
-      <section className="section s-pricing" id="packages">
-        <div className="bg-graffiti" aria-hidden="true" />
-        <div className="pricing-blob" aria-hidden="true" />
-        <div className="s-bg-word" aria-hidden="true">Pricing</div>
-        <div className="wrap">
-          <p className="label">{t("pricing.label")}</p>
-          <h2 className="sec-h">{t("pricing.heading")} <em>{t("pricing.headingEm")}</em></h2>
-          <div className="pkg-cards">
-            {pkgItems.map((pkg, i) => {
-              const feat = i === 1;
-              return (
-              <article className={`pkg-card${feat ? " feat" : ""}`} key={i}>
-                <div className="pkg-card-head">
-                  {feat && <span className="pkg-card-popular">★ {t("pricing.popular")}</span>}
-                  <span className="pkg-card-tag">{pkg.tag}</span>
-                </div>
-                <h3 className="pkg-card-name">{pkg.name}</h3>
-                <div className="pkg-card-price-row">
-                  <span className="pkg-card-price">{pkg.price}</span>
-                  {pkg.priceOld && <span className="pkg-card-price-old">{pkg.priceOld}</span>}
-                </div>
-                <p className="pkg-card-time">{pkg.time}</p>
-                <ul className="pkg-features">
-                  {pkg.rows.map((row, idx) => (
-                    <li className="pkg-feature-li" key={idx}>
-                      <span className="pkg-feature-check">✓</span>
-                      <span>{row.name}{row.extra ? <em className="pkg-feature-extra">, {row.extra}</em> : null}</span>
-                    </li>
-                  ))}
-                </ul>
-                <a className="pkg-card-btn" href="#lead">{t("pricing.getStarted")} ↗</a>
-              </article>
-            );})}
+            <a className="rb-cta" href="#lead">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={wallCases[4]?.image ?? CASE_IMAGES[4]} alt="" loading="lazy" decoding="async" />
+              <span className="rb-cta-shade" aria-hidden="true" />
+              <span className="rb-cta-title">{c.bentoCtaTitle}</span>
+              <span className="rb-cta-text">{c.bentoCtaText}</span>
+              <span className="rb-cta-btn">{c.bentoCtaBtn} <span aria-hidden="true">→</span></span>
+            </a>
           </div>
         </div>
+        <ProjectWall cases={wallCases} label={c.wallLabel} />
       </section>
 
       {/* ── FAQ ── */}
@@ -525,7 +389,7 @@ export default async function Home({
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 8h.01" /></svg>
                 {t("lead.badge")}
               </span>
-              <h2 className="contact-h">{t("lead.heading")} <em>{t("lead.headingEm")}</em></h2>
+              <h2 className="contact-h">{t("lead.heading")} <em>{noDot(t("lead.headingEm"))}</em></h2>
               <p className="contact-sub">{t("lead.sub")}</p>
               <div className="contact-cards">
                 <a className="contact-card" href={CONTACTS.whatsapp} target="_blank" rel="noopener">
@@ -575,6 +439,7 @@ export default async function Home({
         </div>
       </section>
 
+      <PromoPopups copy={c} poster={poster} />
       <SiteFooter />
     </>
   );

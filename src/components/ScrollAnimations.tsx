@@ -269,20 +269,7 @@ export function ScrollAnimations() {
           y: 22, opacity: 0, stagger: 0.08, duration: 0.55, ease: "power2.out",
         });
 
-        /* ═══════════════════════════════════════
-           MAGNETIC BUTTONS
-        ═══════════════════════════════════════ */
-        document.querySelectorAll<HTMLElement>(".btn-p, .btn-o, .nav-cta").forEach((btn) => {
-          const onMove = (e: MouseEvent) => {
-            const r = btn.getBoundingClientRect();
-            const x = (e.clientX - r.left - r.width / 2) * 0.3;
-            const y = (e.clientY - r.top - r.height / 2) * 0.3;
-            gsap.to(btn, { x, y, duration: 0.3, ease: "power2.out" });
-          };
-          const onLeave = () => gsap.to(btn, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.5)" });
-          btn.addEventListener("mousemove", onMove);
-          btn.addEventListener("mouseleave", onLeave);
-        });
+        // (magnetic button pull removed: buttons stay put under the cursor)
       });
 
       // Recompute trigger positions after layout settles. On client-side route

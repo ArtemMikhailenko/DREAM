@@ -6,8 +6,9 @@ import { Link } from "@/i18n/navigation";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
+import { ProjectWall, type WallCase } from "@/components/home/ProjectWall";
+import { homeCopy } from "@/lib/home-copy";
 
-const statValues = ["+38%", "−24%", "12", "100+"];
 
 export async function generateMetadata({
   params,
@@ -33,7 +34,10 @@ export default async function AboutPage({
   const t = await getTranslations("About");
   const capabilities = t.raw("story.capabilities") as string[];
   const valueItems = t.raw("values.items") as { title: string; desc: string }[];
-  const statItems = t.raw("stats.items") as { label: string }[];
+  const c = homeCopy(locale);
+  const statItems = c.results;
+  const tp = await getTranslations("Portfolio");
+  const wallCases = tp.raw("cases") as WallCase[];
 
   return (
     <>
@@ -112,11 +116,12 @@ export default async function AboutPage({
           {statItems.map((s, i) => (
             <div className="case-col" key={i}>
               <span className="case-col-n">0{i + 1}</span>
-              <span className="case-col-val">{statValues[i]}</span>
+              <span className="case-col-val" dir="ltr">{s.value}</span>
               <p className="case-col-desc">{s.label}</p>
             </div>
           ))}
         </div>
+        <ProjectWall cases={wallCases} label={c.wallLabel} />
       </section>
 
       {/* ── CTA ── */}

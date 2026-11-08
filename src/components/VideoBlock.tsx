@@ -86,6 +86,13 @@ export function VideoBlock() {
     }, 470);
   }, [flip]);
 
+  // The home page's showreel prompt opens the film from anywhere on the page.
+  useEffect(() => {
+    const onOpen = () => openTheater();
+    window.addEventListener("dc:open-reel", onOpen);
+    return () => window.removeEventListener("dc:open-reel", onOpen);
+  }, [openTheater]);
+
   // Esc to close.
   useEffect(() => {
     if (!open) return;

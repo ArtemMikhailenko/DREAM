@@ -49,7 +49,6 @@ export async function SiteFooter() {
               <li><Link href="/about">{t("about")}</Link></li>
               <li><Link href="/#process">{t("process")}</Link></li>
               <li><Link href="/portfolio">{t("works")}</Link></li>
-              <li><Link href="/#packages">{t("pricing")}</Link></li>
             </ul>
           </div>
           <div className="footer-col">
