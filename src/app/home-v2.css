@@ -789,3 +789,40 @@ html.intro-played:not(.intro-landed) .h2 .h2-word{visibility:hidden}
   .pp-video-body{padding-inline-end:22px}
   .pp-video .pp-x{width:26px;height:26px;top:6px}
 }
+
+/* ── perf pass ─────────────────────────────────────────────── */
+.bg-gray.pin,.bg-gray{background-attachment:scroll!important}
+.stk-over{box-shadow:0 -14px 30px rgba(0,0,0,.55),0 -1px 0 rgba(255,255,255,.07)}
+.ro-back .ro-card{filter:none!important}
+.chw-panel,.pp-video{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.h2-field,.space-bg canvas,.cc-canvas{contain:strict}
+/* chat pops up: spring scale-in, typing dots, messages slide in */
+.chw-panel{transform:translateY(24px) scale(.6)!important;transform-origin:calc(100% - 30px) calc(100% + 40px)}
+.chw.is-open .chw-panel{transform:none!important;transition:transform .55s cubic-bezier(.2,1.35,.4,1),opacity .3s!important}
+.chw-typing{display:inline-flex;gap:5px;padding:14px 16px!important}
+.chw-typing i{width:7px;height:7px;border-radius:50%;background:rgba(244,241,234,.7);animation:chwDot 1s ease-in-out infinite}
+.chw-typing i:nth-child(2){animation-delay:.15s}.chw-typing i:nth-child(3){animation-delay:.3s}
+@keyframes chwDot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}
+.chw-quick{opacity:0;transform:translateY(8px);transition:opacity .4s .15s,transform .4s .15s}
+.chw-quick.chw-in{opacity:1;transform:none}
+.chw-msg.chw-in{animation:chwMsg .4s var(--ease-out) both}
+@keyframes chwMsg{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+
+/* film pop-up: bigger, bottom-left on desktop so it never sits under the chat */
+.pp-video{inset-inline-end:auto!important;inset-inline-start:22px;width:min(400px,calc(100vw - 32px))!important;grid-template-columns:150px 1fr!important;padding:12px!important;border-radius:22px!important;
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.06),0 0 50px rgba(232,168,104,.12)!important;transform:translateX(-30px) scale(.92)!important;transition:opacity .5s,transform .6s cubic-bezier(.2,1.3,.4,1)!important;bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}
+.pp-video.in{transform:none!important}
+.pp-video-thumb img{animation:ppKen 9s ease-in-out infinite alternate}
+@keyframes ppKen{from{transform:scale(1)}to{transform:scale(1.12)}}
+@media(max-width:700px){
+  .pp-video{inset-inline:12px 12px!important;width:auto!important;grid-template-columns:72px 1fr!important;bottom:calc(150px + env(safe-area-inset-bottom,0px))!important;transform:translateY(30px) scale(.92)!important}
+  body:has(.chw.is-open) .pp-video{display:none!important}
+}
+.stk-shade{will-change:opacity}
+.hero-glow{will-change:auto}
+/* film card back on the right, above the chat button; it steps aside while the chat is open */
+.pp-video{inset-inline-start:auto!important;inset-inline-end:22px!important;bottom:calc(100px + env(safe-area-inset-bottom,0px))!important;transform:translateX(30px) scale(.92)!important}
+.pp-video.in{transform:none!important}
+body:has(.chw.is-open) .pp-video{opacity:0!important;pointer-events:none!important;transform:translateX(30px) scale(.92)!important}
+.chw-panel{background:radial-gradient(ellipse 80% 50% at 20% 0%,rgba(80,200,190,.16),transparent 60%),#0b0c0d!important}
+@media(max-width:700px){.pp-video{inset-inline:12px 12px!important;bottom:calc(150px + env(safe-area-inset-bottom,0px))!important;transform:translateY(30px) scale(.92)!important}}

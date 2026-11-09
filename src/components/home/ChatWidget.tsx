@@ -18,18 +18,32 @@ export function ChatWidget({ locale }: { locale: string }) {
   const [shown, setShown] = useState(false);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const [typing, setTyping] = useState(false);
   const input = useRef<HTMLInputElement>(null);
 
+  // the chat pops up by itself once: right after the audit window is closed
+  // (or at 12s if that window never got a chance), "typing…" first, then the greeting
   useEffect(() => {
-    let timer = window.setTimeout(() => setShown(true), 8000);
-    const onPrompt = () => { window.clearTimeout(timer); timer = window.setTimeout(() => setShown(true), 1000); };
-    window.addEventListener("dc:lead-prompted", onPrompt);
-    return () => { window.clearTimeout(timer); window.removeEventListener("dc:lead-prompted", onPrompt); };
+    const timers: number[] = [];
+    let done = false;
+    const pop = (delay: number) => {
+      if (done) return;
+      done = true;
+      timers.push(window.setTimeout(() => {
+        if (document.querySelector(".pp-lead.in")) { done = false; pop(1500); return; }
+        setShown(true);
+        timers.push(window.setTimeout(() => { setOpen(true); setTyping(true); }, 450));
+        timers.push(window.setTimeout(() => setTyping(false), 2000));
+      }, delay));
+    };
+    timers.push(window.setTimeout(() => pop(0), 12000));
+    const onClosed = () => pop(1000);
+    window.addEventListener("dc:lead-closed", onClosed);
+    return () => { timers.forEach((t) => window.clearTimeout(t)); window.removeEventListener("dc:lead-closed", onClosed); };
   }, []);
 
   useEffect(() => {
     if (!open) return;
-    window.setTimeout(() => input.current?.focus({ preventScroll: true }), 300);
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -51,8 +65,12 @@ export function ChatWidget({ locale }: { locale: string }) {
           </button>
         </div>
         <div className="chw-body">
-          <p className="chw-msg">{t.hello}</p>
-          <div className="chw-quick">
+          {typing ? (
+            <p className="chw-msg chw-typing" aria-label="…"><i /><i /><i /></p>
+          ) : (
+            <p className="chw-msg chw-in">{t.hello}</p>
+          )}
+          <div className={`chw-quick${typing ? "" : " chw-in"}`}>
             {t.q.map((q) => (
               <button type="button" key={q} onClick={() => toWhatsApp(q)} tabIndex={open ? 0 : -1}>{q}</button>
             ))}

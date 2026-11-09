@@ -23,17 +23,20 @@ export function HeroField() {
       if (disposed) return;
       let renderer: InstanceType<typeof THREE.WebGLRenderer>;
       try {
-        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "high-performance" });
+        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "high-performance", stencil: false, depth: false });
       } catch { return; }
       const small = window.innerWidth < 700;
-      const dpr = Math.min(window.devicePixelRatio || 1, small ? 1.5 : 1.75);
+      // the glow is soft by nature, so render at 1x: on retina screens that's 4x fewer pixels to fill
+      const dpr = 1;
+      const nav = navigator as Navigator & { deviceMemory?: number };
+      const weak = (nav.hardwareConcurrency || 8) <= 4 || (nav.deviceMemory || 8) <= 4;
       renderer.setPixelRatio(dpr);
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 200);
       const camBase = small ? new THREE.Vector3(0, 7.4, 6.2) : new THREE.Vector3(0, 5.6, 5.6);
 
       // ── galaxy ──
-      const COUNT = small ? 22000 : 52000, R = 7, BRANCHES = 4, SPIN = 1.15, RAND = 0.42, POW = 3;
+      const COUNT = Math.round((small ? 5000 : 14000) * (weak ? 0.6 : 1)), R = 7, BRANCHES = 4, SPIN = 1.15, RAND = 0.42, POW = 3;
       const pos = new Float32Array(COUNT * 3), rnd = new Float32Array(COUNT * 3), col = new Float32Array(COUNT * 3), scl = new Float32Array(COUNT);
       const inner = new THREE.Color("#ffc78f"), mid = new THREE.Color("#e8a868"), outer = new THREE.Color("#5f7dff");
       for (let i = 0; i < COUNT; i++) {
@@ -54,7 +57,7 @@ export function HeroField() {
       geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
       geo.setAttribute("aScale", new THREE.BufferAttribute(scl, 1));
       const uniforms = {
-        uTime: { value: 0 }, uSize: { value: (small ? 30 : 36) * dpr },
+        uTime: { value: 0 }, uSize: { value: small ? 34 : 38 },
         uMouse: { value: new THREE.Vector3(99, 0, 99) }, uMouseOn: { value: 0 },
       };
       const mat = new THREE.ShaderMaterial({
@@ -76,7 +79,7 @@ export function HeroField() {
             gl_Position = projectionMatrix * vp;
             gl_PointSize = uSize * aScale * (1.0 + f * 1.6) / -vp.z;
             vColor = mix(color, vec3(1.0, 0.9, 0.78), f * 0.7);
-            vGlow = 0.75 + f * 0.9;
+            vGlow = 0.95 + f * 0.9;
           }`,
         fragmentShader: `
           varying vec3 vColor; varying float vGlow;
@@ -91,7 +94,7 @@ export function HeroField() {
       scene.add(galaxy);
 
       // ── far stars ──
-      const SN = small ? 900 : 2200;
+      const SN = small ? 400 : 900;
       const sp = new Float32Array(SN * 3);
       for (let i = 0; i < SN; i++) {
         const th = Math.random() * Math.PI * 2, ph = Math.acos(Math.random() * 2 - 1), rr = 40 + Math.random() * 40;
@@ -105,7 +108,7 @@ export function HeroField() {
       // ── pointer ──
       const ray = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
       const ndc = new THREE.Vector2(), hit = new THREE.Vector3(), mouseW = new THREE.Vector3(99, 0, 99);
-      let inside = false, mx = 0, my = 0, emx = 0, emy = 0;
+      let inside = false, mx = 0, my = 0, emx = 0, emy = 0, lastMx = 9, lastMy = 9;
       const onMove = (e: PointerEvent) => {
         const r = canvas.getBoundingClientRect();
         mx = ((e.clientX - r.left) / r.width) * 2 - 1;
@@ -127,8 +130,11 @@ export function HeroField() {
         const dt = Math.min(0.05, (now - last) / 1000); last = now;
         uniforms.uTime.value += dt;
         emx += (mx - emx) * 0.05; emy += (my - emy) * 0.05;
-        hero.style.setProperty("--mx", emx.toFixed(3));
-        hero.style.setProperty("--my", (-emy).toFixed(3));
+        if (Math.abs(emx - lastMx) > 0.004 || Math.abs(emy - lastMy) > 0.004) {
+          lastMx = emx; lastMy = emy;
+          hero.style.setProperty("--mx", emx.toFixed(3));
+          hero.style.setProperty("--my", (-emy).toFixed(3));
+        }
         camera.position.set(camBase.x + emx * 0.9, camBase.y + emy * 0.5, camBase.z);
         camera.lookAt(0, -0.6, 0.4);
         stars.rotation.y += dt * 0.006;

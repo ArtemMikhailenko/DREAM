@@ -21,7 +21,7 @@ export function CustomCursor() {
 
     let w = 0, h = 0, dpr = 1;
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       w = window.innerWidth; h = window.innerHeight;
       canvas.width = w * dpr; canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -52,9 +52,10 @@ export function CustomCursor() {
       }
       if (dust.length > 140) dust.splice(0, dust.length - 140);
       lastX = x; lastY = y;
+      wake();
     };
-    const onDown = () => { downT = 1; };
-    const onUp = () => { downT = 0; };
+    const onDown = () => { downT = 1; wake(); };
+    const onUp = () => { downT = 0; wake(); };
     const onOut = (e: PointerEvent) => { if (!e.relatedTarget) { shown = false; } };
 
     const loop = () => {
@@ -92,15 +93,18 @@ export function CustomCursor() {
         ctx.beginPath(); ctx.arc(x, y, (3.2 - hot * 1.4) * (1 - down * 0.3), 0, 6.283); ctx.fill();
       }
       ctx.globalCompositeOperation = "source-over";
-      raf = requestAnimationFrame(loop);
+      // sleep when nothing moves: no frames at all while the mouse rests
+      const settled = !dust.length && Math.abs(x - cx) < 0.3 && Math.abs(y - cy) < 0.3 && Math.abs(hotT - hot) < 0.01 && Math.abs(downT - down) < 0.01;
+      raf = settled ? 0 : requestAnimationFrame(loop);
     };
+    function wake() { if (!raf) raf = requestAnimationFrame(loop); }
 
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerdown", onDown);
     window.addEventListener("pointerup", onUp);
     document.addEventListener("pointerout", onOut);
     window.addEventListener("resize", resize);
-    raf = requestAnimationFrame(loop);
+    wake();
     return () => {
       cancelAnimationFrame(raf);
       document.documentElement.classList.remove("has-cc");

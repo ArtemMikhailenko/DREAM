@@ -1435,3 +1435,11 @@ html.has-cc,html.has-cc *{cursor:none!important}
 /* star cursor: keep the real text cursor in fields */
 html.has-cc input:not([type=checkbox]):not([type=radio]):not([type=submit]),html.has-cc textarea{cursor:text!important}
 html.has-cc select{cursor:default!important}
+
+/* ── perf pass: calling buttons animate only transform/opacity (no repaint loops) ── */
+.cta-pulse,.qf-submit{animation:none!important}
+.cta-pulse::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;background:radial-gradient(120% 140% at 50% 120%,rgba(232,168,104,.55),transparent 60%);opacity:0;animation:ctaGlowIn 2.8s ease-in-out infinite;will-change:opacity}
+@keyframes ctaGlowIn{0%,100%{opacity:0}45%{opacity:1}}
+.cta-pulse::after,.qf-submit::before{will-change:transform}
+/* perf: the film grain was blended over the whole screen every frame (mix-blend overlay on a fixed layer) — keep the texture, drop the blend */
+body::after{mix-blend-mode:normal!important;opacity:.045!important;will-change:auto}

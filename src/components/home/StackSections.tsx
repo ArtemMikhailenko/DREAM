@@ -10,7 +10,8 @@ import { useEffect } from "react";
  */
 export function StackSections({ ids }: { ids: string[] }) {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // phones scroll the page normally: the effect costs too much there for what it gives
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (max-width: 700px)").matches) return;
     const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     if (els.length < 2) return;
     const shades = els.map((el, i) => {

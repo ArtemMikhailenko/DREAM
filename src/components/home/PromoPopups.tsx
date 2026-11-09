@@ -33,7 +33,6 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
 
   const openLead = useCallback(() => {
     lastFocus.current = document.activeElement as HTMLElement;
-    setVideo(false);
     setLead(true);
     if (!leadShown.current) {
       leadShown.current = true;
@@ -58,8 +57,9 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
   const closeLead = useCallback(() => {
     setLead(false);
     lastFocus.current?.focus?.();
-    // the film card comes back after the window, unless the visitor closed it
-    if (!videoClosed.current) window.setTimeout(() => { if (!busy()) setVideo(true); }, 900);
+    window.dispatchEvent(new Event("dc:lead-closed"));
+    // the film card stays (or comes back) after the window, unless the visitor closed it
+    if (!videoClosed.current) window.setTimeout(() => { if (!busy()) setVideo(true); }, 400);
   }, []);
 
   useEffect(() => {

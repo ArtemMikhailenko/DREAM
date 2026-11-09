@@ -17,14 +17,24 @@ export function SpaceBg({ tint = "warm" }: { tint?: "warm" | "cool" }) {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let w = 0, h = 0, raf = 0, visible = false, last = performance.now(), t = 0;
     type Star = { x: number; y: number; z: number; tw: number; warm: boolean };
+    const sprite = (rgb: string) => {
+      const c = document.createElement("canvas"); c.width = c.height = 32;
+      const g2 = c.getContext("2d")!;
+      const gr = g2.createRadialGradient(16, 16, 0, 16, 16, 16);
+      gr.addColorStop(0, `rgba(${rgb},.55)`); gr.addColorStop(1, `rgba(${rgb},0)`);
+      g2.fillStyle = gr; g2.fillRect(0, 0, 32, 32);
+      return c;
+    };
+    const glowWarm = sprite("255,190,130"), glowCool = sprite("200,220,255");
+    let acc = 0;
     let stars: Star[] = [];
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = 1;
       w = canvas.clientWidth; h = canvas.clientHeight;
       canvas.width = w * dpr; canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.min(420, Math.round((w * h) / 5200));
+      const n = Math.min(170, Math.round((w * h) / 9000));
       stars = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, z: Math.random(), tw: Math.random() * 6.28, warm: Math.random() < (tint === "warm" ? 0.3 : 0.12) }));
     };
 
@@ -40,18 +50,18 @@ export function SpaceBg({ tint = "warm" }: { tint?: "warm" | "cool" }) {
         ctx.fillStyle = s.warm ? `rgba(255,200,150,${a.toFixed(3)})` : `rgba(220,232,255,${a.toFixed(3)})`;
         ctx.beginPath(); ctx.arc(s.x, s.y, r, 0, 6.283); ctx.fill();
         if (s.z > 0.9) {
-          const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r * 7);
-          g.addColorStop(0, s.warm ? `rgba(255,190,130,${(a * 0.3).toFixed(3)})` : `rgba(200,220,255,${(a * 0.28).toFixed(3)})`);
-          g.addColorStop(1, "rgba(0,0,0,0)");
-          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(s.x, s.y, r * 7, 0, 6.283); ctx.fill();
+          const spr = s.warm ? glowWarm : glowCool;
+          ctx.globalAlpha = a * 0.6;
+          ctx.drawImage(spr, s.x - 16, s.y - 16, 32, 32);
+          ctx.globalAlpha = 1;
         }
       }
       ctx.globalCompositeOperation = "source-over";
     };
 
     const loop = (now: number) => {
-      const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
-      draw(dt);
+      const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt; acc += dt;
+      if (acc >= 1 / 30) { draw(acc); acc = 0; }  // 30 fps is plenty for slow drifting stars
       if (visible && !reduce) raf = requestAnimationFrame(loop);
     };
     resize(); draw(0);

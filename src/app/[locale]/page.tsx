@@ -232,7 +232,7 @@ export default async function Home({
       <section className="section s-ink res2" id="results">
         <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="hero-glow" aria-hidden="true" />
-        <ResultsOrbit items={[...wallCases, ...wallCases].slice(0, 10).map((wc, i) => ({ src: wc.image ?? CASE_IMAGES[i % CASE_IMAGES.length], alt: wc.title }))}>
+        <ResultsOrbit items={[...wallCases, ...wallCases].slice(0, 8).map((wc, i) => ({ src: wc.image ?? CASE_IMAGES[i % CASE_IMAGES.length], alt: wc.title }))}>
           <div className="wrap">
             <p className="label">{f.resLabel}</p>
             <h2 className="sec-h">{f.resHeading} <em>{f.resEm}</em></h2>
