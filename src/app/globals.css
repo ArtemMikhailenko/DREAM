@@ -1498,3 +1498,43 @@ body::after{mix-blend-mode:normal!important;opacity:.045!important;will-change:a
 .pf-res-grid.in-tab{margin-top:8px}
 .pf-all-res{margin-top:64px}
 .pf-all-res-h{font-family:var(--font-display),var(--font-hebrew),sans-serif;font-size:clamp(1.8rem,3vw,2.6rem);text-transform:uppercase;color:var(--chalk);margin-bottom:18px}
+
+/* ── Works: websites showcase (browser frame + phone) ── */
+.pf-sites{display:flex;flex-direction:column;gap:clamp(56px,8vw,110px);margin-top:8px}
+.pf-site{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center}
+.pf-site.is-flip .pf-site-vis{order:2}
+.pf-site-vis{position:relative;display:block;padding:0 clamp(28px,4vw,56px) clamp(28px,4vw,48px) 0;color:inherit;text-decoration:none}
+.pf-site.is-flip .pf-site-vis{padding:0 0 clamp(28px,4vw,48px) clamp(28px,4vw,56px)}
+.pf-browser{display:block;border-radius:14px;overflow:hidden;background:#141416;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.4);transition:transform .5s var(--ease-out),box-shadow .5s}
+.pf-browser-bar{display:flex;align-items:center;gap:7px;height:34px;padding:0 14px;background:#1c1c1f;border-bottom:1px solid rgba(255,255,255,.06)}
+.pf-browser-bar i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.16)}
+.pf-browser-bar i:first-child{background:#ff5f57}.pf-browser-bar i:nth-child(2){background:#febc2e}.pf-browser-bar i:nth-child(3){background:#28c840}
+.pf-browser-url{flex:1;max-width:60%;margin:0 auto;height:20px;border-radius:6px;background:rgba(255,255,255,.06);color:rgba(244,241,234,.55);font-size:11px;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
+.pf-browser-screen{display:block;aspect-ratio:16/10;overflow:hidden;background:#0d0d0f}
+.pf-browser-screen img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0;transition:object-position 7s cubic-bezier(.45,0,.4,1)}
+.pf-site-vis:hover .pf-browser-screen img,.pf-site-vis:focus-visible .pf-browser-screen img{object-position:50% 100%}
+.pf-site-vis:hover .pf-browser{transform:translateY(-4px);box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 60px rgba(232,168,104,.12)}
+.pf-phone{position:absolute;right:0;bottom:0;width:clamp(110px,20%,190px);aspect-ratio:530/895;border-radius:22px;padding:5px;background:#0b0b0c;border:1px solid rgba(255,255,255,.14);box-shadow:0 24px 60px rgba(0,0,0,.65);overflow:hidden;transition:transform .5s var(--ease-out)}
+.pf-site.is-flip .pf-phone{right:auto;left:0}
+.pf-phone img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;border-radius:17px}
+.pf-site-vis:hover .pf-phone{transform:translateY(-10px) rotate(-2deg)}
+.pf-site.is-flip .pf-site-vis:hover .pf-phone{transform:translateY(-10px) rotate(2deg)}
+.pf-site-info{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0}
+.pf-site-num{font-size:13px;letter-spacing:.2em;color:var(--accent)}
+.pf-site-name{font-family:var(--font-display),var(--font-hebrew),sans-serif;font-size:clamp(1.9rem,3.4vw,3rem);line-height:1;text-transform:uppercase;color:var(--chalk);margin:0}
+.pf-site-domain{color:rgba(244,241,234,.45);font-size:14px;letter-spacing:.04em;margin:0}
+.pf-site-desc{color:rgba(244,241,234,.75);font-size:clamp(15px,1.15vw,17px);line-height:1.6;max-width:44ch;margin:6px 0 10px}
+.pf-site-btn{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 24px;border-radius:14px;font-size:15px;text-decoration:none}
+.pf-site-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s var(--ease-out)}
+.pf-site-btn:hover svg{transform:translate(2px,-2px)}
+@media (hover:none){.pf-browser-screen img{animation:pfScroll 16s cubic-bezier(.45,0,.4,1) 1s infinite alternate}}
+@keyframes pfScroll{0%,8%{object-position:50% 0}92%,100%{object-position:50% 100%}}
+@media (prefers-reduced-motion:reduce){.pf-browser-screen img{animation:none;transition:none}}
+@media (max-width:860px){
+  .pf-site{grid-template-columns:1fr;gap:22px}
+  .pf-site.is-flip .pf-site-vis{order:0;padding:0 clamp(28px,8vw,48px) 28px 0}
+  .pf-site.is-flip .pf-phone{left:auto;right:0}
+  .pf-phone{width:24%;border-radius:16px;padding:4px}
+  .pf-phone img{border-radius:12px}
+  .pf-browser-bar{height:26px;padding:0 10px;gap:5px}.pf-browser-bar i{width:7px;height:7px}.pf-browser-url{height:16px;font-size:10px}
+}

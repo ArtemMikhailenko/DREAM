@@ -1,4 +1,4 @@
-import { portfolioCategories, portfolioTagMap, portfolioEmpty, portfolioResults } from "@/lib/inner-copy";
+import { portfolioCategories, portfolioTagMap, portfolioEmpty, portfolioResults, portfolioSites } from "@/lib/inner-copy";
 import { AD_RESULTS } from "@/lib/home-copy";
 import "../../home-v2.css";
 import type { Metadata } from "next";
@@ -35,6 +35,8 @@ export default async function PortfolioPage({
   setRequestLocale(locale);
   const t = await getTranslations("Portfolio");
   const pr = portfolioResults(locale);
+  const ps = portfolioSites(locale);
+  const cats = portfolioCategories(locale);
   const categories = [portfolioCategories(locale)[0], pr.label, ...portfolioCategories(locale).slice(1)];
   const cases = t.raw("cases") as {
     title: string;
@@ -74,6 +76,9 @@ export default async function PortfolioPage({
             empty={portfolioEmpty(locale)}
             resultsLabel={pr.label}
             results={AD_RESULTS}
+            sitesLabel={cats[cats.length - 1]}
+            sites={ps.items}
+            siteOpen={ps.open}
             // Covers come from the CMS (Кейсы → Обложка); the shipped stock photo
             // is the fallback for a case that has none yet.
             images={cases.map((c, i) => c.image ?? CASE_IMAGES[i].replace("w=1600", "w=1000"))}

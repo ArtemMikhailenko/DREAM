@@ -159,3 +159,18 @@ export const aboutTags = (l: string) =>
     ru: ["Реклама в Instagram и Facebook", "Реклама в Google", "Съёмка фото и видео", "Контент для соцсетей", "Сайты и лендинги", "Чат-боты", "Автоматизация продаж", "Помощь с продажами"],
     he: ["פרסום באינסטגרם ובפייסבוק", "פרסום בגוגל", "צילום ווידאו", "תוכן לרשתות", "אתרים ודפי נחיתה", "צ'אטבוטים", "אוטומציית מכירות", "עזרה במכירות"],
   } as Record<string, string[]>)[l] ?? ["Instagram & Facebook ads", "Google ads", "Photo & video shoots", "Social media content", "Websites & landing pages", "Chatbots", "Sales automation", "Help with sales"];
+
+/* Works page: websites we built (screenshots in public/sites) */
+export type SiteItem = { name: string; domain: string; url: string; desc: string; img: string; phone: string };
+export const portfolioSites = (l: string) => {
+  const t = ({
+    ru: { open: "Открыть сайт", d: ["Сайт производителя алюминиевых конструкций: перголы, остекление и ZIP-шторы. Заявки на бесплатную консультацию прямо с первого экрана", "Сайт для израильтян, которые хотят купить первую квартиру в Грузии: понятные цифры, конкретные дома и запись на вебинар", "Сайт винного бутика в Ришон-ле-Ционе: живые сцены при прокрутке, три языка и заявки на доставку"] },
+    he: { open: "לאתר", d: ["אתר ליצרן מבני אלומיניום: פרגולות, זיגוג ומסכי ZIP. השארת פרטים לייעוץ חינם כבר במסך הראשון", "אתר לישראלים שרוצים לקנות דירה ראשונה בגאורגיה: מספרים ברורים, פרויקטים ספציפיים והרשמה לוובינר", "אתר לבוטיק יין בראשון לציון: סצנות חיות בגלילה, שלוש שפות ופניות למשלוח"] },
+  } as Record<string, { open: string; d: string[] }>)[l] ?? { open: "Visit site", d: ["Website for an aluminium structures manufacturer: pergolas, glazing and ZIP screens. Free consultation requests right from the first screen", "Website for Israelis buying their first apartment in Georgia: clear numbers, specific buildings and webinar sign-ups", "Website for a wine boutique in Rishon LeZion: living scenes on scroll, three languages and delivery requests"] };
+  const items: SiteItem[] = [
+    { name: "Vitlion Group", domain: "vitlion.co.il", url: "https://www.vitlion.co.il/ru", desc: t.d[0], img: "/sites/vitlion-desktop.webp", phone: "/sites/vitlion-phone.webp" },
+    { name: "Nexis Capital", domain: "nexiscapital-israel.com", url: "https://nexiscapital-israel.com", desc: t.d[1], img: "/sites/nexis-desktop.webp", phone: "/sites/nexis-phone.webp" },
+    { name: "40 MAALOT", domain: "40maalot.co.il", url: "https://40maalot.co.il/ru/", desc: t.d[2], img: "/sites/maalot-desktop.webp", phone: "/sites/maalot-phone.webp" },
+  ];
+  return { open: t.open, items };
+};
