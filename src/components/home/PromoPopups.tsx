@@ -42,6 +42,7 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
     const start = () => {
     timers.push(window.setTimeout(() => { if (!busy()) setVideo(true); }, VIDEO_AT));
     const tryLead = () => {
+      if (document.querySelector(".pp-lead.in")) return;
       if (busy()) { timers.push(window.setTimeout(tryLead, 4000)); return; }
       setVideo(false);
       lastFocus.current = document.activeElement as HTMLElement;
@@ -53,6 +54,18 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
     if ((window as unknown as { __dcIntroDone?: boolean }).__dcIntroDone) start();
     else window.addEventListener("dc:intro-done", start, { once: true });
     return () => { window.removeEventListener("dc:intro-done", start); timers.forEach((t) => window.clearTimeout(t)); };
+  }, []);
+
+  // any "free audit" button on the page opens the same window right away
+  useEffect(() => {
+    const open = () => {
+      markSeen();
+      setVideo(false);
+      lastFocus.current = document.activeElement as HTMLElement;
+      setLead(true);
+    };
+    window.addEventListener("dc:open-lead", open);
+    return () => window.removeEventListener("dc:open-lead", open);
   }, []);
 
   const closeLead = useCallback(() => {

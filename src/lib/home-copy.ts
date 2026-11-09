@@ -7,6 +7,9 @@ export type HomeCopy = {
   heroMetaL: string;
   heroMetaR: string;
   heroLanes: [string, string, string];
+  heroDesc: string;
+  heroRail: string[];
+  feats: { t: string; s: string; d: string }[];
   heroWatch: string;
   heroScroll: string;
   popVideoEyebrow: string;
@@ -31,9 +34,16 @@ export type HomeCopy = {
 };
 
 const en: HomeCopy = {
-  heroMetaL: "Israel · Full-cycle studio",
+  heroMetaL: "Customers for your business without the headache, in the first days after your ads go live",
   heroMetaR: "Open for new projects",
-  heroLanes: ["Video production", "Ads & SMM", "Digital & AI"],
+  heroLanes: ["Ad agency", "Video production", "Leads within 24 hours"],
+  heroDesc: "We take on everything: strategy, photo and video shoots, turnkey ad launches, social media, chatbots and sales automation. You get a steady flow of leads and a clear cost for every customer",
+  heroRail: ["Turnkey ad launch", "Social media", "Photo & video shoots", "Chatbots", "Sales automation", "Advertising", "Video production"],
+  feats: [
+    { t: "Common", s: "mistakes", d: "The mistakes almost every business makes in 2026 and burns its budget on" },
+    { t: "Ads alone", s: "aren't enough", d: "Why in 2026 ads by themselves don't pay off, and what else it takes" },
+    { t: "Guaranteed", s: "results", d: "The only company in Israel that guarantees results within 48 hours of launch" },
+  ],
   heroWatch: "Watch the film",
   heroScroll: "Scroll",
   popVideoEyebrow: "Showreel · 60 sec",
@@ -71,9 +81,16 @@ const en: HomeCopy = {
 };
 
 const ru: HomeCopy = {
-  heroMetaL: "Израиль · Студия полного цикла",
+  heroMetaL: "Клиенты в ваш бизнес без головной боли уже в первые дни после запуска рекламы",
   heroMetaR: "Берём новые проекты",
-  heroLanes: ["Видеопродакшн", "Реклама и SMM", "Digital и AI"],
+  heroLanes: ["Рекламное агентство", "Видеопродакшн", "Заявки в первые 24 часа"],
+  heroDesc: "Берём на себя всё: стратегию, съёмку фото и видео, запуск рекламы под ключ, социальные сети, чат-боты и автоматизацию продаж. Вы получаете поток заявок и понятную цену каждого клиента",
+  heroRail: ["Запуск рекламы под ключ", "Social media", "Съёмка фото и видео", "Чат-боты", "Автоматизация продаж", "Реклама", "Видеопродакшн"],
+  feats: [
+    { t: "Основные", s: "ошибки", d: "Какие ошибки в 2026 году допускает почти каждый бизнес и сливает на них бюджет" },
+    { t: "Реклама —", s: "не залог успеха", d: "Почему в 2026 году одной рекламы недостаточно и что ещё нужно, чтобы она окупалась" },
+    { t: "Гарантия", s: "результата", d: "Мы единственная компания в Израиле с гарантией результата уже в первые 48 часов после запуска" },
+  ],
   heroWatch: "Смотреть фильм",
   heroScroll: "Листайте",
   popVideoEyebrow: "Шоурил · 60 сек",
@@ -111,9 +128,16 @@ const ru: HomeCopy = {
 };
 
 const he: HomeCopy = {
-  heroMetaL: "ישראל · סטודיו מלא",
+  heroMetaL: "לקוחות לעסק שלכם בלי כאב ראש, כבר בימים הראשונים אחרי עליית הפרסום",
   heroMetaR: "פתוחים לפרויקטים חדשים",
-  heroLanes: ["הפקת וידאו", "פרסום ו-SMM", "דיגיטל ו-AI"],
+  heroLanes: ["סוכנות פרסום", "הפקת וידאו", "לידים ב-24 השעות הראשונות"],
+  heroDesc: "אנחנו לוקחים על עצמנו הכול: אסטרטגיה, צילומי סטילס ווידאו, השקת פרסום מקצה לקצה, סושיאל מדיה, צ'אטבוטים ואוטומציית מכירות. אתם מקבלים זרם קבוע של לידים ועלות ברורה לכל לקוח",
+  heroRail: ["השקת פרסום מקצה לקצה", "סושיאל מדיה", "צילומי סטילס ווידאו", "צ'אטבוטים", "אוטומציית מכירות", "פרסום", "הפקת וידאו"],
+  feats: [
+    { t: "הטעויות", s: "הנפוצות", d: "הטעויות שכמעט כל עסק עושה ב-2026 ושורפות לו את התקציב" },
+    { t: "פרסום לבד", s: "לא מספיק", d: "למה ב-2026 פרסום לבד לא מחזיר את עצמו, ומה עוד צריך" },
+    { t: "תוצאה", s: "מובטחת", d: "החברה היחידה בישראל עם הבטחת תוצאה כבר 48 שעות אחרי ההשקה" },
+  ],
   heroWatch: "לצפייה בסרט",
   heroScroll: "גללו",
   popVideoEyebrow: "שואוריל · 60 שניות",

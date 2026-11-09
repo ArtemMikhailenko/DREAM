@@ -5,6 +5,7 @@ import { HeroField, Timecode } from "@/components/home/HeroField";
 import { PromoPopups } from "@/components/home/PromoPopups";
 import { IntroDissolve } from "@/components/home/IntroDissolve";
 import { CustomCursor } from "@/components/CustomCursor";
+import { LeadButton } from "@/components/home/LeadButton";
 import { WatchButton } from "@/components/home/WatchButton";
 import { MobileCta } from "@/components/home/MobileCta";
 import { ProcessSteps } from "@/components/home/ProcessSteps";
@@ -171,12 +172,14 @@ export default async function Home({
                   <span key={l}>{i > 0 && <i aria-hidden="true">·</i>}{l}</span>
                 ))}
               </p>
-              <h1 className="h2-h1">{(t.has("hero.h1") && t("hero.h1")) || t("hero.desc")}</h1>
+              {/* the CMS heading stays the page's h1 for search; the visitor reads the short pitch below */}
+              <h1 className="h2-h1-seo">{(t.has("hero.h1") && t("hero.h1")) || t("hero.desc")}</h1>
+              <p className="h2-desc">{c.heroDesc}</p>
               <div className="h2-actions">
-                <a className="h2-cta glass-btn" href="#lead">
+                <LeadButton className="h2-cta glass-btn cta-pulse">
                   <span>{t("hero.ctaPrimary")}</span>
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
-                </a>
+                </LeadButton>
                 <WatchButton label={c.heroWatch} />
               </div>
             </div>
@@ -194,7 +197,7 @@ export default async function Home({
             </div>
             <div className="h2-marquee" aria-hidden="true">
               <div className="h2-marquee-track">
-                {[...railItems, ...railItems].map((r, i) => <span key={i}>{r}</span>)}
+                {[...c.heroRail, ...c.heroRail].map((r, i) => <span key={i}>{r}</span>)}
               </div>
             </div>
             <span className="h2-scroll" aria-hidden="true">{c.heroScroll}<i /></span>
@@ -218,6 +221,7 @@ export default async function Home({
           <div className="problem-list">
             {problemItems.map((p, i) => (
               <div className="problem-row" key={i}>
+                <i className="problem-bar" aria-hidden="true" />
                 <b aria-hidden="true" className="problem-row-ghost">0{i + 1}</b>
                 <span className="problem-row-n">0{i + 1}</span>
                 <h3 className="problem-row-title">{p.title}</h3>

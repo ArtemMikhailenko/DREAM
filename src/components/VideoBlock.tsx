@@ -2,17 +2,22 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { homeCopy } from "@/lib/home-copy";
 
+// thin line icons, one stroke weight: common mistakes, ads alone, guarantee
 const FEAT_ICONS = [
-  // fast — bolt
-  <path key="i" d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" />,
-  // real cases — target
   <>
-    <circle key="c1" cx="12" cy="12" r="9" />
-    <circle key="c2" cx="12" cy="12" r="3.5" />
+    <path key="a" d="M12 3.5 21.5 20h-19z" />
+    <path key="b" d="M12 10v4.5M12 17.2v.3" />
   </>,
-  // results — spark
-  <path key="s" d="M12 2c.6 4.5 2.9 6.8 7.4 7.4-4.5.6-6.8 2.9-7.4 7.4-.6-4.5-2.9-6.8-7.4-7.4C9.1 8.8 11.4 6.5 12 2z" />,
+  <>
+    <path key="a" d="M4 10v4h3l6 4V6L7 10z" />
+    <path key="b" d="M16.5 9.5a3.5 3.5 0 0 1 0 5M19 7a7 7 0 0 1 0 10" />
+  </>,
+  <>
+    <path key="a" d="M12 3 19.5 6v5.5c0 4.6-3.2 8-7.5 9.5-4.3-1.5-7.5-4.9-7.5-9.5V6z" />
+    <path key="b" d="m8.8 12.2 2.3 2.3 4.3-4.6" />
+  </>,
 ];
 
 export function VideoBlock() {
@@ -29,7 +34,8 @@ export function VideoBlock() {
   const [open, setOpen] = useState(false);
   const [showCta, setShowCta] = useState(false);
 
-  const feats = t.raw("feats") as { t: string; s: string; d: string }[];
+  // the three points under the film: copy kept with the rest of the new home text
+  const feats = homeCopy(locale).feats;
   const orbit = t.raw("orbit") as string[];
 
   // Emphasise only the first word of the accent phrase (amber), like the ref.
@@ -227,8 +233,9 @@ export function VideoBlock() {
         <ul className="vblock-feats">
           {feats.map((f, i) => (
             <li className="vblock-feat" key={i}>
+              <span className="vblock-feat-bar" aria-hidden="true" />
               <span className="vblock-feat-ic" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill={i === 0 || i === 2 ? "currentColor" : "none"} stroke={i === 1 ? "currentColor" : "none"} strokeWidth="1.6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   {FEAT_ICONS[i]}
                 </svg>
               </span>

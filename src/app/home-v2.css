@@ -524,3 +524,43 @@ html.intro-hold .h2 *{animation-play-state:paused!important}
   .footer-inner{gap:24px}
 }
 @media(max-width:860px){#problem .problem-row-title{padding-inline-start:0}}
+
+/* ── Nov 9 round: hero tagline, pitch, feature hover, problem hover ── */
+.h2-meta>span:first-child{font-family:var(--font-geist-sans,sans-serif);font-size:clamp(.8rem,.95vw,.92rem);font-weight:500;letter-spacing:.01em;text-transform:none;color:var(--chalk);max-width:46ch;line-height:1.4}
+.h2-h1-seo{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.h2-desc{font-family:var(--font-geist-sans,sans-serif);font-size:clamp(1rem,1.15vw,1.12rem);font-weight:400;line-height:1.6;color:rgba(244,241,234,.82);max-width:560px;text-wrap:pretty}
+@media(max-width:700px){
+  .h2-meta>span:first-child{display:block;font-size:.84rem}
+  .h2-meta .h2-meta-r{display:none}
+  .h2-desc{font-size:.92rem;line-height:1.5}
+}
+
+/* three points under the film: light up like the "three directions" rows */
+.vblock-feat{position:relative;isolation:isolate;transition:background .35s var(--ease-out)}
+.vblock-feat::after{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,var(--accent),transparent 75%);opacity:0;transition:opacity .35s}
+[dir="rtl"] .vblock-feat::after{background:linear-gradient(270deg,var(--accent),transparent 75%)}
+.vblock-feat-bar{position:absolute;inset-inline-start:0;top:28%;bottom:28%;width:3px;border-radius:2px;background:var(--accent);box-shadow:0 0 18px rgba(232,168,104,.55);transform:scaleY(0);transition:transform .4s var(--ease-out)}
+.vblock-feat:hover{background:linear-gradient(90deg,var(--accent-soft) 0%,rgba(232,168,104,.04) 45%,transparent 85%)}
+[dir="rtl"] .vblock-feat:hover{background:linear-gradient(270deg,var(--accent-soft) 0%,rgba(232,168,104,.04) 45%,transparent 85%)}
+.vblock-feat:hover::after{opacity:.8}
+.vblock-feat:hover .vblock-feat-bar{transform:scaleY(1)}
+.vblock-feat-ic{transition:background .35s,border-color .35s,color .35s,box-shadow .35s}
+.vblock-feat:hover .vblock-feat-ic{background:var(--accent);border-color:var(--accent);color:var(--ink);box-shadow:0 0 30px rgba(232,168,104,.45)}
+.vblock-feat-t{transition:color .3s}
+.vblock-feat:hover .vblock-feat-t{color:var(--cream)}
+
+/* problem rows: same warm light on hover */
+#problem .problem-row{transition:background .4s var(--ease-out);border-radius:4px}
+#problem .problem-bar{position:absolute;inset-inline-start:0;top:30%;bottom:30%;width:3px;border-radius:2px;background:var(--accent);box-shadow:0 0 18px rgba(232,168,104,.55);transform:scaleY(0);transition:transform .45s var(--ease-out)}
+#problem .problem-row:hover{background:linear-gradient(90deg,var(--accent-soft) 0%,rgba(232,168,104,.04) 35%,transparent 75%)}
+[dir="rtl"] #problem .problem-row:hover{background:linear-gradient(270deg,var(--accent-soft) 0%,rgba(232,168,104,.04) 35%,transparent 75%)}
+#problem .problem-row:hover .problem-bar{transform:scaleY(1)}
+#problem .problem-row-title,#problem .problem-row-n,#problem .problem-row-ghost{transition:color .35s,opacity .35s,text-shadow .35s}
+#problem .problem-row:hover .problem-row-title{color:var(--cream)}
+#problem .problem-row:hover .problem-row-n{color:var(--accent)}
+#problem .problem-row:hover .problem-row-ghost{color:var(--accent);opacity:.16;text-shadow:0 0 60px rgba(232,168,104,.35)}
+@media(max-width:700px){
+  .h2-lanes{display:flex!important;flex-wrap:wrap;gap:4px 14px!important}
+  .h2-lanes i{display:none}
+  .h2-desc{font-size:.88rem}
+}

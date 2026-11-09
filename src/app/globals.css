@@ -1392,3 +1392,43 @@ html.has-cc,html.has-cc *{cursor:none!important}
 .nav-drawer-social{margin-inline-start:auto!important}
 .nav-drawer-social a{border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.03)}
 @media(prefers-reduced-motion:reduce){.nav-drawer-links li{opacity:1;transform:none;transition:none}}
+
+/* ── Nov 9 round ─────────────────────────────────────────────── */
+/* Calling buttons: a slow warm breath, a ring that pings outward and a light sweep across the glass */
+.cta-pulse{animation:ctaBreath 2.8s var(--ease-out) infinite}
+.cta-pulse::after{animation:ctaSheen 2.8s var(--ease-out) infinite}
+.cta-pulse:hover,.cta-pulse:focus-visible{animation-play-state:paused}
+@keyframes ctaBreath{
+  0%{outline:1px solid rgba(232,168,104,.55);outline-offset:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -10px 24px rgba(0,0,0,.25),0 14px 40px rgba(0,0,0,.45),0 0 0 rgba(232,168,104,0)}
+  45%{box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -10px 24px rgba(0,0,0,.2),0 14px 40px rgba(0,0,0,.45),0 0 44px rgba(232,168,104,.38)}
+  70%{outline:1px solid rgba(232,168,104,0);outline-offset:12px}
+  100%{outline:1px solid rgba(232,168,104,0);outline-offset:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -10px 24px rgba(0,0,0,.25),0 14px 40px rgba(0,0,0,.45),0 0 0 rgba(232,168,104,0)}
+}
+@keyframes ctaSheen{0%,40%{transform:translateX(-120%)}75%,100%{transform:translateX(120%)}}
+
+/* Lead form submit: the same Apple-style glass as the hero button, calling the same way */
+.lead-sec .qf-submit,.pp-dialog .qf-submit,.qf-submit{position:relative;isolation:isolate;overflow:hidden;border:1px solid transparent!important;color:var(--chalk)!important;background:var(--glass-fill) padding-box,var(--glass-rim) border-box!important;-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -10px 24px rgba(0,0,0,.25),0 14px 40px rgba(0,0,0,.45)!important;animation:ctaBreath 2.8s var(--ease-out) infinite}
+.qf-submit::before{content:""!important;position:absolute!important;inset:0!important;height:auto!important;z-index:-1;filter:none!important;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.38) 48%,rgba(255,255,255,.08) 54%,transparent 70%)!important;transform:translateX(-120%);animation:ctaSheen 2.8s var(--ease-out) infinite}
+.qf-submit:hover:not(:disabled){transform:translateY(-1px);animation-play-state:paused;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -10px 24px rgba(0,0,0,.2),0 18px 50px rgba(0,0,0,.5),0 0 40px rgba(232,168,104,.3)!important}
+.qf-submit:hover:not(:disabled)::before{animation-play-state:paused}
+.qf-submit:disabled{animation:none}
+.qf-submit .qf-submit-ic{color:#3ddc84}
+@media (prefers-reduced-motion:reduce){.cta-pulse,.cta-pulse::after,.qf-submit,.qf-submit::before{animation:none!important}}
+
+/* Contact cards: a small diagonal arrow that slips out and back in on hover, no long line */
+.contact-card .contact-card-arrow{position:relative;width:18px!important;height:18px!important;overflow:hidden;color:rgba(244,241,234,.45)!important;transition:color .3s!important}
+.contact-card .contact-card-arrow::before,.contact-card .contact-card-arrow::after{content:""!important;position:absolute!important;inset:0!important;width:auto!important;height:auto!important;border:0!important;background:currentColor!important;transform:none;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 17 17 7M8.5 7H17v8.5'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .45s var(--ease-out)!important}
+.contact-card .contact-card-arrow::after{transform:translate(-110%,110%)!important}
+.contact-card:hover .contact-card-arrow{width:18px!important;color:var(--chalk)!important}
+.contact-card:hover .contact-card-arrow::before{transform:translate(110%,-110%)!important}
+.contact-card:hover .contact-card-arrow::after{transform:translate(0,0)!important}
+[dir="rtl"] .contact-card .contact-card-arrow{transform:scaleX(-1)!important}
+
+/* Cursor v2: one soft disc that inverts what it passes over, plus a faint warm light trailing behind */
+.cc-dot{width:12px!important;height:12px!important;margin:-6px 0 0 -6px!important;background:#fff!important;mix-blend-mode:difference;border-radius:999px!important;transition:opacity .3s,width .45s var(--ease-out),height .45s var(--ease-out),margin .45s var(--ease-out),border-radius .3s!important}
+.cc-dot.is-hot{width:56px!important;height:56px!important;margin:-28px 0 0 -28px!important}
+.cc-dot.is-text{width:3px!important;height:24px!important;margin:-12px 0 0 -1.5px!important;border-radius:2px!important}
+.cc-dot.is-down{width:9px!important;height:9px!important;margin:-4.5px 0 0 -4.5px!important}
+.cc-dot.is-hot.is-down{width:46px!important;height:46px!important;margin:-23px 0 0 -23px!important}
+.cc-ring{width:240px!important;height:240px!important;margin:-120px 0 0 -120px!important;border:0!important;box-shadow:none!important;z-index:9999!important;background:radial-gradient(circle,rgba(232,168,104,.09),rgba(232,168,104,.03) 40%,transparent 70%)!important;transition:opacity .4s!important}
+.cc-ring.is-hot,.cc-ring.is-down{width:240px!important;height:240px!important;margin:-120px 0 0 -120px!important}
