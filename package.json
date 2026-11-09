@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "node -e \"const fs=require('fs');fs.rmSync('.next',{recursive:true,force:true});for(const f of fs.readdirSync('.'))if(/\\.next\\.config\\.(ts|mjs|js)$/.test(f)&&f!=='next.config.mjs')fs.rmSync(f,{force:true})\" && next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "payload": "payload",
