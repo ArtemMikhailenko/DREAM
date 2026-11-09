@@ -6,9 +6,7 @@ import { PromoPopups } from "@/components/home/PromoPopups";
 import { LeadButton } from "@/components/home/LeadButton";
 import { ResultsOrbit } from "@/components/home/ResultsOrbit";
 import { ChatWidget } from "@/components/home/ChatWidget";
-import { StackSections } from "@/components/home/StackSections";
 import { SpaceBg } from "@/components/home/SpaceBg";
-import { CustomCursor } from "@/components/CustomCursor";
 import { WatchButton } from "@/components/home/WatchButton";
 import { MobileCta } from "@/components/home/MobileCta";
 import { ProcessSteps } from "@/components/home/ProcessSteps";
@@ -368,10 +366,8 @@ export default async function Home({
       </section>
 
       <CardGlow selector=".lead-sec .contact-card, .sr-item, #problem .problem-row, .svc-row, .fmt-card" />
-      <CustomCursor />
       <PromoPopups copy={c} poster={poster} />
       <ChatWidget locale={locale} />
-      <StackSections ids={["hero", "showreel", "problem", "services", "process", "results", "packages", "why-now", "faq", "lead"]} />
       <MobileCta label={t("hero.ctaPrimary")} />
       <SiteFooter />
     </>

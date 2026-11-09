@@ -1,3 +1,4 @@
+import { aboutCopy } from "@/lib/inner-copy";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { alternates } from "@/i18n/paths";
@@ -8,7 +9,6 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { ProjectWall, type WallCase } from "@/components/home/ProjectWall";
 import { homeCopy } from "@/lib/home-copy";
-import { CustomCursor } from "@/components/CustomCursor";
 import { StatRow } from "@/components/home/StatRow";
 import { CardGlow } from "@/components/CardGlow";
 
@@ -34,7 +34,7 @@ export default async function AboutPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("About");
+  const t = await getTranslations("About");  const ac = aboutCopy(locale);
   const capabilities = t.raw("story.capabilities") as string[];
   const valueItems = t.raw("values.items") as { title: string; desc: string }[];
   const c = homeCopy(locale);
@@ -55,7 +55,7 @@ export default async function AboutPage({
         <div className="wrap page-hero-inner">
           <p className="label">{t("hero.label")}</p>
           <h1 className="page-hero-h">
-            {t("hero.heading")} <em>{t("hero.headingEm")}</em>
+            {ac.heroHeading} <em>{ac.heroEm}</em>
           </h1>
           <p className="page-hero-sub">{t("hero.sub")}</p>
         </div>
@@ -68,7 +68,7 @@ export default async function AboutPage({
           <div className="about-grid">
             <div className="about-copy">
               <p className="label">{t("story.label")}</p>
-              <h2 className="sec-h">{t("story.heading")}</h2>
+              <h2 className="sec-h">{ac.storyHeading}</h2>
               <p>{t("story.p1")}</p>
               <p>{t("story.p2")}</p>
               <div className="about-tags">
@@ -140,7 +140,6 @@ export default async function AboutPage({
 
       <CardGlow selector=".vg-card, .sr-item" />
 
-      <CustomCursor />
       <SiteFooter />
     </>
   );

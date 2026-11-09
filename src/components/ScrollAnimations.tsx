@@ -41,6 +41,40 @@ export function ScrollAnimations() {
       { threshold: 0.01 }
     );
     document.querySelectorAll<HTMLElement>(REVEAL_SEL).forEach((el) => io.observe(el));
+    /* Headings rise word by word out of a mask — transform only, so it stays smooth.
+       The text stays in the DOM as-is (only wrapped), so nothing changes for search. */
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const splitWords = (el: HTMLElement) => {
+      if (el.dataset.wr) return;
+      el.dataset.wr = "1";
+      let n = 0;
+      const walk = (node: Node) => {
+        Array.from(node.childNodes).forEach((ch) => {
+          if (ch.nodeType === 3) {
+            const parts = (ch.textContent ?? "").split(/(\s+)/);
+            const frag = document.createDocumentFragment();
+            parts.forEach((part) => {
+              if (!part) return;
+              if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+              const o = document.createElement("span"); o.className = "wr";
+              const i = document.createElement("span"); i.className = "wr-i"; i.style.setProperty("--i", String(n++));
+              i.textContent = part; o.appendChild(i); frag.appendChild(o);
+            });
+            ch.parentNode?.replaceChild(frag, ch);
+          } else if (ch.nodeType === 1 && (ch as Element).tagName !== "BR") walk(ch);
+        });
+      };
+      walk(el);
+    };
+    const wio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("wr-in"); wio.unobserve(e.target); } });
+    }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
+    if (!reduceMotion) {
+      document.querySelectorAll<HTMLElement>(".sec-h,.pain-h,.page-hero-h").forEach((el) => {
+        splitWords(el); el.classList.add("wr-ready"); wio.observe(el);
+      });
+    }
+
 
     async function init() {
       const { gsap } = await import("gsap");
@@ -84,14 +118,7 @@ export function ScrollAnimations() {
         /* ═══════════════════════════════════════
            SECTION HEADINGS — clip-path wipe
         ═══════════════════════════════════════ */
-        gsap.utils.toArray<HTMLElement>(".sec-h").forEach((el) => {
-          gsap.fromTo(
-            el,
-            { clipPath: "inset(0 100% 0 0)" },
-            { clipPath: "inset(0 0% 0 0)", duration: 1.15, ease: "power4.inOut",
-              scrollTrigger: { trigger: el, start: "top 88%" } }
-          );
-        });
+        /* headings: word-by-word rise (set up below, without GSAP) */
         gsap.utils.toArray<HTMLElement>(".label").forEach((el) => {
           gsap.from(el, {
             x: -28, opacity: 0, duration: 0.5, ease: "power2.out",
@@ -301,6 +328,7 @@ export function ScrollAnimations() {
     let cleanupExtras: (() => void) | undefined;
     init();
     return () => {
+      wio.disconnect();
       io.disconnect();
       cleanupExtras?.();
       ctx?.revert();

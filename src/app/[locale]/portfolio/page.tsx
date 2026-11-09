@@ -1,3 +1,4 @@
+import { portfolioCategories, portfolioTagMap, portfolioEmpty } from "@/lib/inner-copy";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { alternates } from "@/i18n/paths";
@@ -31,7 +32,7 @@ export default async function PortfolioPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Portfolio");
-  const categories = t.raw("categories") as string[];
+  const categories = portfolioCategories(locale);
   const cases = t.raw("cases") as {
     title: string;
     tag: string;
@@ -46,7 +47,7 @@ export default async function PortfolioPage({
       <SiteNav />
 
       {/* ── Page hero ── */}
-      <section className="page-hero s-ink">
+      <section className="page-hero s-ink pf-hero">
         <div className="bg-wood" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Works</div>
         <div className="wrap page-hero-inner">
@@ -59,12 +60,13 @@ export default async function PortfolioPage({
       </section>
 
       {/* ── Filter + cases grid (interactive) ── */}
-      <section className="section s-dark" id="cases">
+      <section className="section s-dark pf-cases" id="cases">
         <div className="bg-wood" aria-hidden="true" />
         <div className="wrap">
           <PortfolioBrowser
             categories={categories}
-            cases={cases}
+            cases={cases.map((c) => ({ ...c, tag: portfolioTagMap[c.tag] ?? c.tag }))}
+            empty={portfolioEmpty(locale)}
             // Covers come from the CMS (Кейсы → Обложка); the shipped stock photo
             // is the fallback for a case that has none yet.
             images={cases.map((c, i) => c.image ?? CASE_IMAGES[i].replace("w=1600", "w=1000"))}
@@ -73,18 +75,6 @@ export default async function PortfolioPage({
         </div>
       </section>
 
-      {/* ── CTA ── */}
-      <section className="section s-concrete" id="cta">
-        <div className="bg-wood" aria-hidden="true" />
-        <div className="wrap" style={{ textAlign: "center" }}>
-          <p className="label">{t("cta.label")}</p>
-          <h2 className="sec-h">{t("cta.heading")} <em>{t("cta.headingEm")}</em></h2>
-          <div className="hero-actions" style={{ justifyContent: "center", marginTop: 40 }}>
-            <Link className="btn-p" href="/#lead">{t("cta.ctaBrief")} ↗</Link>
-            <Link className="btn-o" href="/about">{t("cta.ctaAbout")} ↗</Link>
-          </div>
-        </div>
-      </section>
 
       <SiteFooter />
     </>

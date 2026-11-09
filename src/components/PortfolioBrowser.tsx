@@ -10,11 +10,13 @@ export function PortfolioBrowser({
   cases,
   images,
   slugs,
+  empty,
 }: {
   categories: string[];
   cases: Case[];
   images: string[];
   slugs: string[];
+  empty?: string;
 }) {
   // categories[0] is the "All" option.
   const [active, setActive] = useState(categories[0]);
@@ -55,11 +57,11 @@ export function PortfolioBrowser({
                   {c.client} · <strong>{c.result}</strong>
                 </p>
               </div>
-              <span className="portfolio-case-arrow" aria-hidden="true">↗</span>
             </Link>
           ) : null,
         )}
       </div>
+      {!showAll && !cases.some((c) => c.tag === active) && empty && <p className="pf-empty">{empty}</p>}
     </>
   );
 }

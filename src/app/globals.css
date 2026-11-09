@@ -1443,3 +1443,34 @@ html.has-cc select{cursor:default!important}
 .cta-pulse::after,.qf-submit::before{will-change:transform}
 /* perf: the film grain was blended over the whole screen every frame (mix-blend overlay on a fixed layer) — keep the texture, drop the blend */
 body::after{mix-blend-mode:normal!important;opacity:.045!important;will-change:auto}
+
+/* ── Nov 9 round 5 ─────────────────────────────────────────── */
+/* perf: the warm glow behind sections was a 1200px element with a 46px blur — the gradient alone is soft enough */
+.hero-glow{filter:none!important;background:radial-gradient(closest-side,rgba(232,168,104,.15),rgba(232,168,104,.06) 50%,transparent 100%)!important}
+
+/* headings rise word by word out of a mask (transform only) */
+.wr{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em .02em .1em;margin:-.06em -.02em -.1em}
+.wr-ready .wr-i{display:inline-block;transform:translate3d(0,108%,0) rotate(4deg);transform-origin:0 100%;opacity:.001;transition:transform 1s cubic-bezier(.16,1,.3,1),opacity .6s ease;transition-delay:calc(var(--i,0) * 55ms)}
+.wr-ready.wr-in .wr-i{transform:none;opacity:1}
+[dir="rtl"] .wr-ready .wr-i{transform-origin:100% 100%;transform:translate3d(0,108%,0) rotate(-4deg)}
+/* keep italic accent words intact inside the mask */
+.sec-h em .wr,.pain-h em .wr,.page-hero-h em .wr{padding-inline-end:.08em}
+
+/* services list: the cream stripe becomes the dark hero-style running line */
+.ticker-cream{background:transparent!important;border-block:1px solid rgba(244,241,234,.1)}
+.ticker-cream .ticker-item{color:rgba(244,241,234,.55)!important;font-family:var(--font-geist-mono,monospace);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.svc-index-title a{color:inherit}
+.svc-index-title a::after{content:"";position:absolute;inset:0;z-index:0}
+.svc-index-btn{position:relative;z-index:2;margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;height:44px;padding:0 18px;border-radius:12px;font-family:var(--font-geist-mono,monospace);font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.svc-index-teaser{margin-bottom:22px}
+.svc-cta-actions{justify-content:center;align-items:center;gap:14px;margin-top:36px;flex-wrap:wrap}
+.svc-wa{display:inline-flex;align-items:center;gap:10px;height:58px;padding:0 22px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:var(--chalk);font-family:var(--font-geist-mono,monospace);font-size:.74rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;transition:border-color .25s,background .25s}
+.svc-wa svg{width:20px;height:20px;color:#3ddc84}
+.svc-wa:hover{border-color:rgba(61,220,132,.5);background:rgba(61,220,132,.07)}
+
+/* portfolio: no tall empty hero, no arrow circles */
+.pf-hero{min-height:0!important}
+.pf-hero .page-hero-inner{padding-block:clamp(40px,7vw,90px) 24px}
+.pf-cases.section{padding-top:24px}
+.portfolio-case-arrow{display:none!important}
+.pf-empty{margin-top:10px;padding:48px 0;text-align:center;color:rgba(244,241,234,.55);font-size:1rem}
