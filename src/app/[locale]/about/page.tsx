@@ -1,3 +1,6 @@
+import { LeadWindow } from "@/components/home/LeadWindow";
+import "../../home-v2.css";
+import { homeCopy as __hc } from "@/lib/home-copy";
 import { aboutCopy, aboutTags } from "@/lib/inner-copy";
 import { ParticleCluster } from "@/components/home/ParticleCluster";
 import type { Metadata } from "next";
@@ -121,6 +124,7 @@ export default async function AboutPage({
 
       <CardGlow selector=".vg-card, .sr-item" />
 
+      <LeadWindow copy={__hc(locale)} />
       <SiteFooter />
     </>
   );

@@ -6,8 +6,10 @@ import type { HomeCopy } from "@/lib/home-copy";
 const VIDEO_AT = 3000;
 const LEAD_AT = 5000;
 
-/** True while the visitor is already at the lead form or watching the film. */
+/** True while the visitor is already at the lead form or watching the film
+ *  (on phones also while the hero is still on screen: nothing may cover it). */
 function busy() {
+  if (window.innerWidth < 700 && window.scrollY < window.innerHeight * 0.75) return true;
   const lead = document.getElementById("lead");
   if (lead) {
     const r = lead.getBoundingClientRect();
@@ -48,10 +50,15 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
     const onOpenOnly = () => openLead();
     if (!first) { window.addEventListener("dc:open-lead", onOpenOnly); return () => window.removeEventListener("dc:open-lead", onOpenOnly); }
     const timers: number[] = [];
-    timers.push(window.setTimeout(() => { if (!busy() && !videoClosed.current) setVideo(true); }, VIDEO_AT));
+    const tryVideo = () => {
+      if (videoClosed.current) return;
+      if (busy()) { timers.push(window.setTimeout(tryVideo, 1500)); return; }
+      setVideo(true);
+    };
+    timers.push(window.setTimeout(tryVideo, VIDEO_AT));
     const tryLead = () => {
       if (leadShown.current) return;
-      if (busy()) { timers.push(window.setTimeout(tryLead, 4000)); return; }
+      if (busy()) { timers.push(window.setTimeout(tryLead, window.innerWidth < 700 ? 2500 : 4000)); return; }
       // on phones a full-screen form out of nowhere is too much: offer it in a small card instead
       if (window.innerWidth < 700) {
         leadShown.current = true;

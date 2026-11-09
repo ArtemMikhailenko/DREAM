@@ -20,6 +20,15 @@ export function ChatWidget({ locale }: { locale: string }) {
   const [text, setText] = useState("");
   const [typing, setTyping] = useState(false);
   const input = useRef<HTMLInputElement>(null);
+  // on phones the round button stays out of the way while the hero (with its own buttons) is on screen
+  const [inHero, setInHero] = useState(false);
+  useEffect(() => {
+    const check = () => setInHero(window.innerWidth < 700 && !!document.getElementById("hero") && window.scrollY < window.innerHeight * 0.75);
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => { window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
+  }, []);
 
   // the chat pops up by itself once: right after the audit window is closed
   // (or at 12s if that window never got a chance), "typing…" first, then the greeting
@@ -59,7 +68,7 @@ export function ChatWidget({ locale }: { locale: string }) {
   };
 
   return (
-    <div className={`chw${shown ? " is-shown" : ""}${open ? " is-open" : ""}`}>
+    <div className={`chw${shown && (!inHero || open) ? " is-shown" : ""}${open ? " is-open" : ""}`}>
       <div className="chw-panel" role="dialog" aria-label={t.title} aria-hidden={!open}>
         <div className="chw-head">
           <span className="chw-ava" aria-hidden="true">dc</span>

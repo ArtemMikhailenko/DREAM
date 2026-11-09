@@ -1,3 +1,5 @@
+import { LeadWindow } from "@/components/home/LeadWindow";
+import { homeCopy as __hc } from "@/lib/home-copy";
 import { portfolioCategories, portfolioTagMap, portfolioEmpty, portfolioResults, portfolioSites } from "@/lib/inner-copy";
 import { AD_RESULTS } from "@/lib/home-copy";
 import "../../home-v2.css";
@@ -88,6 +90,7 @@ export default async function PortfolioPage({
       </section>
 
 
+      <LeadWindow copy={__hc(locale)} />
       <SiteFooter />
     </>
   );

@@ -167,10 +167,13 @@ export const portfolioSites = (l: string) => {
     ru: { open: "Открыть сайт", d: ["Сайт производителя алюминиевых конструкций: перголы, остекление и ZIP-шторы. Заявки на бесплатную консультацию прямо с первого экрана", "Сайт для израильтян, которые хотят купить первую квартиру в Грузии: понятные цифры, конкретные дома и запись на вебинар", "Сайт винного бутика в Ришон-ле-Ционе: живые сцены при прокрутке, три языка и заявки на доставку"] },
     he: { open: "לאתר", d: ["אתר ליצרן מבני אלומיניום: פרגולות, זיגוג ומסכי ZIP. השארת פרטים לייעוץ חינם כבר במסך הראשון", "אתר לישראלים שרוצים לקנות דירה ראשונה בגאורגיה: מספרים ברורים, פרויקטים ספציפיים והרשמה לוובינר", "אתר לבוטיק יין בראשון לציון: סצנות חיות בגלילה, שלוש שפות ופניות למשלוח"] },
   } as Record<string, { open: string; d: string[] }>)[l] ?? { open: "Visit site", d: ["Website for an aluminium structures manufacturer: pergolas, glazing and ZIP screens. Free consultation requests right from the first screen", "Website for Israelis buying their first apartment in Georgia: clear numbers, specific buildings and webinar sign-ups", "Website for a wine boutique in Rishon LeZion: living scenes on scroll, three languages and delivery requests"] };
+  // each site is shown in the visitor's language; Vitlion has no English version, so English visitors see Hebrew
+  const L = (["ru", "he"].includes(l) ? l : "en") as "ru" | "he" | "en";
+  const vit = L === "ru" ? "ru" : "he";
   const items: SiteItem[] = [
-    { name: "Vitlion Group", domain: "vitlion.co.il", url: "https://www.vitlion.co.il/ru", desc: t.d[0], img: "/sites/vitlion-desktop.webp", phone: "/sites/vitlion-phone.webp" },
-    { name: "Nexis Capital", domain: "nexiscapital-israel.com", url: "https://nexiscapital-israel.com", desc: t.d[1], img: "/sites/nexis-desktop.webp", phone: "/sites/nexis-phone.webp" },
-    { name: "40 MAALOT", domain: "40maalot.co.il", url: "https://40maalot.co.il/ru/", desc: t.d[2], img: "/sites/maalot-desktop.webp", phone: "/sites/maalot-phone.webp" },
+    { name: "Vitlion Group", domain: "vitlion.co.il", url: vit === "ru" ? "https://www.vitlion.co.il/ru" : "https://www.vitlion.co.il/", desc: t.d[0], img: `/sites/vitlion-${vit}-desktop.webp`, phone: `/sites/vitlion-${vit}-phone.webp` },
+    { name: "Nexis Capital", domain: "nexiscapital-israel.com", url: "https://nexiscapital-israel.com", desc: t.d[1], img: `/sites/nexis-${L}-desktop.webp`, phone: `/sites/nexis-${L}-phone.webp` },
+    { name: "40 MAALOT", domain: "40maalot.co.il", url: { ru: "https://40maalot.co.il/ru/", en: "https://40maalot.co.il/en/", he: "https://40maalot.co.il/" }[L], desc: t.d[2], img: `/sites/maalot-${L}-desktop.webp`, phone: `/sites/maalot-${L}-phone.webp` },
   ];
   return { open: t.open, items };
 };

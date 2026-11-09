@@ -889,3 +889,22 @@ body:has(.chw.is-open) .pp-video{opacity:0!important;pointer-events:none!importa
 .h2-meta>span:first-child{display:none}
 @media(max-width:700px){.h2-lanes{margin-bottom:16px!important}.h2-desc{margin-bottom:24px}.h2-meta .h2-meta-r{display:inline-flex!important}.h2-meta{justify-content:flex-end}}
 .h2-meta{justify-content:flex-end!important}
+
+/* ── Phones: hero fills exactly one screen, calmer; every section is a full screen ── */
+@media (max-width:700px){
+  .h2{min-height:100svh}
+  .h2-inner{min-height:calc(100svh - 68px);padding-top:16px;padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
+  .h2-frame{margin:auto 0;padding:34px 12px 30px}
+  .h2-word{margin-top:6px}
+  .h2-word-text{font-size:13vw}
+  .h2-script{position:relative;left:auto;bottom:auto;display:block;margin-top:14px;transform:rotate(-4deg);font-size:8.4vw;text-align:center}
+  .h2-desc{display:none}
+  .h2-foot{margin-top:0;margin-bottom:0;gap:18px}
+  .h2-lanes{line-height:1.9}
+  .h2-proof{order:-1}
+  .h2-actions{gap:14px}
+  .h2-actions .h2-cta{width:100%;justify-content:center}
+  .h2-bottom{display:none}
+  #showreel,#problem,#services,#process,#results,#packages,#why-now,#faq,#lead{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:96px;padding-bottom:72px}
+  #showreel>.wrap,#problem>.wrap,#services>.wrap,#process>.wrap,#results>.wrap,#packages>.wrap,#why-now>.wrap,#faq>.wrap,#lead>.wrap{width:100%}
+}

@@ -304,8 +304,20 @@ export function ScrollAnimations() {
       // settle a frame or two late, so a single refresh latches stale positions and
       // in-view triggers never fire — leaving content stuck at opacity:0 until a hard
       // reload. Refresh across a double rAF, several timeouts, and each image load.
-      const refresh = () => ScrollTrigger.refresh();
-      requestAnimationFrame(() => requestAnimationFrame(refresh));
+      // A refresh briefly jumps the page to the top and back, which kills a scroll in
+      // progress (menu links, flicks on phones). So refreshes are batched and wait
+      // until the page has been still for a moment.
+      let lastScroll = 0, pending = 0;
+      const onAnyScroll = () => { lastScroll = performance.now(); };
+      window.addEventListener("scroll", onAnyScroll, { passive: true });
+      const refresh = () => {
+        window.clearTimeout(pending);
+        pending = window.setTimeout(function run() {
+          if (performance.now() - lastScroll < 300) { pending = window.setTimeout(run, 200); return; }
+          ScrollTrigger.refresh();
+        }, 80);
+      };
+      requestAnimationFrame(() => requestAnimationFrame(() => ScrollTrigger.refresh()));
       const onLoad = () => refresh();
       window.addEventListener("load", onLoad);
       const timers = [120, 400, 900, 1600].map((t) => window.setTimeout(refresh, t));
@@ -319,6 +331,8 @@ export function ScrollAnimations() {
 
       cleanupExtras = () => {
         window.removeEventListener("load", onLoad);
+        window.removeEventListener("scroll", onAnyScroll);
+        window.clearTimeout(pending);
         document.removeEventListener("visibilitychange", onVisRefresh);
         timers.forEach((t) => window.clearTimeout(t));
         pendingImgs.forEach((im) => im.removeEventListener("load", refresh));
