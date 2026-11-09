@@ -4,8 +4,9 @@ import { QuoteForm } from "@/components/QuoteForm";
 import type { HomeCopy } from "@/lib/home-copy";
 
 const SEEN_KEY = "dc_popups_v1";
-const VIDEO_AT = 3000;
-const LEAD_AT = 6000;
+const LEAD_AT = 3500;        // after the intro hands over
+const VIDEO_AFTER = 2500;    // after the consultation window is closed
+const VIDEO_FALLBACK = 14000; // if the consultation window never got a chance
 
 function seen() {
   try { return sessionStorage.getItem(SEEN_KEY) === "1"; } catch { return false; }
@@ -25,9 +26,10 @@ function busy() {
 }
 
 /**
- * Two timed prompts, once per session: at 3s a small card offering the showreel,
- * at 6s a consultation window with the regular lead form (same component, same
- * tracking). Neither interrupts someone who is already watching or filling the form.
+ * Two timed prompts, once per session: first the free-audit window with the
+ * regular lead form (same component, same tracking), then — once it's closed —
+ * a small card offering the showreel. Neither interrupts someone who is already
+ * watching the film or filling the form on the page.
  */
 export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }) {
   const [video, setVideo] = useState(false);
@@ -35,32 +37,47 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
   const dialogRef = useRef<HTMLDivElement>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
 
+  const videoDone = useRef(false);
+  const leadShown = useRef(false);
+  const timers = useRef<number[]>([]);
+  const showVideo = useCallback((delay: number) => {
+    if (videoDone.current) return;
+    timers.current.push(window.setTimeout(() => {
+      if (videoDone.current) return;
+      if (busy() || document.querySelector(".pp-lead.in")) { showVideo(4000); return; }
+      videoDone.current = true;
+      setVideo(true);
+    }, delay));
+  }, []);
+
   useEffect(() => {
     if (seen()) return;
-    markSeen();
-    const timers: number[] = [];
+    const list = timers.current;
     const start = () => {
-    timers.push(window.setTimeout(() => { if (!busy()) setVideo(true); }, VIDEO_AT));
-    const tryLead = () => {
-      if (document.querySelector(".pp-lead.in")) return;
-      if (busy()) { timers.push(window.setTimeout(tryLead, 4000)); return; }
-      setVideo(false);
-      lastFocus.current = document.activeElement as HTMLElement;
-      setLead(true);
-    };
-    timers.push(window.setTimeout(tryLead, LEAD_AT));
+      const tryLead = () => {
+        if (leadShown.current) return;
+        if (busy()) { list.push(window.setTimeout(tryLead, 4000)); return; }
+        markSeen();
+        leadShown.current = true;
+        lastFocus.current = document.activeElement as HTMLElement;
+        setLead(true);
+      };
+      list.push(window.setTimeout(tryLead, LEAD_AT));
+      showVideo(VIDEO_FALLBACK);
     };
     // the clock starts once the entry animation has handed over to the page
     if ((window as unknown as { __dcIntroDone?: boolean }).__dcIntroDone) start();
     else window.addEventListener("dc:intro-done", start, { once: true });
-    return () => { window.removeEventListener("dc:intro-done", start); timers.forEach((t) => window.clearTimeout(t)); };
-  }, []);
+    return () => { window.removeEventListener("dc:intro-done", start); list.forEach((t) => window.clearTimeout(t)); };
+  }, [showVideo]);
 
   // any "free audit" button on the page opens the same window right away
   useEffect(() => {
     const open = () => {
       markSeen();
       setVideo(false);
+      videoDone.current = true;
+      leadShown.current = true;
       lastFocus.current = document.activeElement as HTMLElement;
       setLead(true);
     };
@@ -71,7 +88,8 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
   const closeLead = useCallback(() => {
     setLead(false);
     lastFocus.current?.focus?.();
-  }, []);
+    showVideo(VIDEO_AFTER);
+  }, [showVideo]);
 
   useEffect(() => {
     if (!lead) return;
@@ -102,8 +120,8 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
         <div className="pp-video-body">
           <span className="pp-eyebrow"><i className="pp-rec" aria-hidden="true" />{copy.popVideoEyebrow}</span>
           <p className="pp-video-title">{copy.popVideoTitle}</p>
-          <button type="button" className="pp-link" onClick={playFilm} tabIndex={video ? 0 : -1}>
-            {copy.popVideoBtn} <span aria-hidden="true">→</span>
+          <button type="button" className="pp-btn glass-btn cta-pulse" onClick={playFilm} tabIndex={video ? 0 : -1}>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>{copy.popVideoBtn}
           </button>
         </div>
       </aside>

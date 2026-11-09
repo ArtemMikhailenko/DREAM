@@ -10,7 +10,6 @@ import { ProjectWall, type WallCase } from "@/components/home/ProjectWall";
 import { homeCopy } from "@/lib/home-copy";
 import { StatRow } from "@/components/home/StatRow";
 import { CardGlow } from "@/components/CardGlow";
-import { CustomCursor } from "@/components/CustomCursor";
 
 
 export async function generateMetadata({
@@ -139,7 +138,6 @@ export default async function AboutPage({
       </section>
 
       <CardGlow selector=".vg-card, .sr-item" />
-      <CustomCursor />
       <SiteFooter />
     </>
   );

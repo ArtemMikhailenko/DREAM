@@ -4,7 +4,6 @@ import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { HeroField, Timecode } from "@/components/home/HeroField";
 import { PromoPopups } from "@/components/home/PromoPopups";
 import { IntroDissolve } from "@/components/home/IntroDissolve";
-import { CustomCursor } from "@/components/CustomCursor";
 import { LeadButton } from "@/components/home/LeadButton";
 import { WatchButton } from "@/components/home/WatchButton";
 import { MobileCta } from "@/components/home/MobileCta";
@@ -131,7 +130,6 @@ export default async function Home({
   return (
     <>
       <IntroDissolve />
-      <CustomCursor />
       <ScrollAnimations />
       <div className="scroll-progress" aria-hidden="true" />
       {jsonLd.map((schema, i) => (
@@ -213,7 +211,9 @@ export default async function Home({
         <div className="bg-gromophon" aria-hidden="true" />
 
       {/* ── Problem ── */}
-      <section className="section s-dark2" id="problem">
+      <section className="section s-ink" id="problem">
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
+        <div className="hero-glow" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Problem</div>
         <div className="wrap">
           <p className="label">{t("problem.label")}</p>
@@ -222,6 +222,7 @@ export default async function Home({
             {problemItems.map((p, i) => (
               <div className="problem-row" key={i}>
                 <i className="problem-bar" aria-hidden="true" />
+                <i className="vg-line" aria-hidden="true" />
                 <b aria-hidden="true" className="problem-row-ghost">0{i + 1}</b>
                 <span className="problem-row-n">0{i + 1}</span>
                 <h3 className="problem-row-title">{p.title}</h3>
@@ -282,7 +283,8 @@ export default async function Home({
 
       {/* ── Process ── */}
       <section className="section s-ink" id="process">
-        <div className="bg-gray seam-down pin" aria-hidden="true" />
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
+        <div className="hero-glow" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Process</div>
         <div className="wrap">
           <p className="label">{t("process.label")}</p>
@@ -302,8 +304,8 @@ export default async function Home({
         <div className="wrap statement-inner">
           <p className="statement-eyebrow">{t("statement.eyebrow")}</p>
           <p className="statement-h">
-            {t("statement.line1")} <em>{t("statement.line1Em")}</em><br />
-            {t("statement.line2")} <span className="statement-h-ul">{t("statement.systems")}</span>
+            {t("statement.line1")} <em>{noDot(t("statement.line1Em"))}</em><br />
+            {t("statement.line2")} <span className="statement-h-ul">{noDot(t("statement.systems"))}</span>
           </p>
           <a className="statement-cta glass-btn" href="#lead">{t("statement.cta")} <span aria-hidden="true">→</span></a>
         </div>
@@ -477,7 +479,7 @@ export default async function Home({
         </div>
       </section>
 
-      <CardGlow selector=".lead-sec .contact-card, .sr-item, .w2-card" />
+      <CardGlow selector=".lead-sec .contact-card, .sr-item, .w2-card, #problem .problem-row, .svc-row" />
       <PromoPopups copy={c} poster={poster} />
       <MobileCta label={t("hero.ctaPrimary")} />
       <SiteFooter />

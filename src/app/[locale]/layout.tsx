@@ -45,7 +45,7 @@ const hebrewDisplay = Rubik({
 
 const caveat = Caveat({
   variable: "--font-caveat",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   weight: ["700"],
 });
 

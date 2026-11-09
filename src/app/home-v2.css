@@ -564,3 +564,42 @@ html.intro-hold .h2 *{animation-play-state:paused!important}
   .h2-lanes i{display:none}
   .h2-desc{font-size:.88rem}
 }
+
+/* ── Nov 9 round 2 ─────────────────────────────────────────── */
+/* deep-space hero */
+.h2{background:radial-gradient(ellipse 120% 90% at 50% 40%,#0a0b12 0%,#050509 60%,#030305 100%)}
+/* tagline in the same brush script as the footer wordmark */
+.h2-meta>span:first-child{font-family:var(--font-caveat),"Brush Script MT",cursive;font-weight:700;font-size:clamp(1.25rem,1.7vw,1.7rem);line-height:1.1;letter-spacing:0;color:var(--cream);max-width:30ch;text-wrap:balance}
+[dir="rtl"] .h2-meta>span:first-child{font-family:var(--font-geist-sans,sans-serif);font-weight:500;font-size:clamp(.9rem,1vw,1rem);color:var(--chalk)}
+@media(max-width:700px){.h2-meta>span:first-child{font-size:1.32rem}[dir="rtl"] .h2-meta>span:first-child{font-size:.9rem}}
+
+/* problem: same backdrop as the showreel block, big word back behind it */
+#problem.section{background:var(--ink)}
+#problem.section::before{content:none}
+#problem .s-bg-word{display:block}
+
+/* rows light up like the "About" value cards: outlined number fills with amber, a ripple, a line underneath */
+#problem .problem-row{--cg-rgb:232,168,104;border-radius:14px}
+#problem .problem-row:hover,[dir="rtl"] #problem .problem-row:hover{background:transparent}
+#problem .problem-bar{display:none}
+#problem .problem-row-ghost{opacity:1!important;color:transparent;-webkit-text-stroke:1px rgba(244,241,234,.16);transition:color .45s,-webkit-text-stroke-color .45s,text-shadow .45s}
+#problem .problem-row:hover .problem-row-ghost{opacity:1;color:var(--accent);-webkit-text-stroke-color:var(--accent);text-shadow:0 0 50px rgba(232,168,104,.35)}
+#problem .problem-row .vg-line{inset-inline:0}
+#problem .problem-row:hover .vg-line{transform:scaleX(1)}
+
+/* three directions: the same number fill and line on hover */
+.svc-row{--cg-rgb:232,168,104}
+.svc-row .svc-row-num{opacity:1;color:transparent;-webkit-text-stroke:1px rgba(244,241,234,.3);transition:color .45s,-webkit-text-stroke-color .45s,text-shadow .45s,transform .35s cubic-bezier(.2,.7,.2,1)}
+.svc-row:hover .svc-row-num{color:var(--accent);-webkit-text-stroke-color:var(--accent);text-shadow:0 0 40px rgba(232,168,104,.4)}
+
+/* pop-ups: contact-block look (teal light, glass), glass buttons */
+.pp-dialog{background:radial-gradient(ellipse 70% 60% at 15% 0%,rgba(80,200,190,.16),transparent 60%),radial-gradient(ellipse 60% 50% at 100% 100%,rgba(232,168,104,.08),transparent 60%),#070807!important;border:1px solid rgba(244,241,234,.12)!important;box-shadow:0 40px 120px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.06)!important}
+.pp-chip{border-color:rgba(120,220,210,.35);background:rgba(120,220,210,.08);color:#9fe7df}
+.pp-video{background:radial-gradient(ellipse 80% 80% at 0% 0%,rgba(80,200,190,.14),transparent 60%),rgba(9,10,9,.88)!important;border:1px solid rgba(244,241,234,.12)!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.pp-btn{margin-top:10px;display:inline-flex;align-items:center;gap:10px;height:40px;padding:0 16px;border-radius:12px;font-family:var(--font-geist-mono,monospace);font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.pp-btn svg{width:12px;height:12px;fill:currentColor}
+@media(max-width:700px){
+  .pp-video{display:grid!important;grid-template-columns:84px 1fr;inset-inline:12px;width:auto;bottom:calc(76px + env(safe-area-inset-bottom,0px));padding:8px;gap:12px}
+  .pp-video-title{font-size:.86rem}
+  .pp-btn{height:36px;margin-top:6px}
+}
