@@ -54,7 +54,7 @@ export function ParticleCluster() {
         const ox = Math.cos(t * 0.8 + p.ph) * 3, oy = Math.sin(t * 0.7 + p.ph) * 3;
         let fx = (p.hx + ox - p.x) * 0.035, fy = (p.hy + oy - p.y) * 0.035;
         const dx = p.x - mx, dy = p.y - my, d2 = dx * dx + dy * dy;
-        if (d2 < 120 * 120) { const d = Math.sqrt(d2) || 1, f = (1 - d / 120) * 4.2; fx += (dx / d) * f; fy += (dy / d) * f; }
+        if (d2 < 170 * 170) { const d = Math.sqrt(d2) || 1, f = (1 - d / 170) * 6.5; fx += (dx / d) * f - (dy / d) * f * 0.35; fy += (dy / d) * f + (dx / d) * f * 0.35; }
         p.vx = (p.vx + fx) * 0.86; p.vy = (p.vy + fy) * 0.86;
         p.x += p.vx * dt * 60; p.y += p.vy * dt * 60;
         const s = p.warm < 0.25 ? sHot : p.warm < 0.75 ? sWarm : sCool;

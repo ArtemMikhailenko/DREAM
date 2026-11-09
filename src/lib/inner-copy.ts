@@ -107,7 +107,7 @@ const aboutRu: AboutCopy = {
 };
 const aboutEn: AboutCopy = {
   heroLabel: "About DC Production",
-  heroHeading: "Marketing and sales,",
+  heroHeading: "Marketing and sales",
   heroEm: "done for you",
   heroSub: "We bring you customers, help handle the leads and build a sales system that runs without you",
   storyLabel: "Our story",

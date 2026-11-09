@@ -34,8 +34,8 @@ export default async function PortfolioPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Portfolio");
-  const categories = portfolioCategories(locale);
   const pr = portfolioResults(locale);
+  const categories = [portfolioCategories(locale)[0], pr.label, ...portfolioCategories(locale).slice(1)];
   const cases = t.raw("cases") as {
     title: string;
     tag: string;
@@ -51,7 +51,8 @@ export default async function PortfolioPage({
 
       {/* ── Page hero ── */}
       <section className="page-hero s-ink pf-hero">
-        <div className="bg-wood" aria-hidden="true" />
+        <div className="bg-gray seam-mid" aria-hidden="true" />
+        <div className="hero-glow" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Works</div>
         <div className="wrap page-hero-inner">
           <p className="label">{t("hero.label")}</p>
@@ -64,12 +65,15 @@ export default async function PortfolioPage({
 
       {/* ── Filter + cases grid (interactive) ── */}
       <section className="section s-dark pf-cases" id="cases">
-        <div className="bg-wood" aria-hidden="true" />
+        <div className="bg-gray seam-mid" aria-hidden="true" />
+        <div className="hero-glow" aria-hidden="true" />
         <div className="wrap">
           <PortfolioBrowser
             categories={categories}
             cases={cases.map((c) => ({ ...c, tag: portfolioTagMap[c.tag] ?? c.tag }))}
             empty={portfolioEmpty(locale)}
+            resultsLabel={pr.label}
+            results={AD_RESULTS}
             // Covers come from the CMS (Кейсы → Обложка); the shipped stock photo
             // is the fallback for a case that has none yet.
             images={cases.map((c, i) => c.image ?? CASE_IMAGES[i].replace("w=1600", "w=1000"))}
@@ -78,24 +82,6 @@ export default async function PortfolioPage({
         </div>
       </section>
 
-
-      {/* ── Ad results: real campaign screenshots ── */}
-      <section className="section s-plain pf-results" id="ad-results">
-        <div className="s-plain-glow" aria-hidden="true" />
-        <div className="wrap">
-          <p className="label">{pr.label}</p>
-          <h2 className="sec-h">{pr.heading} <em>{pr.em}</em></h2>
-          <p className="pf-res-sub">{pr.sub}</p>
-          <div className="pf-res-grid">
-            {AD_RESULTS.map((src) => (
-              <figure className="pf-res-card" key={src}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={src} alt="" loading="lazy" decoding="async" />
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <SiteFooter />
     </>

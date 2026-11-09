@@ -11,16 +11,31 @@ export function PortfolioBrowser({
   images,
   slugs,
   empty,
+  resultsLabel,
+  results = [],
 }: {
   categories: string[];
   cases: Case[];
   images: string[];
   slugs: string[];
   empty?: string;
+  resultsLabel?: string;
+  results?: string[];
 }) {
   // categories[0] is the "All" option.
   const [active, setActive] = useState(categories[0]);
   const showAll = active === categories[0];
+  const showResults = !!resultsLabel && active === resultsLabel;
+  const resultsGrid = (
+    <div className="pf-res-grid in-tab">
+      {results.map((src) => (
+        <figure className="pf-res-card" key={src}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={src} alt="" loading="lazy" decoding="async" />
+        </figure>
+      ))}
+    </div>
+  );
 
   return (
     <>
@@ -37,6 +52,7 @@ export function PortfolioBrowser({
         ))}
       </div>
 
+      {showResults ? resultsGrid : (
       <div className="portfolio-grid portfolio-grid-lg">
         {cases.map((c, i) =>
           showAll || c.tag === active ? (
@@ -61,7 +77,14 @@ export function PortfolioBrowser({
           ) : null,
         )}
       </div>
-      {!showAll && !cases.some((c) => c.tag === active) && empty && <p className="pf-empty">{empty}</p>}
+      )}
+      {!showAll && !showResults && !cases.some((c) => c.tag === active) && empty && <p className="pf-empty">{empty}</p>}
+      {showAll && results.length > 0 && resultsLabel && (
+        <div className="pf-all-res">
+          <p className="pf-all-res-h">{resultsLabel}</p>
+          {resultsGrid}
+        </div>
+      )}
     </>
   );
 }

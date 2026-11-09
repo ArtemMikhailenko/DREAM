@@ -1488,3 +1488,13 @@ body::after{mix-blend-mode:normal!important;opacity:.045!important;will-change:a
 /* section labels: no dash in front (all pages) */
 .label::before{display:none!important}
 .label{gap:0}
+
+/* About: the overlay must not swallow the pointer, so the particle cluster can react */
+.about-vis::after{pointer-events:none}
+.about-hero.page-hero{min-height:0!important}
+.about-hero .page-hero-inner{padding-block:clamp(48px,8vw,110px) clamp(24px,3vw,40px)}
+#story.section{padding-top:clamp(40px,5vw,72px)}
+/* Works: ad-results tab */
+.pf-res-grid.in-tab{margin-top:8px}
+.pf-all-res{margin-top:64px}
+.pf-all-res-h{font-family:var(--font-display),var(--font-hebrew),sans-serif;font-size:clamp(1.8rem,3vw,2.6rem);text-transform:uppercase;color:var(--chalk);margin-bottom:18px}

@@ -105,7 +105,7 @@ export default async function Home({
         <div className="h2-vignette" aria-hidden="true" />
         <div className="wrap h2-inner">
           <div className="h2-meta">
-            <span>{c.heroMetaL}</span>
+            <span aria-hidden="true" />
             <span className="h2-meta-r"><i className="h2-live" aria-hidden="true"><b /></i>{c.heroMetaR}</span>
           </div>
 

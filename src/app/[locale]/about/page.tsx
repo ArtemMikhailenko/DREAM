@@ -49,7 +49,7 @@ export default async function AboutPage({
       <SiteNav />
 
       {/* ── Page hero ── */}
-      <section className="page-hero s-ink">
+      <section className="page-hero s-ink about-hero">
         <div className="bg-gray seam-down pin" aria-hidden="true" />
         <div className="bg-darts" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Studio</div>

@@ -36,8 +36,12 @@ export function ChatWidget({ locale }: { locale: string }) {
         timers.push(window.setTimeout(() => setTyping(false), 2000));
       }, delay));
     };
+    // pops up by itself only on the first page view of the visit; later the button simply sits in the corner
+    let first = true;
+    try { first = sessionStorage.getItem("dc_chat_v2") !== "1"; sessionStorage.setItem("dc_chat_v2", "1"); } catch { /* storage blocked */ }
+    if (!first) { setShown(true); return; }
     timers.push(window.setTimeout(() => pop(0), 12000));
-    const onClosed = () => pop(1000);
+    const onClosed = () => pop(2000);
     window.addEventListener("dc:lead-closed", onClosed);
     return () => { timers.forEach((t) => window.clearTimeout(t)); window.removeEventListener("dc:lead-closed", onClosed); };
   }, []);

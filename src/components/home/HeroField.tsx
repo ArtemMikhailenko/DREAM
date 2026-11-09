@@ -38,7 +38,7 @@ export function HeroField() {
       const camBase = small ? new THREE.Vector3(0, 7.4, 6.2) : new THREE.Vector3(0, 5.6, 5.6);
 
       // ── galaxy ──
-      const COUNT = Math.round((small ? 5000 : 14000) * (weak ? 0.6 : 1)), R = 7, BRANCHES = 4, SPIN = 1.15, RAND = 0.42, POW = 3;
+      const COUNT = Math.round((small ? 5000 : 30000) * (weak ? 0.55 : 1)), R = 7, BRANCHES = 4, SPIN = 1.15, RAND = 0.42, POW = 3;
       const pos = new Float32Array(COUNT * 3), rnd = new Float32Array(COUNT * 3), col = new Float32Array(COUNT * 3), scl = new Float32Array(COUNT);
       const inner = new THREE.Color("#ffc78f"), mid = new THREE.Color("#e8a868"), outer = new THREE.Color("#5f7dff");
       for (let i = 0; i < COUNT; i++) {
@@ -96,7 +96,7 @@ export function HeroField() {
       scene.add(galaxy);
 
       // ── far stars ──
-      const SN = small ? 400 : 900;
+      const SN = small ? 400 : 1800;
       const sp = new Float32Array(SN * 3);
       for (let i = 0; i < SN; i++) {
         const th = Math.random() * Math.PI * 2, ph = Math.acos(Math.random() * 2 - 1), rr = 40 + Math.random() * 40;

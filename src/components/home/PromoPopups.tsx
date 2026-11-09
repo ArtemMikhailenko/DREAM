@@ -42,6 +42,11 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
   }, []);
 
   useEffect(() => {
+    // only on the first page view of the visit: coming back to the home page via the logo never re-triggers them
+    let first = true;
+    try { first = sessionStorage.getItem("dc_prompts_v2") !== "1"; sessionStorage.setItem("dc_prompts_v2", "1"); } catch { /* storage blocked */ }
+    const onOpenOnly = () => openLead();
+    if (!first) { window.addEventListener("dc:open-lead", onOpenOnly); return () => window.removeEventListener("dc:open-lead", onOpenOnly); }
     const timers: number[] = [];
     timers.push(window.setTimeout(() => { if (!busy() && !videoClosed.current) setVideo(true); }, VIDEO_AT));
     const tryLead = () => {

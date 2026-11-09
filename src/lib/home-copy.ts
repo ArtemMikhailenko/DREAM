@@ -35,7 +35,7 @@ export type HomeCopy = {
 
 const en: HomeCopy = {
   heroMetaL: "Customers for your business without the headache, in the first days after your ads go live",
-  heroMetaR: "Open for new projects",
+  heroMetaR: "Your customers are waiting",
   heroLanes: ["Ad agency", "Video production", "Leads within 24 hours"],
   heroDesc: "We take on everything: strategy, photo and video shoots, turnkey ad launches, social media, chatbots and sales automation. You get a steady flow of leads and a clear cost for every customer",
   heroRail: ["Turnkey ad launch", "Social media", "Photo & video shoots", "Chatbots", "Sales automation", "Advertising", "Video production"],
@@ -82,7 +82,7 @@ const en: HomeCopy = {
 
 const ru: HomeCopy = {
   heroMetaL: "Клиенты в ваш бизнес без головной боли уже в первые дни после запуска рекламы",
-  heroMetaR: "Берём новые проекты",
+  heroMetaR: "Клиенты уже вас ждут",
   heroLanes: ["Рекламное агентство", "Видеопродакшн", "Заявки в первые 24 часа"],
   heroDesc: "Берём на себя всё: стратегию, съёмку фото и видео, запуск рекламы под ключ, социальные сети, чат-боты и автоматизацию продаж. Вы получаете поток заявок и понятную цену каждого клиента",
   heroRail: ["Запуск рекламы под ключ", "Social media", "Съёмка фото и видео", "Чат-боты", "Автоматизация продаж", "Реклама", "Видеопродакшн"],
@@ -129,7 +129,7 @@ const ru: HomeCopy = {
 
 const he: HomeCopy = {
   heroMetaL: "לקוחות לעסק שלכם בלי כאב ראש, כבר בימים הראשונים אחרי עליית הפרסום",
-  heroMetaR: "פתוחים לפרויקטים חדשים",
+  heroMetaR: "הלקוחות כבר מחכים לכם",
   heroLanes: ["סוכנות פרסום", "הפקת וידאו", "לידים ב-24 השעות הראשונות"],
   heroDesc: "אנחנו לוקחים על עצמנו הכול: אסטרטגיה, צילומי סטילס ווידאו, השקת פרסום מקצה לקצה, סושיאל מדיה, צ'אטבוטים ואוטומציית מכירות. אתם מקבלים זרם קבוע של לידים ועלות ברורה לכל לקוח",
   heroRail: ["השקת פרסום מקצה לקצה", "סושיאל מדיה", "צילומי סטילס ווידאו", "צ'אטבוטים", "אוטומציית מכירות", "פרסום", "הפקת וידאו"],
@@ -317,25 +317,19 @@ export const homeFaq = (locale: string): { q: string; a: string }[] =>
   ({
     ru: [
       { q: "Через сколько придут первые заявки?", a: "Обычно первые заявки приходят в первые 24–48 часов после запуска рекламы. Результат в первые 48 часов мы гарантируем." },
-      { q: "Сколько стоят ваши услуги?", a: "Стоимость зависит от задач и формата работы. После бесплатного аудита мы подберём формат и пришлём точный расчёт." },
       { q: "Что входит в вашу работу?", a: "Всё, что нужно для потока клиентов: реклама в Facebook, Instagram и Google, съёмка и контент, сайт, чат-боты и помощь с продажами." },
-      { q: "Мне нужно что-то готовить заранее?", a: "Нет. Достаточно рассказать о бизнесе. Стратегию, тексты, съёмку и запуск мы берём на себя." },
       { q: "Как я пойму, что реклама работает?", a: "Вы видите, сколько пришло заявок и сколько стоила каждая. Раз в месяц присылаем понятный отчёт без сложных терминов." },
       { q: "Что будет с заявками, когда они придут?", a: "Чат-бот сразу отвечает клиенту, заявка попадает к вам без потерь, а мы помогаем выстроить продажи, чтобы заявки становились сделками." },
     ],
     he: [
       { q: "תוך כמה זמן יגיעו הלידים הראשונים?", a: "בדרך כלל הלידים הראשונים מגיעים תוך 24–48 שעות מהשקת הפרסום. אנחנו מבטיחים תוצאה כבר ב-48 השעות הראשונות." },
-      { q: "כמה עולים השירותים שלכם?", a: "המחיר תלוי במשימות ובפורמט העבודה. אחרי אודיט חינם נתאים פורמט ונשלח הצעת מחיר מדויקת." },
       { q: "מה כלול בעבודה שלכם?", a: "כל מה שצריך לזרם לקוחות: פרסום בפייסבוק, באינסטגרם ובגוגל, צילום ותוכן, אתר, צ'אטבוטים ועזרה במכירות." },
-      { q: "אני צריך להכין משהו מראש?", a: "לא. מספיק לספר על העסק. אסטרטגיה, טקסטים, צילום והשקה עלינו." },
       { q: "איך אדע שהפרסום עובד?", a: "תראו כמה לידים הגיעו וכמה עלה כל אחד. פעם בחודש נשלח דוח ברור בלי מונחים מסובכים." },
       { q: "מה קורה עם הלידים כשהם מגיעים?", a: "צ'אטבוט עונה ללקוח מיד, הליד מגיע אליכם בלי לאבד אף אחד, ואנחנו עוזרים לבנות מכירות כדי שלידים יהפכו לעסקאות." },
     ],
   } as Record<string, { q: string; a: string }[]>)[locale] ?? [
     { q: "How soon will the first leads come?", a: "Usually within 24–48 hours of the ads going live. We guarantee results within the first 48 hours." },
-    { q: "How much do your services cost?", a: "It depends on your goals and the format. After a free audit we pick the format and send you an exact quote." },
     { q: "What's included in your work?", a: "Everything it takes to bring customers: ads on Facebook, Instagram and Google, shoots and content, a website, chatbots and help with sales." },
-    { q: "Do I need to prepare anything?", a: "No. Just tell us about your business. Strategy, copy, shoots and launch are on us." },
     { q: "How will I know the ads work?", a: "You see how many leads came in and what each one cost. Once a month we send a clear report with no jargon." },
     { q: "What happens to the leads when they come in?", a: "A chatbot replies to the customer right away, every lead reaches you, and we help set up sales so leads turn into deals." },
   ];
