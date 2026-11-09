@@ -26,6 +26,7 @@ function busy() {
 export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }) {
   const [video, setVideo] = useState(false);
   const [lead, setLead] = useState(false);
+  const [teaser, setTeaser] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
   const videoClosed = useRef(false);
@@ -46,6 +47,14 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
     const tryLead = () => {
       if (leadShown.current) return;
       if (busy()) { timers.push(window.setTimeout(tryLead, 4000)); return; }
+      // on phones a full-screen form out of nowhere is too much: offer it in a small card instead
+      if (window.innerWidth < 700) {
+        leadShown.current = true;
+        setVideo(false);
+        setTeaser(true);
+        window.dispatchEvent(new Event("dc:lead-prompted"));
+        return;
+      }
       openLead();
     };
     timers.push(window.setTimeout(tryLead, LEAD_AT));
@@ -78,6 +87,7 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
     window.dispatchEvent(new CustomEvent("dc:open-reel"));
   };
   const closeVideo = () => { videoClosed.current = true; setVideo(false); };
+  const closeTeaser = () => { setTeaser(false); window.dispatchEvent(new Event("dc:lead-closed")); };
 
   return (
     <>
@@ -97,6 +107,16 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>{copy.popVideoBtn}
           </button>
         </div>
+      </aside>
+
+      <aside className={`pp-teaser${teaser ? " in" : ""}`} aria-hidden={!teaser}>
+        <button type="button" className="pp-teaser-main" onClick={() => { setTeaser(false); openLead(); }} tabIndex={teaser ? 0 : -1}>
+          <span className="pp-chip">{copy.popLeadEyebrow}</span>
+          <b>{copy.popLeadTitle}</b>
+        </button>
+        <button type="button" className="pp-x" onClick={closeTeaser} aria-label={copy.close} tabIndex={teaser ? 0 : -1}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+        </button>
       </aside>
 
       <div className={`pp-lead${lead ? " in" : ""}`} aria-hidden={!lead}>

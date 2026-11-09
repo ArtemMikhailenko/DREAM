@@ -826,3 +826,58 @@ html.intro-played:not(.intro-landed) .h2 .h2-word{visibility:hidden}
 body:has(.chw.is-open) .pp-video{opacity:0!important;pointer-events:none!important;transform:translateX(30px) scale(.92)!important}
 .chw-panel{background:radial-gradient(ellipse 80% 50% at 20% 0%,rgba(80,200,190,.16),transparent 60%),#0b0c0d!important}
 @media(max-width:700px){.pp-video{inset-inline:12px 12px!important;bottom:calc(150px + env(safe-area-inset-bottom,0px))!important;transform:translateY(30px) scale(.92)!important}}
+
+/* ── Nov 9 round 6 ─────────────────────────────────────────── */
+/* calm premium black for formats, the pain block and FAQ: one soft studio light from above */
+.s-plain{position:relative;overflow:hidden;isolation:isolate;background:#070707}
+.s-plain>.wrap{position:relative;z-index:1}
+.s-plain-glow{position:absolute;left:50%;top:-180px;width:min(1300px,140%);height:720px;transform:translateX(-50%);z-index:0;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(244,241,234,.075),rgba(244,241,234,.025) 55%,transparent 100%)}
+.s-plain-glow.is-warm{top:auto;bottom:-260px;background:radial-gradient(closest-side,rgba(232,168,104,.16),rgba(232,168,104,.05) 55%,transparent 100%)}
+.s-plain::after{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(244,241,234,.12),transparent);z-index:1}
+.s-plain .fmt-card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border-color:rgba(255,255,255,.09)}
+.s-plain .fmt-tag{border-color:rgba(232,168,104,.35);background:rgba(232,168,104,.08);color:#f0c49b}
+.s-plain .fmt-list i{border-color:rgba(232,168,104,.6);box-shadow:inset 0 0 0 3px #0b0b0b,inset 0 0 0 6px rgba(232,168,104,.85)}
+.s-plain .fmt-card:hover{border-color:rgba(232,168,104,.32)}
+.s-plain .fmt-card.is-pop{border-color:rgba(232,168,104,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 60px rgba(232,168,104,.1)}
+.s-plain .faq-n{color:var(--accent)}
+
+/* results band: real ad-account cards, closer together */
+.ro .ro-card{left:-150px;top:-58px;width:300px;height:116px;border-radius:14px;background:#1c2a33;border-color:rgba(255,255,255,.12)}
+.ro .ro-card img{object-fit:cover;object-position:left top}
+.ro-static .ro-strip .ro-card{width:78vw;height:auto;aspect-ratio:auto;background:#1c2a33}
+.ro-static .ro-strip .ro-card img{height:auto}
+
+/* section labels: no dash in front */
+.label::before{display:none!important}
+.label{gap:0}
+
+/* phone: lighter everything */
+@media(max-width:700px){
+  .h2-field{display:none}
+  .h2{background:
+    radial-gradient(1px 1px at 12% 18%,rgba(255,255,255,.8),transparent),radial-gradient(1px 1px at 76% 12%,rgba(255,255,255,.6),transparent),
+    radial-gradient(1.5px 1.5px at 38% 34%,rgba(255,214,170,.8),transparent),radial-gradient(1px 1px at 88% 41%,rgba(255,255,255,.55),transparent),
+    radial-gradient(1px 1px at 22% 62%,rgba(255,255,255,.5),transparent),radial-gradient(1.5px 1.5px at 64% 70%,rgba(255,214,170,.7),transparent),
+    radial-gradient(1px 1px at 50% 88%,rgba(255,255,255,.45),transparent),radial-gradient(1px 1px at 8% 84%,rgba(255,255,255,.5),transparent),
+    radial-gradient(ellipse 70% 45% at 55% 42%,rgba(232,150,80,.16),transparent 70%),radial-gradient(ellipse 60% 40% at 20% 20%,rgba(80,110,220,.12),transparent 70%),
+    #050509!important}
+  /* the audit window becomes a compact bottom sheet: just the form */
+  .pp-lead{align-items:flex-end!important;padding:0!important}
+  .pp-dialog{width:100%!important;max-height:86svh!important;border-radius:22px 22px 0 0!important;padding:14px 12px calc(14px + env(safe-area-inset-bottom,0px))!important;transform:translateY(40px)!important}
+  .pp-lead.in .pp-dialog{transform:none!important}
+  .pp-dialog-intro{display:none!important}
+  .pp-dialog .qf{padding:18px 16px!important}
+  .pp-x{top:8px!important}
+}
+/* phone: small free-audit card instead of a full-screen form */
+.pp-teaser{display:none}
+@media(max-width:700px){
+  .pp-teaser{display:flex;position:fixed;z-index:185;inset-inline:12px;bottom:calc(150px + env(safe-area-inset-bottom,0px));align-items:center;gap:10px;padding:12px 44px 12px 14px;border-radius:18px;
+    background:radial-gradient(ellipse 80% 80% at 0% 0%,rgba(80,200,190,.16),transparent 60%),#0b0c0d;border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 50px rgba(0,0,0,.55);
+    opacity:0;transform:translateY(30px) scale(.94);pointer-events:none;transition:opacity .4s,transform .55s cubic-bezier(.2,1.3,.4,1)}
+  .pp-teaser.in{opacity:1;transform:none;pointer-events:auto}
+  .pp-teaser-main{display:flex;flex-direction:column;align-items:flex-start;gap:8px;background:none;border:0;padding:0;color:var(--chalk);text-align:start;font:inherit;cursor:pointer}
+  .pp-teaser-main b{font-family:var(--font-display),var(--font-hebrew),sans-serif;font-weight:400;font-size:1.25rem;line-height:1.05;text-transform:uppercase}
+  .pp-teaser .pp-x{top:10px!important}
+}

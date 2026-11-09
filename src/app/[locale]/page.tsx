@@ -6,7 +6,6 @@ import { PromoPopups } from "@/components/home/PromoPopups";
 import { LeadButton } from "@/components/home/LeadButton";
 import { ResultsOrbit } from "@/components/home/ResultsOrbit";
 import { ChatWidget } from "@/components/home/ChatWidget";
-import { SpaceBg } from "@/components/home/SpaceBg";
 import { WatchButton } from "@/components/home/WatchButton";
 import { MobileCta } from "@/components/home/MobileCta";
 import { ProcessSteps } from "@/components/home/ProcessSteps";
@@ -14,7 +13,7 @@ import { StatRow } from "@/components/home/StatRow";
 import { CardGlow } from "@/components/CardGlow";
 import { type WallCase } from "@/components/home/ProjectWall";
 import { CASE_IMAGES } from "@/lib/portfolio";
-import { homeFlow, homeCopy, noDot } from "@/lib/home-copy";
+import { homeFaq, AD_RESULTS, homeFlow, homeCopy, noDot } from "@/lib/home-copy";
 import "../home-v2.css";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -51,7 +50,7 @@ export default async function Home({
   setRequestLocale(locale);
   const t = await getTranslations("Home");
   const railItems = t.raw("rail.items") as string[];
-  const faqItems = t.raw("faq.items") as { q: string; a: string }[];
+  const faqItems = homeFaq(locale);
   const c = homeCopy(locale);
   const f = homeFlow(locale);
   const poster = `/videos/vsl-${locale === "he" ? "he" : locale === "ru" ? "ru" : "en"}-poster.webp`;
@@ -230,7 +229,7 @@ export default async function Home({
       <section className="section s-ink res2" id="results">
         <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="hero-glow" aria-hidden="true" />
-        <ResultsOrbit items={[...wallCases, ...wallCases].slice(0, 8).map((wc, i) => ({ src: wc.image ?? CASE_IMAGES[i % CASE_IMAGES.length], alt: wc.title }))}>
+        <ResultsOrbit items={AD_RESULTS.slice(0, 16).map((src) => ({ src, alt: "" }))}>
           <div className="wrap">
             <p className="label">{f.resLabel}</p>
             <h2 className="sec-h">{f.resHeading} <em>{f.resEm}</em></h2>
@@ -240,8 +239,8 @@ export default async function Home({
       </section>
 
       {/* ── Work formats (no prices on the page) ── */}
-      <section className="section s-space fmt" id="packages">
-        <SpaceBg tint="cool" />
+      <section className="section s-plain fmt" id="packages">
+        <div className="s-plain-glow" aria-hidden="true" />
         <div className="wrap">
           <p className="label">{f.fmtLabel}</p>
           <h2 className="sec-h">{f.fmtHeading} <em>{f.fmtEm}</em></h2>
@@ -268,8 +267,8 @@ export default async function Home({
       </section>
 
       {/* ── Pain, once more, right before the questions ── */}
-      <section className="section s-space pain" id="why-now">
-        <SpaceBg tint="warm" />
+      <section className="section s-plain pain" id="why-now">
+        <div className="s-plain-glow is-warm" aria-hidden="true" />
         <div className="wrap pain-inner">
           <p className="pain-eyebrow"><i className="h2-live" aria-hidden="true"><b /></i>{f.painEyebrow}</p>
           <h2 className="pain-h">{f.painLine} <em>{f.painEm}</em></h2>
@@ -282,8 +281,8 @@ export default async function Home({
       </section>
 
       {/* ── FAQ ── */}
-      <section className="section s-space" id="faq">
-        <SpaceBg tint="cool" />
+      <section className="section s-plain" id="faq">
+        <div className="s-plain-glow" aria-hidden="true" />
         <div className="wrap">
           <p className="label">{t("faq.label")}</p>
           <h2 className="sec-h">{t("faq.heading")} <em>{t("faq.headingEm")}</em></h2>

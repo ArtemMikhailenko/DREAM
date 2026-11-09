@@ -137,19 +137,9 @@ export function VideoBlock() {
             <span>{badge}</span>
           </div>
           <div className="vblock-actions">
-            <a className="btn-p vblock-book" href="#lead">
-              {t("book")} <span aria-hidden="true">↗</span>
+            <a className="btn-p vblock-book cta-pulse" href="#lead" onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent("dc:open-lead")); }}>
+              {t("book")}
             </a>
-            <button
-              type="button"
-              className="vblock-round"
-              onClick={openTheater}
-              aria-label={t("trigger")}
-            >
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </button>
           </div>
         </div>
 
@@ -274,8 +264,8 @@ export function VideoBlock() {
           />
         </div>
         {showCta ? (
-          <a className="vblock-cta" href="#lead" onClick={closeTheater}>
-            {t("book")} <span aria-hidden="true">↗</span>
+          <a className="vblock-cta" href="#lead" onClick={(e) => { e.preventDefault(); closeTheater(); window.setTimeout(() => window.dispatchEvent(new CustomEvent("dc:open-lead")), 450); }}>
+            {t("book")}
           </a>
         ) : null}
         </div>

@@ -1,4 +1,5 @@
-import { aboutCopy } from "@/lib/inner-copy";
+import { aboutCopy, aboutTags } from "@/lib/inner-copy";
+import { ParticleCluster } from "@/components/home/ParticleCluster";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { alternates } from "@/i18n/paths";
@@ -35,7 +36,7 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("About");  const ac = aboutCopy(locale);
-  const capabilities = t.raw("story.capabilities") as string[];
+  const capabilities = aboutTags(locale);
   const valueItems = t.raw("values.items") as { title: string; desc: string }[];
   const c = homeCopy(locale);
   const statItems = c.results;
@@ -53,11 +54,11 @@ export default async function AboutPage({
         <div className="bg-darts" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Studio</div>
         <div className="wrap page-hero-inner">
-          <p className="label">{t("hero.label")}</p>
+          <p className="label">{ac.heroLabel}</p>
           <h1 className="page-hero-h">
             {ac.heroHeading} <em>{ac.heroEm}</em>
           </h1>
-          <p className="page-hero-sub">{t("hero.sub")}</p>
+          <p className="page-hero-sub">{ac.heroSub}</p>
         </div>
       </section>
 
@@ -67,10 +68,10 @@ export default async function AboutPage({
         <div className="wrap">
           <div className="about-grid">
             <div className="about-copy">
-              <p className="label">{t("story.label")}</p>
+              <p className="label">{ac.storyLabel}</p>
               <h2 className="sec-h">{ac.storyHeading}</h2>
-              <p>{t("story.p1")}</p>
-              <p>{t("story.p2")}</p>
+              <p>{ac.p1}</p>
+              <p>{ac.p2}</p>
               <div className="about-tags">
                 {capabilities.map((c) => (
                   <span className="about-tag" key={c}>{c}</span>
@@ -78,12 +79,8 @@ export default async function AboutPage({
               </div>
             </div>
             <div className="about-vis">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80"
-                alt="dc.production studio"
-              />
-              <p className="about-vis-slogan">{t("story.slogan")}</p>
+              <ParticleCluster />
+              <p className="about-vis-slogan">{ac.slogan}</p>
             </div>
           </div>
         </div>
@@ -94,10 +91,10 @@ export default async function AboutPage({
         <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Values</div>
         <div className="wrap">
-          <p className="label">{t("values.label")}</p>
-          <h2 className="sec-h">{t("values.heading")} <em>{t("values.headingEm")}</em></h2>
+          <p className="label">{ac.valuesLabel}</p>
+          <h2 className="sec-h">{ac.valuesHeading}</h2>
           <div className="vg">
-            {valueItems.map((v, i) => (
+            {ac.values.map((v, i) => (
               <article className="vg-card" key={i}>
                 <span className="vg-n" aria-hidden="true">0{i + 1}</span>
                 <h3 className="vg-title">{v.title}</h3>
@@ -113,30 +110,14 @@ export default async function AboutPage({
       <section className="section s-dark2" id="impact">
         <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="wrap">
-          <p className="label">{t("stats.label")}</p>
-          <h2 className="sec-h">{t("stats.heading")} <em>{t("stats.headingEm")}</em></h2>
+          <h2 className="sec-h about-clients-h">{ac.clientsHeading}</h2>
         </div>
         <div className="wrap">
           <StatRow items={statItems} />
         </div>
-        <ProjectWall cases={wallCases} label={c.wallLabel} />
+        <ProjectWall cases={wallCases} label="" />
       </section>
 
-      {/* ── CTA ── */}
-      <section className="section s-ink" id="cta">
-        <div className="bg-gray seam-up pin" aria-hidden="true" />
-        <div className="wrap" style={{ textAlign: "center", maxWidth: 720, margin: "0 auto" }}>
-          <p className="label">{t("cta.label")}</p>
-          <h2 className="sec-h">{t("cta.heading")} <em>{t("cta.headingEm")}</em></h2>
-          <p style={{ color: "var(--cream2)", marginTop: 24, marginBottom: 40, fontSize: "1.05rem" }}>
-            {t("cta.sub")}
-          </p>
-          <div className="hero-actions" style={{ justifyContent: "center" }}>
-            <Link className="btn-p" href="/#lead">{t("cta.ctaBrief")} ↗</Link>
-            <Link className="btn-o" href="/portfolio">{t("cta.ctaWorks")} ↗</Link>
-          </div>
-        </div>
-      </section>
 
       <CardGlow selector=".vg-card, .sr-item" />
 

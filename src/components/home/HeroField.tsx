@@ -19,6 +19,8 @@ export function HeroField() {
     let disposed = false;
     let cleanup = () => {};
 
+    // phones get a static painted sky (CSS) instead of WebGL: no download, no GPU work
+    if (window.innerWidth < 700) return;
     import("three").then((THREE) => {
       if (disposed) return;
       let renderer: InstanceType<typeof THREE.WebGLRenderer>;

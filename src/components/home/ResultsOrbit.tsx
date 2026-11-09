@@ -24,7 +24,7 @@ export function ResultsOrbit({ items, children }: { items: { src: string; alt: s
 
     const layout = (p: number) => {
       const w = el.clientWidth;
-      const R = Math.min(w * 0.46, 680);
+      const R = Math.min(w * 0.4, 580);
       const spin = -p * 260 + drift;
       const twist = Math.sin(p * Math.PI) * 14;
       const ring = `rotateX(${24 + twist * 0.3}deg) rotateZ(${-6 + twist * 0.4}deg) rotateY(${spin}deg)`;
@@ -33,7 +33,8 @@ export function ResultsOrbit({ items, children }: { items: { src: string; alt: s
         const a = (i / n) * 360;
         const wave = Math.sin((a * Math.PI) / 90 + p * 6 + drift * 0.02) * 46;
         const tr = `rotateY(${a}deg) translateZ(${R}px) translateY(${wave.toFixed(1)}px)`;
-        cb[i].style.transform = tr; cf[i].style.transform = tr;
+        // the far half is seen from behind: turn those cards around so they never read mirrored
+        cb[i].style.transform = `${tr} rotateY(180deg)`; cf[i].style.transform = tr;
         const facing = Math.cos(((a + spin) * Math.PI) / 180); // 1 = facing the viewer
         const near = facing > 0.05;
         cf[i].style.opacity = near ? String(Math.min(1, 0.35 + facing * 0.75)) : "0";

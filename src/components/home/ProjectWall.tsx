@@ -29,8 +29,8 @@ export function ProjectWall({ cases, label }: { cases: WallCase[]; label: string
   );
 
   return (
-    <div className="pw" aria-label={label}>
-      <p className="pw-label">{label}</p>
+    <div className="pw" aria-label={label || undefined}>
+      {label && <p className="pw-label">{label}</p>}
       <div className="pw-stage">
         <div className="pw-row">
           <div className="pw-track">{[...rowA, ...rowA].map((x, k) => card(x, `a${k}`))}</div>

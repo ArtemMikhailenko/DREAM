@@ -311,3 +311,34 @@ const flowHe: HomeFlow = {
 
 const FLOW: Record<string, HomeFlow> = { en: flowEn, ru: flowRu, he: flowHe };
 export const homeFlow = (locale: string): HomeFlow => FLOW[locale] ?? flowEn;
+
+/* ── FAQ: real questions business owners ask before they start ── */
+export const homeFaq = (locale: string): { q: string; a: string }[] =>
+  ({
+    ru: [
+      { q: "Через сколько придут первые заявки?", a: "Обычно первые заявки приходят в первые 24–48 часов после запуска рекламы. Результат в первые 48 часов мы гарантируем." },
+      { q: "Сколько стоят ваши услуги?", a: "Стоимость зависит от задач и формата работы. После бесплатного аудита мы подберём формат и пришлём точный расчёт." },
+      { q: "Что входит в вашу работу?", a: "Всё, что нужно для потока клиентов: реклама в Facebook, Instagram и Google, съёмка и контент, сайт, чат-боты и помощь с продажами." },
+      { q: "Мне нужно что-то готовить заранее?", a: "Нет. Достаточно рассказать о бизнесе. Стратегию, тексты, съёмку и запуск мы берём на себя." },
+      { q: "Как я пойму, что реклама работает?", a: "Вы видите, сколько пришло заявок и сколько стоила каждая. Раз в месяц присылаем понятный отчёт без сложных терминов." },
+      { q: "Что будет с заявками, когда они придут?", a: "Чат-бот сразу отвечает клиенту, заявка попадает к вам без потерь, а мы помогаем выстроить продажи, чтобы заявки становились сделками." },
+    ],
+    he: [
+      { q: "תוך כמה זמן יגיעו הלידים הראשונים?", a: "בדרך כלל הלידים הראשונים מגיעים תוך 24–48 שעות מהשקת הפרסום. אנחנו מבטיחים תוצאה כבר ב-48 השעות הראשונות." },
+      { q: "כמה עולים השירותים שלכם?", a: "המחיר תלוי במשימות ובפורמט העבודה. אחרי אודיט חינם נתאים פורמט ונשלח הצעת מחיר מדויקת." },
+      { q: "מה כלול בעבודה שלכם?", a: "כל מה שצריך לזרם לקוחות: פרסום בפייסבוק, באינסטגרם ובגוגל, צילום ותוכן, אתר, צ'אטבוטים ועזרה במכירות." },
+      { q: "אני צריך להכין משהו מראש?", a: "לא. מספיק לספר על העסק. אסטרטגיה, טקסטים, צילום והשקה עלינו." },
+      { q: "איך אדע שהפרסום עובד?", a: "תראו כמה לידים הגיעו וכמה עלה כל אחד. פעם בחודש נשלח דוח ברור בלי מונחים מסובכים." },
+      { q: "מה קורה עם הלידים כשהם מגיעים?", a: "צ'אטבוט עונה ללקוח מיד, הליד מגיע אליכם בלי לאבד אף אחד, ואנחנו עוזרים לבנות מכירות כדי שלידים יהפכו לעסקאות." },
+    ],
+  } as Record<string, { q: string; a: string }[]>)[locale] ?? [
+    { q: "How soon will the first leads come?", a: "Usually within 24–48 hours of the ads going live. We guarantee results within the first 48 hours." },
+    { q: "How much do your services cost?", a: "It depends on your goals and the format. After a free audit we pick the format and send you an exact quote." },
+    { q: "What's included in your work?", a: "Everything it takes to bring customers: ads on Facebook, Instagram and Google, shoots and content, a website, chatbots and help with sales." },
+    { q: "Do I need to prepare anything?", a: "No. Just tell us about your business. Strategy, copy, shoots and launch are on us." },
+    { q: "How will I know the ads work?", a: "You see how many leads came in and what each one cost. Once a month we send a clear report with no jargon." },
+    { q: "What happens to the leads when they come in?", a: "A chatbot replies to the customer right away, every lead reaches you, and we help set up sales so leads turn into deals." },
+  ];
+
+/* ad-account screenshots (real campaigns) used in the results band and on the works page */
+export const AD_RESULTS = [1, 4, 3, 9, 15, 12, 7, 14, 19, 6, 16, 20, 5, 13, 21, 10, 17, 18, 8, 2].map((n) => `/results/r${String(n).padStart(2, "0")}.webp`);

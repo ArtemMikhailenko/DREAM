@@ -1,4 +1,6 @@
-import { portfolioCategories, portfolioTagMap, portfolioEmpty } from "@/lib/inner-copy";
+import { portfolioCategories, portfolioTagMap, portfolioEmpty, portfolioResults } from "@/lib/inner-copy";
+import { AD_RESULTS } from "@/lib/home-copy";
+import "../../home-v2.css";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { alternates } from "@/i18n/paths";
@@ -33,6 +35,7 @@ export default async function PortfolioPage({
   setRequestLocale(locale);
   const t = await getTranslations("Portfolio");
   const categories = portfolioCategories(locale);
+  const pr = portfolioResults(locale);
   const cases = t.raw("cases") as {
     title: string;
     tag: string;
@@ -75,6 +78,24 @@ export default async function PortfolioPage({
         </div>
       </section>
 
+
+      {/* ── Ad results: real campaign screenshots ── */}
+      <section className="section s-plain pf-results" id="ad-results">
+        <div className="s-plain-glow" aria-hidden="true" />
+        <div className="wrap">
+          <p className="label">{pr.label}</p>
+          <h2 className="sec-h">{pr.heading} <em>{pr.em}</em></h2>
+          <p className="pf-res-sub">{pr.sub}</p>
+          <div className="pf-res-grid">
+            {AD_RESULTS.map((src) => (
+              <figure className="pf-res-card" key={src}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={src} alt="" loading="lazy" decoding="async" />
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <SiteFooter />
     </>

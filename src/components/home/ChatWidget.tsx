@@ -32,7 +32,7 @@ export function ChatWidget({ locale }: { locale: string }) {
       timers.push(window.setTimeout(() => {
         if (document.querySelector(".pp-lead.in")) { done = false; pop(1500); return; }
         setShown(true);
-        timers.push(window.setTimeout(() => { setOpen(true); setTyping(true); }, 450));
+        if (window.innerWidth >= 700) timers.push(window.setTimeout(() => { setOpen(true); setTyping(true); }, 450));
         timers.push(window.setTimeout(() => setTyping(false), 2000));
       }, delay));
     };
