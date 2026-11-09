@@ -7,7 +7,19 @@ const intlMiddleware = createMiddleware(routing);
 export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Legacy /eng/... → same path without the prefix (301), before locale routing.
+  // One canonical host: www.dreamchaseprod.com → dreamchaseprod.com (301).
+  const host = req.headers.get("host") || "";
+  if (host.startsWith("www.")) {
+    return NextResponse.redirect(`https://${host.slice(4)}${pathname}${req.nextUrl.search}`, 301);
+  }
+
+  // English lives at the root: /en/... (what the language switcher links to) and the
+  // legacy /eng/... both land on the same path without the prefix (301).
+  if (pathname === "/en" || pathname.startsWith("/en/")) {
+    const url = req.nextUrl.clone();
+    url.pathname = pathname.replace(/^\/en/, "") || "/";
+    return NextResponse.redirect(url, 301);
+  }
   if (pathname === "/eng" || pathname.startsWith("/eng/")) {
     const url = req.nextUrl.clone();
     url.pathname = pathname.replace(/^\/eng/, "") || "/";
