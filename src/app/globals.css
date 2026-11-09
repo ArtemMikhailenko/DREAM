@@ -1571,3 +1571,5 @@ body::after{mix-blend-mode:normal!important;opacity:.045!important;will-change:a
 .nav-drawer-social{margin:0!important;display:flex;gap:8px}
 .nav-drawer-social a{width:48px!important;height:48px!important}
 @media (prefers-reduced-motion:reduce){.nav-drawer-links li,.nav-drawer-foot{transition:none;transform:none}}
+/* the grain layer sat over the whole page on every frame for an almost invisible effect */
+body::after{display:none!important}

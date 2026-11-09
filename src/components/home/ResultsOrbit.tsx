@@ -20,26 +20,28 @@ export function ResultsOrbit({ items, children }: { items: { src: string; alt: s
     const cb = Array.from(rb.children) as HTMLElement[];
     const cf = Array.from(rf.children) as HTMLElement[];
     const n = cb.length;
-    let raf = 0, visible = false, last = performance.now(), drift = 0, target = 0, cur = 0;
+    let raf = 0, visible = false, last = performance.now(), drift = 0, target = 0, cur = 0, lastSpin = NaN;
 
-    const layout = (p: number) => {
+    // Cards sit on the ring once (re-placed only on resize). Each frame only the two
+    // bands turn, and the browser decides which face shows (backface-visibility):
+    // a near card is drawn in front of the numbers, the same card seen from behind
+    // is drawn on the far layer, turned round so it never reads mirrored.
+    const place = () => {
       const w = el.clientWidth;
-      const R = Math.min(w * 0.4, 580);
-      const spin = -p * 260 + drift;
-      const twist = Math.sin(p * Math.PI) * 14;
-      const ring = `rotateX(${24 + twist * 0.3}deg) rotateZ(${-6 + twist * 0.4}deg) rotateY(${spin}deg)`;
-      rb.style.transform = ring; rf.style.transform = ring;
+      const R = Math.max(380, Math.min(w * 0.44, 660));
       for (let i = 0; i < n; i++) {
         const a = (i / n) * 360;
-        const wave = Math.sin((a * Math.PI) / 90 + p * 6 + drift * 0.02) * 46;
-        const tr = `rotateY(${a}deg) translateZ(${R}px) translateY(${wave.toFixed(1)}px)`;
-        // the far half is seen from behind: turn those cards around so they never read mirrored
-        cb[i].style.transform = `${tr} rotateY(180deg)`; cf[i].style.transform = tr;
-        const facing = Math.cos(((a + spin) * Math.PI) / 180); // 1 = facing the viewer
-        const near = facing > 0.05;
-        cf[i].style.opacity = near ? String(Math.min(1, 0.35 + facing * 0.75)) : "0";
-        cb[i].style.opacity = near ? "0" : String(0.18 + Math.max(0, -facing) * 0.22);
+        const tr = `rotateY(${a}deg) translateZ(${R}px)`;
+        cf[i].style.transform = tr;
+        cb[i].style.transform = `${tr} rotateY(180deg)`;
       }
+    };
+    const layout = (p: number) => {
+      const spin = -p * 200 + drift;
+      if (Math.abs(spin - lastSpin) < 0.02) return;
+      lastSpin = spin;
+      const ring = `rotateX(20deg) rotateZ(-5deg) rotateY(${spin.toFixed(2)}deg)`;
+      rb.style.transform = ring; rf.style.transform = ring;
     };
     const measure = () => {
       const r = el.getBoundingClientRect();
@@ -48,12 +50,12 @@ export function ResultsOrbit({ items, children }: { items: { src: string; alt: s
     };
     const loop = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000); last = now;
-      drift += dt * 7;
+      drift += dt * 6;
       cur += (target - cur) * 0.08;
       layout(cur);
       if (visible) raf = requestAnimationFrame(loop);
     };
-    measure(); cur = target; layout(cur);
+    place(); measure(); cur = target; layout(cur);
     const io = new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
       cancelAnimationFrame(raf);
@@ -61,8 +63,9 @@ export function ResultsOrbit({ items, children }: { items: { src: string; alt: s
     });
     io.observe(el);
     window.addEventListener("scroll", measure, { passive: true });
-    window.addEventListener("resize", measure);
-    return () => { cancelAnimationFrame(raf); io.disconnect(); window.removeEventListener("scroll", measure); window.removeEventListener("resize", measure); };
+    const onResize = () => { place(); measure(); };
+    window.addEventListener("resize", onResize);
+    return () => { cancelAnimationFrame(raf); io.disconnect(); window.removeEventListener("scroll", measure); window.removeEventListener("resize", onResize); };
   }, [items.length]);
 
   const cards = (key: string) => items.map((it, i) => (

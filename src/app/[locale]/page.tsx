@@ -103,6 +103,7 @@ export default async function Home({
       <section className="h2" id="hero">
         <HeroField />
         <div className="h2-vignette" aria-hidden="true" />
+        <div className="h2-gal" aria-hidden="true"><i /></div>
         <div className="wrap h2-inner">
           <div className="h2-meta">
             <span aria-hidden="true" />
@@ -229,7 +230,7 @@ export default async function Home({
       <section className="section s-ink res2" id="results">
         <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="hero-glow" aria-hidden="true" />
-        <ResultsOrbit items={AD_RESULTS.slice(0, 16).map((src) => ({ src, alt: "" }))}>
+        <ResultsOrbit items={AD_RESULTS.slice(0, 12).map((src) => ({ src, alt: "" }))}>
           <div className="wrap">
             <p className="label">{f.resLabel}</p>
             <h2 className="sec-h">{f.resHeading} <em>{f.resEm}</em></h2>
@@ -263,20 +264,6 @@ export default async function Home({
             ))}
           </div>
           <p className="fmt-note">{f.fmtNote}</p>
-        </div>
-      </section>
-
-      {/* ── Pain, once more, right before the questions ── */}
-      <section className="section s-plain pain" id="why-now">
-        <div className="s-plain-glow is-warm" aria-hidden="true" />
-        <div className="wrap pain-inner">
-          <p className="pain-eyebrow"><i className="h2-live" aria-hidden="true"><b /></i>{f.painEyebrow}</p>
-          <h2 className="pain-h">{f.painLine} <em>{f.painEm}</em></h2>
-          <p className="pain-text">{f.painText}</p>
-          <LeadButton className="h2-cta glass-btn cta-pulse pain-btn">
-            <span>{f.painBtn}</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
-          </LeadButton>
         </div>
       </section>
 

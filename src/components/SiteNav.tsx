@@ -22,6 +22,17 @@ export function SiteNav() {
 
   const close = () => setOpen(false);
 
+  // arriving with "#packages"/"#lead" from another page: land on that block once the layout has settled
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (!id) return;
+    const t = window.setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el && Math.abs(el.getBoundingClientRect().top) > 40) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: "instant" as ScrollBehavior });
+    }, 700);
+    return () => window.clearTimeout(t);
+  }, [pathname]);
+
   // "/#packages", "/#lead": on the home page scroll there ourselves (after unlocking the page),
   // elsewhere let the link go to the home page with the hash
   const onHash = (e: MouseEvent, href: string) => {
