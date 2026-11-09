@@ -935,3 +935,9 @@ body:has(.chw.is-open) .pp-video{opacity:0!important;pointer-events:none!importa
 @keyframes h2galin{to{opacity:1}}
 @keyframes h2galbreath{from{opacity:.55;transform:scale(.92)}to{opacity:1;transform:scale(1.06)}}
 @media (prefers-reduced-motion:reduce){.h2-gal i{animation:none;opacity:.9}.h2-gal::after{animation:none}}
+
+/* Phones: the first screen is shown at once (no entrance delay) — it is the page's
+   largest paint, and waiting for it to fade in costs seconds on slow phones. */
+@media (max-width:700px){
+  .h2-meta,.h2-lanes,.h2-foot,.h2-bottom,.h2-word-text,.h2-script,.h2-frame{animation:none!important;opacity:1!important;filter:none!important;clip-path:none!important}
+}
