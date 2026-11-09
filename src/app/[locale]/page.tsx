@@ -3,9 +3,11 @@ import { VideoBlock } from "@/components/VideoBlock";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { HeroField, Timecode } from "@/components/home/HeroField";
 import { PromoPopups } from "@/components/home/PromoPopups";
-import { IntroDissolve } from "@/components/home/IntroDissolve";
 import { LeadButton } from "@/components/home/LeadButton";
 import { ResultsOrbit } from "@/components/home/ResultsOrbit";
+import { ChatWidget } from "@/components/home/ChatWidget";
+import { StackSections } from "@/components/home/StackSections";
+import { SpaceBg } from "@/components/home/SpaceBg";
 import { CustomCursor } from "@/components/CustomCursor";
 import { WatchButton } from "@/components/home/WatchButton";
 import { MobileCta } from "@/components/home/MobileCta";
@@ -54,6 +56,7 @@ export default async function Home({
   const faqItems = t.raw("faq.items") as { q: string; a: string }[];
   const c = homeCopy(locale);
   const f = homeFlow(locale);
+  const poster = `/videos/vsl-${locale === "he" ? "he" : locale === "ru" ? "ru" : "en"}-poster.webp`;
   const wallCases = (await getTranslations("Portfolio")).raw("cases") as WallCase[];
 
   const jsonLd = [
@@ -86,7 +89,6 @@ export default async function Home({
 
   return (
     <>
-      <IntroDissolve />
       <ScrollAnimations />
       <div className="scroll-progress" aria-hidden="true" />
       {jsonLd.map((schema, i) => (
@@ -101,7 +103,7 @@ export default async function Home({
       <SiteNav />
 
       {/* ── Hero: viewfinder frame around the wordmark ── */}
-      <section className="h2">
+      <section className="h2" id="hero">
         <HeroField />
         <div className="h2-vignette" aria-hidden="true" />
         <div className="wrap h2-inner">
@@ -240,8 +242,8 @@ export default async function Home({
       </section>
 
       {/* ── Work formats (no prices on the page) ── */}
-      <section className="section s-teal fmt" id="packages">
-        <div className="teal-glow" aria-hidden="true" />
+      <section className="section s-space fmt" id="packages">
+        <SpaceBg tint="cool" />
         <div className="wrap">
           <p className="label">{f.fmtLabel}</p>
           <h2 className="sec-h">{f.fmtHeading} <em>{f.fmtEm}</em></h2>
@@ -268,9 +270,8 @@ export default async function Home({
       </section>
 
       {/* ── Pain, once more, right before the questions ── */}
-      <section className="section s-ink pain" id="why-now">
-        <div className="bg-gray seam-mid pin" aria-hidden="true" />
-        <div className="hero-glow" aria-hidden="true" />
+      <section className="section s-space pain" id="why-now">
+        <SpaceBg tint="warm" />
         <div className="wrap pain-inner">
           <p className="pain-eyebrow"><i className="h2-live" aria-hidden="true"><b /></i>{f.painEyebrow}</p>
           <h2 className="pain-h">{f.painLine} <em>{f.painEm}</em></h2>
@@ -283,8 +284,8 @@ export default async function Home({
       </section>
 
       {/* ── FAQ ── */}
-      <section className="section s-teal" id="faq">
-        <div className="teal-glow" aria-hidden="true" />
+      <section className="section s-space" id="faq">
+        <SpaceBg tint="cool" />
         <div className="wrap">
           <p className="label">{t("faq.label")}</p>
           <h2 className="sec-h">{t("faq.heading")} <em>{t("faq.headingEm")}</em></h2>
@@ -368,7 +369,9 @@ export default async function Home({
 
       <CardGlow selector=".lead-sec .contact-card, .sr-item, #problem .problem-row, .svc-row, .fmt-card" />
       <CustomCursor />
-      <PromoPopups copy={c} />
+      <PromoPopups copy={c} poster={poster} />
+      <ChatWidget locale={locale} />
+      <StackSections ids={["hero", "showreel", "problem", "services", "process", "results", "packages", "why-now", "faq", "lead"]} />
       <MobileCta label={t("hero.ctaPrimary")} />
       <SiteFooter />
     </>
