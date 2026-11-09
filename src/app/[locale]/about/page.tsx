@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { ProjectWall, type WallCase } from "@/components/home/ProjectWall";
 import { homeCopy } from "@/lib/home-copy";
+import { CustomCursor } from "@/components/CustomCursor";
 import { StatRow } from "@/components/home/StatRow";
 import { CardGlow } from "@/components/CardGlow";
 
@@ -138,6 +139,8 @@ export default async function AboutPage({
       </section>
 
       <CardGlow selector=".vg-card, .sr-item" />
+
+      <CustomCursor />
       <SiteFooter />
     </>
   );

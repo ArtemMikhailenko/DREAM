@@ -5,16 +5,16 @@ import { HeroField, Timecode } from "@/components/home/HeroField";
 import { PromoPopups } from "@/components/home/PromoPopups";
 import { IntroDissolve } from "@/components/home/IntroDissolve";
 import { LeadButton } from "@/components/home/LeadButton";
+import { ResultsOrbit } from "@/components/home/ResultsOrbit";
+import { CustomCursor } from "@/components/CustomCursor";
 import { WatchButton } from "@/components/home/WatchButton";
 import { MobileCta } from "@/components/home/MobileCta";
 import { ProcessSteps } from "@/components/home/ProcessSteps";
 import { StatRow } from "@/components/home/StatRow";
 import { CardGlow } from "@/components/CardGlow";
-import { WorkArt } from "@/components/home/WorkArt";
 import { type WallCase } from "@/components/home/ProjectWall";
-import { ResultsRibbon } from "@/components/home/ResultsRibbon";
 import { CASE_IMAGES } from "@/lib/portfolio";
-import { homeCopy, noDot } from "@/lib/home-copy";
+import { homeFlow, homeCopy, noDot } from "@/lib/home-copy";
 import "../home-v2.css";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -25,29 +25,6 @@ import { alternates } from "@/i18n/paths";
 import type { Locale } from "@/i18n/routing";
 import { CONTACTS } from "@/lib/contacts";
 
-const services = [
-  {
-    title: "Promotional videos",
-    text: "Scripts, shooting and editing for video ads that actually convert, built around your offer and audience.",
-    img: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=700&q=72",
-    tag: "video",
-    deliverables: ["scripts", "shooting", "editing", "motion"],
-  },
-  {
-    title: "Image & brand films",
-    text: "Cinematic brand stories: concept, art direction, location and post-production at production-house level.",
-    img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=700&q=72",
-    tag: "image",
-    deliverables: ["concept", "art direction", "location", "post"],
-  },
-  {
-    title: "Social media & ads",
-    text: "Content system, paid ads, pixels, CRM and analytics, one machine working toward inbound leads.",
-    img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=700&q=72",
-    tag: "smm",
-    deliverables: ["content", "paid ads", "pixels", "analytics"],
-  },
-];
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dreamchaseprod.com";
 
@@ -74,30 +51,10 @@ export default async function Home({
   setRequestLocale(locale);
   const t = await getTranslations("Home");
   const railItems = t.raw("rail.items") as string[];
-  const problemItems = t.raw("problem.items") as { title: string; text: string }[];
-  const svcItems = t.raw("services.items") as {
-    title: string;
-    text: string;
-    deliverables: string[];
-    image?: string;
-  }[];
-  const portfolioCasesT = t.raw("portfolio.cases") as {
-    title: string;
-    tag: string;
-    image?: string;
-  }[];
-  const pkgItems = t.raw("pricing.packages") as {
-    name: string;
-    tag: string;
-    price: string;
-    priceOld?: string;
-    time: string;
-    rows: { name: string; extra?: string }[];
-  }[];
   const faqItems = t.raw("faq.items") as { q: string; a: string }[];
   const c = homeCopy(locale);
+  const f = homeFlow(locale);
   const wallCases = (await getTranslations("Portfolio")).raw("cases") as WallCase[];
-  const poster = `/videos/vsl-${locale === "he" ? "he" : locale === "ru" ? "ru" : "en"}-poster.webp`;
 
   const jsonLd = [
     {
@@ -207,8 +164,6 @@ export default async function Home({
       <VideoBlock />
 
       {/* ── Problem + Services: one shared, continuous gromophon backdrop ── */}
-      <div className="bg-run">
-        <div className="bg-gromophon" aria-hidden="true" />
 
       {/* ── Problem ── */}
       <section className="section s-ink" id="problem">
@@ -216,12 +171,11 @@ export default async function Home({
         <div className="hero-glow" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Problem</div>
         <div className="wrap">
-          <p className="label">{t("problem.label")}</p>
-          <h2 className="sec-h">{t("problem.heading")}</h2>
+          <p className="label">{f.solLabel}</p>
+          <h2 className="sec-h">{f.solHeading} <em>{f.solEm}</em></h2>
           <div className="problem-list">
-            {problemItems.map((p, i) => (
+            {f.solItems.map((p, i) => (
               <div className="problem-row" key={i}>
-                <i className="problem-bar" aria-hidden="true" />
                 <i className="vg-line" aria-hidden="true" />
                 <b aria-hidden="true" className="problem-row-ghost">0{i + 1}</b>
                 <span className="problem-row-n">0{i + 1}</span>
@@ -234,52 +188,31 @@ export default async function Home({
       </section>
 
       {/* ── Services ── */}
-      <section className="section s-concrete" id="services">
+      <section className="section s-ink svc2" id="services">
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
+        <div className="hero-glow" aria-hidden="true" />
         <div className="s-bg-word" aria-hidden="true">Services</div>
         <div className="wrap">
-          <p className="label">{t("services.label")}</p>
-          <h2 className="sec-h">{t("services.heading")} <em>{t("services.headingEm")}</em></h2>
-          <div className="svc-layout">
-            <div className="svc-list">
-              {svcItems.map((s, i) => (
-                <Link href="/services" className="svc-row" key={i} data-img={services[i].img}>
-                  <span className="svc-row-bar" aria-hidden="true" />
-                  <span className="svc-row-num">0{i + 1}</span>
-                  <div className="svc-row-head">
-                    <h3 className="svc-row-name">{s.title}</h3>
-                    <span className="svc-row-tag">{services[i].tag}</span>
-                  </div>
-                  <div className="svc-row-body">
-                    <p className="svc-row-desc">{s.text}</p>
-                    <ul className="svc-row-tags" aria-hidden="true">
-                      {s.deliverables.map((d) => (
-                        <li key={d}>{d}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <span className="svc-row-arrow">↗</span>
-                </Link>
-              ))}
-              <Link href="/services" className="svc-all-link">
-                {t("services.all")} <span aria-hidden="true">↗</span>
+          <p className="label">{f.svcLabel}</p>
+          <h2 className="sec-h">{f.svcHeading} <em>{f.svcEm}</em></h2>
+          <div className="svc-list">
+            {f.svcItems.map((s, i) => (
+              <Link href="/services" className="svc-row" key={i}>
+                <i className="vg-line" aria-hidden="true" />
+                <span className="svc-row-num">0{i + 1}</span>
+                <div className="svc-row-head">
+                  <h3 className="svc-row-name">{s.title}</h3>
+                  <span className="svc-row-tag">{s.tag}</span>
+                </div>
+                <div className="svc-row-body">
+                  <p className="svc-row-desc">{s.text}</p>
+                </div>
               </Link>
-            </div>
-            <div className="svc-side">
-              <div className="svc-side-img" style={{ aspectRatio: "4/5" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={svcItems[0]?.image ?? services[0].img} alt="" loading="lazy" decoding="async" />
-                <span className="svc-side-tag">{t("services.onSet")}</span>
-              </div>
-              <div className="svc-side-img" style={{ aspectRatio: "16/10" }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={svcItems[2]?.image ?? services[2].img} alt="" loading="lazy" decoding="async" />
-                <span className="svc-side-tag">{t("services.launch")}</span>
-              </div>
-            </div>
+            ))}
+            <Link href="/services" className="svc-all-link">{f.svcAll}</Link>
           </div>
         </div>
       </section>
-      </div>{/* /.bg-run */}
 
       {/* ── Process ── */}
       <section className="section s-ink" id="process">
@@ -293,111 +226,65 @@ export default async function Home({
         </div>
       </section>
 
-      {/* ── Statement ── */}
-      <div className="s-statement">
+      {/* ── Numbers, with ad-result screenshots orbiting around them ── */}
+      <section className="section s-ink res2" id="results">
         <div className="bg-gray seam-mid pin" aria-hidden="true" />
-        <div className="sec-bg" aria-hidden="true">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/background/notebook.webp" alt="" loading="lazy" decoding="async" />
-        </div>
-        <div className="bg-struct" aria-hidden="true" />
-        <div className="wrap statement-inner">
-          <p className="statement-eyebrow">{t("statement.eyebrow")}</p>
-          <p className="statement-h">
-            {t("statement.line1")} <em>{noDot(t("statement.line1Em"))}</em><br />
-            {t("statement.line2")} <span className="statement-h-ul">{noDot(t("statement.systems"))}</span>
-          </p>
-          <a className="statement-cta glass-btn" href="#lead">{t("statement.cta")} <span aria-hidden="true">→</span></a>
-        </div>
-      </div>
-
-      {/* ── Works: drawn covers, no stock photos ── */}
-      <section className="section s-dark2 w2" id="portfolio">
-        <div className="wrap">
-          <div className="w2-head">
-            <div>
-              <p className="label">{t("portfolio.label")}</p>
-              <h2 className="sec-h">{noDot(t("portfolio.heading"))}</h2>
-            </div>
-            <Link className="w2-all" href="/portfolio"><span>{t("portfolio.ctaAll")}</span><span className="min-arrow" aria-hidden="true" /></Link>
+        <div className="hero-glow" aria-hidden="true" />
+        <ResultsOrbit items={[...wallCases, ...wallCases].slice(0, 10).map((wc, i) => ({ src: wc.image ?? CASE_IMAGES[i % CASE_IMAGES.length], alt: wc.title }))}>
+          <div className="wrap">
+            <p className="label">{f.resLabel}</p>
+            <h2 className="sec-h">{f.resHeading} <em>{f.resEm}</em></h2>
+            <StatRow items={c.results} />
           </div>
-          <div className="w2-grid">
-            {portfolioCasesT.map((pc, i) => (
-              <Link href="/portfolio" className="w2-card" key={i}>
-                <WorkArt variant={i} />
-                <span className="w2-chip">{pc.tag}</span>
-                <div className="w2-info">
-                  <h3 className="w2-title">{noDot(pc.title)}</h3>
-                  <span className="w2-sub">{c.workKicker}</span>
-                </div>
-                <span className="w2-go" aria-hidden="true" />
-              </Link>
-            ))}
-          </div>
-        </div>
+        </ResultsOrbit>
       </section>
 
-      {/* ── Results bento ── */}
-      <section className="section s-dark2 rb" id="results">
+      {/* ── Work formats (no prices on the page) ── */}
+      <section className="section s-teal fmt" id="packages">
+        <div className="teal-glow" aria-hidden="true" />
         <div className="wrap">
-          <p className="label">{t("results.label")}</p>
-          <h2 className="sec-h">{t("results.heading")} <em>{noDot(t("results.headingEm"))}</em></h2>
-          <StatRow items={c.results} />
-          <div className="sr-cta">
-            <p className="sr-cta-text"><b>{c.bentoCtaTitle}</b> {c.bentoCtaText}</p>
-            <a className="h2-cta glass-btn sr-cta-btn" href="#lead"><span>{c.bentoCtaBtn}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg></a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Ad results ribbon (placeholder images until real campaign screenshots arrive) ── */}
-      <ResultsRibbon
-        words={c.ribbonWords}
-        note={c.ribbonNote}
-        items={[...wallCases, ...wallCases, ...wallCases].slice(0, 14).map((wc, i) => ({ src: wc.image ?? CASE_IMAGES[i % CASE_IMAGES.length], alt: wc.title }))}
-      />
-
-      {/* ── Pricing ── */}
-      <section className="section s-pricing" id="packages">
-        <div className="bg-graffiti" aria-hidden="true" />
-        <div className="pricing-blob" aria-hidden="true" />
-        <div className="s-bg-word" aria-hidden="true">Pricing</div>
-        <div className="wrap">
-          <p className="label">{t("pricing.label")}</p>
-          <h2 className="sec-h">{t("pricing.heading")} <em>{t("pricing.headingEm")}</em></h2>
-          <div className="pkg-cards">
-            {pkgItems.map((pkg, i) => {
-              const feat = i === 1;
-              return (
-              <article className={`pkg-card${feat ? " feat" : ""}`} key={i}>
-                <div className="pkg-card-head">
-                  {feat && <span className="pkg-card-popular">★ {t("pricing.popular")}</span>}
-                  <span className="pkg-card-tag">{pkg.tag}</span>
+          <p className="label">{f.fmtLabel}</p>
+          <h2 className="sec-h">{f.fmtHeading} <em>{f.fmtEm}</em></h2>
+          <div className="fmt-grid">
+            {f.fmtItems.map((pkg, i) => (
+              <article className={`fmt-card${i === 1 ? " is-pop" : ""}`} key={i}>
+                <div className="fmt-head">
+                  <span className="fmt-tag">{pkg.tag}</span>
+                  {i === 1 && <span className="fmt-pop">{f.fmtPopular}</span>}
                 </div>
-                <h3 className="pkg-card-name">{pkg.name}</h3>
-                <div className="pkg-card-price-row">
-                  <span className="pkg-card-price">{pkg.price}</span>
-                  {pkg.priceOld && <span className="pkg-card-price-old">{pkg.priceOld}</span>}
-                </div>
-                <p className="pkg-card-time">{pkg.time}</p>
-                <ul className="pkg-features">
-                  {pkg.rows.map((row, idx) => (
-                    <li className="pkg-feature-li" key={idx}>
-                      <span className="pkg-feature-check">✓</span>
-                      <span>{row.name}{row.extra ? <em className="pkg-feature-extra">, {row.extra}</em> : null}</span>
-                    </li>
+                <h3 className="fmt-name">{pkg.name}</h3>
+                <p className="fmt-lead">{pkg.lead}</p>
+                <ul className="fmt-list">
+                  {pkg.rows.map((row) => (
+                    <li key={row}><i aria-hidden="true" />{row}</li>
                   ))}
                 </ul>
-                <a className="pkg-card-btn" href="#lead">{t("pricing.getStarted")} ↗</a>
+                <LeadButton className="fmt-btn glass-btn">{f.fmtBtn}</LeadButton>
               </article>
-            );})}
+            ))}
           </div>
+          <p className="fmt-note">{f.fmtNote}</p>
+        </div>
+      </section>
+
+      {/* ── Pain, once more, right before the questions ── */}
+      <section className="section s-ink pain" id="why-now">
+        <div className="bg-gray seam-mid pin" aria-hidden="true" />
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="wrap pain-inner">
+          <p className="pain-eyebrow"><i className="h2-live" aria-hidden="true"><b /></i>{f.painEyebrow}</p>
+          <h2 className="pain-h">{f.painLine} <em>{f.painEm}</em></h2>
+          <p className="pain-text">{f.painText}</p>
+          <LeadButton className="h2-cta glass-btn cta-pulse pain-btn">
+            <span>{f.painBtn}</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+          </LeadButton>
         </div>
       </section>
 
       {/* ── FAQ ── */}
-      <section className="section s-concrete" id="faq">
-        <div className="bg-graffiti" aria-hidden="true" />
+      <section className="section s-teal" id="faq">
+        <div className="teal-glow" aria-hidden="true" />
         <div className="wrap">
           <p className="label">{t("faq.label")}</p>
           <h2 className="sec-h">{t("faq.heading")} <em>{t("faq.headingEm")}</em></h2>
@@ -479,8 +366,9 @@ export default async function Home({
         </div>
       </section>
 
-      <CardGlow selector=".lead-sec .contact-card, .sr-item, .w2-card, #problem .problem-row, .svc-row" />
-      <PromoPopups copy={c} poster={poster} />
+      <CardGlow selector=".lead-sec .contact-card, .sr-item, #problem .problem-row, .svc-row, .fmt-card" />
+      <CustomCursor />
+      <PromoPopups copy={c} />
       <MobileCta label={t("hero.ctaPrimary")} />
       <SiteFooter />
     </>

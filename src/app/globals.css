@@ -1432,3 +1432,6 @@ html.has-cc,html.has-cc *{cursor:none!important}
 .cc-dot.is-hot.is-down{width:46px!important;height:46px!important;margin:-23px 0 0 -23px!important}
 .cc-ring{width:240px!important;height:240px!important;margin:-120px 0 0 -120px!important;border:0!important;box-shadow:none!important;z-index:9999!important;background:radial-gradient(circle,rgba(232,168,104,.09),rgba(232,168,104,.03) 40%,transparent 70%)!important;transition:opacity .4s!important}
 .cc-ring.is-hot,.cc-ring.is-down{width:240px!important;height:240px!important;margin:-120px 0 0 -120px!important}
+/* star cursor: keep the real text cursor in fields */
+html.has-cc input:not([type=checkbox]):not([type=radio]):not([type=submit]),html.has-cc textarea{cursor:text!important}
+html.has-cc select{cursor:default!important}

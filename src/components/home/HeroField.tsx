@@ -2,10 +2,11 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Hero backdrop: deep space. Slow nebula light, a 3D star field drifting toward
- * the viewer with parallax to the pointer, and glowing dust that swirls around
- * the cursor. An occasional shooting star crosses the sky. Also writes --mx/--my
- * (-1..1) on the hero so the viewfinder frame can tilt toward the cursor.
+ * Hero backdrop: a slowly turning spiral galaxy of tens of thousands of glowing
+ * particles (WebGL), a far star field behind it, and a camera that drifts after
+ * the pointer. Particles under the cursor lift and brighten. three.js is loaded
+ * on demand, so it never delays the first paint. Also writes --mx/--my (-1..1)
+ * on the hero so the viewfinder frame can tilt toward the cursor.
  */
 export function HeroField() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -13,161 +14,150 @@ export function HeroField() {
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
     const hero = canvas.parentElement as HTMLElement;
-
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let w = 0, h = 0, dpr = 1, raf = 0, visible = true, t = 0;
-    let tx = -1, ty = -1, px = -1, py = -1, inside = false;
-    const small = window.innerWidth < 700;
+    let disposed = false;
+    let cleanup = () => {};
 
-    // stars live in a box: x,y in -1..1, z in 0..1 (0 = at the viewer)
-    const STARS = small ? 260 : 560;
-    const stars = Array.from({ length: STARS }, () => ({
-      x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: Math.random(),
-      tw: Math.random() * 6.28, warm: Math.random() < 0.18, big: Math.random() < 0.06,
-    }));
-    // dust: bigger soft particles that react to the cursor
-    const DUST = small ? 26 : 60;
-    const dust = Array.from({ length: DUST }, () => ({
-      x: Math.random(), y: Math.random(), vx: 0, vy: 0,
-      r: Math.random() * 1.8 + 0.8, ph: Math.random() * 6.28, sp: Math.random() * 0.5 + 0.3, warm: Math.random() < 0.5,
-    }));
-    let shoot: { x: number; y: number; vx: number; vy: number; life: number } | null = null;
-    let nextShoot = 4 + Math.random() * 4;
+    import("three").then((THREE) => {
+      if (disposed) return;
+      let renderer: InstanceType<typeof THREE.WebGLRenderer>;
+      try {
+        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, powerPreference: "high-performance" });
+      } catch { return; }
+      const small = window.innerWidth < 700;
+      const dpr = Math.min(window.devicePixelRatio || 1, small ? 1.5 : 1.75);
+      renderer.setPixelRatio(dpr);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 200);
+      const camBase = small ? new THREE.Vector3(0, 7.4, 6.2) : new THREE.Vector3(0, 5.6, 5.6);
 
-    const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      w = canvas.clientWidth; h = canvas.clientHeight;
-      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      if (px < 0) { px = tx = w / 2; py = ty = h * 0.5; }
-    };
-
-    const nebula = (x: number, y: number, r: number, rgb: string, a: number) => {
-      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, `rgba(${rgb},${a})`);
-      g.addColorStop(0.45, `rgba(${rgb},${a * 0.35})`);
-      g.addColorStop(1, `rgba(${rgb},0)`);
-      ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
-    };
-
-    const draw = (dt: number) => {
-      ctx.clearRect(0, 0, w, h);
-      px += (tx - px) * 0.06; py += (ty - py) * 0.06;
-      const nx = px / Math.max(w, 1) - 0.5, ny = py / Math.max(h, 1) - 0.5;
-      hero.style.setProperty("--mx", (nx * 2).toFixed(3));
-      hero.style.setProperty("--my", (ny * 2).toFixed(3));
-
-      // nebula light, drifting slowly and leaning a little with the pointer
-      const m = Math.max(w, h);
-      ctx.globalCompositeOperation = "lighter";
-      nebula(w * (0.78 + Math.sin(t * 0.05) * 0.04) - nx * 40, h * (0.72 + Math.cos(t * 0.04) * 0.04) - ny * 30, m * 0.55, "232,150,80", 0.085);
-      nebula(w * (0.18 + Math.cos(t * 0.045) * 0.05) - nx * 60, h * (0.25 + Math.sin(t * 0.05) * 0.05) - ny * 40, m * 0.5, "70,120,190", 0.07);
-      nebula(w * 0.55 - nx * 20, h * 0.45 - ny * 20, m * 0.35, "150,110,200", 0.03);
-      // warm light under the pointer
-      nebula(px, py, m * 0.22, "240,180,120", inside ? 0.07 : 0.025);
-
-      // star field flying gently toward the viewer
-      const cx = w / 2 - nx * w * 0.06, cy = h / 2 - ny * h * 0.06;
-      const fov = Math.min(w, h) * 0.55;
-      for (const s of stars) {
-        s.z -= dt * 0.018;
-        if (s.z <= 0.02) { s.z = 1; s.x = Math.random() * 2 - 1; s.y = Math.random() * 2 - 1; }
-        const k = 1 / s.z;
-        const sx = cx + s.x * fov * k * 0.9 - nx * (1 - s.z) * 60;
-        const sy = cy + s.y * fov * k * 0.6 - ny * (1 - s.z) * 40;
-        if (sx < -10 || sx > w + 10 || sy < -10 || sy > h + 10) continue;
-        const near = 1 - s.z;
-        const tw = 0.65 + Math.sin(t * 2.2 + s.tw) * 0.35;
-        const a = Math.min(1, (0.15 + near * 0.95) * tw);
-        const r = (s.big ? 1.5 : 0.7) + near * (s.big ? 2.2 : 1.3);
-        ctx.fillStyle = s.warm ? `rgba(255,200,150,${a})` : `rgba(235,240,255,${a})`;
-        ctx.beginPath(); ctx.arc(sx, sy, r, 0, 6.283); ctx.fill();
-        if (s.big && near > 0.45) {
-          const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 6);
-          g.addColorStop(0, s.warm ? `rgba(255,190,130,${a * 0.35})` : `rgba(200,220,255,${a * 0.3})`);
-          g.addColorStop(1, "rgba(0,0,0,0)");
-          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(sx, sy, r * 6, 0, 6.283); ctx.fill();
-        }
+      // ── galaxy ──
+      const COUNT = small ? 22000 : 52000, R = 7, BRANCHES = 4, SPIN = 1.15, RAND = 0.42, POW = 3;
+      const pos = new Float32Array(COUNT * 3), rnd = new Float32Array(COUNT * 3), col = new Float32Array(COUNT * 3), scl = new Float32Array(COUNT);
+      const inner = new THREE.Color("#ffc78f"), mid = new THREE.Color("#e8a868"), outer = new THREE.Color("#5f7dff");
+      for (let i = 0; i < COUNT; i++) {
+        const r = Math.pow(Math.random(), 1.6) * R;
+        const branch = ((i % BRANCHES) / BRANCHES) * Math.PI * 2;
+        const a = branch + r * SPIN;
+        pos[i * 3] = Math.cos(a) * r; pos[i * 3 + 1] = 0; pos[i * 3 + 2] = Math.sin(a) * r;
+        const j = (k: number) => Math.pow(Math.random(), POW) * (Math.random() < 0.5 ? 1 : -1) * RAND * (r * 0.6 + 0.4) * k;
+        rnd[i * 3] = j(1); rnd[i * 3 + 1] = j(0.45); rnd[i * 3 + 2] = j(1);
+        const t = r / R;
+        const c = t < 0.35 ? inner.clone().lerp(mid, t / 0.35) : mid.clone().lerp(outer, (t - 0.35) / 0.65);
+        col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
+        scl[i] = Math.random() < 0.02 ? 2.4 + Math.random() * 2 : 0.4 + Math.random() * 0.9;
       }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute("aRandom", new THREE.BufferAttribute(rnd, 3));
+      geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
+      geo.setAttribute("aScale", new THREE.BufferAttribute(scl, 1));
+      const uniforms = {
+        uTime: { value: 0 }, uSize: { value: (small ? 30 : 36) * dpr },
+        uMouse: { value: new THREE.Vector3(99, 0, 99) }, uMouseOn: { value: 0 },
+      };
+      const mat = new THREE.ShaderMaterial({
+        uniforms, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+        vertexShader: `
+          uniform float uTime; uniform float uSize; uniform vec3 uMouse; uniform float uMouseOn;
+          attribute float aScale; attribute vec3 aRandom;
+          varying vec3 vColor; varying float vGlow;
+          void main(){
+            vec4 mp = modelMatrix * vec4(position, 1.0);
+            float d = length(mp.xz);
+            float ang = atan(mp.z, mp.x) + uTime * (0.32 / (d + 0.9));
+            mp.x = cos(ang) * d; mp.z = sin(ang) * d;
+            mp.xyz += aRandom;
+            vec2 dm = mp.xz - uMouse.xz; float md = length(dm);
+            float f = smoothstep(1.9, 0.0, md) * uMouseOn;
+            mp.y += f * 0.55; mp.xz += normalize(dm + 1e-4) * f * 0.35;
+            vec4 vp = viewMatrix * mp;
+            gl_Position = projectionMatrix * vp;
+            gl_PointSize = uSize * aScale * (1.0 + f * 1.6) / -vp.z;
+            vColor = mix(color, vec3(1.0, 0.9, 0.78), f * 0.7);
+            vGlow = 0.75 + f * 0.9;
+          }`,
+        fragmentShader: `
+          varying vec3 vColor; varying float vGlow;
+          void main(){
+            float s = distance(gl_PointCoord, vec2(0.5));
+            float a = pow(clamp(1.0 - s * 2.0, 0.0, 1.0), 2.6);
+            gl_FragColor = vec4(vColor * a * vGlow, a);
+          }`,
+      });
+      const galaxy = new THREE.Points(geo, mat);
+      galaxy.rotation.z = 0.12;
+      scene.add(galaxy);
 
-      // dust that drifts on its own and swirls around the cursor
-      for (const d of dust) {
-        let fx = Math.cos(t * d.sp + d.ph) * 0.004, fy = Math.sin(t * d.sp * 0.8 + d.ph) * 0.004 - 0.0015;
+      // ── far stars ──
+      const SN = small ? 900 : 2200;
+      const sp = new Float32Array(SN * 3);
+      for (let i = 0; i < SN; i++) {
+        const th = Math.random() * Math.PI * 2, ph = Math.acos(Math.random() * 2 - 1), rr = 40 + Math.random() * 40;
+        sp[i * 3] = Math.sin(ph) * Math.cos(th) * rr; sp[i * 3 + 1] = Math.cos(ph) * rr; sp[i * 3 + 2] = Math.sin(ph) * Math.sin(th) * rr;
+      }
+      const sgeo = new THREE.BufferGeometry();
+      sgeo.setAttribute("position", new THREE.BufferAttribute(sp, 3));
+      const stars = new THREE.Points(sgeo, new THREE.PointsMaterial({ color: 0xdfe6ff, size: 0.16, sizeAttenuation: true, transparent: true, opacity: 0.75, depthWrite: false }));
+      scene.add(stars);
+
+      // ── pointer ──
+      const ray = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+      const ndc = new THREE.Vector2(), hit = new THREE.Vector3(), mouseW = new THREE.Vector3(99, 0, 99);
+      let inside = false, mx = 0, my = 0, emx = 0, emy = 0;
+      const onMove = (e: PointerEvent) => {
+        const r = canvas.getBoundingClientRect();
+        mx = ((e.clientX - r.left) / r.width) * 2 - 1;
+        my = -(((e.clientY - r.top) / r.height) * 2 - 1);
+        inside = e.clientY >= r.top && e.clientY <= r.bottom;
+      };
+      const onLeave = () => { inside = false; mx = 0; my = 0; };
+
+      const resize = () => {
+        const w = canvas.clientWidth, h = canvas.clientHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / Math.max(h, 1);
+        camera.updateProjectionMatrix();
+      };
+      resize();
+
+      let raf = 0, visible = true, last = performance.now();
+      const frame = (now: number) => {
+        const dt = Math.min(0.05, (now - last) / 1000); last = now;
+        uniforms.uTime.value += dt;
+        emx += (mx - emx) * 0.05; emy += (my - emy) * 0.05;
+        hero.style.setProperty("--mx", emx.toFixed(3));
+        hero.style.setProperty("--my", (-emy).toFixed(3));
+        camera.position.set(camBase.x + emx * 0.9, camBase.y + emy * 0.5, camBase.z);
+        camera.lookAt(0, -0.6, 0.4);
+        stars.rotation.y += dt * 0.006;
         if (inside) {
-          const dx = px - d.x * w, dy = py - d.y * h, dist = Math.hypot(dx, dy);
-          if (dist < 280 && dist > 1) {
-            const f = (1 - dist / 280);
-            fx += (dx / dist) * f * 0.05 + (-dy / dist) * f * 0.09;
-            fy += (dy / dist) * f * 0.05 + (dx / dist) * f * 0.09;
-          }
+          ndc.set(mx, my); ray.setFromCamera(ndc, camera);
+          if (ray.ray.intersectPlane(plane, hit)) mouseW.lerp(hit, 0.12);
         }
-        d.vx = (d.vx + fx) * 0.92; d.vy = (d.vy + fy) * 0.92;
-        d.x += d.vx / w * 6; d.y += d.vy / h * 6;
-        if (d.y < -0.05) d.y = 1.05; if (d.y > 1.05) d.y = -0.05;
-        if (d.x < -0.05) d.x = 1.05; if (d.x > 1.05) d.x = -0.05;
-        const near = inside ? Math.max(0, 1 - Math.hypot(px - d.x * w, py - d.y * h) / 240) : 0;
-        const X = d.x * w, Y = d.y * h, R = d.r * (1 + near * 1.2);
-        const g = ctx.createRadialGradient(X, Y, 0, X, Y, R * 5);
-        const rgb = d.warm ? "255,190,130" : "210,225,255";
-        g.addColorStop(0, `rgba(${rgb},${0.55 + near * 0.4})`);
-        g.addColorStop(0.25, `rgba(${rgb},${0.18 + near * 0.2})`);
-        g.addColorStop(1, `rgba(${rgb},0)`);
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X, Y, R * 5, 0, 6.283); ctx.fill();
-      }
-
-      // an occasional shooting star
-      nextShoot -= dt;
-      if (!shoot && nextShoot <= 0) {
-        const fromLeft = Math.random() < 0.5;
-        shoot = { x: fromLeft ? w * 0.1 : w * 0.9, y: h * (0.08 + Math.random() * 0.25), vx: (fromLeft ? 1 : -1) * w * 0.55, vy: h * 0.22, life: 1 };
-        nextShoot = 7 + Math.random() * 6;
-      }
-      if (shoot) {
-        shoot.x += shoot.vx * dt; shoot.y += shoot.vy * dt; shoot.life -= dt * 0.9;
-        const tailX = shoot.x - shoot.vx * 0.18, tailY = shoot.y - shoot.vy * 0.18;
-        const g = ctx.createLinearGradient(shoot.x, shoot.y, tailX, tailY);
-        g.addColorStop(0, `rgba(255,235,210,${Math.max(0, shoot.life) * 0.9})`);
-        g.addColorStop(1, "rgba(255,235,210,0)");
-        ctx.strokeStyle = g; ctx.lineWidth = 1.4; ctx.lineCap = "round";
-        ctx.beginPath(); ctx.moveTo(shoot.x, shoot.y); ctx.lineTo(tailX, tailY); ctx.stroke();
-        if (shoot.life <= 0) shoot = null;
-      }
-      ctx.globalCompositeOperation = "source-over";
-    };
-
-    let last = performance.now();
-    const loop = (now: number) => {
-      const dt = Math.min(0.05, (now - last) / 1000); last = now;
-      t += dt;
-      draw(dt);
-      if (visible && !reduce) raf = requestAnimationFrame(loop);
-    };
-
-    const onMove = (e: PointerEvent) => {
-      const r = canvas.getBoundingClientRect();
-      tx = e.clientX - r.left; ty = e.clientY - r.top;
-      inside = ty >= 0 && ty <= r.height;
-    };
-    const onLeave = () => { inside = false; tx = w / 2; ty = h * 0.5; };
-
-    resize();
-    draw(0.016);
-    const io = new IntersectionObserver(([e]) => {
-      visible = e.isIntersecting;
-      cancelAnimationFrame(raf);
-      if (visible && !reduce) { last = performance.now(); raf = requestAnimationFrame(loop); }
+        uniforms.uMouse.value.copy(mouseW);
+        uniforms.uMouseOn.value += ((inside ? 1 : 0) - uniforms.uMouseOn.value) * 0.06;
+        renderer.render(scene, camera);
+        if (visible && !reduce) raf = requestAnimationFrame(frame);
+      };
+      raf = requestAnimationFrame(frame);
+      const io = new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        cancelAnimationFrame(raf);
+        if (visible && !reduce) { last = performance.now(); raf = requestAnimationFrame(frame); }
+      });
+      io.observe(canvas);
+      window.addEventListener("resize", resize);
+      if (!reduce) { hero.addEventListener("pointermove", onMove); hero.addEventListener("pointerleave", onLeave); }
+      canvas.classList.add("is-on");
+      cleanup = () => {
+        cancelAnimationFrame(raf); io.disconnect(); window.removeEventListener("resize", resize);
+        hero.removeEventListener("pointermove", onMove); hero.removeEventListener("pointerleave", onLeave);
+        geo.dispose(); mat.dispose(); sgeo.dispose(); renderer.dispose();
+      };
     });
-    io.observe(canvas);
-    const onResize = () => { resize(); draw(0.016); };
-    window.addEventListener("resize", onResize);
-    if (!reduce) { hero.addEventListener("pointermove", onMove); hero.addEventListener("pointerleave", onLeave); }
-    return () => {
-      cancelAnimationFrame(raf); io.disconnect(); window.removeEventListener("resize", onResize);
-      hero.removeEventListener("pointermove", onMove); hero.removeEventListener("pointerleave", onLeave);
-    };
+    return () => { disposed = true; cleanup(); };
   }, []);
 
   return <canvas ref={ref} className="h2-field" aria-hidden="true" />;

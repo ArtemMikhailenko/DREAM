@@ -179,3 +179,135 @@ export const homeCopy = (locale: string): HomeCopy => COPY[locale] ?? en;
 
 /** Headings and short labels read cleaner without a closing full stop. */
 export const noDot = (s: string) => s.replace(/[.。]+\s*$/u, "");
+
+/* ── Home flow v3: solution, services, numbers, work formats, pain ── */
+export type HomeFlow = {
+  solLabel: string; solHeading: string; solEm: string;
+  solItems: { title: string; text: string }[];
+  svcLabel: string; svcHeading: string; svcEm: string; svcAll: string;
+  svcItems: { title: string; tag: string; text: string }[];
+  resLabel: string; resHeading: string; resEm: string;
+  fmtLabel: string; fmtHeading: string; fmtEm: string; fmtBtn: string; fmtPopular: string; fmtNote: string;
+  fmtItems: { name: string; tag: string; lead: string; rows: string[] }[];
+  painEyebrow: string; painLine: string; painEm: string; painText: string; painBtn: string;
+};
+
+const flowRu: HomeFlow = {
+  solLabel: "Решение",
+  solHeading: "Как мы превращаем рекламу",
+  solEm: "в клиентов",
+  solItems: [
+    { title: "Приводим тех, кто готов купить", text: "Настраиваем рекламу в Facebook, Instagram и Google на людей, которым ваш продукт нужен сейчас, а не на случайные клики" },
+    { title: "Упаковываем так, что хочется купить", text: "Видео, фото, дизайн и сайт показывают ценность с первого экрана и снимают сомнения ещё до звонка" },
+    { title: "Доводим заявку до сделки", text: "Боты отвечают клиентам за секунды, ни одна заявка не теряется, а мы помогаем вашим продажам закрывать сделки" },
+  ],
+  svcLabel: "Услуги",
+  svcHeading: "Закрываем весь путь клиента",
+  svcEm: "от рекламы до продажи",
+  svcAll: "Все услуги",
+  svcItems: [
+    { title: "Реклама и продвижение", tag: "Привлечение", text: "Таргетированная реклама в Facebook и Instagram, Google Ads, SEO, GEO и органическое продвижение. Находим клиентов везде, где они ищут то, что вы продаёте" },
+    { title: "Контент, дизайн и сайты", tag: "Упаковка", text: "Снимаем видео и фото, делаем посты, дизайн и сайты, которые продают. Ваш бизнес выглядит сильнее конкурентов с первого взгляда" },
+    { title: "Автоматизация и продажи", tag: "Сделки", text: "Чат-боты отвечают клиентам 24/7, процессы и CRM работают сами. Помогаем с продажами и подбираем людей в отдел продаж, чтобы заявки становились деньгами" },
+  ],
+  resLabel: "Результаты",
+  resHeading: "Цифры",
+  resEm: "из нашего опыта",
+  fmtLabel: "Формат работы",
+  fmtHeading: "Выберите, как нам",
+  fmtEm: "работать вместе",
+  fmtBtn: "Обсудить этот формат",
+  fmtPopular: "Чаще выбирают",
+  fmtNote: "Стоимость считаем под ваши задачи после бесплатного аудита",
+  fmtItems: [
+    { name: "Поток заявок", tag: "Быстрый старт", lead: "Когда клиенты нужны уже сейчас", rows: ["Запуск рекламы в Facebook и Instagram", "Лендинг для сбора заявок", "Чат-бот, который сразу отвечает клиентам", "Рекламные креативы каждый месяц", "Понятный отчёт по заявкам"] },
+    { name: "Рост бренда", tag: "Рост", lead: "Стабильный поток клиентов и сильный бренд", rows: ["Полноценный сайт", "Реклама в соцсетях и Google", "Регулярные ролики и фотосъёмки", "Органическое продвижение в Instagram, Facebook и TikTok", "Автоматизация процессов"] },
+    { name: "Бизнес на автопилоте", tag: "Под ключ", lead: "Система, которая продаёт вместо вас", rows: ["Сайт под ваш продукт со всеми интеграциями", "Бот-продавец в WhatsApp: ведёт переписку и закрывает продажи", "Телефония, боты и CRM в одной системе", "Автоматизация всего процесса продаж", "Реклама и постоянный поток клиентов в систему"] },
+  ],
+  painEyebrow: "Пока вы откладываете",
+  painLine: "Каждый день без системы —",
+  painEm: "это клиенты, которые уходят к конкурентам",
+  painText: "Бюджет на рекламу уходит, заявки теряются в переписках, а вы тратите время на то, что давно можно автоматизировать. Покажем, где именно вы теряете деньги, бесплатно",
+  painBtn: "Получить бесплатный аудит",
+};
+
+const flowEn: HomeFlow = {
+  solLabel: "Solution",
+  solHeading: "How we turn ads",
+  solEm: "into customers",
+  solItems: [
+    { title: "We bring people ready to buy", text: "We target ads on Facebook, Instagram and Google at people who need your product now, not at random clicks" },
+    { title: "We package you so they want to buy", text: "Video, photo, design and a website that show your value from the first screen and remove doubts before the first call" },
+    { title: "We take the lead all the way to a sale", text: "Bots answer customers in seconds, no lead gets lost, and we help your sales team close the deals" },
+  ],
+  svcLabel: "Services",
+  svcHeading: "We cover the whole customer journey",
+  svcEm: "from ad to sale",
+  svcAll: "All services",
+  svcItems: [
+    { title: "Ads and promotion", tag: "Acquisition", text: "Targeted ads on Facebook and Instagram, Google Ads, SEO, GEO and organic growth. We find customers wherever they look for what you sell" },
+    { title: "Content, design and websites", tag: "Packaging", text: "We shoot video and photo, make posts, design and websites that sell. Your business looks stronger than competitors at first glance" },
+    { title: "Automation and sales", tag: "Deals", text: "Chatbots answer customers 24/7, processes and CRM run on their own. We help with sales and hire people for your sales team, so leads turn into money" },
+  ],
+  resLabel: "Results",
+  resHeading: "Numbers",
+  resEm: "from our experience",
+  fmtLabel: "How we work",
+  fmtHeading: "Choose how we",
+  fmtEm: "work together",
+  fmtBtn: "Discuss this format",
+  fmtPopular: "Most chosen",
+  fmtNote: "We price it around your goals after a free audit",
+  fmtItems: [
+    { name: "Lead flow", tag: "Quick start", lead: "When you need customers right now", rows: ["Ads on Facebook and Instagram", "Landing page that collects leads", "Chatbot that answers customers instantly", "Fresh ad creatives every month", "Clear report on your leads"] },
+    { name: "Brand growth", tag: "Growth", lead: "A steady flow of customers and a strong brand", rows: ["Full website", "Ads on social media and Google", "Regular videos and photo shoots", "Organic growth on Instagram, Facebook and TikTok", "Process automation"] },
+    { name: "Business on autopilot", tag: "Turnkey", lead: "A system that sells for you", rows: ["Website built around your product with every integration", "WhatsApp sales bot that chats and closes deals", "Phone line, bots and CRM in one system", "Your whole sales process automated", "Ads and a steady flow of customers into the system"] },
+  ],
+  painEyebrow: "While you wait",
+  painLine: "Every day without a system",
+  painEm: "is customers walking to your competitors",
+  painText: "Ad budget drains away, leads get lost in chats, and you spend time on work that could run itself. We'll show you exactly where you're losing money, free",
+  painBtn: "Get a free audit",
+};
+
+const flowHe: HomeFlow = {
+  solLabel: "הפתרון",
+  solHeading: "איך אנחנו הופכים פרסום",
+  solEm: "ללקוחות",
+  solItems: [
+    { title: "מביאים את מי שמוכן לקנות", text: "מכוונים את הפרסום בפייסבוק, באינסטגרם ובגוגל לאנשים שצריכים את המוצר שלכם עכשיו, ולא לקליקים מקריים" },
+    { title: "אורזים אתכם כך שבא לקנות", text: "וידאו, צילום, עיצוב ואתר שמראים את הערך מהמסך הראשון ומורידים התלבטויות עוד לפני השיחה" },
+    { title: "מביאים את הליד עד לעסקה", text: "בוטים עונים ללקוחות תוך שניות, אף ליד לא הולך לאיבוד, ואנחנו עוזרים לצוות המכירות שלכם לסגור עסקאות" },
+  ],
+  svcLabel: "שירותים",
+  svcHeading: "מכסים את כל הדרך של הלקוח",
+  svcEm: "מהמודעה ועד המכירה",
+  svcAll: "כל השירותים",
+  svcItems: [
+    { title: "פרסום וקידום", tag: "גיוס לקוחות", text: "פרסום ממומן בפייסבוק ובאינסטגרם, Google Ads, SEO, GEO וקידום אורגני. מוצאים לקוחות בכל מקום שבו הם מחפשים את מה שאתם מוכרים" },
+    { title: "תוכן, עיצוב ואתרים", tag: "מיתוג", text: "מצלמים וידאו וסטילס, יוצרים פוסטים, עיצוב ואתרים שמוכרים. העסק שלכם נראה חזק יותר מהמתחרים כבר במבט ראשון" },
+    { title: "אוטומציה ומכירות", tag: "עסקאות", text: "צ'אטבוטים עונים ללקוחות 24/7, התהליכים וה-CRM עובדים לבד. עוזרים במכירות ומגייסים אנשים לצוות המכירות, כדי שלידים יהפכו לכסף" },
+  ],
+  resLabel: "תוצאות",
+  resHeading: "מספרים",
+  resEm: "מהניסיון שלנו",
+  fmtLabel: "פורמט עבודה",
+  fmtHeading: "בחרו איך",
+  fmtEm: "נעבוד יחד",
+  fmtBtn: "לדבר על הפורמט הזה",
+  fmtPopular: "הכי נבחר",
+  fmtNote: "את המחיר מתאימים למשימות שלכם אחרי אודיט חינם",
+  fmtItems: [
+    { name: "זרם לידים", tag: "התחלה מהירה", lead: "כשצריך לקוחות כבר עכשיו", rows: ["השקת פרסום בפייסבוק ובאינסטגרם", "דף נחיתה לאיסוף לידים", "צ'אטבוט שעונה ללקוחות מיד", "קריאייטיבים חדשים כל חודש", "דוח ברור על הלידים"] },
+    { name: "צמיחת המותג", tag: "צמיחה", lead: "זרם יציב של לקוחות ומותג חזק", rows: ["אתר מלא", "פרסום ברשתות ובגוגל", "סרטונים וצילומים באופן קבוע", "קידום אורגני באינסטגרם, בפייסבוק ובטיקטוק", "אוטומציה של תהליכים"] },
+    { name: "עסק על טייס אוטומטי", tag: "מקצה לקצה", lead: "מערכת שמוכרת במקומכם", rows: ["אתר למוצר שלכם עם כל האינטגרציות", "בוט מכירות בוואטסאפ שמנהל שיחות וסוגר עסקאות", "טלפוניה, בוטים ו-CRM במערכת אחת", "אוטומציה של כל תהליך המכירה", "פרסום וזרם קבוע של לקוחות למערכת"] },
+  ],
+  painEyebrow: "בזמן שאתם דוחים",
+  painLine: "כל יום בלי מערכת",
+  painEm: "זה לקוחות שהולכים למתחרים",
+  painText: "תקציב הפרסום נשרף, לידים הולכים לאיבוד בשיחות, ואתם מבזבזים זמן על מה שאפשר מזמן לעשות אוטומטית. נראה לכם בדיוק איפה אתם מפסידים כסף, בחינם",
+  painBtn: "לאודיט חינם",
+};
+
+const FLOW: Record<string, HomeFlow> = { en: flowEn, ru: flowRu, he: flowHe };
+export const homeFlow = (locale: string): HomeFlow => FLOW[locale] ?? flowEn;
