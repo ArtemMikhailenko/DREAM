@@ -39,8 +39,8 @@ const heroDisplay = Archivo_Black({
 // Hebrew headings cascade to this via the --font-hebrew stack.
 const hebrewDisplay = Rubik({
   variable: "--font-hebrew",
-  subsets: ["hebrew"],
-  weight: ["800"],
+  subsets: ["hebrew", "latin"],
+  weight: ["400", "500", "700", "800"],
 });
 
 const caveat = Caveat({

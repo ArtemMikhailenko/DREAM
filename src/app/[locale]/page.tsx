@@ -4,6 +4,7 @@ import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { HeroField, Timecode } from "@/components/home/HeroField";
 import { PromoPopups } from "@/components/home/PromoPopups";
 import { LeadButton } from "@/components/home/LeadButton";
+import { BudgetCalc } from "@/components/home/BudgetCalc";
 import { ResultsOrbit } from "@/components/home/ResultsOrbit";
 import { ChatWidget } from "@/components/home/ChatWidget";
 import { WatchButton } from "@/components/home/WatchButton";
@@ -107,7 +108,7 @@ export default async function Home({
         <div className="wrap h2-inner">
           <div className="h2-meta">
             <span aria-hidden="true" />
-            <span className="h2-meta-r"><i className="h2-live" aria-hidden="true"><b /></i>{c.heroMetaR}</span>
+            <LeadButton className="h2-meta-r"><i className="h2-live" aria-hidden="true"><b /></i><span>{c.heroMetaR}</span><svg className="h2-meta-arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></LeadButton>
           </div>
 
           <div className="h2-frame">
@@ -239,6 +240,15 @@ export default async function Home({
         </ResultsOrbit>
       </section>
 
+      {/* ── Budget → leads calculator ── */}
+      <section className="section s-plain calc-sec" id="calculator">
+        <div className="s-plain-glow" aria-hidden="true" />
+        <div className="wrap">
+          <BudgetCalcHead locale={locale} />
+          <BudgetCalc locale={locale} />
+        </div>
+      </section>
+
       {/* ── Work formats (no prices on the page) ── */}
       <section className="section s-plain fmt" id="packages">
         <div className="s-plain-glow" aria-hidden="true" />
@@ -246,11 +256,11 @@ export default async function Home({
           <p className="label">{f.fmtLabel}</p>
           <h2 className="sec-h">{f.fmtHeading} <em>{f.fmtEm}</em></h2>
           <div className="fmt-grid">
-            {f.fmtItems.map((pkg, i) => (
+            {[f.fmtItems[0], f.fmtItems[2], f.fmtItems[1]].filter(Boolean).map((pkg, i) => (
               <article className={`fmt-card${i === 1 ? " is-pop" : ""}`} key={i}>
                 <div className="fmt-head">
                   <span className="fmt-tag">{pkg.tag}</span>
-                  {i === 1 && <span className="fmt-pop">{f.fmtPopular}</span>}
+                  {i === 1 && <span className="fmt-pop"><i aria-hidden="true" />{f.fmtPopular}</span>}
                 </div>
                 <h3 className="fmt-name">{pkg.name}</h3>
                 <p className="fmt-lead">{pkg.lead}</p>
@@ -310,7 +320,7 @@ export default async function Home({
                   </span>
                   <span className="contact-card-body">
                     <span className="contact-card-label">WhatsApp</span>
-                    <span className="contact-card-detail">{CONTACTS.phoneDisplay}</span>
+                    <span className="contact-card-detail"><bdi dir="ltr" className="tel-ltr">{CONTACTS.phoneDisplay}</bdi></span>
                   </span>
                   <span className="contact-card-arrow" aria-hidden="true">↗</span>
                 </a>
@@ -356,6 +366,20 @@ export default async function Home({
       <ChatWidget locale={locale} />
       <MobileCta label={t("hero.ctaPrimary")} />
       <SiteFooter />
+    </>
+  );
+}
+
+function BudgetCalcHead({ locale }: { locale: string }) {
+  const h = ({
+    ru: ["Калькулятор", "Сколько заявок", "даст ваш бюджет", "Двигайте ползунок: посчитаем по средней цене заявки в наших кампаниях"],
+    he: ["מחשבון", "כמה לידים", "התקציב שלכם יביא", "הזיזו את הסליידר: נחשב לפי המחיר הממוצע לליד בקמפיינים שלנו"],
+  } as Record<string, string[]>)[locale] ?? ["Calculator", "How many leads", "your budget brings", "Move the slider: we count by the average lead price in our campaigns"];
+  return (
+    <>
+      <p className="label">{h[0]}</p>
+      <h2 className="sec-h">{h[1]} <em>{h[2]}</em></h2>
+      <p className="sec-sub calc-sub">{h[3]}</p>
     </>
   );
 }

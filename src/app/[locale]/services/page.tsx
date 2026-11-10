@@ -103,7 +103,6 @@ export default async function Page({
                   </div>
                   <h2 className="svc-index-title"><Link href={`/services/${slug}`}>{it?.title ?? t(`items.${slug}.title`)}</Link></h2>
                   <p className="svc-index-teaser">{it?.teaser ?? t(`items.${slug}.teaser`)}</p>
-                  <LeadButton className="svc-index-btn glass-btn">{sc.more}</LeadButton>
                 </article>
               );
             })}

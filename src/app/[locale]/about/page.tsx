@@ -2,7 +2,7 @@ import { LeadWindow } from "@/components/home/LeadWindow";
 import "../../home-v2.css";
 import { homeCopy as __hc } from "@/lib/home-copy";
 import { aboutCopy, aboutTags } from "@/lib/inner-copy";
-import { ParticleCluster } from "@/components/home/ParticleCluster";
+import { GrowthViz } from "@/components/home/GrowthViz";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { alternates } from "@/i18n/paths";
@@ -82,8 +82,7 @@ export default async function AboutPage({
               </div>
             </div>
             <div className="about-vis">
-              <ParticleCluster />
-              <p className="about-vis-slogan">{ac.slogan}</p>
+              <GrowthViz locale={locale} />
             </div>
           </div>
         </div>

@@ -94,7 +94,7 @@ export function PortfolioBrowser({
       {showSites ? sitesList : showResults ? resultsGrid : (
       <div className="portfolio-grid portfolio-grid-lg">
         {cases.map((c, i) =>
-          showAll || c.tag === active ? (
+          (showAll && i < 4) || (!showAll && c.tag === active) ? (
             <Link className="portfolio-case" href={`/portfolio/${slugs[i]}`} key={i}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -118,18 +118,6 @@ export function PortfolioBrowser({
       </div>
       )}
       {!showAll && !showResults && !showSites && !cases.some((c) => c.tag === active) && empty && <p className="pf-empty">{empty}</p>}
-      {showAll && sites.length > 0 && sitesLabel && (
-        <div className="pf-all-res">
-          <p className="pf-all-res-h">{sitesLabel}</p>
-          {sitesList}
-        </div>
-      )}
-      {showAll && results.length > 0 && resultsLabel && (
-        <div className="pf-all-res">
-          <p className="pf-all-res-h">{resultsLabel}</p>
-          {resultsGrid}
-        </div>
-      )}
     </>
   );
 }

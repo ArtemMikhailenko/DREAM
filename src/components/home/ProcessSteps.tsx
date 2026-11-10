@@ -2,9 +2,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
- * Seven-step process. On first view a glowing marker travels the rail from
- * step to step; each step it reaches lights up with a small "done" burst.
- * Any step can be opened (hover / click) for a short explanation.
+ * Seven-step process. On first view a glowing marker travels the rail: it runs
+ * to the shoot (step 4), where the dot blinks red like a camera on REC, holds
+ * there, then runs on to the last step — and the whole rail flashes in the
+ * accent colour: mission complete. Any step opens (hover / tap) for a short note.
  */
 export function ProcessSteps({ steps }: { steps: { name: string; desc: string }[] }) {
   const root = useRef<HTMLDivElement>(null);
@@ -12,6 +13,8 @@ export function ProcessSteps({ steps }: { steps: { name: string; desc: string }[
   const fill = useRef<HTMLSpanElement>(null);
   const [lit, setLit] = useState(-1);
   const [active, setActive] = useState(0);
+  const [rec, setRec] = useState(-1);
+  const [done, setDone] = useState(false);
   const touched = useRef(false);
   const at = useRef(0);
 
@@ -46,17 +49,22 @@ export function ProcessSteps({ steps }: { steps: { name: string; desc: string }[
     const io = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) return;
       io.disconnect();
-      if (reduce) { setLit(steps.length - 1); place(steps.length - 1, false); return; }
-      const STEP = 620, TRAVEL = 480;
+      if (reduce) { setLit(steps.length - 1); place(steps.length - 1, false); setDone(true); return; }
+      const STEP = 560, TRAVEL = 440, HOLD = 1700;
+      const pause = Math.min(3, steps.length - 1);
       setLit(0);
-      steps.forEach((_, i) => {
-        if (i === 0) return;
-        timers.push(window.setTimeout(() => place(i), 300 + (i - 1) * STEP));
+      let t = 300;
+      for (let i = 1; i < steps.length; i++) {
+        const at = t;
+        timers.push(window.setTimeout(() => { setRec(-1); place(i); }, at));
         timers.push(window.setTimeout(() => {
           setLit(i);
           if (!touched.current) setActive(i);
-        }, 300 + (i - 1) * STEP + TRAVEL));
-      });
+          if (i === pause) setRec(i);
+        }, at + TRAVEL));
+        t += STEP + (i === pause ? HOLD : 0);
+      }
+      timers.push(window.setTimeout(() => setDone(true), t + 200));
     }, { threshold: 0.5 });
     io.observe(el);
     const onResize = () => place(at.current, false);
@@ -67,7 +75,7 @@ export function ProcessSteps({ steps }: { steps: { name: string; desc: string }[
   const pick = (i: number) => { touched.current = true; setActive(i); };
 
   return (
-    <div className="ps" ref={root} style={{ ["--n" as string]: steps.length }}>
+    <div className={`ps${done ? " is-done" : ""}`} ref={root} style={{ ["--n" as string]: steps.length }}>
       <div className="ps-rail" aria-hidden="true"><span className="ps-fill" ref={fill} /></div>
       <span className="ps-marker" ref={marker} aria-hidden="true" />
       <ol className="ps-list" role="tablist">
@@ -79,7 +87,7 @@ export function ProcessSteps({ steps }: { steps: { name: string; desc: string }[
               id={`ps-tab-${i}`}
               aria-selected={active === i}
               aria-controls="ps-panel"
-              className={`ps-step${i <= lit ? " lit" : ""}${active === i ? " on" : ""}`}
+              className={`ps-step${i <= lit ? " lit" : ""}${active === i ? " on" : ""}${rec === i ? " rec" : ""}`}
               onClick={() => pick(i)}
               onMouseEnter={() => pick(i)}
             >

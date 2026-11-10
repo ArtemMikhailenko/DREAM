@@ -56,7 +56,7 @@ export async function SiteFooter() {
             <h4 className="footer-h">{t("contactsHead")}</h4>
             <ul className="footer-list">
               <li><a href={`mailto:${CONTACTS.email}`}>{CONTACTS.email}</a></li>
-              <li><a href={`tel:${CONTACTS.phone}`}>{CONTACTS.phoneDisplay}</a></li>
+              <li><a href={`tel:${CONTACTS.phone}`}><bdi dir="ltr" className="tel-ltr">{CONTACTS.phoneDisplay}</bdi></a></li>
               <li><Link href="/#lead">{t("getBrief")} ↗</Link></li>
             </ul>
           </div>

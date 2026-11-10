@@ -121,7 +121,7 @@ export function ScrollAnimations() {
         /* headings: word-by-word rise (set up below, without GSAP) */
         gsap.utils.toArray<HTMLElement>(".label").forEach((el) => {
           gsap.from(el, {
-            x: -28, opacity: 0, duration: 0.5, ease: "power2.out",
+            y: 12, opacity: 0, duration: 0.5, ease: "power2.out",
             scrollTrigger: { trigger: el, start: "top 90%" },
           });
         });
@@ -129,18 +129,12 @@ export function ScrollAnimations() {
         /* ═══════════════════════════════════════
            PROBLEM — editorial rows
         ═══════════════════════════════════════ */
-        gsap.utils.toArray<HTMLElement>(".problem-row").forEach((row, i) => {
-          gsap.from(row.querySelector(".problem-row-n"), {
-            scrollTrigger: { trigger: row, start: "top 88%" },
-            opacity: 0, duration: 0.5, ease: "power2.out",
-          });
-          gsap.from(row.querySelector(".problem-row-title"), {
-            scrollTrigger: { trigger: row, start: "top 88%" },
-            x: -40, opacity: 0, duration: 0.75, delay: 0.05, ease: "power3.out",
-          });
-          gsap.from(row.querySelector(".problem-row-desc"), {
-            scrollTrigger: { trigger: row, start: "top 88%" },
-            x: 30, opacity: 0, duration: 0.7, delay: 0.12, ease: "power3.out",
+        /* each row rises as one piece (number, title and text together), so nothing
+           slides in sideways — that read oddly, and backwards in Hebrew */
+        gsap.utils.toArray<HTMLElement>(".problem-row").forEach((row) => {
+          gsap.from(row, {
+            scrollTrigger: { trigger: row, start: "top 90%" },
+            y: 26, opacity: 0, duration: 0.8, ease: "power3.out",
           });
         });
 
@@ -158,7 +152,7 @@ export function ScrollAnimations() {
         ═══════════════════════════════════════ */
         gsap.from(".svc-row", {
           scrollTrigger: { trigger: ".svc-list", start: "top 78%" },
-          x: 50, opacity: 0, stagger: 0.1, duration: 0.7, ease: "power3.out",
+          y: 30, opacity: 0, stagger: 0.12, duration: 0.8, ease: "power3.out",
         });
         gsap.utils.toArray<HTMLElement>(".svc-side-img").forEach((el, i) => {
           gsap.from(el, {
