@@ -1,0 +1,1156 @@
+{
+ "Nav": {
+  "aboutUs": "Nosotros",
+  "services": "Servicios",
+  "works": "Trabajos",
+  "pricing": "Precios",
+  "contacts": "Contacto",
+  "callUs": "Llámanos",
+  "studio": "estudio",
+  "language": "Idioma"
+ },
+ "Footer": {
+  "tagline": "Un estudio que construye sistemas, de la idea al resultado.",
+  "servicesHead": "Servicios",
+  "studioHead": "Estudio",
+  "about": "Nosotros",
+  "process": "Proceso",
+  "works": "Trabajos",
+  "pricing": "Precios",
+  "contactsHead": "Contacto",
+  "getBrief": "Enviar un brief",
+  "fromIdea": "De la idea al resultado",
+  "rights": "Hecho en casa · todos los derechos reservados",
+  "services": [
+   "Vídeos promocionales",
+   "Vídeos de imagen y de marca",
+   "Redes sociales y publicidad",
+   "Contenido 3D e IA"
+  ]
+ },
+ "LeadForm": {
+  "title": "Pide presupuesto",
+  "trust": "Más de 450 clientes satisfechos",
+  "name": "Nombre",
+  "phone": "Teléfono / WhatsApp",
+  "email": "Email",
+  "city": "Ciudad (opcional)",
+  "business": "Sector de tu negocio",
+  "businessPlaceholder": "p. ej. inmobiliaria, restaurante, tienda online",
+  "interestedIn": "Te interesa",
+  "notSure": "¿No lo tienes claro? Elige uno",
+  "whatsappOptIn": "Acepto recibir un mensaje de WhatsApp de dc.production sobre esta solicitud",
+  "submit": "Pedir presupuesto",
+  "sending": "Enviando…",
+  "success": "Hemos recibido tu brief. Te respondemos en un día laborable con un primer plan de lanzamiento.",
+  "errorRequired": "Rellena los campos obligatorios para que podamos contactarte.",
+  "errorSend": "No hemos podido enviar tu solicitud. Inténtalo de nuevo o escríbenos directamente.",
+  "services": [
+   "SMM y gestión de redes sociales",
+   "Publicidad en Facebook y TikTok",
+   "Posicionamiento SEO",
+   "Google Ads",
+   "Producción de foto y vídeo",
+   "Estrategia de marketing y embudos",
+   "Desarrollo web",
+   "Automatización y chatbots",
+   "Optimización GEO / IA"
+  ]
+ },
+ "Showreel": {
+  "label": "Mira",
+  "heading": "El vídeo",
+  "headingEm": "que lo explica todo",
+  "play": "Reproducir vídeo",
+  "trigger": "Ver el vídeo",
+  "book": "Reservar una consulta",
+  "lead": "60 segundos sobre por qué la mayoría del contenido no vende, y el sistema que de verdad trae clientes.",
+  "close": "Cerrar",
+  "orbit": [
+   "Clientes",
+   "Estabilidad"
+  ],
+  "feats": [
+   {
+    "t": "Rápido de ver",
+    "s": "60 segundos",
+    "d": "Breve. Al grano. Sin relleno."
+   },
+   {
+    "t": "Basado en",
+    "s": "Casos reales",
+    "d": "Problemas reales de clientes. Resultados reales."
+   },
+   {
+    "t": "Hecho para",
+    "s": "Dar resultados",
+    "d": "Una estrategia que convierte el contenido en clientes."
+   }
+  ]
+ },
+ "Home": {
+  "meta": {
+   "title": "Agencia de marketing digital y publicidad | DC Production",
+   "description": "Agencia de marketing digital integral: publicidad en Meta (Facebook e Instagram) y TikTok, Google Ads, SEO, gestión de redes sociales, producción de vídeo y automatización con chatbots. Te traemos clientes, no solo tráfico."
+  },
+  "hero": {
+   "kicker": "Hemos ayudado a +100 clientes",
+   "h1": "",
+   "desc": "Agencia de marketing digital integral: publicidad, SEO, redes sociales, foto y vídeo y automatización. Te traemos clientes, no solo tráfico.",
+   "ctaPrimary": "Auditoría gratuita",
+   "ctaSecondary": "Ver trabajos",
+   "bg": "/payload-api/media/file/hero.webp",
+   "bgMobile": "/payload-api/media/file/hero-portrait.webp"
+  },
+  "rail": {
+   "head": "Qué hacemos",
+   "items": [
+    "Vídeos promocionales",
+    "Vídeos de imagen",
+    "Animación 3D",
+    "Contenido para redes",
+    "Contenido con IA",
+    "Gestión de redes sociales",
+    "Marketing digital"
+   ]
+  },
+  "problem": {
+   "label": "El problema",
+   "heading": "Por qué un buen contenido no trae clientes",
+   "items": [
+    {
+     "title": "La primera pantalla no transmite el valor",
+     "text": "El servicio puede ser excelente, pero a la vista parece más barato que la competencia, y el cliente se va antes de leer nada."
+    },
+    {
+     "title": "Los creativos no conectan con el embudo",
+     "text": "Vídeo, posts, web y anuncios nunca forman un solo camino hacia la venta. Cada pieza vive por su cuenta."
+    },
+    {
+     "title": "Las analíticas tienen ruido",
+     "text": "Leads duplicados, datos sucios en el CRM y algoritmos que aprenden de basura y queman presupuesto."
+    }
+   ]
+  },
+  "services": {
+   "label": "Servicios",
+   "heading": "Tres líneas, un solo",
+   "headingEm": "sistema",
+   "onSet": "en rodaje",
+   "launch": "lanzamiento",
+   "all": "Todos los servicios",
+   "items": [
+    {
+     "title": "Vídeos promocionales",
+     "text": "Guion, rodaje y edición de anuncios en vídeo que convierten, pensados para tu oferta y tu público.",
+     "deliverables": [
+      "guion",
+      "rodaje",
+      "edición",
+      "motion"
+     ],
+     "image": "/payload-api/media/file/home-svc-0.webp"
+    },
+    {
+     "title": "Vídeos de imagen y de marca",
+     "text": "Historias de marca cinematográficas: concepto, dirección de arte, localización y postproducción de nivel productora.",
+     "deliverables": [
+      "concepto",
+      "dirección de arte",
+      "localización",
+      "post"
+     ],
+     "image": "/payload-api/media/file/home-svc-1.webp"
+    },
+    {
+     "title": "Redes sociales y publicidad",
+     "text": "Sistema de contenido, publicidad de pago, píxeles, CRM y analítica: una sola máquina trabajando para traer clientes.",
+     "deliverables": [
+      "contenido",
+      "publicidad",
+      "píxeles",
+      "analítica"
+     ],
+     "image": "/payload-api/media/file/home-svc-2.webp"
+    }
+   ]
+  },
+  "process": {
+   "label": "Cómo trabajamos",
+   "heading": "Del brief al primer",
+   "headingEm": "cliente",
+   "steps": [
+    {
+     "name": "Estrategia",
+     "desc": "Brief, público y posicionamiento"
+    },
+    {
+     "name": "Ideas",
+     "desc": "Concepto creativo y plan de contenido"
+    },
+    {
+     "name": "Producción",
+     "desc": "Guiones, textos y motion design"
+    },
+    {
+     "name": "Rodaje",
+     "desc": "Vídeo, foto y edición"
+    },
+    {
+     "name": "Publicidad",
+     "desc": "Lanzamiento, creativos y tests A/B"
+    },
+    {
+     "name": "Analítica",
+     "desc": "Píxeles, CRM y datos limpios"
+    },
+    {
+     "name": "Acompañamiento",
+     "desc": "Optimización e informes"
+    }
+   ]
+  },
+  "statement": {
+   "eyebrow": "— qué nos diferencia —",
+   "line1": "No solo hacemos",
+   "line1Em": "contenido.",
+   "line2": "Construimos",
+   "systems": "sistemas.",
+   "cta": "Empieza tu proyecto"
+  },
+  "portfolio": {
+   "label": "Trabajos seleccionados",
+   "heading": "Casos y proyectos",
+   "ctaStart": "Quiero un proyecto así",
+   "ctaAll": "Ver todos los trabajos",
+   "cases": [
+    {
+     "title": "Película de marca",
+     "tag": "Vídeo de imagen",
+     "image": "/payload-api/media/file/home-case-0.webp"
+    },
+    {
+     "title": "Campaña de rendimiento",
+     "tag": "Publicidad y creativos",
+     "image": "/payload-api/media/file/home-case-1.webp"
+    },
+    {
+     "title": "Sistema de contenido para redes",
+     "tag": "SMM",
+     "image": "/payload-api/media/file/home-case-2.webp"
+    }
+   ]
+  },
+  "results": {
+   "label": "Resultados",
+   "heading": "Cifras que",
+   "headingEm": "importan",
+   "items": [
+    {
+     "label": "más solicitudes entrantes tras renovar la oferta y el vídeo"
+    },
+    {
+     "label": "menos coste por lead con nuevas combinaciones de anuncios"
+    },
+    {
+     "label": "días del brief al lanzamiento de la primera oleada de anuncios"
+    }
+   ]
+  },
+  "pricing": {
+   "label": "Precios",
+   "heading": "Elige tu",
+   "headingEm": "formato",
+   "popular": "El más elegido",
+   "getStarted": "Empezar",
+   "packages": [
+    {
+     "name": "Branding",
+     "tag": "Identidad",
+     "price": "$1.000",
+     "priceOld": "$1.300",
+     "time": "14 días laborables",
+     "rows": [
+      {
+       "name": "Diseño de logotipo",
+       "extra": "3–5 propuestas"
+      },
+      {
+       "name": "Kit para redes",
+       "extra": "avatar, destacados"
+      },
+      {
+       "name": "Manual de marca"
+      },
+      {
+       "name": "Plantillas de posts",
+       "extra": "3 posts"
+      },
+      {
+       "name": "Creativos publicitarios",
+       "extra": "3 creativos"
+      }
+     ]
+    },
+    {
+     "name": "Diseño de landing",
+     "tag": "Web",
+     "price": "$1.000",
+     "priceOld": "$1.500",
+     "time": "14 días laborables",
+     "rows": [
+      {
+       "name": "Análisis de referencias"
+      },
+      {
+       "name": "Arquitectura del sitio"
+      },
+      {
+       "name": "Prototipo"
+      },
+      {
+       "name": "Visuales con IA"
+      },
+      {
+       "name": "Diseño de landing + responsive",
+       "extra": "hasta 12 bloques"
+      }
+     ]
+    },
+    {
+     "name": "Embudo completo",
+     "tag": "Producción",
+     "price": "desde $3.200",
+     "priceOld": "",
+     "time": "llave en mano",
+     "rows": [
+      {
+       "name": "Producción de vídeo",
+       "extra": "rodaje + edición"
+      },
+      {
+       "name": "Landing page"
+      },
+      {
+       "name": "Configuración de campañas"
+      },
+      {
+       "name": "Píxeles, CRM, analítica"
+      },
+      {
+       "name": "Primer ciclo de optimización"
+      }
+     ]
+    }
+   ]
+  },
+  "faq": {
+   "label": "FAQ",
+   "heading": "Preguntas",
+   "headingEm": "frecuentes",
+   "items": [
+    {
+     "q": "¿Cómo es el proceso?",
+     "a": "Empezamos con un brief y una auditoría; después definimos la oferta, preparamos guiones, producción, la landing, el lanzamiento de anuncios y la analítica."
+    },
+    {
+     "q": "¿Podemos empezar sin portafolio?",
+     "a": "Sí. Al principio trabajamos con una buena presentación del servicio, la experiencia del equipo y primeros formatos de vídeo; los casos reales se suman a medida que llegan."
+    },
+    {
+     "q": "¿Hace falta un blog desde el principio?",
+     "a": "No. La base de SEO ya está hecha: estructura, metaetiquetas, sitemap, robots, marcado FAQ y páginas rápidas."
+    },
+    {
+     "q": "¿Cómo evitamos contar un lead dos veces?",
+     "a": "El formulario envía un mismo event_id al servidor y a los píxeles del navegador. Meta Pixel y la API de Conversiones reciben un ID común para la deduplicación."
+    }
+   ]
+  },
+  "lead": {
+   "badge": "Contacto",
+   "heading": "Hablemos",
+   "headingEm": ".",
+   "sub": "Rellena el formulario: revisamos tu brief y te enviamos una propuesta en un día laborable.",
+   "emailLabel": "Escríbenos"
+  }
+ },
+ "About": {
+  "meta": {
+   "title": "Sobre el estudio | DC Production",
+   "description": "DC Production, agencia de marketing digital de ciclo completo. Nuestra historia, cómo trabajamos y cómo traemos clientes reales, no solo tráfico."
+  },
+  "hero": {
+   "label": "Sobre DC Production",
+   "heading": "Un estudio que construye",
+   "headingEm": "sistemas",
+   "sub": "Marketing de ciclo completo. Del brief al cliente, cuidando cada paso."
+  },
+  "story": {
+   "label": "Nuestra historia",
+   "heading": "DC Production en dos párrafos",
+   "p1": "DC Production nació como un equipo de producción de vídeo obsesionado con la imagen de cine. Con el tiempo vimos que un trabajo bonito no basta: los clientes necesitaban clientes, no premios. Así que construimos lo que faltaba: estrategia publicitaria, landings, CRM y atribución.",
+   "p2": "Hoy DC Production es un estudio de ciclo completo. Nos encargamos de todo el recorrido: estrategia de la oferta, guion, rodaje y postproducción, lanzamiento de anuncios, verificación de píxeles y analítica transparente. Todo en un equipo, un brief y una factura.",
+   "slogan": "de la idea al resultado",
+   "capabilities": [
+    "Vídeo promocional",
+    "Vídeos de imagen y de marca",
+    "Animación 3D",
+    "Contenido con IA",
+    "Contenido para redes",
+    "Campañas de pago",
+    "Landing pages",
+    "CRM y píxeles",
+    "Analítica y atribución",
+    "Gestión de redes",
+    "Estrategia de oferta",
+    "Postproducción"
+   ]
+  },
+  "values": {
+   "label": "Nuestros principios",
+   "heading": "Lo que",
+   "headingEm": "defendemos",
+   "items": [
+    {
+     "title": "La calidad primero",
+     "desc": "Cada plano, cada palabra y cada dato con nivel de productora. El trabajo flojo no sale del estudio."
+    },
+    {
+     "title": "Sistemas, no piezas sueltas",
+     "desc": "No entregamos archivos aislados. Montamos la máquina entera: concepto → contenido → canales → analítica."
+    },
+    {
+     "title": "Los resultados son obligatorios",
+     "desc": "Un trabajo bonito que no trae clientes es un fracaso. Cada proyecto tiene un resultado medible."
+    },
+    {
+     "title": "Transparencia por defecto",
+     "desc": "Ves cada métrica, cada test de creativos y cada lead. Sin cajas negras."
+    }
+   ]
+  },
+  "stats": {
+   "label": "En cifras",
+   "heading": "Impacto",
+   "headingEm": "real",
+   "items": [
+    {
+     "label": "crecimiento medio de solicitudes tras la primera oleada de campañas"
+    },
+    {
+     "label": "menos coste por lead con tests de creativos"
+    },
+    {
+     "label": "días desde la firma del brief hasta el primer anuncio activo"
+    },
+    {
+     "label": "clientes en vídeo, publicidad, branding y SMM"
+    }
+   ]
+  },
+  "cta": {
+   "label": "¿Empezamos?",
+   "heading": "Construyamos algo",
+   "headingEm": "juntos",
+   "sub": "Envíanos un brief y te mandamos una propuesta en un día laborable.",
+   "ctaBrief": "Enviar un brief",
+   "ctaWorks": "Ver trabajos"
+  }
+ },
+ "Testimonials": {
+  "meta": {
+   "title": "Opiniones de clientes | DC Production",
+   "description": "Lo que dicen los clientes de DC Production: producción de vídeo, campañas publicitarias, redes sociales y embudos completos."
+  },
+  "hero": {
+   "label": "Lo que dicen los clientes",
+   "heading": "Hablan los",
+   "headingEm": "clientes",
+   "sub": "Opiniones reales de proyectos reales: vídeo, publicidad, SMM y embudos completos."
+  },
+  "featuredLabel": "Opiniones destacadas",
+  "all": {
+   "label": "Todas las opiniones",
+   "heading": "Todas las",
+   "headingEm": "voces"
+  },
+  "reviews": [
+   {
+    "quote": "El equipo entendió el producto enseguida y convirtió un servicio complejo en un vídeo claro y convincente. Desde el primer mes llegaron leads más calientes.",
+    "name": "Marina K.",
+    "company": "Estudio de servicios",
+    "role": "Fundadora"
+   },
+   {
+    "quote": "No solo hicieron un vídeo: montaron un sistema publicitario completo. Lo mejor: analítica transparente y cero duplicados.",
+    "name": "Alex P.",
+    "company": "Agencia de crecimiento",
+    "role": "Director comercial"
+   },
+   {
+    "quote": "12 días del brief a la primera campaña activa. La calidad creativa superó con creces lo que esperábamos por ese precio.",
+    "name": "Diana S.",
+    "company": "Plataforma EdTech",
+    "role": "Directora de marketing"
+   },
+   {
+    "quote": "Antes de DC Production el CRM era un caos. Ahora cada lead tiene un event_id limpio, sin duplicados, y los anuncios aprenden de datos reales.",
+    "name": "Roman V.",
+    "company": "SaaS B2B",
+    "role": "CEO"
+   },
+   {
+    "quote": "Rodamos una película de marca y lanzamos publicidad en redes en un solo sprint. El coste por lead cualificado bajó un 24% el primer mes.",
+    "name": "Olena M.",
+    "company": "Retail de lujo",
+    "role": "Brand manager"
+   },
+   {
+    "quote": "Nuestro calendario de contenido era un caos. DC Production montó un sistema con métricas reales ligadas a los leads y cambió nuestra forma de trabajar.",
+    "name": "Dmytro L.",
+    "company": "Marca lifestyle",
+    "role": "Cofundador"
+   }
+  ],
+  "cta": {
+   "label": "Tu turno",
+   "heading": "Sé el próximo",
+   "headingEm": "caso de éxito",
+   "ctaBrief": "Enviar un brief"
+  }
+ },
+ "ServicesIndex": {
+  "meta": {
+   "title": "Servicios de marketing digital | DC Production",
+   "description": "Marketing digital integral: SEO, publicidad en Meta y TikTok, Google Ads, gestión de redes sociales, foto y vídeo, páginas web, automatización y posicionamiento en buscadores con IA. Un equipo, de la estrategia a los resultados."
+  },
+  "label": "Qué hacemos",
+  "h1": "Nuestros servicios",
+  "sub": "De la estrategia al lanzamiento: todo lo que tu negocio necesita para crecer online, bajo un mismo techo.",
+  "more": "Saber más",
+  "items": {
+   "seo": {
+    "title": "Posicionamiento SEO",
+    "teaser": "Crecimiento orgánico que trae tráfico cualificado mes tras mes."
+   },
+   "targeted-advertising": {
+    "title": "Publicidad en redes sociales",
+    "teaser": "Anuncios en Meta y TikTok que llegan al público adecuado y convierten."
+   },
+   "smm": {
+    "title": "Gestión de redes sociales",
+    "teaser": "Un sistema de contenido que convierte tus redes en una fuente de clientes."
+   },
+   "google-ads": {
+    "title": "Google Ads y PPC",
+    "teaser": "Campañas de búsqueda que captan a quien ya quiere comprar."
+   },
+   "photo-video": {
+    "title": "Foto y vídeo",
+    "teaser": "Un estudio móvil que lleva contenido de calidad cine a tu negocio."
+   },
+   "marketing-strategy": {
+    "title": "Estrategia de marketing y embudos",
+    "teaser": "Primero la estrategia, después un embudo medible del primer contacto a la venta."
+   },
+   "website-development": {
+    "title": "Páginas web y landing pages",
+    "teaser": "Webs rápidas y preparadas para SEO que convierten visitas en clientes."
+   },
+   "automation": {
+    "title": "Automatización y chatbots",
+    "teaser": "Chatbots y flujos de CRM que responden al instante y no pierden ningún lead."
+   },
+   "geo-ai-seo": {
+    "title": "GEO / búsqueda con IA",
+    "teaser": "Haz que ChatGPT y las respuestas de IA recomienden tu negocio."
+   }
+  },
+  "stats": [
+   "09 — Servicios",
+   "EN · RU · ES",
+   "Un equipo · ciclo completo"
+  ],
+  "cta": {
+   "heading": "¿No sabes qué servicio necesitas?",
+   "text": "Cuéntanos sobre tu negocio: te recomendamos la combinación adecuada y te enviamos presupuesto.",
+   "btn": "Presupuesto gratis por WhatsApp"
+  },
+  "other": "Otros servicios"
+ },
+ "Portfolio": {
+  "meta": {
+   "title": "Portafolio: nuestros trabajos | DC Production",
+   "description": "Portafolio de DC Production: vídeos promocionales, películas de marca, campañas publicitarias y sistemas de contenido para redes. Casos reales con resultados medibles."
+  },
+  "hero": {
+   "label": "Trabajos seleccionados",
+   "heading": "Nuestro",
+   "headingEm": "portafolio",
+   "sub": "Casos de vídeo, publicidad, branding y redes, cada uno con un resultado medible."
+  },
+  "categories": [
+   "Todo",
+   "Vídeo de imagen",
+   "Publicidad y creativos",
+   "SMM",
+   "Embudo completo",
+   "Vídeo promocional"
+  ],
+  "cases": [
+   {
+    "title": "Película de identidad de marca",
+    "tag": "Vídeo de imagen",
+    "client": "Marca de retail de lujo",
+    "result": "+42% recuerdo de marca",
+    "summary": "Una película de identidad cinematográfica que reposicionó a un retailer de lujo como marca premium y subió el recuerdo un 42%.",
+    "body": [
+     "La marca tenía un gran producto pero una presencia plana y genérica, nada que se sintiera premium o memorable. Construimos una película de identidad alrededor de una sola idea propia: artesanía que se siente.",
+     "Del concepto y la dirección de arte a la localización, el rodaje y la post, entregamos una película que funciona en la web, en redes y en publicidad, y que se convirtió en el ancla de todo el sistema de marca."
+    ],
+    "services": [
+     "Concepto y guion",
+     "Dirección de arte",
+     "Rodaje en localización",
+     "Edición y color"
+    ],
+    "image": "/payload-api/media/file/case-brand-identity-film.webp"
+   },
+   {
+    "title": "Campaña de rendimiento",
+    "tag": "Publicidad y creativos",
+    "client": "Startup EdTech",
+    "result": "−31% coste por lead en 3 semanas",
+    "summary": "Una campaña de pago guiada por creativos para una startup EdTech que bajó el coste por lead un 31% en tres semanas.",
+    "body": [
+     "La startup quemaba presupuesto en anuncios que se parecían a los de todos. Rehicimos los creativos desde cero: nuevos ganchos, formatos y mensajes probados con datos reales de público.",
+     "En tres semanas los creativos ganadores bajaron el coste por lead un 31% mientras crecía el volumen, con una medición limpia para que cada euro rindiera cuentas."
+    ],
+    "services": [
+     "Estrategia creativa",
+     "Producción de anuncios",
+     "Tests A/B",
+     "Analítica y seguimiento"
+    ],
+    "image": "/payload-api/media/file/case-performance-campaign.webp"
+   },
+   {
+    "title": "Sistema de contenido para redes",
+    "tag": "SMM",
+    "client": "Marca lifestyle",
+    "result": "+120% alcance orgánico",
+    "summary": "Un sistema de contenido repetible para una marca lifestyle que duplicó con creces su alcance orgánico.",
+    "body": [
+     "Publicaban de forma irregular y fuera de tono, y el alcance se había estancado. Diseñamos un sistema de contenido: formatos, un plan y un ritmo de producción que el equipo pudiera mantener.",
+     "Con Reels en tendencia, creatividad fuerte y constancia, el alcance orgánico creció un 120% y el canal se convirtió en una fuente real de clientes."
+    ],
+    "services": [
+     "Plan de contenido",
+     "Creativos y Reels",
+     "Publicación constante",
+     "Gestión de comunidad"
+    ],
+    "image": "/payload-api/media/file/case-social-content-system.webp"
+   },
+   {
+    "title": "Vídeo de lanzamiento de producto",
+    "tag": "Vídeo promocional",
+    "client": "Plataforma SaaS",
+    "result": "12K visualizaciones en 48 h",
+    "summary": "Un vídeo de lanzamiento para una plataforma SaaS que logró 12.000 visualizaciones en las primeras 48 horas.",
+    "body": [
+     "El equipo tenía un gran lanzamiento pero ninguna historia que lo sostuviera. Escribimos y producimos un vídeo directo que dejaba claro el valor del producto en segundos.",
+     "Adaptado para redes y para la web, sumó 12.000 visualizaciones en 48 horas y dio al lanzamiento una pieza central clara y fácil de compartir."
+    ],
+    "services": [
+     "Guion y concepto",
+     "Producción",
+     "Motion y edición",
+     "Adaptación de formatos"
+    ],
+    "image": "/payload-api/media/file/case-product-launch-video.webp"
+   },
+   {
+    "title": "Historia de marca cinematográfica",
+    "tag": "Vídeo de imagen",
+    "client": "Estudio de arquitectura",
+    "result": "2× más leads cualificados",
+    "summary": "Una historia de marca cinematográfica para un estudio de arquitectura que duplicó los leads cualificados.",
+    "body": [
+     "El trabajo del estudio era impresionante, pero su presencia online no lo mostraba. Construimos una historia de marca que llevaba a la pantalla su oficio y su proceso.",
+     "La película cambió cómo los veían los clientes potenciales y duplicó los leads cualificados que llegaban."
+    ],
+    "services": [
+     "Concepto y guion",
+     "Dirección de fotografía",
+     "Postproducción",
+     "Integración en la web"
+    ],
+    "image": "/payload-api/media/file/case-cinematic-brand-story.webp"
+   },
+   {
+    "title": "Embudo completo",
+    "tag": "Embudo completo",
+    "client": "Empresa de servicios B2B",
+    "result": "+38% solicitudes entrantes",
+    "summary": "Un embudo de principio a fin para una empresa B2B que aumentó las solicitudes entrantes un 38%.",
+    "body": [
+     "El marketing estaba disperso: buenas piezas que nunca se unían en un camino hacia la venta. Primero hicimos la estrategia y después el embudo: oferta, landings, seguimiento y retargeting.",
+     "Con un embudo claro y medible, las solicitudes crecieron un 38%, de forma previsible y no por suerte."
+    ],
+    "services": [
+     "Estrategia de marketing",
+     "Diseño del embudo",
+     "Landing pages",
+     "Sistema de leads y CRM"
+    ],
+    "image": "/payload-api/media/file/case-full-funnel-build.webp"
+   }
+  ],
+  "cta": {
+   "label": "¿El próximo es tu proyecto?",
+   "heading": "Hagamos algo",
+   "headingEm": "grande",
+   "ctaBrief": "Enviar un brief",
+   "ctaAbout": "Sobre el estudio"
+  },
+  "ui": {
+   "back": "Todos los trabajos",
+   "overview": "Resumen",
+   "clientLabel": "Cliente",
+   "resultLabel": "Resultado",
+   "servicesLabel": "Qué hicimos",
+   "cta": "Empezar un proyecto",
+   "ctaAll": "Ver todos los trabajos",
+   "next": "Siguiente trabajo"
+  }
+ },
+ "Services": {
+  "seo": {
+   "meta": {
+    "title": "Agencia SEO en España: posicionamiento web en Google | DC Production",
+    "description": "Posicionamiento SEO para empresas en España: auditoría técnica, SEO on-page, estudio de palabras clave, link building y crecimiento orgánico en Google, en español y en otros idiomas."
+   },
+   "label": "SEO",
+   "h1": "Posicionamiento SEO para que Google te encuentre",
+   "body": [
+    "El SEO es una inversión a largo plazo que construye visibilidad estable en los buscadores. DC Production ofrece posicionamiento orgánico de ciclo completo para empresas que quieren aparecer en Google con búsquedas en español, inglés y otros idiomas.",
+    "Empezamos con una auditoría técnica completa: velocidad, indexación y rendimiento en móvil. Después creamos una estrategia de palabras clave a partir de la demanda real de búsqueda y la llevamos a la arquitectura de tu web.",
+    "Para ganar autoridad desarrollamos una estrategia de enlaces con artículos invitados, PR digital y directorios relevantes, sin atajos de black hat."
+   ],
+   "blocks": [
+    {
+     "heading": "Qué incluye el SEO",
+     "intro": "Hacemos posicionamiento orgánico de ciclo completo:",
+     "list": [
+      "Auditoría técnica de la web",
+      "Optimización on-page",
+      "Estudio y agrupación de palabras clave",
+      "Link building y autoridad de dominio",
+      "Informes mensuales de posiciones"
+     ]
+    },
+    {
+     "heading": "Cómo funciona el proceso SEO",
+     "intro": "El posicionamiento avanza por etapas, de la auditoría al crecimiento:",
+     "ordered": true,
+     "list": [
+      "Auditoría técnica y corrección de errores",
+      "Estudio de palabras clave para tu negocio",
+      "Optimización de estructura y contenido",
+      "Construcción del perfil de enlaces",
+      "Informe y plan para el mes siguiente"
+     ]
+    },
+    {
+     "heading": "Idiomas en los que posicionamos",
+     "intro": "Trabajamos la demanda de búsqueda en varios idiomas:",
+     "list": [
+      "Español",
+      "Inglés",
+      "Ruso y hebreo"
+     ]
+    }
+   ],
+   "cta": "Presupuesto gratis por WhatsApp"
+  },
+  "targeted-advertising": {
+   "meta": {
+    "title": "Agencia de publicidad en Facebook, Instagram y TikTok | DC Production",
+    "description": "Publicidad en Meta (Facebook e Instagram), TikTok y LinkedIn para empresas en España. Configuración de campañas, segmentación, creativos y retargeting para conseguir clientes a buen precio."
+   },
+   "label": "Publicidad en redes",
+   "h1": "Publicidad en redes sociales que te trae clientes",
+   "body": [
+    "Una publicidad de pago eficaz necesita la segmentación correcta, creativos potentes y un buen retargeting. DC Production se encarga de todo.",
+    "Gestionamos el ciclo completo: estudio y segmentación del público, estrategia creativa, lanzamiento, tests, configuración del seguimiento y optimización continua. No tocamos tu presupuesto hasta entender a tu cliente.",
+    "Nuestro retargeting sigue a quien visitó tu web, vio tus vídeos o interactuó con tu contenido, y vuelve a impactarle con anuncios de seguimiento para mejorar la conversión."
+   ],
+   "blocks": [
+    {
+     "heading": "Qué incluye la configuración de campañas",
+     "intro": "Llevamos la publicidad de pago de principio a fin:",
+     "list": [
+      "Estudio y segmentación del público",
+      "Producción de creativos",
+      "Lanzamiento y tests de campañas",
+      "Retargeting y optimización continua"
+     ]
+    },
+    {
+     "heading": "Plataformas en las que anunciamos",
+     "intro": "Elegimos los canales según tu público y tu objetivo:",
+     "list": [
+      "Meta (Facebook e Instagram)",
+      "TikTok",
+      "LinkedIn para B2B"
+     ]
+    },
+    {
+     "heading": "Cómo se lanza una campaña",
+     "intro": "Cada campaña se construye en un orden claro:",
+     "ordered": true,
+     "list": [
+      "Estudiamos tu producto y tu cliente ideal",
+      "Preparamos creativos y ofertas",
+      "Lanzamos y probamos distintas combinaciones",
+      "Escalamos lo que funciona",
+      "Hacemos retargeting hasta la conversión"
+     ]
+    }
+   ],
+   "cta": "Presupuesto gratis por WhatsApp",
+   "image": "/payload-api/media/file/targeted-advertising.webp"
+  },
+  "smm": {
+   "meta": {
+    "title": "Gestión de redes sociales para empresas | DC Production",
+    "description": "Gestión profesional de redes sociales para empresas en España: Instagram, Facebook y TikTok. Estrategia de contenido, publicación, community management y crecimiento. Nos encargamos de todo para que tú te centres en tu negocio."
+   },
+   "label": "Redes sociales",
+   "h1": "Gestión de redes sociales para tu negocio",
+   "body": [
+    "Llevar un negocio significa no tener tiempo para publicar tres veces al día, responder cada comentario y estar al día de los formatos en tendencia. Para eso está DC Production.",
+    "Nuestro servicio cubre el ciclo completo: estudio del público, plan de contenido, copywriting, diseño de creativos, programación, community management e informe mensual de resultados. Trabajamos en Instagram, TikTok y Facebook, en español y en otros idiomas.",
+    "Nos tomamos el tiempo de conocer la voz de tu marca, tu producto y tu público. El objetivo es contenido que genere interacción y clientes, no solo contenido bonito."
+   ],
+   "blocks": [
+    {
+     "heading": "Gestión completa de tus cuentas",
+     "intro": "Nos ocupamos de todo el ciclo de gestión:",
+     "list": [
+      "Plan de contenido mensual",
+      "Publicación regular en las plataformas acordadas",
+      "Gestión de comentarios y mensajes",
+      "Informe mensual de analítica y crecimiento"
+     ]
+    },
+    {
+     "heading": "Plataformas que gestionamos",
+     "intro": "Trabajamos en las principales redes para empresas:",
+     "list": [
+      "Instagram",
+      "TikTok",
+      "Facebook"
+     ]
+    },
+    {
+     "heading": "Cómo creamos el contenido",
+     "intro": "Nuestro proceso de contenido va paso a paso:",
+     "ordered": true,
+     "list": [
+      "Estudiamos tu marca, tu producto y tu público",
+      "Creamos un plan de contenido mensual",
+      "Producimos creativos y textos",
+      "Publicamos y gestionamos la interacción",
+      "Revisamos resultados y ajustamos"
+     ]
+    }
+   ],
+   "cta": "Presupuesto gratis por WhatsApp",
+   "image": "/payload-api/media/file/smm.webp"
+  },
+  "google-ads": {
+   "meta": {
+    "title": "Agencia de Google Ads en España | DC Production",
+    "description": "Campañas de Google Ads para empresas en España: Search, Display, Shopping y YouTube. Configuración profesional, segmentación, seguimiento de conversiones y optimización del presupuesto."
+   },
+   "label": "Google Ads",
+   "h1": "Google Ads que llenan tu agenda de clientes",
+   "body": [
+    "Google Ads conecta tu negocio con personas que ya están buscando lo que ofreces. DC Production construye campañas pensadas para conversiones, no solo para clics e impresiones.",
+    "Empezamos con un estudio profundo de palabras clave y una lista ajustada de palabras negativas, para que tu presupuesto nunca se gaste en búsquedas irrelevantes. Después estructuramos bien las campañas: grupos de anuncios limpios, textos convincentes y landings alineadas con cada intención de búsqueda.",
+    "Cada campaña incluye informes transparentes para que siempre sepas a dónde va tu presupuesto."
+   ],
+   "blocks": [
+    {
+     "heading": "Qué formatos gestionamos",
+     "intro": "Cubrimos los principales formatos de Google para empresas:",
+     "list": [
+      "Search para clientes con alta intención de compra",
+      "Display y remarketing",
+      "Shopping para tiendas online",
+      "YouTube para alcance en vídeo"
+     ]
+    },
+    {
+     "heading": "Qué incluye la configuración",
+     "intro": "Antes del lanzamiento y durante la campaña nos ocupamos de:",
+     "list": [
+      "Estudio de palabras clave y negativas",
+      "Estructura de campañas y textos de anuncios",
+      "Seguimiento de conversiones y GA4",
+      "Optimización de presupuesto y pujas"
+     ]
+    },
+    {
+     "heading": "Cómo es el lanzamiento",
+     "intro": "La campaña se construye paso a paso:",
+     "ordered": true,
+     "list": [
+      "Analizamos el nicho y la demanda",
+      "Reunimos palabras clave y negativas",
+      "Creamos la estructura y los anuncios",
+      "Lanzamos y medimos conversiones",
+      "Optimizamos según resultados"
+     ]
+    }
+   ],
+   "cta": "Presupuesto gratis por WhatsApp"
+  },
+  "photo-video": {
+   "meta": {
+    "title": "Fotografía de producto y producción de vídeo | DC Production",
+    "description": "Estudio móvil de foto y vídeo para empresas: fotografía de producto, vídeo publicitario, Reels y contenido 3D. Vamos a tu negocio con equipo profesional."
+   },
+   "label": "Foto y vídeo",
+   "h1": "Rodaje y edición profesional para tu negocio",
+   "body": [
+    "Una buena fotografía de producto y un buen vídeo no necesitan un estudio. DC Production es un equipo de producción totalmente móvil que lleva el equipo profesional a donde estés.",
+    "Vamos a tu oficina, almacén, casa o evento con cámaras profesionales, iluminación de cine, estabilizadores y drones. Hacemos fotografía de producto para webs y marketplaces, vídeo publicitario en distintos formatos para redes y YouTube, Reels con edición en tendencia, y visualización 3D y VFX.",
+    "Todo se entrega listo para publicar. Nos encargamos del guion, el rodaje, la edición, la corrección de color y los subtítulos. Tú apruebas, publicas, y nosotros seguimos."
+   ],
+   "blocks": [
+    {
+     "heading": "Qué incluye el rodaje",
+     "intro": "Cubrimos toda la producción de contenido, de la idea al archivo final:",
+     "list": [
+      "Fotografía de producto para webs y marketplaces",
+      "Vídeo publicitario para redes y YouTube",
+      "Reels y vídeo corto con edición en tendencia",
+      "Visualización 3D y VFX para una presentación premium"
+     ]
+    },
+    {
+     "heading": "Cómo es un día de rodaje",
+     "intro": "El proceso es igual en cualquier lugar, paso a paso:",
+     "ordered": true,
+     "list": [
+      "Brief y desarrollo del guion",
+      "El estudio móvil llega a tu ubicación",
+      "Rodaje con iluminación y equipo profesional",
+      "Edición, color y entrega final"
+     ]
+    },
+    {
+     "heading": "Por qué somos un estudio sobre ruedas",
+     "intro": "Un gran contenido no necesita un plató: lo llevamos a ti:",
+     "list": [
+      "Vamos a tu oficina, almacén, casa o local",
+      "Llevamos iluminación y equipo profesional",
+      "Rodamos en cualquier sitio sin perder calidad"
+     ]
+    }
+   ],
+   "cta": "Presupuesto gratis por WhatsApp",
+   "image": "/payload-api/media/file/photo-video.webp"
+  },
+  "marketing-strategy": {
+   "meta": {
+    "title": "Estrategia de marketing y embudos de venta | DC Production",
+    "description": "Estrategia de marketing de resultados y diseño de embudos de venta para empresas en España: plan de salida al mercado, sistema de captación de leads y construcción del pipeline comercial."
+   },
+   "label": "Estrategia",
+   "h1": "Estrategia de marketing y embudos de venta",
+   "body": [
+    "Un marketing eficaz empieza con una estrategia clara. DC Production construye primero el plan y después lo ejecuta en los canales adecuados.",
+    "Empezamos entendiendo tu negocio, tu mercado y tu cliente ideal. A partir de ahí desarrollamos una estrategia de marketing de resultados y un plan de salida al mercado que define a quién dirigirnos, con qué mensaje, en qué canales y en qué orden.",
+    "Después diseñamos el embudo de venta, cada paso del primer contacto al cierre. Definimos la oferta, las landings, el seguimiento y el retargeting, para que ningún lead se pierda por el camino."
+   ],
+   "blocks": [
+    {
+     "heading": "Qué incluye la estrategia",
+     "intro": "Construimos el marketing del plan al sistema:",
+     "list": [
+      "Análisis del negocio, el mercado y el público",
+      "Plan de salida al mercado",
+      "Diseño del embudo de venta",
+      "Sistema de captación de leads"
+     ]
+    },
+    {
+     "heading": "Cómo construimos la estrategia",
+     "intro": "El trabajo sigue un orden, del análisis al lanzamiento:",
+     "ordered": true,
+     "list": [
+      "Estudiamos el negocio y el cliente ideal",
+      "Definimos canales y mensajes",
+      "Diseñamos el embudo del contacto a la venta",
+      "Montamos el sistema de captación",
+      "Lanzamos y medimos resultados"
+     ]
+    },
+    {
+     "heading": "Para quién es",
+     "intro": "La estrategia sirve para negocios de cualquier tipo y tamaño:",
+     "list": [
+      "B2B y B2C",
+      "Pequeños negocios y empresas en crecimiento",
+      "Mercados locales e internacionales"
+     ]
+    }
+   ],
+   "cta": "Presupuesto gratis por WhatsApp"
+  },
+  "website-development": {
+   "meta": {
+    "title": "Diseño y desarrollo web para empresas | DC Production",
+    "description": "Páginas web para empresas en España: webs corporativas, landing pages y WordPress. Diseño mobile-first conectado a Pixel, GA4 y CRM, preparado para convertir visitas en clientes."
+   },
+   "label": "Páginas web",
+   "h1": "Diseño y desarrollo web para tu negocio",
+   "body": [
+    "Una web bonita que no convierte es solo una tarjeta de visita cara. DC Production crea webs y landing pages pensadas para convertir visitas en clientes.",
+    "Cada proyecto empieza por la estrategia: quién visita la web, qué necesita ver y qué única acción queremos que haga. A partir de ahí diseñamos la estructura, montamos un diseño rápido y mobile-first y escribimos textos que llevan al visitante a contactarte.",
+    "Conectamos la web a los resultados: Pixel, analítica y CRM funcionan desde el lanzamiento, así que cada visita y cada lead quedan registrados."
+   ],
+   "blocks": [
+    {
+     "heading": "Qué construimos",
+     "intro": "Hacemos webs alrededor del objetivo de negocio, no solo un envoltorio bonito:",
+     "list": [
+      "Webs corporativas y landing pages",
+      "Webs en WordPress que puedes gestionar tú",
+      "Diseño mobile-first"
+     ]
+    },
+    {
+     "heading": "Cómo avanza el proyecto",
+     "intro": "El desarrollo pasa por etapas claras:",
+     "ordered": true,
+     "list": [
+      "Definimos el objetivo de la web y la acción clave",
+      "Diseñamos la estructura y el diseño",
+      "Desarrollamos y cargamos el contenido",
+      "Conectamos analítica y CRM",
+      "Lanzamos y probamos"
+     ]
+    },
+    {
+     "heading": "Qué conectamos para dar resultados",
+     "intro": "La web está lista para promoción y captación desde el primer día:",
+     "list": [
+      "Pixel y analítica",
+      "Formularios y conexión con WhatsApp",
+      "SEO preparado desde el inicio"
+     ]
+    }
+   ],
+   "cta": "Presupuesto gratis por WhatsApp"
+  },
+  "automation": {
+   "meta": {
+    "title": "Automatización de empresas y chatbots para WhatsApp | DC Production",
+    "description": "Chatbots y automatización para empresas: bots para WhatsApp, Instagram y Facebook, integración con CRM y automatización de procesos para responder al instante y no perder ningún cliente."
+   },
+   "label": "Automatización",
+   "h1": "Automatización y chatbots para tu negocio",
+   "body": [
+    "Responder rápido y tener procesos ágiles cambia de verdad la experiencia del cliente y la eficiencia del equipo. DC Production construye automatizaciones que logran ambas cosas.",
+    "Configuramos chatbots para WhatsApp, Instagram, Facebook y TikTok que responden al instante, cualifican los leads y los envían al lugar correcto, 24/7 y con la voz de tu marca.",
+    "Más allá del chat, automatizamos el negocio: configuración e integración del CRM para que cada lead quede registrado y nada se pierda; flujos automáticos de seguimiento y nutrición de leads; y automatización de operaciones que elimina el trabajo manual repetitivo."
+   ],
+   "blocks": [
+    {
+     "heading": "Qué automatizamos",
+     "intro": "Eliminamos la rutina y aceleramos la respuesta al cliente:",
+     "list": [
+      "Chatbots para WhatsApp, Instagram y Facebook",
+      "Configuración e integración del CRM",
+      "Flujos automáticos de nutrición de leads",
+      "Automatización de tareas repetitivas"
+     ]
+    },
+    {
+     "heading": "Cómo es la implantación",
+     "intro": "Construimos la automatización alrededor de tus procesos, paso a paso:",
+     "ordered": true,
+     "list": [
+      "Mapeamos tus procesos actuales",
+      "Detectamos qué se puede automatizar",
+      "Configuramos bots e integraciones",
+      "Probamos y lanzamos",
+      "Damos soporte y mejoramos"
+     ]
+    },
+    {
+     "heading": "Qué gana tu negocio",
+     "intro": "El resultado de la automatización para tu equipo:",
+     "list": [
+      "Respuestas rápidas sin intervención del equipo",
+      "Menos trabajo manual y menos costes",
+      "Ningún lead se pierde"
+     ]
+    }
+   ],
+   "cta": "Presupuesto gratis por WhatsApp",
+   "image": "/payload-api/media/file/automation.webp"
+  },
+  "geo-ai-seo": {
+   "meta": {
+    "title": "GEO: posicionamiento en ChatGPT y búsquedas con IA | DC Production",
+    "description": "Optimización GEO para que tu negocio aparezca en Google AI Overviews, ChatGPT, Perplexity y otras respuestas de inteligencia artificial."
+   },
+   "label": "GEO / IA",
+   "h1": "GEO: posiciona tu negocio en las búsquedas con IA",
+   "body": [
+    "La búsqueda está cambiando. Cada vez más gente ya no recorre diez enlaces azules: pregunta a ChatGPT, a Perplexity o a la vista general con IA de Google, y lee la única respuesta que recibe. La pregunta para tu negocio es sencilla: cuando la IA da esa respuesta, ¿te menciona?",
+    "Eso es lo que hace el GEO, Generative Engine Optimization. DC Production posiciona tu negocio para que aparezca dentro de las respuestas generadas por IA, el canal de visibilidad que más crecerá en los próximos años.",
+    "El GEO funciona mejor como una capa premium sobre un buen SEO. Es un campo nuevo, y llegar pronto es la ventaja."
+   ],
+   "blocks": [
+    {
+     "heading": "Qué es la optimización GEO",
+     "intro": "Preparamos tu negocio para la nueva forma de buscar con IA:",
+     "list": [
+      "Aparecer en las respuestas de ChatGPT y Perplexity",
+      "Presencia en la vista general con IA de Google",
+      "Contenido estructurado para modelos de IA"
+     ]
+    },
+    {
+     "heading": "Cómo trabajamos el GEO",
+     "intro": "La preparación para la búsqueda con IA va paso a paso:",
+     "ordered": true,
+     "list": [
+      "Analizamos cómo describe la IA tu nicho",
+      "Estructuramos el contenido y las señales de confianza",
+      "Preparamos respuestas expertas a las consultas",
+      "Seguimos las menciones en respuestas de IA"
+     ]
+    },
+    {
+     "heading": "Quién lo necesita ya",
+     "intro": "El GEO da ventaja a quien entra pronto en el canal:",
+     "list": [
+      "Negocios en nichos competitivos",
+      "Empresas que ya invierten en SEO",
+      "Marcas donde la experiencia importa"
+     ]
+    }
+   ],
+   "cta": "Presupuesto gratis por WhatsApp"
+  }
+ }
+}

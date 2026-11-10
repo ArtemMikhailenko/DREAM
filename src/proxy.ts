@@ -26,6 +26,29 @@ export default function middleware(req: NextRequest) {
     return NextResponse.redirect(url, 301);
   }
 
+  // Home page "/" (English) sends visitors to their language: the one they picked in
+  // the switcher (dc_lang cookie), or else their browser's (Spanish → /es, Russian →
+  // /ru, Hebrew → /heb). Never for search bots, so the English root stays the page
+  // Google indexes. (The cookie also covers Chrome's client-hint retry of the request.)
+  if (pathname === "/") {
+    const ua = req.headers.get("user-agent") || "";
+    if (!/bot|crawl|spider|slurp|facebookexternalhit|lighthouse|preview/i.test(ua)) {
+      const saved = req.cookies.get("dc_lang")?.value;
+      const first = (req.headers.get("accept-language") || "").split(",")[0].trim().toLowerCase();
+      const pref = saved ?? (first.startsWith("es") ? "es" : first.startsWith("ru") ? "ru" : first.startsWith("he") || first.startsWith("iw") ? "he" : "en");
+      const to = pref === "es" ? "/es" : pref === "ru" ? "/ru" : pref === "he" ? "/heb" : "";
+      if (to) {
+        const url = req.nextUrl.clone();
+        url.pathname = to;
+        const res = NextResponse.redirect(url, 307);
+        res.headers.set("Cache-Control", "private, no-store");
+        res.headers.set("Vary", "Accept-Language, Cookie");
+        if (!saved) res.cookies.set("dc_lang", pref, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
+        return res;
+      }
+    }
+  }
+
   return intlMiddleware(req);
 }
 

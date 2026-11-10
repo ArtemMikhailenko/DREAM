@@ -115,7 +115,7 @@ export default async function LocaleLayout({
             data-account={process.env.NEXT_PUBLIC_USERWAY_ACCOUNT ?? "tZFa3D3tvc"}
             data-position="5"
             data-size="small"
-            data-language={locale === "he" ? "he" : locale === "ru" ? "ru" : "en"}
+            data-language={locale === "he" ? "he" : locale === "ru" ? "ru" : locale === "es" ? "es" : "en"}
             data-color="#e8a868"
             data-type="1"
             data-widget_layout="full"

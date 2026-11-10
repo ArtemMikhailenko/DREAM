@@ -7,6 +7,7 @@ const WORDS: Record<string, string[]> = {
   en: ["VIDEO", "ADS", "BRANDING", "AUTOMATION", "CLIENTS", "GROWTH", "STUDIO"],
   ru: ["ВИДЕО", "РЕКЛАМА", "БРЕНДИНГ", "АВТОМАТИЗАЦИЯ", "КЛИЕНТЫ", "РОСТ", "СТУДИЯ"],
   he: ["וידאו", "פרסום", "מיתוג", "אוטומציה", "לקוחות", "צמיחה", "סטודיו"],
+  es: ["VÍDEO", "ANUNCIOS", "BRANDING", "AUTOMATIZACIÓN", "CLIENTES", "CRECIMIENTO", "ESTUDIO"],
 };
 
 /**

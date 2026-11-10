@@ -5,6 +5,7 @@ import { CONTACTS } from "@/lib/contacts";
 const T = {
   ru: { open: "Задать вопрос", title: "dc.production", status: "Онлайн · отвечаем быстро", hello: "Здравствуйте! Чем можем помочь? Выберите вопрос или напишите свой", q: ["Хочу больше клиентов", "Сколько это стоит?", "Как быстро будет результат?"], ph: "Напишите сообщение…", send: "Отправить", note: "Ответим в WhatsApp", close: "Закрыть", audit: "Оставить заявку на аудит" },
   en: { open: "Ask a question", title: "dc.production", status: "Online · quick replies", hello: "Hi! How can we help? Pick a question or type your own", q: ["I want more customers", "How much does it cost?", "How fast will I see results?"], ph: "Type a message…", send: "Send", note: "We'll reply on WhatsApp", close: "Close", audit: "Request a free audit" },
+  es: { open: "Haz una pregunta", title: "dc.production", status: "En línea · respondemos rápido", hello: "¡Hola! ¿En qué podemos ayudarte? Elige una pregunta o escribe la tuya", q: ["Quiero más clientes", "¿Cuánto cuesta?", "¿Cuándo veré resultados?"], ph: "Escribe un mensaje…", send: "Enviar", note: "Te respondemos por WhatsApp", close: "Cerrar", audit: "Pedir una auditoría gratuita" },
   he: { open: "שאלו אותנו", title: "dc.production", status: "מחוברים · עונים מהר", hello: "היי! איך נוכל לעזור? בחרו שאלה או כתבו משלכם", q: ["אני רוצה יותר לקוחות", "כמה זה עולה?", "תוך כמה זמן יש תוצאות?"], ph: "כתבו הודעה…", send: "שליחה", note: "נחזור אליכם בוואטסאפ", close: "סגירה", audit: "השאירו פרטים לאודיט חינם" },
 } as const;
 

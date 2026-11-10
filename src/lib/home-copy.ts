@@ -174,7 +174,54 @@ const he: HomeCopy = {
   ribbonNote: "מספרים אמיתיים מחשבונות הפרסום שלנו",
 };
 
-const COPY: Record<string, HomeCopy> = { en, ru, he };
+const es: HomeCopy = {
+  heroMetaL: "Clientes para tu negocio sin dolores de cabeza, desde los primeros días de campaña",
+  heroMetaR: "Tus clientes te esperan",
+  heroLanes: ["Agencia de publicidad", "Producción de vídeo", "Leads en 24 horas"],
+  heroDesc: "Nos encargamos de todo: estrategia, sesiones de foto y vídeo, lanzamiento de anuncios llave en mano, redes sociales, chatbots y automatización de ventas. Tú recibes un flujo constante de clientes y sabes cuánto te cuesta cada uno",
+  heroRail: ["Publicidad llave en mano", "Redes sociales", "Foto y vídeo", "Chatbots", "Automatización de ventas", "Publicidad", "Producción de vídeo"],
+  feats: [
+    { t: "Errores", s: "frecuentes", d: "Los errores que casi todos los negocios cometen en 2026 y en los que queman su presupuesto" },
+    { t: "Solo publicidad", s: "no basta", d: "Por qué en 2026 los anuncios por sí solos no se pagan, y qué más hace falta" },
+    { t: "Resultados", s: "garantizados", d: "Garantizamos resultados en las primeras 48 horas tras el lanzamiento" },
+  ],
+  heroWatch: "Ver el vídeo",
+  heroScroll: "Desliza",
+  popVideoEyebrow: "Showreel · 60 s",
+  popVideoTitle: "Mira cómo trabajamos en un minuto",
+  popVideoBtn: "Ver el vídeo",
+  popLeadEyebrow: "Consulta gratuita",
+  popLeadTitle: "Veamos dónde se pierden tus clientes",
+  popLeadText: "Cuéntanos sobre tu negocio. Te respondemos en un día laborable con un plan claro",
+  close: "Cerrar",
+  steps: [
+    { name: "Estrategia", desc: "Analizamos a fondo tu negocio y tu competencia: el producto, su precio y cómo encaja en el mercado" },
+    { name: "Idea", desc: "Con todo lo que nos cuentas y nuestra propia investigación, el equipo crea contenido pensado para traer clientes, no solo alcance" },
+    { name: "Producción", desc: "Nos ocupamos de todo: guiones, días de rodaje, edición, diseño y cada visual hasta el lanzamiento" },
+    { name: "Rodaje", desc: "Rodamos con equipo profesional para que tu marca se vea premium y genere confianza desde el primer plano" },
+    { name: "Publicidad", desc: "Cada negocio tiene su enfoque: de anuncios en Facebook e Instagram a Google Ads, SEO y GEO" },
+    { name: "Análisis", desc: "Seguimos cada lead: cuánto costó, de dónde vino y qué anuncio funciona mejor. Ves a dónde va el dinero y qué te devuelve" },
+    { name: "Acompañamiento", desc: "Mejoramos tus anuncios cada semana, enviamos un informe claro cada mes y automatizamos la rutina con chatbots" },
+  ],
+  results: [
+    { value: "48", label: "horas hasta los primeros leads de calidad tras lanzar la publicidad. Garantizado" },
+    { value: "×2", label: "menos coste por lead cuando rehacemos tus anuncios" },
+    { value: "7", label: "días desde la firma hasta la primera campaña activa" },
+    { value: "+100", label: "clientes nuevos en el primer mes trabajando con nosotros" },
+  ],
+  bentoStatement: ["No solo hacemos contenido", "Construimos sistemas"],
+  bentoStatementCta: "Empezar un proyecto",
+  bentoCtaTitle: "Reserva una consulta gratuita",
+  bentoCtaText: "Revisamos tus anuncios y tu contenido y te mostramos dónde se escapan los clientes",
+  bentoCtaBtn: "Contactar",
+  workKicker: "Caso de éxito",
+  workOpen: "Ver caso",
+  wallLabel: "Nuestros clientes",
+  ribbonWords: ["Resultados", "publicitarios"],
+  ribbonNote: "Cifras reales de nuestras cuentas publicitarias",
+};
+
+const COPY: Record<string, HomeCopy> = { en, ru, he, es };
 export const homeCopy = (locale: string): HomeCopy => COPY[locale] ?? en;
 
 /** Headings and short labels read cleaner without a closing full stop. */
@@ -309,7 +356,46 @@ const flowHe: HomeFlow = {
   painBtn: "לאודיט חינם",
 };
 
-const FLOW: Record<string, HomeFlow> = { en: flowEn, ru: flowRu, he: flowHe };
+const flowEs: HomeFlow = {
+  solLabel: "Solución",
+  solHeading: "Cómo convertimos la publicidad",
+  solEm: "en clientes",
+  solItems: [
+    { title: "Traemos a gente lista para comprar", text: "Dirigimos los anuncios de Facebook, Instagram y Google a quien necesita tu producto ahora, no a clics al azar" },
+    { title: "Te presentamos para que quieran comprarte", text: "Vídeo, foto, diseño y una web que muestran tu valor desde la primera pantalla y quitan dudas antes de la primera llamada" },
+    { title: "Llevamos el lead hasta la venta", text: "Los bots responden en segundos, ningún lead se pierde y ayudamos a tu equipo comercial a cerrar" },
+  ],
+  svcLabel: "Servicios",
+  svcHeading: "Cubrimos todo el camino del cliente",
+  svcEm: "del anuncio a la venta",
+  svcAll: "Todos los servicios",
+  svcItems: [
+    { title: "Publicidad y promoción", tag: "Captación", text: "Anuncios en Facebook e Instagram, Google Ads, SEO, GEO y crecimiento orgánico. Encontramos clientes allí donde buscan lo que vendes" },
+    { title: "Contenido, diseño y webs", tag: "Imagen", text: "Rodamos vídeo y foto, creamos posts, diseño y webs que venden. Tu negocio parece más fuerte que la competencia a primera vista" },
+    { title: "Automatización y ventas", tag: "Cierres", text: "Los chatbots atienden 24/7, los procesos y el CRM funcionan solos. Te ayudamos con las ventas y a contratar comerciales, para que los leads se conviertan en dinero" },
+  ],
+  resLabel: "Resultados",
+  resHeading: "Cifras",
+  resEm: "de nuestra experiencia",
+  fmtLabel: "Cómo trabajamos",
+  fmtHeading: "Elegimos el formato",
+  fmtEm: "para tu negocio",
+  fmtBtn: "Hablar de este formato",
+  fmtPopular: "El más elegido",
+  fmtNote: "El precio se calcula según tus objetivos tras una auditoría gratuita",
+  fmtItems: [
+    { name: "Flujo de clientes", tag: "Arranque rápido", lead: "Cuando necesitas clientes ya", rows: ["Anuncios en Facebook e Instagram", "Landing que capta solicitudes", "Chatbot que responde al instante", "Creativos nuevos cada mes", "Informe claro de tus leads"] },
+    { name: "Crecimiento de marca", tag: "Crecimiento", lead: "Clientes constantes y una marca fuerte", rows: ["Web completa", "Anuncios en redes y Google", "Vídeos y sesiones de fotos regulares", "Crecimiento orgánico en Instagram, Facebook y TikTok", "Automatización de procesos"] },
+    { name: "Negocio en piloto automático", tag: "Llave en mano", lead: "Un sistema que vende por ti", rows: ["Web hecha para tu producto con todas las integraciones", "Bot de ventas en WhatsApp que conversa y cierra", "Telefonía, bots y CRM en un solo sistema", "Todo tu proceso de ventas automatizado", "Publicidad y clientes entrando al sistema"] },
+  ],
+  painEyebrow: "Cada día cuenta",
+  painLine: "Mientras esperas,",
+  painEm: "tus clientes compran a la competencia",
+  painText: "El presupuesto se va, los leads se pierden en los chats y dedicas tiempo a tareas que podrían hacerse solas. Te mostramos gratis dónde estás perdiendo dinero",
+  painBtn: "Auditoría gratuita",
+};
+
+const FLOW: Record<string, HomeFlow> = { en: flowEn, ru: flowRu, he: flowHe, es: flowEs };
 export const homeFlow = (locale: string): HomeFlow => FLOW[locale] ?? flowEn;
 
 /* ── FAQ: real questions business owners ask before they start ── */
@@ -326,6 +412,12 @@ export const homeFaq = (locale: string): { q: string; a: string }[] =>
       { q: "מה כלול בעבודה שלכם?", a: "כל מה שצריך לזרם לקוחות: פרסום בפייסבוק, באינסטגרם ובגוגל, צילום ותוכן, אתר, צ'אטבוטים ועזרה במכירות." },
       { q: "איך אדע שהפרסום עובד?", a: "תראו כמה לידים הגיעו וכמה עלה כל אחד. פעם בחודש נשלח דוח ברור בלי מונחים מסובכים." },
       { q: "מה קורה עם הלידים כשהם מגיעים?", a: "צ'אטבוט עונה ללקוח מיד, הליד מגיע אליכם בלי לאבד אף אחד, ואנחנו עוזרים לבנות מכירות כדי שלידים יהפכו לעסקאות." },
+    ],
+    es: [
+      { q: "¿Cuándo llegan los primeros leads?", a: "Normalmente en las primeras 24–48 horas tras lanzar la publicidad. Garantizamos resultados en las primeras 48 horas." },
+      { q: "¿Qué incluye vuestro trabajo?", a: "Todo lo necesario para traer clientes: anuncios en Facebook, Instagram y Google, rodajes y contenido, web, chatbots y ayuda con las ventas." },
+      { q: "¿Cómo sabré que la publicidad funciona?", a: "Ves cuántos leads llegaron y cuánto costó cada uno. Una vez al mes enviamos un informe claro, sin tecnicismos." },
+      { q: "¿Qué pasa con los leads cuando llegan?", a: "Un chatbot responde al cliente al momento, cada lead te llega y te ayudamos a montar las ventas para que se conviertan en cierres." },
     ],
   } as Record<string, { q: string; a: string }[]>)[locale] ?? [
     { q: "How soon will the first leads come?", a: "Usually within 24–48 hours of the ads going live. We guarantee results within the first 48 hours." },

@@ -29,6 +29,14 @@ const T = {
     note: "הערכה לפי הקמפיינים שלנו במטא: ₪74.5K תקציב, 4,288 לידים ופניות. המספר המדויק תלוי בתחום ובהצעה",
     cta: "לקבל חישוב מדויק",
   },
+  es: {
+    label: "Calculadora", h: "Cuántos clientes", em: "trae tu presupuesto",
+    sub: "Mueve el control: calculamos con el precio medio por lead de nuestras campañas",
+    perDay: "Presupuesto diario", perMonth: "al mes", leads: "leads al mes", clients: "clientes nuevos",
+    cpl: "precio medio por lead", weeks: ["Sem 1", "Sem 2", "Sem 3", "Sem 4"],
+    note: "Estimación basada en nuestras campañas en Meta: ₪74.5K de presupuesto, 4.288 leads y conversaciones. La cifra exacta depende de tu sector y tu oferta",
+    cta: "Calcular mi caso",
+  },
   en: {
     label: "Calculator", h: "How many leads", em: "your budget brings",
     sub: "Move the slider: we count by the average lead price in our campaigns",
@@ -39,7 +47,7 @@ const T = {
   },
 } as const;
 
-const fmt = (n: number, loc: string) => Math.round(n).toLocaleString(loc === "he" ? "he-IL" : loc === "ru" ? "ru-RU" : "en-US");
+const fmt = (n: number, loc: string) => Math.round(n).toLocaleString(loc === "he" ? "he-IL" : loc === "ru" ? "ru-RU" : loc === "es" ? "es-ES" : "en-US");
 
 /** Number that eases to its new value instead of jumping. */
 function Rolling({ value, locale }: { value: number; locale: string }) {

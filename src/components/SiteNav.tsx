@@ -22,6 +22,18 @@ export function SiteNav() {
 
   const close = () => setOpen(false);
 
+  // Hebrew is offered in the switcher only to visitors who are in Israel (or read
+  // Hebrew); everyone else sees EN · RU · ES. The Hebrew pages stay public and indexed.
+  const [showHe, setShowHe] = useState(locale === "he");
+  useEffect(() => {
+    if (locale === "he") return;
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      const langs = (navigator.languages || [navigator.language]).map((x) => x.toLowerCase());
+      if (tz === "Asia/Jerusalem" || tz === "Asia/Tel_Aviv" || langs.some((x) => x.startsWith("he") || x.startsWith("iw"))) setShowHe(true);
+    } catch { /* keep hidden */ }
+  }, [locale]);
+
   // arriving with "#packages"/"#lead" from another page: land on that block once the layout has settled
   useEffect(() => {
     const id = window.location.hash.slice(1);
@@ -60,18 +72,19 @@ export function SiteNav() {
     ["/#packages", t("pricing")],
     ["/#lead", t("contacts")],
   ] as const;
-  const cta = ({ ru: "Бесплатный аудит", he: "אודיט חינם" } as Record<string, string>)[locale] ?? "Free audit";
-  const ctaSub = ({ ru: "Разберём, где теряются ваши заявки", he: "נבדוק איפה הולכים לאיבוד הלידים שלכם" } as Record<string, string>)[locale] ?? "We'll find where your leads get lost";
+  const cta = ({ ru: "Бесплатный аудит", he: "אודיט חינם", es: "Auditoría gratuita" } as Record<string, string>)[locale] ?? "Free audit";
+  const ctaSub = ({ ru: "Разберём, где теряются ваши заявки", he: "נבדוק איפה הולכים לאיבוד הלידים שלכם", es: "Veremos dónde se pierden tus clientes" } as Record<string, string>)[locale] ?? "We'll find where your leads get lost";
 
+  const shownLocales = (["en", "ru", "es", "he"] as const).filter((l) => (routing.locales as readonly string[]).includes(l) && (l !== "he" || showHe));
   const LangSwitch = (
     <div className="nav-lang" aria-label={t("language")}>
-      {routing.locales.map((l) => (
+      {shownLocales.map((l) => (
         <Link
           key={l}
           href={pathname}
           locale={l}
           className={`nav-lang-item${l === locale ? " active" : ""}`}
-          onClick={close}
+          onClick={() => { try { document.cookie = `dc_lang=${l};path=/;max-age=31536000;samesite=lax`; } catch { /* ignore */ } close(); }}
         >
           {l}
         </Link>

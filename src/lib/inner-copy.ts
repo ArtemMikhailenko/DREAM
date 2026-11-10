@@ -62,21 +62,41 @@ const svcHe: ServicesCopy = {
     "geo-ai-seo": { title: "המלצות ב-ChatGPT", tag: "חיפוש AI", teaser: "דואגים ש-ChatGPT ועוזרי AI אחרים ימליצו דווקא עליכם" },
   },
 };
-export const servicesCopy = (l: string) => ({ ru: svcRu, he: svcHe }[l] ?? svcEn);
+const svcEs: ServicesCopy = {
+  sub: "Todo lo que hace falta para que los clientes te encuentren, te escriban y te compren. Explicado sin tecnicismos",
+  more: "Pedir presupuesto",
+  ctaHeading: "¿No sabes cuál de estos necesitas?",
+  ctaText: "Cuéntanos sobre tu negocio. Elegimos la combinación adecuada y te enviamos presupuesto",
+  ctaBtn: "Pedir presupuesto",
+  items: {
+    "seo": { title: "Tu web en los primeros puestos de Google", tag: "SEO", teaser: "Los clientes te encuentran solos en la búsqueda normal de Google, sin pagar por cada clic" },
+    "targeted-advertising": { title: "Publicidad en Instagram y Facebook", tag: "Anuncios", teaser: "Tus anuncios llegan justo a quien necesita tu producto y traen solicitudes" },
+    "smm": { title: "Gestión de redes sociales", tag: "Social media", teaser: "Posts, stories y vídeos que convierten seguidores en clientes" },
+    "google-ads": { title: "Publicidad en Google", tag: "Google Ads", teaser: "Tu anuncio lo ve quien busca tu servicio ahora mismo" },
+    "photo-video": { title: "Foto y vídeo", tag: "Producción", teaser: "Vídeos y fotos de nivel cine para anuncios, redes y tu web" },
+    "marketing-strategy": { title: "Estrategia de ventas", tag: "Estrategia", teaser: "Analizamos tu negocio y trazamos un camino claro del primer anuncio a la compra" },
+    "website-development": { title: "Webs y landing pages", tag: "Webs", teaser: "Webs rápidas que venden y captan solicitudes las 24 horas" },
+    "automation": { title: "Chatbots y automatización", tag: "Bots", teaser: "Un bot responde a tus clientes en segundos y ningún lead se pierde" },
+    "geo-ai-seo": { title: "Recomendado por ChatGPT", tag: "Búsqueda IA", teaser: "Hacemos que ChatGPT y otros asistentes de IA te recomienden a ti" },
+  },
+};
+export const servicesCopy = (l: string) => ({ ru: svcRu, he: svcHe, es: svcEs } as Record<string, ServicesCopy>)[l] ?? svcEn;
 
 /* Portfolio filters: plain names; old CMS tags map onto them */
 export const portfolioCategories = (l: string) =>
   ({
     ru: ["Все", "Имиджевое видео", "Реклама и креативы", "Social media", "Чат-боты", "Промо-видео", "Сайты"],
     he: ["הכל", "סרטון תדמית", "פרסום וקריאייטיב", "Social media", "צ'אטבוטים", "סרטון פרסום", "אתרים"],
+    es: ["Todo", "Vídeo de imagen", "Publicidad y creativos", "Social media", "Chatbots", "Vídeo promocional", "Webs"],
   } as Record<string, string[]>)[l] ?? ["All", "Image video", "Ads & creatives", "Social media", "Chatbots", "Promo video", "Websites"];
 export const portfolioTagMap: Record<string, string> = {
   "SMM": "Social media",
   "Полная воронка": "Чат-боты", "Full funnel": "Chatbots", "משפך מלא": "צ'אטבוטים",
   "Promotional video": "Promo video",
+  "Embudo completo": "Chatbots",
 };
 export const portfolioEmpty = (l: string) =>
-  ({ ru: "Скоро здесь появятся новые кейсы", he: "בקרוב יעלו לכאן פרויקטים חדשים" } as Record<string, string>)[l] ?? "New cases coming soon";
+  ({ ru: "Скоро здесь появятся новые кейсы", he: "בקרוב יעלו לכאן פרויקטים חדשים", es: "Pronto habrá nuevos casos aquí" } as Record<string, string>)[l] ?? "New cases coming soon";
 
 /* About: what we do, in plain words */
 export type AboutCopy = {
@@ -145,19 +165,41 @@ const aboutHe: AboutCopy = {
   ],
   clientsHeading: "הלקוחות שלנו",
 };
-export const aboutCopy = (l: string): AboutCopy => ({ ru: aboutRu, he: aboutHe } as Record<string, AboutCopy>)[l] ?? aboutEn;
+const aboutEs: AboutCopy = {
+  heroLabel: "Sobre DC Production",
+  heroHeading: "Marketing y ventas",
+  heroEm: "llave en mano",
+  heroSub: "Te traemos clientes, te ayudamos a gestionar los leads y montamos un sistema de ventas que funciona sin ti",
+  storyLabel: "Nuestra historia",
+  storyHeading: "Cómo empezamos",
+  p1: "DC Production empezó como un equipo de producción de vídeo. Nuestro trabajo se veía genial, pero pronto vimos que los negocios necesitan algo más que vídeos bonitos: necesitan clientes.",
+  p2: "Hoy somos un estudio de ciclo completo. Te traemos clientes, te ayudamos con los leads y montamos todo el sistema de marketing y ventas, con bots y automatización, para que el negocio crezca sin que le dediques tu tiempo.",
+  slogan: "de la idea al resultado",
+  valuesLabel: "Nuestros principios",
+  valuesHeading: "Cómo trabajamos",
+  values: [
+    { title: "La calidad primero", desc: "Cada plano, palabra y cifra se hace con nivel de productora. El trabajo flojo nunca sale del estudio" },
+    { title: "Un solo equipo lo hace todo", desc: "Publicidad, contenido, web y ventas solo funcionan bien cuando los construye un mismo equipo. Por eso nos encargamos de todo" },
+    { title: "Los resultados son obligatorios", desc: "Un trabajo bonito que no trae clientes es un fracaso. Cada proyecto tiene un resultado claro en cifras" },
+    { title: "Claro y honesto", desc: "Siempre sabes cuántos leads llegaron y cuánto costó cada uno. Sin tecnicismos ni informes bonitos que no dicen nada" },
+  ],
+  clientsHeading: "Nuestros clientes",
+};
+export const aboutCopy = (l: string): AboutCopy => ({ ru: aboutRu, he: aboutHe, es: aboutEs } as Record<string, AboutCopy>)[l] ?? aboutEn;
 
 /* Works page: the ad-results block */
 export const portfolioResults = (l: string) =>
   ({
     ru: { label: "Результаты рекламы", heading: "Цифры из", em: "рекламных кабинетов", sub: "Реальные кампании наших клиентов: сколько пришло заявок и сколько стоила каждая" },
     he: { label: "תוצאות פרסום", heading: "מספרים מתוך", em: "חשבונות הפרסום", sub: "קמפיינים אמיתיים של הלקוחות שלנו: כמה לידים הגיעו וכמה עלה כל אחד" },
+    es: { label: "Resultados publicitarios", heading: "Cifras de", em: "nuestras cuentas publicitarias", sub: "Campañas reales de nuestros clientes: cuántos leads llegaron y cuánto costó cada uno" },
   } as Record<string, { label: string; heading: string; em: string; sub: string }>)[l] ?? { label: "Ad results", heading: "Numbers from", em: "our ad accounts", sub: "Real campaigns for our clients: how many leads came in and what each one cost" };
 
 export const aboutTags = (l: string) =>
   ({
     ru: ["Реклама в Instagram и Facebook", "Реклама в Google", "Съёмка фото и видео", "Контент для соцсетей", "Сайты и лендинги", "Чат-боты", "Автоматизация продаж", "Помощь с продажами"],
     he: ["פרסום באינסטגרם ובפייסבוק", "פרסום בגוגל", "צילום ווידאו", "תוכן לרשתות", "אתרים ודפי נחיתה", "צ'אטבוטים", "אוטומציית מכירות", "עזרה במכירות"],
+    es: ["Publicidad en Instagram y Facebook", "Publicidad en Google", "Foto y vídeo", "Contenido para redes", "Webs y landing pages", "Chatbots", "Automatización de ventas", "Ayuda con las ventas"],
   } as Record<string, string[]>)[l] ?? ["Instagram & Facebook ads", "Google ads", "Photo & video shoots", "Social media content", "Websites & landing pages", "Chatbots", "Sales automation", "Help with sales"];
 
 /* Works page: websites we built (screenshots in public/sites) */
@@ -165,11 +207,13 @@ export type SiteItem = { name: string; domain: string; url: string; desc: string
 export const portfolioSites = (l: string) => {
   const t = ({
     ru: { open: "Открыть сайт", d: ["Сайт производителя алюминиевых конструкций: перголы, остекление и ZIP-шторы. Заявки на бесплатную консультацию прямо с первого экрана", "Сайт для израильтян, которые хотят купить первую квартиру в Грузии: понятные цифры, конкретные дома и запись на вебинар", "Сайт винного бутика в Ришон-ле-Ционе: живые сцены при прокрутке, три языка и заявки на доставку"] },
+    es: { open: "Ver la web", d: ["Web para un fabricante de estructuras de aluminio: pérgolas, acristalamientos y toldos ZIP. Solicitudes de consulta gratuita desde la primera pantalla", "Web para quienes compran su primer piso en Georgia: cifras claras, edificios concretos e inscripción a webinars", "Web para una tienda de vinos: escenas vivas al hacer scroll, tres idiomas y pedidos a domicilio"] },
     he: { open: "לאתר", d: ["אתר ליצרן מבני אלומיניום: פרגולות, זיגוג ומסכי ZIP. השארת פרטים לייעוץ חינם כבר במסך הראשון", "אתר לישראלים שרוצים לקנות דירה ראשונה בגאורגיה: מספרים ברורים, פרויקטים ספציפיים והרשמה לוובינר", "אתר לבוטיק יין בראשון לציון: סצנות חיות בגלילה, שלוש שפות ופניות למשלוח"] },
   } as Record<string, { open: string; d: string[] }>)[l] ?? { open: "Visit site", d: ["Website for an aluminium structures manufacturer: pergolas, glazing and ZIP screens. Free consultation requests right from the first screen", "Website for Israelis buying their first apartment in Georgia: clear numbers, specific buildings and webinar sign-ups", "Website for a wine boutique in Rishon LeZion: living scenes on scroll, three languages and delivery requests"] };
-  // each site is shown in the visitor's language; Vitlion has no English version, so English visitors see Hebrew
+  // each site is shown in the visitor's language; Vitlion has only Russian and Hebrew,
+  // so everyone outside the Hebrew version sees its Russian one
   const L = (["ru", "he"].includes(l) ? l : "en") as "ru" | "he" | "en";
-  const vit = L === "ru" ? "ru" : "he";
+  const vit = L === "he" ? "he" : "ru";
   const items: SiteItem[] = [
     { name: "Vitlion Group", domain: "vitlion.co.il", url: vit === "ru" ? "https://www.vitlion.co.il/ru" : "https://www.vitlion.co.il/", desc: t.d[0], img: `/sites/vitlion-${vit}-desktop.webp`, phone: `/sites/vitlion-${vit}-phone.webp` },
     { name: "Nexis Capital", domain: "nexiscapital-israel.com", url: "https://nexiscapital-israel.com", desc: t.d[1], img: `/sites/nexis-${L}-desktop.webp`, phone: `/sites/nexis-${L}-phone.webp` },

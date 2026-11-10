@@ -374,6 +374,7 @@ function BudgetCalcHead({ locale }: { locale: string }) {
   const h = ({
     ru: ["Калькулятор", "Сколько заявок", "даст ваш бюджет", "Двигайте ползунок: посчитаем по средней цене заявки в наших кампаниях"],
     he: ["מחשבון", "כמה לידים", "התקציב שלכם יביא", "הזיזו את הסליידר: נחשב לפי המחיר הממוצע לליד בקמפיינים שלנו"],
+    es: ["Calculadora", "Cuántos clientes", "trae tu presupuesto", "Mueve el control: calculamos con el precio medio por lead de nuestras campañas"],
   } as Record<string, string[]>)[locale] ?? ["Calculator", "How many leads", "your budget brings", "Move the slider: we count by the average lead price in our campaigns"];
   return (
     <>
