@@ -54,10 +54,10 @@ export const metadata: Metadata = {
   // No template: every page's title is authored whole in the CMS and already ends
   // with the brand, per the SEO spec. A "%s | dc.production" template appended the
   // brand a second time and pushed titles past the SERP cut-off.
-  title: "dc.production, Digital Marketing Agency in Israel | SMM, Ads & Content",
+  title: "DC Production — Digital Marketing & Ad Agency | Leads from Day One",
   description:
-    "dc.production is a full-cycle production studio: promotional & image videos, 3D animation, social media content, AI content and digital marketing — from idea to result.",
-  applicationName: "dc.production",
+    "DC Production (Dream Chase Production) is a full-cycle digital marketing agency: ads on Facebook, Instagram and Google, SEO, video production, websites and chatbots.",
+  applicationName: "DC Production",
   // Meta domain verification. Kept in the page head rather than a DNS TXT record so
   // it survives DNS/host moves — the ads account and pixel depend on it.
   other: { "facebook-domain-verification": "tm7ve4fhbg5cdo8j530ztxsxpzkps5" },

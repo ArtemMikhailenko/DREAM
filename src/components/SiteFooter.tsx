@@ -2,9 +2,12 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { CONTACTS } from "@/lib/contacts";
 
+// Every service landing is linked from every page, so search engines (and people) can find them.
+const LANDINGS = ["targeted-advertising", "google-ads", "seo", "smm", "photo-video", "website-development", "automation", "marketing-strategy", "geo-ai-seo"] as const;
+
 export async function SiteFooter() {
   const t = await getTranslations("Footer");
-  const services = t.raw("services") as string[];
+  const tS = await getTranslations("Services");
   const year = new Date().getFullYear();
 
   return (
@@ -38,8 +41,8 @@ export async function SiteFooter() {
           <div className="footer-col">
             <h4 className="footer-h">{t("servicesHead")}</h4>
             <ul className="footer-list">
-              {services.map((s) => (
-                <li key={s}><Link href="/services">{s}</Link></li>
+              {LANDINGS.map((slug) => (
+                <li key={slug}><Link href={`/services/${slug}`}>{tS(`${slug}.label`)}</Link></li>
               ))}
             </ul>
           </div>

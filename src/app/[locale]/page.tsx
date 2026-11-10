@@ -61,17 +61,19 @@ export default async function Home({
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      name: "dc.production",
+      name: "DC Production",
+      alternateName: ["Dream Chase Production", "DreamChase Production", "dreamchaseprod", "dc.production"],
       url: siteUrl,
       description: t("meta.description"),
-      sameAs: [],
+      sameAs: [CONTACTS.instagram, CONTACTS.facebook],
+      telephone: CONTACTS.phone,
     },
     {
       "@context": "https://schema.org",
       "@type": "Service",
       name: "Digital marketing",
-      provider: { "@type": "Organization", name: "dc.production" },
-      areaServed: "Israel",
+      provider: { "@type": "Organization", name: "DC Production" },
+      areaServed: ["Israel", "Spain"],
       serviceType: railItems,
     },
     {
@@ -198,7 +200,7 @@ export default async function Home({
           <h2 className="sec-h">{f.svcHeading} <em>{f.svcEm}</em></h2>
           <div className="svc-list">
             {f.svcItems.map((s, i) => (
-              <Link href="/services" className="svc-row" key={i}>
+              <Link href={`/services/${["targeted-advertising", "website-development", "automation"][i] ?? ""}`} className="svc-row" key={i}>
                 <i className="vg-line" aria-hidden="true" />
                 <span className="svc-row-num">0{i + 1}</span>
                 <div className="svc-row-head">
