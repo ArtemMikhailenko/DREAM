@@ -1104,10 +1104,26 @@ body.lead-open .uwy,body.lead-open .userway_buttons_wrapper,body.lead-open .chw,
 @media(max-width:700px){.fmt-card.is-pop{transform:none}.fmt-card.is-pop:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.fmt-card.is-pop{animation:none}}
 
-/* Paper backdrop (calculator, formats, FAQ, contact): the dark paper of the first
-   dc.prod hero, grain, dashed drafting lines and faint circles, baked into one image */
-.section.s-paper{background:url(/background/paper-dc.webp) center/cover #1b1b1b!important;isolation:isolate}
+/* Paper run: calculator, formats, FAQ and contact sit on one continuous sheet of dark
+   drafting paper (seamless tile), with one technical drawing of dashed guide lines,
+   construction lines and circles running through all four blocks */
+.paper-run{position:relative;isolation:isolate;background:url(/background/paper-tile.webp) 0 0/1024px 1024px repeat #1b1b1b}
+.paper-run::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 120% 60% at 50% 50%,transparent 55%,rgba(0,0,0,.35) 100%)}
+.paper-run>.section.s-paper{background:transparent!important;position:relative;z-index:1}
+.paper-run>.section.s-paper::after{display:none}
 .s-paper>.wrap{position:relative;z-index:1}
-.s-paper .s-plain-glow{opacity:.35}
-.s-paper.s-plain::after{opacity:.5}
-.lead-sec.s-paper .contact-glow{opacity:.5}
+.s-paper .s-plain-glow{opacity:.3}
+.lead-sec.s-paper .contact-glow{top:300px;opacity:.4}
+.paper-run>.section::before{display:none}
+.paper-draft{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.paper-draft svg{position:absolute;inset:0;width:100%;height:100%}
+.paper-draft path{fill:none;vector-effect:non-scaling-stroke}
+.pd-dash path{stroke:rgba(244,241,234,.2);stroke-width:1;stroke-dasharray:9 8}
+.pd-thin path{stroke:rgba(244,241,234,.11);stroke-width:1;stroke-dasharray:2 6}
+.pd-c{position:absolute;left:48%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(244,241,234,.15);transform:translate(-50%,-50%)}
+.pd-c.is-dash{border-style:dashed;border-color:rgba(244,241,234,.13)}
+.pd-x{position:absolute;left:48%;width:14px;height:14px;border-radius:50%;border:1px solid rgba(232,168,104,.45);transform:translate(-50%,-50%)}
+.pd-x::before,.pd-x::after{content:"";position:absolute;left:50%;top:50%;background:rgba(232,168,104,.45);transform:translate(-50%,-50%)}
+.pd-x::before{width:26px;height:1px}.pd-x::after{width:1px;height:26px}
+[dir="rtl"] .pd-c,[dir="rtl"] .pd-x{left:52%}
+[dir="rtl"] .paper-draft svg{transform:scaleX(-1)}

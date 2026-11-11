@@ -247,6 +247,27 @@ export default async function Home({
       </section>
 
       {/* ── Budget → leads calculator ── */}
+      {/* calculator → formats → FAQ → contact share one sheet of drafting paper: the lines
+          and circles run through all four blocks like one technical drawing */}
+      <div className="paper-run">
+        <div className="paper-draft" aria-hidden="true">
+          <svg viewBox="0 0 100 1000" preserveAspectRatio="none">
+            <g className="pd-dash">
+              <path d="M6 0V1000M48 0V1000M94 0V1000" />
+              <path d="M0 96H100M0 250H100M0 262H100M0 505H100M0 742H100M0 754H100M0 930H100" />
+            </g>
+            <g className="pd-thin">
+              <path d="M6 96L48 250L94 96M6 262L48 505L94 262M6 505L48 742L94 505M6 754L48 930L94 754" />
+            </g>
+          </svg>
+          <i className="pd-c" style={{ top: "12%", width: "62vw" }} />
+          <i className="pd-c is-dash" style={{ top: "25.6%", width: "118vw" }} />
+          <i className="pd-c" style={{ top: "50.5%", width: "84vw" }} />
+          <i className="pd-c is-dash" style={{ top: "62%", width: "46vw" }} />
+          <i className="pd-c" style={{ top: "74.8%", width: "128vw" }} />
+          <i className="pd-c is-dash" style={{ top: "93%", width: "70vw" }} />
+          {["9.6%", "25%", "50.5%", "74.2%", "93%"].map((t) => <b key={t} className="pd-x" style={{ top: t }} />)}
+        </div>
       <section className="section s-plain s-paper calc-sec" id="calculator">
         <div className="s-plain-glow" aria-hidden="true" />
         <div className="wrap">
@@ -366,6 +387,7 @@ export default async function Home({
           </div>
         </div>
       </section>
+      </div>
 
       <CardGlow selector=".lead-sec .contact-card, .sr-item, #problem .problem-row, .svc-row, .fmt-card" />
       <PromoPopups copy={c} poster={poster} />
