@@ -253,11 +253,11 @@ export default async function Home({
         <div className="paper-draft" aria-hidden="true">
           <svg viewBox="0 0 100 1000" preserveAspectRatio="none">
             <g className="pd-dash">
-              <path d="M6 0V1000M48 0V1000M94 0V1000" />
-              <path d="M0 96H100M0 250H100M0 262H100M0 505H100M0 742H100M0 754H100M0 930H100" />
+              <path d="M48 0V1000" />
+              <path d="M0 250H100M0 262H100M0 742H100M0 754H100" />
             </g>
             <g className="pd-thin">
-              <path d="M6 96L48 250L94 96M6 262L48 505L94 262M6 505L48 742L94 505M6 754L48 930L94 754" />
+              <path d="M0 40L48 256L100 40M0 256L48 505L100 256M0 505L48 748L100 505M0 748L48 960L100 748" />
             </g>
           </svg>
           <i className="pd-c" style={{ top: "12%", width: "62vw" }} />

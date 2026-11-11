@@ -1116,10 +1116,10 @@ body.lead-open .uwy,body.lead-open .userway_buttons_wrapper,body.lead-open .chw,
 .lead-sec.s-paper .contact-glow{top:300px;opacity:.4}
 .paper-run>.section::before{display:none}
 .paper-draft{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.paper-draft svg{position:absolute;inset:0;width:100%;height:100%}
+.paper-draft svg{position:absolute;inset:0;width:100%;height:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}
 .paper-draft path{fill:none;vector-effect:non-scaling-stroke}
 .pd-dash path{stroke:rgba(244,241,234,.2);stroke-width:1;stroke-dasharray:9 8}
-.pd-thin path{stroke:rgba(244,241,234,.11);stroke-width:1;stroke-dasharray:2 6}
+.pd-thin path{stroke:rgba(244,241,234,.13);stroke-width:1;stroke-dasharray:6 7}
 .pd-c{position:absolute;left:48%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(244,241,234,.15);transform:translate(-50%,-50%)}
 .pd-c.is-dash{border-style:dashed;border-color:rgba(244,241,234,.13)}
 .pd-x{position:absolute;left:48%;width:14px;height:14px;border-radius:50%;border:1px solid rgba(232,168,104,.45);transform:translate(-50%,-50%)}
