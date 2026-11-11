@@ -3,14 +3,20 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { LeadButton } from "@/components/home/LeadButton";
 
 /*
- * Ad budget → leads estimate. The cost of a lead comes from our own Meta
- * campaigns (the result screenshots on this page): ₪74.5K spent for 4,288
- * leads and conversations, about ₪17 each; most campaigns land between ₪12 and
- * ₪24. Clients assume 10–20% of leads close. It is an estimate, and says so.
+ * Ad budget → leads estimate, from the cost of a WhatsApp conversation in our
+ * clients' Meta campaigns (the cards on this page): most land between ₪8 and ₪15.
+ * Each language counts in its own currency: shekels on the Hebrew site, euros on
+ * the Spanish one, dollars elsewhere (we also advertise in Dubai and Europe).
+ * Budgets reach ₪3,000 a day, our largest client spends ₪2,500. Clients assume
+ * 10–20% of leads close. It is an estimate, and says so.
  */
-const CPL_LOW = 12, CPL_MID = 17, CPL_HIGH = 24;
+const CUR = {
+  ils: { sym: "₪", min: 50, max: 3000, step: 50, start: 300, cpl: [8, 11, 15] },
+  usd: { sym: "$", min: 15, max: 1000, step: 5, start: 100, cpl: [2.2, 3, 4.2] },
+  eur: { sym: "€", min: 15, max: 900, step: 5, start: 90, cpl: [2, 2.8, 3.9] },
+} as const;
+const curFor = (l: string) => (l === "he" ? CUR.ils : l === "es" ? CUR.eur : CUR.usd);
 const CLOSE_LOW = 0.1, CLOSE_HIGH = 0.2;
-const MIN = 30, MAX = 500, STEP = 10;
 
 const T = {
   ru: {
@@ -18,7 +24,7 @@ const T = {
     sub: "Двигайте ползунок: посчитаем по средней цене заявки в наших кампаниях",
     perDay: "Бюджет в день", perMonth: "в месяц", leads: "заявок в месяц", clients: "новых клиентов",
     cpl: "средняя цена заявки", weeks: ["1 нед", "2 нед", "3 нед", "4 нед"],
-    note: "Оценка по нашим кампаниям в Meta: ₪74.5K бюджета, 4 288 заявок и обращений. Точная цифра зависит от ниши и предложения",
+    note: "Оценка по реальным кампаниям наших клиентов в Meta. Точная цифра зависит от ниши и предложения",
     cta: "Получить точный расчёт",
   },
   he: {
@@ -26,7 +32,7 @@ const T = {
     sub: "הזיזו את הסליידר: נחשב לפי המחיר הממוצע לליד בקמפיינים שלנו",
     perDay: "תקציב ליום", perMonth: "בחודש", leads: "לידים בחודש", clients: "לקוחות חדשים",
     cpl: "מחיר ממוצע לליד", weeks: ["שבוע 1", "שבוע 2", "שבוע 3", "שבוע 4"],
-    note: "הערכה לפי הקמפיינים שלנו במטא: ₪74.5K תקציב, 4,288 לידים ופניות. המספר המדויק תלוי בתחום ובהצעה",
+    note: "הערכה לפי קמפיינים אמיתיים של הלקוחות שלנו במטא. המספר המדויק תלוי בתחום ובהצעה",
     cta: "לקבל חישוב מדויק",
   },
   es: {
@@ -34,7 +40,7 @@ const T = {
     sub: "Mueve el control: calculamos con el precio medio por lead de nuestras campañas",
     perDay: "Presupuesto diario", perMonth: "al mes", leads: "leads al mes", clients: "clientes nuevos",
     cpl: "precio medio por lead", weeks: ["Sem 1", "Sem 2", "Sem 3", "Sem 4"],
-    note: "Estimación basada en nuestras campañas en Meta: ₪74.5K de presupuesto, 4.288 leads y conversaciones. La cifra exacta depende de tu sector y tu oferta",
+    note: "Estimación basada en campañas reales de nuestros clientes en Meta. La cifra exacta depende de tu sector y tu oferta",
     cta: "Calcular mi caso",
   },
   ar: {
@@ -42,7 +48,7 @@ const T = {
     sub: "حرّك المؤشر: نحسب حسب متوسط سعر الطلب في حملاتنا",
     perDay: "الميزانية اليومية", perMonth: "شهرياً", leads: "طلب شهرياً", clients: "زبائن جدد",
     cpl: "متوسط سعر الطلب", weeks: ["أسبوع 1", "أسبوع 2", "أسبوع 3", "أسبوع 4"],
-    note: "تقدير حسب حملاتنا على Meta: ميزانية ₪74.5K و 4,288 طلباً ومحادثة. الرقم الدقيق يعتمد على مجالك وعرضك",
+    note: "تقدير حسب حملات حقيقية لعملائنا على Meta. الرقم الدقيق يعتمد على مجالك وعرضك",
     cta: "احصل على حساب دقيق",
   },
   en: {
@@ -50,7 +56,7 @@ const T = {
     sub: "Move the slider: we count by the average lead price in our campaigns",
     perDay: "Budget per day", perMonth: "per month", leads: "leads a month", clients: "new customers",
     cpl: "average lead price", weeks: ["Week 1", "Week 2", "Week 3", "Week 4"],
-    note: "Estimate from our Meta campaigns: ₪74.5K spent, 4,288 leads and conversations. The exact figure depends on your niche and offer",
+    note: "Estimate from our clients' real Meta campaigns. The exact figure depends on your niche and offer",
     cta: "Get an exact estimate",
   },
 } as const;
@@ -78,7 +84,10 @@ function Rolling({ value, locale }: { value: number; locale: string }) {
 
 export function BudgetCalc({ locale }: { locale: string }) {
   const t = T[(locale as keyof typeof T)] ?? T.en;
-  const [day, setDay] = useState(100);
+  const c = curFor(locale);
+  const [CPL_LOW, CPL_MID, CPL_HIGH] = c.cpl;
+  const MIN = c.min, MAX = c.max, STEP = c.step;
+  const [day, setDay] = useState<number>(c.start);
   const [seen, setSeen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
 
@@ -113,8 +122,8 @@ export function BudgetCalc({ locale }: { locale: string }) {
       <div className="bc-ctl">
         <div className="bc-day">
           <span className="bc-k">{t.perDay}</span>
-          <b className="bc-day-v">₪<Rolling value={day} locale={locale} /></b>
-          <span className="bc-month">₪<Rolling value={month} locale={locale} /> {t.perMonth}</span>
+          <b className="bc-day-v">{c.sym}<Rolling value={day} locale={locale} /></b>
+          <span className="bc-month">{c.sym}<Rolling value={month} locale={locale} /> {t.perMonth}</span>
         </div>
         <input
           className="bc-range"
@@ -123,7 +132,7 @@ export function BudgetCalc({ locale }: { locale: string }) {
           aria-label={t.perDay}
           style={{ ["--p" as string]: `${pct}%` }}
         />
-        <div className="bc-scale" aria-hidden="true"><span>₪{MIN}</span><span>₪{MAX}</span></div>
+        <div className="bc-scale" aria-hidden="true"><span>{c.sym}{MIN.toLocaleString("en-US")}</span><span>{c.sym}{MAX.toLocaleString("en-US")}</span></div>
         <div className="bc-out">
           <div className="bc-out-i is-main">
             <b><Rolling value={leadsLo} locale={locale} />–<Rolling value={leadsHi} locale={locale} /></b>
@@ -134,7 +143,7 @@ export function BudgetCalc({ locale }: { locale: string }) {
             <span>{t.clients}</span>
           </div>
           <div className="bc-out-i">
-            <b>₪{CPL_LOW}–{CPL_HIGH}</b>
+            <b>{c.sym}{CPL_LOW}–{CPL_HIGH}</b>
             <span>{t.cpl}</span>
           </div>
         </div>

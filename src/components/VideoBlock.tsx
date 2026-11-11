@@ -24,8 +24,8 @@ export function VideoBlock() {
   const t = useTranslations("Showreel");
   const locale = useLocale();
   // Each locale has its own cut; anything else falls back to the English one.
-  const lang = locale === "ru" ? "ru" : locale === "he" || locale === "ar" ? "he" : "en";
-  const badge = lang === "ru" ? "RU" : lang === "he" ? "HE" : "EN";
+  const lang = (["ru", "he", "es", "ar"] as const).find((l) => l === locale) ?? "en";
+  const badge = lang.toUpperCase();
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);

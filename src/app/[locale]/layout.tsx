@@ -1,3 +1,4 @@
+import { CookieBanner } from "@/components/CookieBanner";
 import { LeadWindow } from "@/components/home/LeadWindow";
 import { homeCopy } from "@/lib/home-copy";
 import type { Metadata } from "next";
@@ -119,6 +120,7 @@ export default async function LocaleLayout({
           <Analytics />
           {children}
           <LeadWindow copy={homeCopy(locale)} />
+          <CookieBanner locale={locale} />
           {/* Accessibility widget (UserWay) — loaded lazily */}
           <Script
             src="https://cdn.userway.org/widget.js"

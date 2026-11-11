@@ -2,13 +2,13 @@
 import { useEffect, useRef, type ReactNode } from "react";
 
 /**
- * A 3D band of ad-result screenshots that winds around the numbers block, like
+ * A 3D band of ad-result cards that winds around the numbers block, like
  * a ring around a planet: it turns as you scroll (plus a slow drift of its own),
  * tilts and waves. The band is drawn twice from the same maths — the far half
  * behind the numbers, the near half in front — so it really wraps around them.
  * Phones and reduced motion get a simple swipe strip under the numbers.
  */
-export function ResultsOrbit({ items, children }: { items: { src: string; alt: string }[]; children: ReactNode }) {
+export function ResultsOrbit({ items, children }: { items: ReactNode[]; children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
   const back = useRef<HTMLDivElement>(null);
   const front = useRef<HTMLDivElement>(null);
@@ -69,10 +69,7 @@ export function ResultsOrbit({ items, children }: { items: { src: string; alt: s
   }, [items.length]);
 
   const cards = (key: string) => items.map((it, i) => (
-    <figure className="ro-card" key={`${key}${i}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={it.src} alt="" loading="lazy" decoding="async" />
-    </figure>
+    <figure className="ro-card" key={`${key}${i}`}>{it}</figure>
   ));
 
   return (

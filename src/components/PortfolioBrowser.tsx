@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Link } from "@/i18n/navigation";
+import { AdCard } from "@/components/home/AdCard";
+import type { AdCampaign } from "@/lib/ad-results";
 
 type Case = { title: string; tag: string; client: string; result: string };
 type Site = { name: string; domain: string; url: string; desc: string; img: string; phone: string };
@@ -14,6 +16,7 @@ export function PortfolioBrowser({
   empty,
   resultsLabel,
   results = [],
+  locale = "en",
   sitesLabel,
   sites = [],
   siteOpen = "",
@@ -24,7 +27,8 @@ export function PortfolioBrowser({
   slugs: string[];
   empty?: string;
   resultsLabel?: string;
-  results?: string[];
+  results?: AdCampaign[];
+  locale?: string;
   sitesLabel?: string;
   sites?: Site[];
   siteOpen?: string;
@@ -67,11 +71,8 @@ export function PortfolioBrowser({
   );
   const resultsGrid = (
     <div className="pf-res-grid in-tab">
-      {results.map((src) => (
-        <figure className="pf-res-card" key={src}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt="" loading="lazy" decoding="async" />
-        </figure>
+      {results.map((c) => (
+        <figure className="pf-res-card" key={c.thumb}><AdCard c={c} locale={locale} /></figure>
       ))}
     </div>
   );

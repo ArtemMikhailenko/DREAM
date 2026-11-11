@@ -1,5 +1,5 @@
 import { portfolioCategories, portfolioTagMap, portfolioEmpty, portfolioResults, portfolioSites } from "@/lib/inner-copy";
-import { AD_RESULTS } from "@/lib/home-copy";
+import { AD_CAMPAIGNS } from "@/lib/ad-results";
 import "../../home-v2.css";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -75,7 +75,8 @@ export default async function PortfolioPage({
             cases={cases.map((c) => ({ ...c, tag: portfolioTagMap[c.tag] ?? c.tag }))}
             empty={portfolioEmpty(locale)}
             resultsLabel={pr.label}
-            results={AD_RESULTS}
+            results={AD_CAMPAIGNS}
+            locale={locale}
             sitesLabel={cats[cats.length - 1]}
             sites={ps.items}
             siteOpen={ps.open}

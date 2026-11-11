@@ -14,7 +14,9 @@ import { StatRow } from "@/components/home/StatRow";
 import { CardGlow } from "@/components/CardGlow";
 import { type WallCase } from "@/components/home/ProjectWall";
 import { CASE_IMAGES } from "@/lib/portfolio";
-import { homeFaq, AD_RESULTS, homeFlow, homeCopy, noDot } from "@/lib/home-copy";
+import { homeFaq, homeFlow, homeCopy, noDot } from "@/lib/home-copy";
+import { AD_CAMPAIGNS } from "@/lib/ad-results";
+import { AdCard } from "@/components/home/AdCard";
 import "../home-v2.css";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -54,7 +56,7 @@ export default async function Home({
   const faqItems = homeFaq(locale);
   const c = homeCopy(locale);
   const f = homeFlow(locale);
-  const poster = `/videos/vsl-${locale === "he" || locale === "ar" ? "he" : locale === "ru" ? "ru" : "en"}-poster.webp`;
+  const poster = `/videos/vsl-${["ru", "he", "es", "ar"].includes(locale) ? locale : "en"}-poster.webp`;
   const wallCases = (await getTranslations("Portfolio")).raw("cases") as WallCase[];
 
   const jsonLd = [
@@ -233,7 +235,7 @@ export default async function Home({
       <section className="section s-ink res2" id="results">
         <div className="bg-gray seam-mid pin" aria-hidden="true" />
         <div className="hero-glow" aria-hidden="true" />
-        <ResultsOrbit items={AD_RESULTS.slice(0, 12).map((src) => ({ src, alt: "" }))}>
+        <ResultsOrbit items={AD_CAMPAIGNS.slice(0, 12).map((c) => <AdCard key={c.thumb} c={c} locale={locale} />)}>
           <div className="wrap">
             <p className="label">{f.resLabel}</p>
             <h2 className="sec-h">{f.resHeading} <em>{f.resEm}</em></h2>
@@ -243,7 +245,7 @@ export default async function Home({
       </section>
 
       {/* ── Budget → leads calculator ── */}
-      <section className="section s-plain calc-sec" id="calculator">
+      <section className="section s-plain s-paper calc-sec" id="calculator">
         <div className="s-plain-glow" aria-hidden="true" />
         <div className="wrap">
           <BudgetCalcHead locale={locale} />
@@ -252,7 +254,7 @@ export default async function Home({
       </section>
 
       {/* ── Work formats (no prices on the page) ── */}
-      <section className="section s-plain fmt" id="packages">
+      <section className="section s-plain s-paper fmt" id="packages">
         <div className="s-plain-glow" aria-hidden="true" />
         <div className="wrap">
           <p className="label">{f.fmtLabel}</p>
@@ -280,7 +282,7 @@ export default async function Home({
       </section>
 
       {/* ── FAQ ── */}
-      <section className="section s-plain" id="faq">
+      <section className="section s-plain s-paper" id="faq">
         <div className="s-plain-glow" aria-hidden="true" />
         <div className="wrap">
           <p className="label">{t("faq.label")}</p>
@@ -301,7 +303,7 @@ export default async function Home({
       </section>
 
       {/* ── Lead form ── */}
-      <section className="section lead-sec" id="lead">
+      <section className="section lead-sec s-paper" id="lead">
         <div className="bg-gray" aria-hidden="true" />
         <div className="contact-glow" aria-hidden="true" />
         <span className="contact-ghost" aria-hidden="true">Contact</span>

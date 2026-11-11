@@ -30,6 +30,7 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
   const [teaser, setTeaser] = useState(false);
   const videoClosed = useRef(false);
   const leadShown = useRef(false);
+  const videoAt = useRef(0); // when the film card appeared
 
   // the window itself is the site-wide LeadWindow (in the layout)
   const openLead = useCallback(() => {
@@ -56,13 +57,16 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
       if (videoClosed.current) return;
       if (busy()) { timers.push(window.setTimeout(tryVideo, 1500)); return; }
       setVideo(true);
+      videoAt.current = Date.now();
     };
     timers.push(window.setTimeout(tryVideo, VIDEO_AT));
     const tryLead = () => {
       if (leadShown.current) return;
       if (busy()) { timers.push(window.setTimeout(tryLead, window.innerWidth < 700 ? 2500 : 4000)); return; }
-      // on phones a full-screen form out of nowhere is too much: offer it in a small card instead
+      // on phones a full-screen form out of nowhere is too much: offer it in a small card instead,
+      // and only after the film card has had its turn (8 s on screen, or closed)
       if (window.innerWidth < 700) {
+        if (!videoClosed.current && (!videoAt.current || Date.now() - videoAt.current < 8000)) { timers.push(window.setTimeout(tryLead, 2000)); return; }
         leadShown.current = true;
         setVideo(false);
         window.dispatchEvent(new Event("dc:lead-prompted"));

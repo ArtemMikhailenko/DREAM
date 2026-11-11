@@ -50,7 +50,7 @@ const en: HomeCopy = {
   popVideoTitle: "See how we work in one minute",
   popVideoBtn: "Watch the film",
   popLeadEyebrow: "Free consultation",
-  popLeadTitle: "Let's find where your leads get lost",
+  popLeadTitle: "Customers for your business within the first 48 hours",
   popLeadText: "Tell us about your business. We reply within one business day with a clear plan",
   close: "Close",
   steps: [
@@ -97,7 +97,7 @@ const ru: HomeCopy = {
   popVideoTitle: "Как мы работаем, за одну минуту",
   popVideoBtn: "Смотреть видео",
   popLeadEyebrow: "Бесплатная консультация",
-  popLeadTitle: "Найдём, где теряются ваши заявки",
+  popLeadTitle: "Клиенты в ваш бизнес уже в первые 48 часов",
   popLeadText: "Расскажите о бизнесе, и в течение рабочего дня мы пришлём понятный план",
   close: "Закрыть",
   steps: [
@@ -144,7 +144,7 @@ const he: HomeCopy = {
   popVideoTitle: "ככה אנחנו עובדים, בדקה אחת",
   popVideoBtn: "לצפייה בסרטון",
   popLeadEyebrow: "ייעוץ חינם",
-  popLeadTitle: "נמצא איפה הלידים שלכם הולכים לאיבוד",
+  popLeadTitle: "לקוחות לעסק שלכם כבר ב-48 השעות הראשונות",
   popLeadText: "ספרו לנו על העסק ותוך יום עסקים נחזור אליכם עם תוכנית ברורה",
   close: "סגירה",
   steps: [
@@ -191,7 +191,7 @@ const es: HomeCopy = {
   popVideoTitle: "Mira cómo trabajamos en un minuto",
   popVideoBtn: "Ver el vídeo",
   popLeadEyebrow: "Consulta gratuita",
-  popLeadTitle: "Veamos dónde se pierden tus clientes",
+  popLeadTitle: "Clientes para tu negocio en las primeras 48 horas",
   popLeadText: "Cuéntanos sobre tu negocio. Te respondemos en un día laborable con un plan claro",
   close: "Cerrar",
   steps: [
@@ -238,7 +238,7 @@ const ar: HomeCopy = {
   popVideoTitle: "شاهد كيف نعمل في دقيقة واحدة",
   popVideoBtn: "شاهد الفيلم",
   popLeadEyebrow: "استشارة مجانية",
-  popLeadTitle: "لنكتشف أين تضيع طلباتك",
+  popLeadTitle: "زبائن لعملك خلال أول 48 ساعة",
   popLeadText: "أخبرنا عن عملك، وسنرد خلال يوم عمل واحد بخطة واضحة",
   close: "إغلاق",
   steps: [
@@ -518,5 +518,3 @@ export const homeFaq = (locale: string): { q: string; a: string }[] =>
     { q: "What happens to the leads when they come in?", a: "A chatbot replies to the customer right away, every lead reaches you, and we help set up sales so leads turn into deals." },
   ];
 
-/* ad-account screenshots (real campaigns) used in the results band and on the works page */
-export const AD_RESULTS = [1, 4, 3, 9, 15, 12, 7, 14, 19, 6, 16, 20, 5, 13, 21, 10, 17, 18, 8, 2].map((n) => `/results/r${String(n).padStart(2, "0")}.webp`);
