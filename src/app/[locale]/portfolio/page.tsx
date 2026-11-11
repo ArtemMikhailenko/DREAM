@@ -3,7 +3,7 @@ import { AD_CAMPAIGNS } from "@/lib/ad-results";
 import "../../home-v2.css";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { alternates } from "@/i18n/paths";
+import { alternates, social } from "@/i18n/paths";
 import type { Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { SiteNav } from "@/components/SiteNav";
@@ -23,6 +23,7 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: alternates(locale as Locale, "/portfolio"),
+    ...social(locale as Locale, "/portfolio", t("title"), t("description")),
   };
 }
 

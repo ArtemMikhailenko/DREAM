@@ -3,7 +3,7 @@ import { aboutCopy, aboutTags } from "@/lib/inner-copy";
 import { GrowthViz } from "@/components/home/GrowthViz";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { alternates } from "@/i18n/paths";
+import { alternates, social } from "@/i18n/paths";
 import type { Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { SiteNav } from "@/components/SiteNav";
@@ -26,6 +26,7 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: alternates(locale as Locale, "/about"),
+    ...social(locale as Locale, "/about", t("title"), t("description")),
   };
 }
 

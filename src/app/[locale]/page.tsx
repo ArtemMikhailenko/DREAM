@@ -23,7 +23,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Link } from "@/i18n/navigation";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { alternates } from "@/i18n/paths";
+import { alternates, social } from "@/i18n/paths";
 import type { Locale } from "@/i18n/routing";
 import { CONTACTS } from "@/lib/contacts";
 
@@ -41,6 +41,7 @@ export async function generateMetadata({
     title: { absolute: t("title") },
     description: t("description"),
     alternates: alternates(locale as Locale),
+    ...social(locale as Locale, "", t("title"), t("description")),
   };
 }
 
@@ -66,6 +67,7 @@ export default async function Home({
       name: "DC Production",
       alternateName: ["Dream Chase Production", "DreamChase Production", "dreamchaseprod", "dc.production"],
       url: siteUrl,
+      logo: `${siteUrl}/icon.png`,
       description: t("meta.description"),
       sameAs: [CONTACTS.instagram, CONTACTS.facebook],
       telephone: CONTACTS.phone,
@@ -75,7 +77,7 @@ export default async function Home({
       "@type": "Service",
       name: "Digital marketing",
       provider: { "@type": "Organization", name: "DC Production" },
-      areaServed: ["Israel", "Spain"],
+      areaServed: ["Israel", "Spain", "United Arab Emirates"],
       serviceType: railItems,
     },
     {

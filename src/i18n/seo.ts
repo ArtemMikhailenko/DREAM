@@ -8,8 +8,8 @@ type SeoSet = { home: Meta; servicesIndex: Meta; about: Meta; portfolio: Meta; t
 
 const en: SeoSet = {
   home: {
-    title: "DC Production — Digital Marketing & Ad Agency in Israel | Leads from Day One",
-    description: "DC Production (Dream Chase Production) is a full-cycle digital marketing agency: Facebook & Instagram ads, Google Ads, SEO, video production, websites and chatbots. A steady flow of customers and a clear cost per lead.",
+    title: "DC Production — Digital Marketing & Ad Agency | Leads in 48 Hours",
+    description: "DC Production (Dream Chase Production): full-cycle digital marketing. Facebook, Instagram & Google ads, SEO, video, websites and chatbots. Leads in 48 hours.",
   },
   servicesIndex: {
     title: "Digital Marketing Services | DC Production",
@@ -17,7 +17,7 @@ const en: SeoSet = {
   },
   about: {
     title: "About DC Production — Marketing & Sales Done for You",
-    description: "DC Production started as a video production team and grew into a full-cycle studio: we bring customers, help handle leads and build a sales system that runs without you.",
+    description: "DC Production grew from a video team into a full-cycle studio: we bring customers, help handle leads and build a sales system that runs without you.",
   },
   portfolio: {
     title: "Our Work: Cases, Ad Results & Websites | DC Production",
@@ -29,7 +29,7 @@ const en: SeoSet = {
   },
   services: {
     "seo": { title: "SEO Services in Israel — Rank on Google | DC Production", description: "Technical audit, on-page SEO, keyword research and link building that bring steady organic traffic and customers from Google, without paying per click." },
-    "targeted-advertising": { title: "Facebook & Instagram Ads Agency | DC Production", description: "Meta and TikTok ads that reach the people who need your product: audience research, creatives, launch, retargeting and weekly optimisation. Leads from the first days." },
+    "targeted-advertising": { title: "Facebook & Instagram Ads Agency | DC Production", description: "Meta and TikTok ads that reach people who need your product: audience research, creatives, launch, retargeting and weekly optimisation. Leads from day one." },
     "smm": { title: "Social Media Management for Business | DC Production", description: "Content plan, posts, stories and Reels, community management and monthly reports for Instagram, Facebook and TikTok. Social media that brings customers." },
     "google-ads": { title: "Google Ads Agency — Search, YouTube & Remarketing | DC Production", description: "Google Ads campaigns built for conversions: keyword research, negative keywords, clear structure, conversion tracking and budget optimisation." },
     "photo-video": { title: "Video Production & Product Photography | DC Production", description: "A mobile studio that comes to you: ad videos, Reels, product photos, 3D and VFX. Script, shoot, edit and colour, delivered ready to publish." },
@@ -42,8 +42,8 @@ const en: SeoSet = {
 
 const ru: SeoSet = {
   home: {
-    title: "DC Production — рекламное агентство и маркетинг в Израиле | Заявки с первых дней",
-    description: "DC Production (Dream Chase Production) — маркетинг под ключ: реклама в Facebook, Instagram и Google, SEO, видеопродакшн, сайты и чат-боты. Стабильный поток клиентов и понятная цена каждой заявки.",
+    title: "DC Production — рекламное агентство: клиенты за 48 часов",
+    description: "DC Production (Dream Chase Production) — маркетинг под ключ: реклама в Facebook, Instagram и Google, SEO, видео, сайты и чат-боты. Первые заявки за 48 часов.",
   },
   servicesIndex: {
     title: "Услуги digital-маркетинга | DC Production",
@@ -51,7 +51,7 @@ const ru: SeoSet = {
   },
   about: {
     title: "О DC Production — маркетинг и продажи под ключ",
-    description: "DC Production начинался как команда видеопродакшна и вырос в студию полного цикла: приводим клиентов, помогаем обрабатывать заявки и строим систему продаж, которая работает без вас.",
+    description: "DC Production вырос из видеопродакшна в студию полного цикла: приводим клиентов, помогаем с заявками и строим систему продаж, которая работает без вас.",
   },
   portfolio: {
     title: "Наши работы: кейсы, результаты рекламы и сайты | DC Production",
@@ -76,8 +76,8 @@ const ru: SeoSet = {
 
 const he: SeoSet = {
   home: {
-    title: "DC Production — סוכנות פרסום ושיווק דיגיטלי | לידים מהימים הראשונים",
-    description: "DC Production (Dream Chase Production) — שיווק דיגיטלי מקצה לקצה: פרסום בפייסבוק, באינסטגרם ובגוגל, SEO, הפקת וידאו, אתרים וצ'אטבוטים. זרם קבוע של לקוחות ומחיר ברור לכל ליד.",
+    title: "DC Production — סוכנות פרסום ושיווק דיגיטלי | לידים תוך 48 שעות",
+    description: "DC Production (Dream Chase Production) — שיווק דיגיטלי מקצה לקצה: פרסום בפייסבוק, באינסטגרם ובגוגל, SEO, וידאו, אתרים וצ'אטבוטים. לידים ראשונים תוך 48 שעות.",
   },
   servicesIndex: {
     title: "שירותי שיווק דיגיטלי | DC Production",
@@ -110,8 +110,8 @@ const he: SeoSet = {
 
 const ar: SeoSet = {
   home: {
-    title: "DC Production — شركة تسويق رقمي وإعلانات ممولة | طلبات من الأيام الأولى",
-    description: "DC Production (Dream Chase Production) وكالة تسويق رقمي متكاملة: إعلانات فيسبوك وإنستغرام وجوجل، SEO، إنتاج فيديو، مواقع وروبوتات محادثة. تدفق ثابت من الزبائن وتكلفة واضحة لكل طلب.",
+    title: "DC Production — تسويق رقمي وإعلانات ممولة | طلبات خلال 48 ساعة",
+    description: "DC Production (Dream Chase Production) وكالة تسويق رقمي متكاملة: إعلانات فيسبوك وإنستغرام وجوجل، SEO، فيديو، مواقع وروبوتات محادثة. أول الطلبات خلال 48 ساعة.",
   },
   servicesIndex: {
     title: "خدمات التسويق الرقمي | DC Production",
@@ -142,7 +142,41 @@ const ar: SeoSet = {
   },
 };
 
-const SETS: Record<string, SeoSet> = { en, ru, he, ar };
+const es: SeoSet = {
+  home: {
+    title: "DC Production — Agencia de marketing digital y publicidad",
+    description: "DC Production (Dream Chase Production): marketing digital integral. Anuncios en Meta, TikTok y Google, SEO, vídeo, webs y chatbots. Clientes en 48 horas.",
+  },
+  servicesIndex: {
+    title: "Servicios de marketing digital | DC Production",
+    description: "SEO, publicidad en Meta, TikTok y Google, redes sociales, foto y vídeo, webs, chatbots y GEO. Un solo equipo, de la estrategia a los clientes.",
+  },
+  about: {
+    title: "Sobre DC Production — marketing y ventas llave en mano",
+    description: "DC Production pasó de la producción de vídeo a un estudio integral: traemos clientes, gestionamos los leads y montamos un sistema de ventas que funciona sin ti.",
+  },
+  portfolio: {
+    title: "Trabajos: casos, resultados publicitarios y webs | DC Production",
+    description: "Casos reales, cifras de nuestras cuentas publicitarias y webs que hemos creado. Mira lo que DC Production hace por negocios como el tuyo.",
+  },
+  testimonials: {
+    title: "Opiniones de clientes | DC Production",
+    description: "Lo que dicen los clientes de DC Production: publicidad, vídeo, redes sociales y embudos de venta completos.",
+  },
+  services: {
+    "seo": { title: "Agencia SEO en España: posicionamiento en Google | DC Production", description: "Posicionamiento SEO en España: auditoría técnica, SEO on-page, palabras clave y link building para crecer en Google sin pagar por cada clic." },
+    "targeted-advertising": { title: "Publicidad en Facebook, Instagram y TikTok | DC Production", description: "Anuncios en Meta y TikTok para empresas en España: audiencias, creativos, lanzamiento, retargeting y optimización semanal. Clientes desde el primer día." },
+    "smm": { title: "Gestión de redes sociales para empresas | DC Production", description: "Gestión de Instagram, Facebook y TikTok: plan de contenidos, posts, stories y Reels, comunidad e informe mensual. Redes que traen clientes." },
+    "google-ads": { title: "Agencia de Google Ads en España | DC Production", description: "Campañas de Google Ads para empresas en España: Search, Shopping y YouTube, palabras negativas, seguimiento de conversiones y presupuesto optimizado." },
+    "photo-video": { title: "Producción de vídeo y fotografía de producto | DC Production", description: "Estudio móvil de foto y vídeo: anuncios, Reels, fotografía de producto, 3D y VFX. Guion, rodaje, edición y color, listo para publicar." },
+    "marketing-strategy": { title: "Estrategia de marketing y embudos de venta | DC Production", description: "Analizamos tu negocio y tus clientes, y construimos el plan de salida al mercado y un embudo en el que no se pierde ningún lead." },
+    "website-development": { title: "Diseño web y landing pages para empresas | DC Production", description: "Webs y landing pages rápidas, pensadas para móvil, que convierten visitas en clientes. Pixel, GA4, CRM y WhatsApp conectados desde el primer día." },
+    "automation": { title: "Chatbots para WhatsApp y automatización | DC Production", description: "Bots para WhatsApp, Instagram y Facebook que responden en segundos, filtran leads y los envían a tu CRM las 24 horas. Ningún cliente se pierde." },
+    "geo-ai-seo": { title: "GEO: aparece en ChatGPT y búsquedas con IA | DC Production", description: "Optimización GEO para que tu negocio aparezca en las respuestas de ChatGPT, Perplexity y Google AI Overviews." },
+  },
+};
+
+const SETS: Record<string, SeoSet> = { en, ru, he, ar, es };
 
 type Tree = Record<string, Record<string, unknown>>;
 const put = (obj: Record<string, unknown> | undefined, m: Meta) => { if (obj) obj.meta = { ...(obj.meta as object), ...m }; };

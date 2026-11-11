@@ -1104,11 +1104,10 @@ body.lead-open .uwy,body.lead-open .userway_buttons_wrapper,body.lead-open .chw,
 @media(max-width:700px){.fmt-card.is-pop{transform:none}.fmt-card.is-pop:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.fmt-card.is-pop{animation:none}}
 
-/* Paper backdrop (calculator, formats, FAQ, contact): dark textured paper with faint
-   drafting lines and circles, like the first dc.prod hero */
-.section.s-paper{background:linear-gradient(rgba(6,6,6,.38),rgba(6,6,6,.38)),url(/background/gray.webp) center/cover #141414!important;isolation:isolate}
-.s-paper::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:url(/background/paper-lines.svg) center/cover no-repeat;
-  -webkit-mask-image:radial-gradient(ellipse 85% 80% at 50% 50%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 85% 80% at 50% 50%,#000 55%,transparent 100%)}
+/* Paper backdrop (calculator, formats, FAQ, contact): the dark paper of the first
+   dc.prod hero, grain, dashed drafting lines and faint circles, baked into one image */
+.section.s-paper{background:url(/background/paper-dc.webp) center/cover #1b1b1b!important;isolation:isolate}
 .s-paper>.wrap{position:relative;z-index:1}
-.s-paper .s-plain-glow{opacity:.6}
-.lead-sec.s-paper .contact-glow{opacity:.55}
+.s-paper .s-plain-glow{opacity:.35}
+.s-paper.s-plain::after{opacity:.5}
+.lead-sec.s-paper .contact-glow{opacity:.5}

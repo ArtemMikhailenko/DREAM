@@ -68,6 +68,8 @@ export const metadata: Metadata = {
   description:
     "DC Production (Dream Chase Production) is a full-cycle digital marketing agency: ads on Facebook, Instagram and Google, SEO, video production, websites and chatbots.",
   applicationName: "DC Production",
+  openGraph: { type: "website", siteName: "DC Production", images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "DC Production" }] },
+  twitter: { card: "summary_large_image", images: ["/og.jpg"] },
   // Meta domain verification. Kept in the page head rather than a DNS TXT record so
   // it survives DNS/host moves — the ads account and pixel depend on it.
   other: { "facebook-domain-verification": "tm7ve4fhbg5cdo8j530ztxsxpzkps5" },

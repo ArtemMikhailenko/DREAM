@@ -1680,3 +1680,7 @@ body.lead-open .ck{visibility:hidden}
 [dir="rtl"] .gj-svg,[dir="rtl"] .gj-chart{direction:ltr}
 @media(max-width:700px){.gj{padding:20px 14px 16px}.gj-stops b{font-size:.78rem}.gj-stops span{font-size:.64rem}}
 @media(max-width:700px){.ck{gap:10px;padding:12px;font-size:.78rem;border-radius:14px}.ck button{height:32px;font-size:.75rem}}
+/* About: the road card is the visual itself, no dark box around it */
+.about-vis:has(.gj){background:none!important;border:0!important;padding:0!important;min-height:0;overflow:visible;display:flex;align-items:center;justify-content:center}
+.about-vis:has(.gj)::after{display:none}
+.about-vis .gj{max-width:100%}

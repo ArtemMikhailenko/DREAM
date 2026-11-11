@@ -9,8 +9,8 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "*",
         allow: "/",
         // /api/ — служебный эндпоинт приёма заявок; /eng/ — путь-редирект на корень
-        // (закрыт, чтобы не плодить дубли английской версии)
-        disallow: ["/api/", "/eng/"],
+        // (закрыт, чтобы не плодить дубли английской версии); /studio, /admin — админка
+        disallow: ["/api/", "/eng/", "/studio", "/admin"],
       },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,

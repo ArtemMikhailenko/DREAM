@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { alternates } from "@/i18n/paths";
+import { alternates, social } from "@/i18n/paths";
 import type { Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { SiteNav } from "@/components/SiteNav";
@@ -19,6 +19,7 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     alternates: alternates(locale as Locale, "/testimonials"),
+    ...social(locale as Locale, "/testimonials", t("title"), t("description")),
   };
 }
 

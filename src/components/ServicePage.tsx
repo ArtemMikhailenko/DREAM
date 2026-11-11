@@ -1,4 +1,6 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { localePath } from "@/i18n/paths";
+import type { Locale } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -53,8 +55,38 @@ export async function ServicePage({ namespace }: { namespace: string }) {
   // fall back to the "what's included" panel.
   const heroImage = t.has("image") ? (t.raw("image") as string | undefined) : undefined;
 
+  // Structured data: the service itself (who provides it, where, in which language)
+  // and the breadcrumb Home › Services › this page, for richer Google results.
+  const locale = (await getLocale()) as Locale;
+  const site = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dreamchaseprod.com";
+  const url = `${site}${localePath(locale, `/services/${slug}`)}`;
+  const nav = await getTranslations("Nav");
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: t("h1"),
+      serviceType: t("label"),
+      description: t("meta.description"),
+      url,
+      inLanguage: locale,
+      areaServed: ["Israel", "Spain", "United Arab Emirates"],
+      provider: { "@type": "Organization", name: "DC Production", alternateName: "Dream Chase Production", url: site, telephone: CONTACTS.phone },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "DC Production", item: `${site}${localePath(locale)}` },
+        { "@type": "ListItem", position: 2, name: nav("services"), item: `${site}${localePath(locale, "/services")}` },
+        { "@type": "ListItem", position: 3, name: t("label"), item: url },
+      ],
+    },
+  ];
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <ScrollAnimations />
       <SiteNav />
 
