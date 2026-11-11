@@ -247,27 +247,8 @@ export default async function Home({
       </section>
 
       {/* ── Budget → leads calculator ── */}
-      {/* calculator → formats → FAQ → contact share one sheet of drafting paper: the lines
-          and circles run through all four blocks like one technical drawing */}
+      {/* calculator → formats → FAQ → contact share one continuous sheet of dark paper */}
       <div className="paper-run">
-        <div className="paper-draft" aria-hidden="true">
-          <svg viewBox="0 0 100 1000" preserveAspectRatio="none">
-            <g className="pd-dash">
-              <path d="M48 0V1000" />
-              <path d="M0 250H100M0 262H100M0 742H100M0 754H100" />
-            </g>
-            <g className="pd-thin">
-              <path d="M0 40L48 256L100 40M0 256L48 505L100 256M0 505L48 748L100 505M0 748L48 960L100 748" />
-            </g>
-          </svg>
-          <i className="pd-c" style={{ top: "12%", width: "62vw" }} />
-          <i className="pd-c is-dash" style={{ top: "25.6%", width: "118vw" }} />
-          <i className="pd-c" style={{ top: "50.5%", width: "84vw" }} />
-          <i className="pd-c is-dash" style={{ top: "62%", width: "46vw" }} />
-          <i className="pd-c" style={{ top: "74.8%", width: "128vw" }} />
-          <i className="pd-c is-dash" style={{ top: "93%", width: "70vw" }} />
-          {["9.6%", "25%", "50.5%", "74.2%", "93%"].map((t) => <b key={t} className="pd-x" style={{ top: t }} />)}
-        </div>
       <section className="section s-plain s-paper calc-sec" id="calculator">
         <div className="s-plain-glow" aria-hidden="true" />
         <div className="wrap">
