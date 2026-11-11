@@ -13,6 +13,7 @@ export const LOCALE_PREFIX: Record<Locale, string> = {
   ru: "/ru",
   he: "/heb",
   es: "/es",
+  ar: "/ar",
 };
 
 /** ("he", "/about") → "/heb/about"; ("en", "") → "/" */

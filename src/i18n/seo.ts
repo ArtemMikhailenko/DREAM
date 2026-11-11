@@ -1,7 +1,7 @@
 /**
  * Page titles and meta descriptions, kept in code so every page always has a
  * proper snippet in Google (several were empty in the CMS, so Google built the
- * snippet from leftover page data — old prices included). Spanish lives in es.json.
+ * snippet from leftover page data — old prices included). Spanish lives in es.json; Arabic is here.
  */
 type Meta = { title: string; description: string };
 type SeoSet = { home: Meta; servicesIndex: Meta; about: Meta; portfolio: Meta; testimonials: Meta; services: Record<string, Meta> };
@@ -108,7 +108,41 @@ const he: SeoSet = {
   },
 };
 
-const SETS: Record<string, SeoSet> = { en, ru, he };
+const ar: SeoSet = {
+  home: {
+    title: "DC Production — شركة تسويق رقمي وإعلانات ممولة | طلبات من الأيام الأولى",
+    description: "DC Production (Dream Chase Production) وكالة تسويق رقمي متكاملة: إعلانات فيسبوك وإنستغرام وجوجل، SEO، إنتاج فيديو، مواقع وروبوتات محادثة. تدفق ثابت من الزبائن وتكلفة واضحة لكل طلب.",
+  },
+  servicesIndex: {
+    title: "خدمات التسويق الرقمي | DC Production",
+    description: "إعلانات فيسبوك وإنستغرام وجوجل، SEO، إدارة السوشيال ميديا، تصوير وفيديو، مواقع، روبوتات محادثة وأتمتة المبيعات. فريق واحد من الاستراتيجية حتى الزبائن.",
+  },
+  about: {
+    title: "عن DC Production — تسويق ومبيعات متكاملة",
+    description: "بدأت DC Production كفريق إنتاج فيديو وأصبحت استوديو متكاملاً: نجلب الزبائن، نساعد في متابعة الطلبات ونبني نظام مبيعات يعمل من دونك.",
+  },
+  portfolio: {
+    title: "أعمالنا: مشاريع ونتائج إعلانات ومواقع | DC Production",
+    description: "مشاريع، أرقام حقيقية من حساباتنا الإعلانية ومواقع بنيناها. شاهد ما تقدّمه DC Production للأعمال.",
+  },
+  testimonials: {
+    title: "آراء العملاء | DC Production",
+    description: "ماذا يقول العملاء عن العمل مع DC Production: إعلانات، فيديو، سوشيال ميديا ومسارات بيع كاملة.",
+  },
+  services: {
+    "seo": { title: "تحسين محركات البحث SEO والظهور في جوجل | DC Production", description: "تدقيق تقني، تحسين الصفحات، بحث الكلمات المفتاحية وبناء الروابط. زبائن يجدونك في بحث جوجل الطبيعي دون أن تدفع على كل نقرة." },
+    "targeted-advertising": { title: "إعلانات ممولة على فيسبوك وإنستغرام | DC Production", description: "إعلانات Meta و TikTok تصل لمن يحتاج منتجك: دراسة الجمهور، تصاميم، إطلاق، إعادة استهداف وتحسين أسبوعي. طلبات من الأيام الأولى." },
+    "smm": { title: "إدارة السوشيال ميديا للأعمال | DC Production", description: "خطة محتوى، منشورات وستوري وريلز، إدارة التعليقات وتقرير شهري. إنستغرام وفيسبوك وتيك توك تجلب لك زبائن." },
+    "google-ads": { title: "إعلانات جوجل Google Ads: بحث ويوتيوب وإعادة استهداف | DC Production", description: "حملات جوجل مبنية لجلب الطلبات: بحث الكلمات المفتاحية والسلبية، هيكل واضح، تتبّع التحويلات وتحسين الميزانية." },
+    "photo-video": { title: "إنتاج فيديو وتصوير منتجات | DC Production", description: "استوديو متنقل يأتي إليك: فيديوهات إعلانية، ريلز، صور منتجات، 3D ومؤثرات بصرية. سيناريو وتصوير ومونتاج وألوان، جاهز للنشر." },
+    "marketing-strategy": { title: "استراتيجية تسويق ومسار مبيعات | DC Production", description: "ندرس عملك وزبائنك، ثم نبني خطة دخول إلى السوق ومسار بيع لا يضيع فيه أي طلب، من أول إعلان حتى الصفقة." },
+    "website-development": { title: "تصميم وتطوير مواقع وصفحات هبوط | DC Production", description: "مواقع وصفحات هبوط سريعة تحوّل الزوار إلى طلبات، مع البكسل والتحليلات و CRM وواتساب متصلة من اليوم الأول." },
+    "automation": { title: "روبوتات محادثة لواتساب وأتمتة الأعمال | DC Production", description: "روبوتات لواتساب وإنستغرام وفيسبوك ترد خلال ثوانٍ، تفرز الطلبات وترسلها إلى CRM على مدار الساعة. لا يضيع أي طلب." },
+    "geo-ai-seo": { title: "GEO: اجعل ChatGPT والبحث بالذكاء الاصطناعي يوصي بك | DC Production", description: "تحسين للبحث التوليدي: نهيّئ عملك للظهور في إجابات ChatGPT و Perplexity وملخصات جوجل بالذكاء الاصطناعي." },
+  },
+};
+
+const SETS: Record<string, SeoSet> = { en, ru, he, ar };
 
 type Tree = Record<string, Record<string, unknown>>;
 const put = (obj: Record<string, unknown> | undefined, m: Meta) => { if (obj) obj.meta = { ...(obj.meta as object), ...m }; };

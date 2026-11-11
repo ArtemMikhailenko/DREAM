@@ -11,6 +11,7 @@ const T = {
   ru: { budget: "Бюджет на рекламу", leads: "Заявки", clients: "Клиенты", weeks: ["1 нед", "2 нед", "3 нед", "4 нед"], tag: "от идеи до результата" },
   he: { budget: "תקציב פרסום", leads: "לידים", clients: "לקוחות", weeks: ["שבוע 1", "שבוע 2", "שבוע 3", "שבוע 4"], tag: "מרעיון לתוצאה" },
   es: { budget: "Presupuesto publicitario", leads: "Leads", clients: "Clientes", weeks: ["Sem 1", "Sem 2", "Sem 3", "Sem 4"], tag: "de la idea al resultado" },
+  ar: { budget: "ميزانية الإعلانات", leads: "الطلبات", clients: "الزبائن", weeks: ["أسبوع 1", "أسبوع 2", "أسبوع 3", "أسبوع 4"], tag: "من الفكرة إلى النتيجة" },
   en: { budget: "Ad budget", leads: "Leads", clients: "Customers", weeks: ["Week 1", "Week 2", "Week 3", "Week 4"], tag: "from idea to result" },
 } as const;
 

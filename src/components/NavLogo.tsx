@@ -8,6 +8,7 @@ const WORDS: Record<string, string[]> = {
   ru: ["ВИДЕО", "РЕКЛАМА", "БРЕНДИНГ", "АВТОМАТИЗАЦИЯ", "КЛИЕНТЫ", "РОСТ", "СТУДИЯ"],
   he: ["וידאו", "פרסום", "מיתוג", "אוטומציה", "לקוחות", "צמיחה", "סטודיו"],
   es: ["VÍDEO", "ANUNCIOS", "BRANDING", "AUTOMATIZACIÓN", "CLIENTES", "CRECIMIENTO", "ESTUDIO"],
+  ar: ["فيديو", "إعلانات", "هوية", "أتمتة", "زبائن", "نمو", "استوديو"],
 };
 
 /**
@@ -45,7 +46,7 @@ export function NavLogo({ onClick }: { onClick?: () => void }) {
   return (
     <Link href="/" className="nav-logo" onClick={onClick} onMouseEnter={roll} onFocus={roll} dir="ltr">
       <span className="nav-logo-word">DC.PRODUCTION</span>
-      <span className="nl-slot" dir={locale === "he" ? "rtl" : "ltr"}>
+      <span className="nl-slot" dir={locale === "he" || locale === "ar" ? "rtl" : "ltr"}>
         <span
           className={`nl-track${rolling ? " is-rolling" : ""}`}
           style={{ transform: `translateY(${-pos}em)` }}

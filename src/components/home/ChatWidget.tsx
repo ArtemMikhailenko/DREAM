@@ -7,6 +7,7 @@ const T = {
   en: { open: "Ask a question", title: "dc.production", status: "Online · quick replies", hello: "Hi! How can we help? Pick a question or type your own", q: ["I want more customers", "How much does it cost?", "How fast will I see results?"], ph: "Type a message…", send: "Send", note: "We'll reply on WhatsApp", close: "Close", audit: "Request a free audit" },
   es: { open: "Haz una pregunta", title: "dc.production", status: "En línea · respondemos rápido", hello: "¡Hola! ¿En qué podemos ayudarte? Elige una pregunta o escribe la tuya", q: ["Quiero más clientes", "¿Cuánto cuesta?", "¿Cuándo veré resultados?"], ph: "Escribe un mensaje…", send: "Enviar", note: "Te respondemos por WhatsApp", close: "Cerrar", audit: "Pedir una auditoría gratuita" },
   he: { open: "שאלו אותנו", title: "dc.production", status: "מחוברים · עונים מהר", hello: "היי! איך נוכל לעזור? בחרו שאלה או כתבו משלכם", q: ["אני רוצה יותר לקוחות", "כמה זה עולה?", "תוך כמה זמן יש תוצאות?"], ph: "כתבו הודעה…", send: "שליחה", note: "נחזור אליכם בוואטסאפ", close: "סגירה", audit: "השאירו פרטים לאודיט חינם" },
+  ar: { open: "اسألنا", title: "DC Production", status: "متصلون · نرد بسرعة", hello: "أهلاً! كيف نساعدك؟ اختر سؤالاً أو اكتب سؤالك", q: ["أريد زبائن أكثر", "كم يكلّف ذلك؟", "متى أرى النتائج؟"], ph: "اكتب رسالة…", send: "إرسال", note: "سنرد عليك عبر واتساب", close: "إغلاق", audit: "اطلب تدقيقاً مجانياً" },
 } as const;
 
 /**

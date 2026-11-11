@@ -2,7 +2,7 @@ import { LeadWindow } from "@/components/home/LeadWindow";
 import { homeCopy } from "@/lib/home-copy";
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono, Oswald, Archivo_Black, Rubik, Caveat } from "next/font/google";
+import { Geist, Geist_Mono, Oswald, Archivo_Black, Rubik, Caveat, Cairo } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -42,6 +42,13 @@ const heroDisplay = Archivo_Black({
 const hebrewDisplay = Rubik({
   variable: "--font-hebrew",
   subsets: ["hebrew", "latin"],
+  weight: ["400", "500", "700", "800"],
+});
+
+// Arabic: Cairo, a clear modern face that reads well big and small
+const arabic = Cairo({
+  variable: "--font-arabic",
+  subsets: ["arabic", "latin"],
   weight: ["400", "500", "700", "800"],
 });
 
@@ -93,14 +100,14 @@ export default async function LocaleLayout({
   }
   setRequestLocale(locale);
 
-  const dir = locale === "he" ? "rtl" : "ltr";
+  const dir = locale === "he" || locale === "ar" ? "rtl" : "ltr";
 
   return (
     <html
       lang={locale}
       dir={dir}
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} ${display.variable} ${heroDisplay.variable} ${hebrewDisplay.variable} ${caveat.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${display.variable} ${heroDisplay.variable} ${hebrewDisplay.variable} ${arabic.variable} ${caveat.variable} h-full antialiased`}
     >
       <head>
         {/* Warm up the connection to the image CDN used by portfolio/case media */}
@@ -118,7 +125,7 @@ export default async function LocaleLayout({
             data-account={process.env.NEXT_PUBLIC_USERWAY_ACCOUNT ?? "tZFa3D3tvc"}
             data-position="5"
             data-size="small"
-            data-language={locale === "he" ? "he" : locale === "ru" ? "ru" : locale === "es" ? "es" : "en"}
+            data-language={locale === "ar" ? "ar" : locale === "he" ? "he" : locale === "ru" ? "ru" : locale === "es" ? "es" : "en"}
             data-color="#e8a868"
             data-type="1"
             data-widget_layout="full"

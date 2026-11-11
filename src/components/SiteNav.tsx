@@ -22,15 +22,15 @@ export function SiteNav() {
 
   const close = () => setOpen(false);
 
-  // Hebrew is offered in the switcher only to visitors who are in Israel (or read
-  // Hebrew); everyone else sees EN · RU · ES. The Hebrew pages stay public and indexed.
-  const [showHe, setShowHe] = useState(locale === "he");
+  // Hebrew and Arabic are offered in the switcher only to visitors who are in Israel (or
+  // read Hebrew/Arabic); everyone else sees EN · RU · ES. The Hebrew pages stay public and indexed.
+  const [showHe, setShowHe] = useState(locale === "he" || locale === "ar");
   useEffect(() => {
-    if (locale === "he") return;
+    if (locale === "he" || locale === "ar") return;
     try {
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
       const langs = (navigator.languages || [navigator.language]).map((x) => x.toLowerCase());
-      if (tz === "Asia/Jerusalem" || tz === "Asia/Tel_Aviv" || langs.some((x) => x.startsWith("he") || x.startsWith("iw"))) setShowHe(true);
+      if (tz === "Asia/Jerusalem" || tz === "Asia/Tel_Aviv" || langs.some((x) => x.startsWith("he") || x.startsWith("iw") || x.startsWith("ar"))) setShowHe(true);
     } catch { /* keep hidden */ }
   }, [locale]);
 
@@ -72,10 +72,10 @@ export function SiteNav() {
     ["/#packages", t("pricing")],
     ["/#lead", t("contacts")],
   ] as const;
-  const cta = ({ ru: "Бесплатный аудит", he: "אודיט חינם", es: "Auditoría gratuita" } as Record<string, string>)[locale] ?? "Free audit";
-  const ctaSub = ({ ru: "Разберём, где теряются ваши заявки", he: "נבדוק איפה הולכים לאיבוד הלידים שלכם", es: "Veremos dónde se pierden tus clientes" } as Record<string, string>)[locale] ?? "We'll find where your leads get lost";
+  const cta = ({ ru: "Бесплатный аудит", he: "אודיט חינם", es: "Auditoría gratuita", ar: "تدقيق مجاني" } as Record<string, string>)[locale] ?? "Free audit";
+  const ctaSub = ({ ru: "Разберём, где теряются ваши заявки", he: "נבדוק איפה הולכים לאיבוד הלידים שלכם", es: "Veremos dónde se pierden tus clientes", ar: "سنكتشف أين تضيع طلباتك" } as Record<string, string>)[locale] ?? "We'll find where your leads get lost";
 
-  const shownLocales = (["en", "ru", "es", "he"] as const).filter((l) => (routing.locales as readonly string[]).includes(l) && (l !== "he" || showHe));
+  const shownLocales = (["en", "ru", "es", "he", "ar"] as const).filter((l) => (routing.locales as readonly string[]).includes(l) && ((l !== "he" && l !== "ar") || showHe));
   const LangSwitch = (
     <div className="nav-lang" aria-label={t("language")}>
       {shownLocales.map((l) => (

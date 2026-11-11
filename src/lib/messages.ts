@@ -51,7 +51,7 @@ const clean = (obj: unknown): Record<string, unknown> => {
   return rest;
 };
 
-export async function buildMessages(locale: Exclude<Locale, "es">) {
+export async function buildMessages(locale: Exclude<Locale, "es" | "ar">) {
   const payload = await getPayload({ config });
   // depth 1 populates upload fields into full Media docs (url + sizes).
   const opts = { locale, depth: 1 as const, fallbackLocale: "en" as const };

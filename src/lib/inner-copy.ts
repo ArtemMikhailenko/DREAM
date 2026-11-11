@@ -80,7 +80,25 @@ const svcEs: ServicesCopy = {
     "geo-ai-seo": { title: "Recomendado por ChatGPT", tag: "Búsqueda IA", teaser: "Hacemos que ChatGPT y otros asistentes de IA te recomienden a ti" },
   },
 };
-export const servicesCopy = (l: string) => ({ ru: svcRu, he: svcHe, es: svcEs } as Record<string, ServicesCopy>)[l] ?? svcEn;
+const svcAr: ServicesCopy = {
+  sub: "كل ما يلزم ليجدك الزبائن ويراسلوك ويشتروا منك. بلغة بسيطة وواضحة",
+  more: "اطلب عرض سعر",
+  ctaHeading: "لست متأكداً أيها تحتاج؟",
+  ctaText: "أخبرنا عن عملك. نختار لك المزيج المناسب ونرسل عرض سعر",
+  ctaBtn: "احصل على عرض سعر",
+  items: {
+    "seo": { title: "موقعك في أعلى نتائج جوجل", tag: "SEO", teaser: "الزبائن يجدونك بأنفسهم في بحث جوجل العادي، دون أن تدفع على كل نقرة" },
+    "targeted-advertising": { title: "إعلانات على إنستغرام وفيسبوك", tag: "استهداف", teaser: "إعلاناتك تصل تحديداً لمن يحتاج منتجك، وتجلب الطلبات" },
+    "smm": { title: "إدارة السوشيال ميديا", tag: "سوشيال ميديا", teaser: "منشورات وستوري وفيديوهات تحوّل المتابعين إلى زبائن" },
+    "google-ads": { title: "إعلانات على جوجل", tag: "Google Ads", teaser: "إعلانك يظهر لمن يبحث عن خدمتك الآن" },
+    "photo-video": { title: "تصوير وفيديو", tag: "إنتاج", teaser: "فيديوهات وصور بجودة سينمائية للإعلانات والسوشيال والموقع" },
+    "marketing-strategy": { title: "استراتيجية مبيعات", tag: "استراتيجية", teaser: "ندرس عملك ونرسم طريقاً واضحاً من أول إعلان حتى الشراء" },
+    "website-development": { title: "مواقع وصفحات هبوط", tag: "مواقع", teaser: "مواقع سريعة تبيع وتجمع الطلبات على مدار الساعة" },
+    "automation": { title: "روبوتات محادثة وأتمتة", tag: "روبوتات", teaser: "روبوت يرد على الزبائن خلال ثوانٍ، فلا يضيع أي طلب" },
+    "geo-ai-seo": { title: "توصيات في ChatGPT", tag: "بحث AI", teaser: "نجعل ChatGPT ومساعدي الذكاء الاصطناعي يوصون بك أنت" },
+  },
+};
+export const servicesCopy = (l: string) => ({ ru: svcRu, he: svcHe, es: svcEs, ar: svcAr } as Record<string, ServicesCopy>)[l] ?? svcEn;
 
 /* Portfolio filters: plain names; old CMS tags map onto them */
 export const portfolioCategories = (l: string) =>
@@ -88,15 +106,17 @@ export const portfolioCategories = (l: string) =>
     ru: ["Все", "Имиджевое видео", "Реклама и креативы", "Social media", "Чат-боты", "Промо-видео", "Сайты"],
     he: ["הכל", "סרטון תדמית", "פרסום וקריאייטיב", "Social media", "צ'אטבוטים", "סרטון פרסום", "אתרים"],
     es: ["Todo", "Vídeo de imagen", "Publicidad y creativos", "Social media", "Chatbots", "Vídeo promocional", "Webs"],
+    ar: ["الكل", "فيديو تعريفي", "إعلانات وتصاميم", "سوشيال ميديا", "روبوتات محادثة", "فيديو إعلاني", "مواقع"],
   } as Record<string, string[]>)[l] ?? ["All", "Image video", "Ads & creatives", "Social media", "Chatbots", "Promo video", "Websites"];
 export const portfolioTagMap: Record<string, string> = {
   "SMM": "Social media",
   "Полная воронка": "Чат-боты", "Full funnel": "Chatbots", "משפך מלא": "צ'אטבוטים",
   "Promotional video": "Promo video",
   "Embudo completo": "Chatbots",
+  "مسار بيع كامل": "روبوتات محادثة",
 };
 export const portfolioEmpty = (l: string) =>
-  ({ ru: "Скоро здесь появятся новые кейсы", he: "בקרוב יעלו לכאן פרויקטים חדשים", es: "Pronto habrá nuevos casos aquí" } as Record<string, string>)[l] ?? "New cases coming soon";
+  ({ ru: "Скоро здесь появятся новые кейсы", he: "בקרוב יעלו לכאן פרויקטים חדשים", es: "Pronto habrá nuevos casos aquí", ar: "قريباً ستُضاف هنا مشاريع جديدة" } as Record<string, string>)[l] ?? "New cases coming soon";
 
 /* About: what we do, in plain words */
 export type AboutCopy = {
@@ -185,13 +205,34 @@ const aboutEs: AboutCopy = {
   ],
   clientsHeading: "Nuestros clientes",
 };
-export const aboutCopy = (l: string): AboutCopy => ({ ru: aboutRu, he: aboutHe, es: aboutEs } as Record<string, AboutCopy>)[l] ?? aboutEn;
+const aboutAr: AboutCopy = {
+  heroLabel: "عن DC Production",
+  heroHeading: "تسويق ومبيعات",
+  heroEm: "متكاملة",
+  heroSub: "نجلب لك الزبائن، نساعدك في متابعة الطلبات ونبني نظام مبيعات يعمل من دونك",
+  storyLabel: "قصتنا",
+  storyHeading: "كيف بدأنا",
+  p1: "بدأت DC Production كفريق إنتاج فيديو. كانت أعمالنا جميلة، لكننا أدركنا بسرعة أن الأعمال تحتاج أكثر من فيديوهات جميلة. إنها تحتاج زبائن.",
+  p2: "اليوم نحن استوديو متكامل. نجلب لك الزبائن، نساعدك في متابعة الطلبات ونبني نظام التسويق والمبيعات كاملاً، مع روبوتات وأتمتة، ليكبر عملك دون أن تصرف وقتك عليه.",
+  slogan: "من الفكرة إلى النتيجة",
+  valuesLabel: "مبادئنا",
+  valuesHeading: "كيف نعمل",
+  values: [
+    { title: "الجودة أولاً", desc: "كل لقطة وكلمة ورقم تُصنع بمستوى استوديو إنتاج قوي. العمل الضعيف لا يخرج من عندنا" },
+    { title: "فريق واحد يفعل كل شيء", desc: "الإعلانات والمحتوى والموقع والمبيعات تعمل كما يجب فقط عندما يبنيها فريق واحد. لذلك نتولى كل شيء" },
+    { title: "النتيجة شرط", desc: "العمل الجميل الذي لا يجلب طلبات فشل. لكل مشروع نتيجة واضحة بالأرقام" },
+    { title: "صدق ووضوح", desc: "تعرف دائماً كم طلباً وصل وكم كلّف كل واحد. بلا مصطلحات معقدة ولا تقارير جميلة بلا معنى" },
+  ],
+  clientsHeading: "عملاؤنا",
+};
+export const aboutCopy = (l: string): AboutCopy => ({ ru: aboutRu, he: aboutHe, es: aboutEs, ar: aboutAr } as Record<string, AboutCopy>)[l] ?? aboutEn;
 
 /* Works page: the ad-results block */
 export const portfolioResults = (l: string) =>
   ({
     ru: { label: "Результаты рекламы", heading: "Цифры из", em: "рекламных кабинетов", sub: "Реальные кампании наших клиентов: сколько пришло заявок и сколько стоила каждая" },
     he: { label: "תוצאות פרסום", heading: "מספרים מתוך", em: "חשבונות הפרסום", sub: "קמפיינים אמיתיים של הלקוחות שלנו: כמה לידים הגיעו וכמה עלה כל אחד" },
+    ar: { label: "نتائج الإعلانات", heading: "أرقام من", em: "حساباتنا الإعلانية", sub: "حملات حقيقية لعملائنا: كم طلباً وصل وكم كلّف كل واحد" },
     es: { label: "Resultados publicitarios", heading: "Cifras de", em: "nuestras cuentas publicitarias", sub: "Campañas reales de nuestros clientes: cuántos leads llegaron y cuánto costó cada uno" },
   } as Record<string, { label: string; heading: string; em: string; sub: string }>)[l] ?? { label: "Ad results", heading: "Numbers from", em: "our ad accounts", sub: "Real campaigns for our clients: how many leads came in and what each one cost" };
 
@@ -199,6 +240,7 @@ export const aboutTags = (l: string) =>
   ({
     ru: ["Реклама в Instagram и Facebook", "Реклама в Google", "Съёмка фото и видео", "Контент для соцсетей", "Сайты и лендинги", "Чат-боты", "Автоматизация продаж", "Помощь с продажами"],
     he: ["פרסום באינסטגרם ובפייסבוק", "פרסום בגוגל", "צילום ווידאו", "תוכן לרשתות", "אתרים ודפי נחיתה", "צ'אטבוטים", "אוטומציית מכירות", "עזרה במכירות"],
+    ar: ["إعلانات إنستغرام وفيسبوك", "إعلانات جوجل", "تصوير صور وفيديو", "محتوى للسوشيال ميديا", "مواقع وصفحات هبوط", "روبوتات محادثة", "أتمتة المبيعات", "مساعدة في المبيعات"],
     es: ["Publicidad en Instagram y Facebook", "Publicidad en Google", "Foto y vídeo", "Contenido para redes", "Webs y landing pages", "Chatbots", "Automatización de ventas", "Ayuda con las ventas"],
   } as Record<string, string[]>)[l] ?? ["Instagram & Facebook ads", "Google ads", "Photo & video shoots", "Social media content", "Websites & landing pages", "Chatbots", "Sales automation", "Help with sales"];
 
@@ -207,12 +249,13 @@ export type SiteItem = { name: string; domain: string; url: string; desc: string
 export const portfolioSites = (l: string) => {
   const t = ({
     ru: { open: "Открыть сайт", d: ["Сайт производителя алюминиевых конструкций: перголы, остекление и ZIP-шторы. Заявки на бесплатную консультацию прямо с первого экрана", "Сайт для израильтян, которые хотят купить первую квартиру в Грузии: понятные цифры, конкретные дома и запись на вебинар", "Сайт винного бутика в Ришон-ле-Ционе: живые сцены при прокрутке, три языка и заявки на доставку"] },
+    ar: { open: "زيارة الموقع", d: ["موقع لمصنّع هياكل الألمنيوم: برغولات، زجاج وستائر ZIP. طلب استشارة مجانية من الشاشة الأولى", "موقع لمن يريد شراء شقته الأولى في جورجيا: أرقام واضحة، مشاريع محددة وتسجيل للندوات", "موقع لمتجر نبيذ في ريشون لتسيون: مشاهد حية عند التمرير، ثلاث لغات وطلبات توصيل"] },
     es: { open: "Ver la web", d: ["Web para un fabricante de estructuras de aluminio: pérgolas, acristalamientos y toldos ZIP. Solicitudes de consulta gratuita desde la primera pantalla", "Web para quienes compran su primer piso en Georgia: cifras claras, edificios concretos e inscripción a webinars", "Web para una tienda de vinos: escenas vivas al hacer scroll, tres idiomas y pedidos a domicilio"] },
     he: { open: "לאתר", d: ["אתר ליצרן מבני אלומיניום: פרגולות, זיגוג ומסכי ZIP. השארת פרטים לייעוץ חינם כבר במסך הראשון", "אתר לישראלים שרוצים לקנות דירה ראשונה בגאורגיה: מספרים ברורים, פרויקטים ספציפיים והרשמה לוובינר", "אתר לבוטיק יין בראשון לציון: סצנות חיות בגלילה, שלוש שפות ופניות למשלוח"] },
   } as Record<string, { open: string; d: string[] }>)[l] ?? { open: "Visit site", d: ["Website for an aluminium structures manufacturer: pergolas, glazing and ZIP screens. Free consultation requests right from the first screen", "Website for Israelis buying their first apartment in Georgia: clear numbers, specific buildings and webinar sign-ups", "Website for a wine boutique in Rishon LeZion: living scenes on scroll, three languages and delivery requests"] };
   // each site is shown in the visitor's language; Vitlion has only Russian and Hebrew,
-  // so everyone outside the Hebrew version sees its Russian one
-  const L = (["ru", "he"].includes(l) ? l : "en") as "ru" | "he" | "en";
+  // so everyone outside the Hebrew version sees its Russian one (Arabic pages show the Hebrew screenshots)
+  const L = (l === "ar" ? "he" : ["ru", "he"].includes(l) ? l : "en") as "ru" | "he" | "en";
   const vit = L === "he" ? "he" : "ru";
   const items: SiteItem[] = [
     { name: "Vitlion Group", domain: "vitlion.co.il", url: vit === "ru" ? "https://www.vitlion.co.il/ru" : "https://www.vitlion.co.il/", desc: t.d[0], img: `/sites/vitlion-${vit}-desktop.webp`, phone: `/sites/vitlion-${vit}-phone.webp` },

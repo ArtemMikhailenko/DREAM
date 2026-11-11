@@ -23,7 +23,7 @@ const flat = (rows: Row[], key = "text"): string[] => rows.map((r) => s(r[key]))
 const SKIP = new Set(["id", "_locale", "_parent_id", "_order"]);
 
 /** One localized row per table, with each null field coalesced to the en value. */
-async function scalars(table: string, locale: Exclude<Locale, "es">): Promise<Row> {
+async function scalars(table: string, locale: Exclude<Locale, "es" | "ar">): Promise<Row> {
   const rows = await q(`SELECT * FROM "${table}" WHERE _locale::text = ANY($1::text[])`, [[locale, "en"]]);
   const loc = rows.find((r) => r._locale === locale) ?? {};
   const en = rows.find((r) => r._locale === "en") ?? {};
@@ -36,7 +36,7 @@ async function scalars(table: string, locale: Exclude<Locale, "es">): Promise<Ro
 }
 
 /** Localized list, whole-array fallback to en when the locale has no rows. */
-async function list(table: string, locale: Exclude<Locale, "es">, parentId?: number): Promise<Row[]> {
+async function list(table: string, locale: Exclude<Locale, "es" | "ar">, parentId?: number): Promise<Row[]> {
   const where = parentId != null ? `_parent_id=$2 AND ` : "";
   const p = parentId != null ? [locale, parentId] : [locale];
   const rows = await q(`SELECT * FROM "${table}" WHERE ${where}_locale::text=$1 ORDER BY _order`, p);
@@ -45,7 +45,7 @@ async function list(table: string, locale: Exclude<Locale, "es">, parentId?: num
   return q(`SELECT * FROM "${table}" WHERE ${where}_locale::text=$1 ORDER BY _order`, pe);
 }
 
-export async function buildMessagesFromDb(locale: Exclude<Locale, "es">) {
+export async function buildMessagesFromDb(locale: Exclude<Locale, "es" | "ar">) {
   // Media map for image resolution (small table, load once).
   const media = new Map<number, Row>();
   for (const m of await q(`SELECT id, url, sizes_thumb_url, sizes_card_url, sizes_hero_url FROM media`)) media.set(m.id as number, m);
@@ -217,7 +217,7 @@ export async function buildMessagesFromDb(locale: Exclude<Locale, "es">) {
 }
 
 /** Collection-locale scalars (parent-scoped), with en fallback. */
-async function scalars2(table: string, locale: Exclude<Locale, "es">, parentId: number): Promise<Row> {
+async function scalars2(table: string, locale: Exclude<Locale, "es" | "ar">, parentId: number): Promise<Row> {
   const rows = await q(`SELECT * FROM "${table}" WHERE _parent_id=$1 AND _locale::text = ANY($2::text[])`, [parentId, [locale, "en"]]);
   const loc = rows.find((r) => r._locale === locale) ?? {};
   const en = rows.find((r) => r._locale === "en") ?? {};

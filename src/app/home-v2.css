@@ -1088,3 +1088,4 @@ html[dir="rtl"]{--font-geist-mono:var(--font-hebrew);--font-mono:var(--font-hebr
 /* lead window: scroll stays inside the sheet on phones; accessibility button steps aside while it is open */
 .pp-dialog{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 body.lead-open .uwy,body.lead-open .userway_buttons_wrapper,body.lead-open .chw,body.lead-open .mcta{visibility:hidden!important}
+
