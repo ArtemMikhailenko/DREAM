@@ -8,9 +8,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { CONTACTS } from "@/lib/contacts";
 import { servicesCopy } from "@/lib/inner-copy";
-import { homeCopy } from "@/lib/home-copy";
 import { LeadButton } from "@/components/home/LeadButton";
-import { LeadWindow } from "@/components/home/LeadWindow";
 import "../../home-v2.css";
 
 const SLUG = "/services";
@@ -126,8 +124,6 @@ export default async function Page({
           </div>
         </div>
       </section>
-
-      <LeadWindow copy={homeCopy(locale)} />
       <SiteFooter />
     </>
   );

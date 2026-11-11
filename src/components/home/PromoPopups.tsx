@@ -27,28 +27,30 @@ function busy() {
  */
 export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }) {
   const [video, setVideo] = useState(false);
-  const [lead, setLead] = useState(false);
   const [teaser, setTeaser] = useState(false);
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const lastFocus = useRef<HTMLElement | null>(null);
   const videoClosed = useRef(false);
   const leadShown = useRef(false);
 
+  // the window itself is the site-wide LeadWindow (in the layout)
   const openLead = useCallback(() => {
-    lastFocus.current = document.activeElement as HTMLElement;
-    setLead(true);
-    if (!leadShown.current) {
-      leadShown.current = true;
-      window.dispatchEvent(new Event("dc:lead-prompted"));
-    }
+    leadShown.current = true;
+    window.dispatchEvent(new CustomEvent("dc:open-lead"));
+  }, []);
+
+  useEffect(() => {
+    // the film card stays (or comes back) after the window, unless the visitor closed it
+    const onClosed = () => { if (!videoClosed.current) window.setTimeout(() => { if (!busy()) setVideo(true); }, 400); };
+    const onOpened = () => { leadShown.current = true; setTeaser(false); };
+    window.addEventListener("dc:lead-closed", onClosed);
+    window.addEventListener("dc:lead-prompted", onOpened);
+    return () => { window.removeEventListener("dc:lead-closed", onClosed); window.removeEventListener("dc:lead-prompted", onOpened); };
   }, []);
 
   useEffect(() => {
     // only on the first page view of the visit: coming back to the home page via the logo never re-triggers them
     let first = true;
     try { first = sessionStorage.getItem("dc_prompts_v2") !== "1"; sessionStorage.setItem("dc_prompts_v2", "1"); } catch { /* storage blocked */ }
-    const onOpenOnly = () => openLead();
-    if (!first) { window.addEventListener("dc:open-lead", onOpenOnly); return () => window.removeEventListener("dc:open-lead", onOpenOnly); }
+    if (!first) return;
     const timers: number[] = [];
     const tryVideo = () => {
       if (videoClosed.current) return;
@@ -63,35 +65,15 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
       if (window.innerWidth < 700) {
         leadShown.current = true;
         setVideo(false);
-        setTeaser(true);
         window.dispatchEvent(new Event("dc:lead-prompted"));
+        setTeaser(true);
         return;
       }
       openLead();
     };
     timers.push(window.setTimeout(tryLead, LEAD_AT));
-    const onOpen = () => openLead();
-    window.addEventListener("dc:open-lead", onOpen);
-    return () => { timers.forEach((t) => window.clearTimeout(t)); window.removeEventListener("dc:open-lead", onOpen); };
+    return () => timers.forEach((t) => window.clearTimeout(t));
   }, [openLead]);
-
-  const closeLead = useCallback(() => {
-    setLead(false);
-    lastFocus.current?.focus?.();
-    window.dispatchEvent(new Event("dc:lead-closed"));
-    // the film card stays (or comes back) after the window, unless the visitor closed it
-    if (!videoClosed.current) window.setTimeout(() => { if (!busy()) setVideo(true); }, 400);
-  }, []);
-
-  useEffect(() => {
-    if (!lead) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeLead(); };
-    window.addEventListener("keydown", onKey);
-    window.setTimeout(() => dialogRef.current?.querySelector<HTMLElement>("input,select,textarea")?.focus({ preventScroll: true }), 420);
-    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", onKey); };
-  }, [lead, closeLead]);
 
   const playFilm = () => {
     videoClosed.current = true;
@@ -131,20 +113,6 @@ export function PromoPopups({ copy, poster }: { copy: HomeCopy; poster: string }
         </button>
       </aside>
 
-      <div className={`pp-lead${lead ? " in" : ""}`} aria-hidden={!lead}>
-        <div className="pp-scrim" onClick={closeLead} />
-        <div ref={dialogRef} className="pp-dialog" role="dialog" aria-modal="true" aria-labelledby="pp-lead-title">
-          <button type="button" className="pp-x" onClick={closeLead} aria-label={copy.close}>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
-          </button>
-          <div className="pp-dialog-intro">
-            <span className="pp-chip">{copy.popLeadEyebrow}</span>
-            <p className="pp-dialog-title" id="pp-lead-title">{copy.popLeadTitle}</p>
-            <p className="pp-dialog-text">{copy.popLeadText}</p>
-          </div>
-          {lead && <QuoteForm />}
-        </div>
-      </div>
     </>
   );
 }

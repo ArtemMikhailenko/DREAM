@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { CONTACTS } from "@/lib/contacts";
+import { LeadButton } from "@/components/home/LeadButton";
 
 // Every service landing is linked from every page, so search engines (and people) can find them.
 const LANDINGS = ["targeted-advertising", "google-ads", "seo", "smm", "photo-video", "website-development", "automation", "marketing-strategy", "geo-ai-seo"] as const;
@@ -60,7 +61,7 @@ export async function SiteFooter() {
             <ul className="footer-list">
               <li><a href={`mailto:${CONTACTS.email}`}>{CONTACTS.email}</a></li>
               <li><a href={`tel:${CONTACTS.phone}`}><bdi dir="ltr" className="tel-ltr">{CONTACTS.phoneDisplay}</bdi></a></li>
-              <li><Link href="/#lead">{t("getBrief")} ↗</Link></li>
+              <li><LeadButton>{t("getBrief")} ↗</LeadButton></li>
             </ul>
           </div>
         </div>

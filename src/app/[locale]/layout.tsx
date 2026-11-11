@@ -1,3 +1,5 @@
+import { LeadWindow } from "@/components/home/LeadWindow";
+import { homeCopy } from "@/lib/home-copy";
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Geist, Geist_Mono, Oswald, Archivo_Black, Rubik, Caveat } from "next/font/google";
@@ -109,6 +111,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <Analytics />
           {children}
+          <LeadWindow copy={homeCopy(locale)} />
           {/* Accessibility widget (UserWay) — loaded lazily */}
           <Script
             src="https://cdn.userway.org/widget.js"

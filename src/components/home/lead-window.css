@@ -1,0 +1,35 @@
+/* Lead window: loaded with the component so it works on every page (service landings don't load home-v2.css). */
+.pp-x{position:absolute;top:10px;inset-inline-end:10px;z-index:3;width:32px;height:32px;border-radius:50%;border:1px solid rgba(244,241,234,.18);background:rgba(10,10,9,.6);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,transform .2s}
+.pp-x svg{width:14px;height:14px;fill:none;stroke:var(--chalk);stroke-width:2;stroke-linecap:round}
+.pp-x:hover{background:rgba(244,241,234,.14)}
+.pp-x:active{transform:scale(.94)}
+.pp-lead{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) 16px;visibility:hidden;pointer-events:none}
+.pp-lead.in{visibility:visible;pointer-events:auto}
+.pp-scrim{position:absolute;inset:0;background:rgba(5,5,4,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;transition:opacity .4s}
+.pp-lead.in .pp-scrim{opacity:1}
+.pp-dialog{position:relative;width:min(980px,100%);max-height:calc(100svh - 32px);overflow:auto;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:26px;align-items:center;padding:28px;border-radius:26px;border:1px solid rgba(244,241,234,.14);background:radial-gradient(120% 90% at 0% 0%,rgba(232,168,104,.14),transparent 55%),linear-gradient(180deg,#141412,#0b0b0a);box-shadow:0 50px 140px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.06);
+  opacity:0;transform:translateY(28px) scale(.97);transition:opacity .45s var(--ease-out),transform .6s var(--ease-out)}
+.pp-lead.in .pp-dialog{opacity:1;transform:none}
+.pp-dialog-intro{padding:10px 6px}
+.pp-chip{display:inline-flex;align-items:center;height:30px;padding:0 13px;border-radius:999px;border:1px solid rgba(232,168,104,.4);background:rgba(232,168,104,.1);font-family:var(--font-geist-mono,monospace);font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.pp-dialog-title{margin-top:18px;font-family:var(--font-display),var(--font-hebrew),sans-serif;font-size:clamp(1.9rem,3.2vw,2.9rem);line-height:.98;text-transform:uppercase;color:var(--chalk)}
+.pp-dialog-text{margin-top:14px;font-size:1rem;line-height:1.6;color:rgba(244,241,234,.75)}
+.pp-dialog .qf{max-width:none;box-shadow:none}
+@media(max-width:820px){
+  .pp-dialog{grid-template-columns:1fr;gap:6px;padding:18px;border-radius:22px}
+  .pp-dialog-title{font-size:1.7rem;margin-top:12px}
+  .pp-dialog-text{font-size:.92rem}
+}
+@media(prefers-reduced-motion:reduce){.pp-video,.pp-dialog{transition:opacity .2s}}
+.pp-dialog{background:radial-gradient(ellipse 70% 60% at 15% 0%,rgba(80,200,190,.16),transparent 60%),radial-gradient(ellipse 60% 50% at 100% 100%,rgba(232,168,104,.08),transparent 60%),#070807!important;border:1px solid rgba(244,241,234,.12)!important;box-shadow:0 40px 120px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.06)!important}
+.pp-chip{border-color:rgba(120,220,210,.35);background:rgba(120,220,210,.08);color:#9fe7df}
+@media(max-width:700px){
+  .pp-lead{align-items:flex-end!important;padding:0!important}
+  .pp-dialog{width:100%!important;max-height:86svh!important;border-radius:22px 22px 0 0!important;padding:14px 12px calc(14px + env(safe-area-inset-bottom,0px))!important;transform:translateY(40px)!important}
+  .pp-lead.in .pp-dialog{transform:none!important}
+  .pp-dialog-intro{display:none!important}
+  .pp-dialog .qf{padding:18px 16px!important}
+  .pp-x{top:8px!important}
+}
+.pp-dialog{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+body.lead-open .uwy,body.lead-open .userway_buttons_wrapper,body.lead-open .chw,body.lead-open .mcta{visibility:hidden!important}
