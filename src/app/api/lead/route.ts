@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { query } from "@/studio/lib/db";
 import {
   forwardLeadToCrm,
+  forwardLeadToKidmatech,
   isDuplicateEvent,
   logWhatsappConsent,
   parseCookies,
@@ -52,13 +53,15 @@ export async function POST(request: Request) {
     cookies: parseCookies(headers.get("cookie")),
   };
 
-  const [crmResult] = await Promise.allSettled([
+  const [crmResult, kidmatechResult] = await Promise.allSettled([
     forwardLeadToCrm(lead),
+    forwardLeadToKidmatech(lead),
     sendMetaConversionsApi(lead, context),
     logWhatsappConsent(lead, context),
   ]);
 
-  await archiveLead(lead, crmResult.status === "fulfilled");
+  await archiveLead(lead, crmResult.status === "fulfilled" && kidmatechResult.status === "fulfilled");
+  if (kidmatechResult.status === "rejected") console.error("[lead] Kidmatech CRM:", kidmatechResult.reason);
 
   if (crmResult.status === "rejected") {
     return NextResponse.json(

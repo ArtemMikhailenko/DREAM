@@ -33,3 +33,25 @@
 }
 .pp-dialog{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 body.lead-open .uwy,body.lead-open .userway_buttons_wrapper,body.lead-open .chw,body.lead-open .mcta{visibility:hidden!important}
+
+/* Window backdrop: concrete with a slow galaxy turning behind the headline, not flat black */
+.pp-dialog{background:
+  radial-gradient(ellipse 60% 55% at 22% 50%,rgba(232,168,104,.14),transparent 70%),
+  radial-gradient(ellipse 55% 45% at 90% 0%,rgba(80,200,190,.12),transparent 65%),
+  radial-gradient(ellipse 50% 40% at 70% 100%,rgba(120,90,200,.10),transparent 65%),
+  linear-gradient(rgba(9,9,9,.36),rgba(9,9,9,.36)),
+  url(/background/gray.webp) center/cover #141414!important;isolation:isolate}
+.pp-dialog::before{content:"";position:absolute;z-index:0;left:-140px;top:50%;width:640px;aspect-ratio:1;margin-top:-320px;pointer-events:none;
+  background:url(/background/galaxy-m.webp) center/contain no-repeat;opacity:.72;mix-blend-mode:screen;animation:ppSpin 140s linear infinite;
+  -webkit-mask-image:radial-gradient(circle,#000 45%,transparent 70%);mask-image:radial-gradient(circle,#000 45%,transparent 70%)}
+[dir="rtl"] .pp-dialog::before{left:auto;right:-140px}
+@keyframes ppSpin{to{transform:rotate(360deg)}}
+.pp-dialog-intro,.pp-dialog .qf{position:relative;z-index:1}
+.pp-dialog .qf{background:rgba(12,12,12,.72)!important;backdrop-filter:blur(2px)}
+.pp-dialog .pp-x{z-index:2}
+@media(max-width:700px){.pp-dialog::before{left:50%;margin-left:-320px;top:30%;opacity:.35}}
+@media(prefers-reduced-motion:reduce){.pp-dialog::before{animation:none}}
+
+/* Headline font: Hebrew and Arabic in their own bold face (digits too), not the Latin display face */
+[dir="rtl"] .pp-dialog-title{font-family:var(--font-hebrew),sans-serif;font-weight:800;text-transform:none;line-height:1.12;letter-spacing:0;font-size:clamp(2rem,3.4vw,3rem)}
+.pp-dialog-title{text-shadow:0 2px 30px rgba(0,0,0,.5)}

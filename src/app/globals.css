@@ -1684,3 +1684,27 @@ body.lead-open .ck{visibility:hidden}
 .about-vis:has(.gj){background:none!important;border:0!important;padding:0!important;min-height:0;overflow:visible;display:flex;align-items:center;justify-content:center}
 .about-vis:has(.gj)::after{display:none}
 .about-vis .gj{max-width:100%}
+
+/* Quick answer after a request: call now or WhatsApp */
+.qa{position:fixed;inset:0;z-index:400;display:grid;place-items:center;padding:20px max(16px,env(safe-area-inset-right,0px)) 20px max(16px,env(safe-area-inset-left,0px))}
+.qa-scrim{position:absolute;inset:0;background:rgba(5,5,5,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:qaFade .3s ease both}
+.qa-card{position:relative;width:min(440px,100%);padding:34px 28px 26px;border-radius:24px;border:1px solid rgba(244,241,234,.12);background:radial-gradient(120% 70% at 50% 0%,rgba(37,211,102,.14),transparent 60%),#111110;box-shadow:0 40px 120px rgba(0,0,0,.6);text-align:center;color:var(--chalk,#f4f1ea);animation:qaIn .45s cubic-bezier(.2,.8,.2,1) both}
+.qa-x{position:absolute;top:12px;inset-inline-end:12px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(244,241,234,.15);background:rgba(255,255,255,.04);color:inherit;display:grid;place-items:center;cursor:pointer}
+.qa-x svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none}
+.qa-ok{width:58px;height:58px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;background:rgba(37,211,102,.14);border:1px solid rgba(37,211,102,.5);box-shadow:0 0 30px rgba(37,211,102,.25)}
+.qa-ok svg{width:28px;height:28px;stroke:#25d366;stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:24;stroke-dashoffset:24;animation:qaTick .5s .25s ease forwards}
+.qa-title{margin:0 0 8px;font-family:var(--font-display),var(--font-hebrew),sans-serif;font-size:1.9rem;line-height:1.1;text-transform:uppercase}
+[dir="rtl"] .qa-title{text-transform:none;font-weight:800}
+.qa-text{margin:0 auto 22px;max-width:32ch;color:rgba(244,241,234,.72);line-height:1.5}
+.qa-btns{display:grid;gap:10px}
+.qa-btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 18px;border-radius:999px;font-weight:700;font-size:1rem;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.qa-btn:hover{transform:translateY(-2px)}
+.qa-btn.is-wa{background:#25d366;color:#06240f;box-shadow:0 10px 30px rgba(37,211,102,.35);animation:qaPulse 2.2s ease-in-out infinite}
+.qa-btn.is-call{border:1px solid rgba(244,241,234,.22);color:var(--chalk,#f4f1ea);background:rgba(255,255,255,.04)}
+.qa-ic{width:20px;height:20px;flex:none}
+@keyframes qaFade{from{opacity:0}}
+@keyframes qaIn{from{opacity:0;transform:translateY(18px) scale(.97)}}
+@keyframes qaTick{to{stroke-dashoffset:0}}
+@keyframes qaPulse{0%,100%{box-shadow:0 10px 30px rgba(37,211,102,.3)}50%{box-shadow:0 10px 44px rgba(37,211,102,.6)}}
+@media(prefers-reduced-motion:reduce){.qa-card,.qa-scrim,.qa-btn.is-wa{animation:none}.qa-ok svg{stroke-dashoffset:0;animation:none}}
+[dir="rtl"] .qf-title{font-family:var(--font-hebrew),sans-serif;font-weight:800;text-transform:none;letter-spacing:0}

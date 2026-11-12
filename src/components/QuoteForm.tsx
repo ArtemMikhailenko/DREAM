@@ -1,7 +1,9 @@
 "use client";
 
-import { FormEvent, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { useLocale, useTranslations } from "next-intl";
+import { CONTACTS } from "@/lib/contacts";
 import { trackLeadSubmitted } from "@/lib/tracking";
 
 /**
@@ -38,6 +40,52 @@ const WhatsappIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+/* After a request is sent: a quick-answer window, call now or write on WhatsApp */
+const QA: Record<string, { title: string; text: string; call: string; wa: string; close: string; msg: (n: string) => string }> = {
+  ru: { title: "Заявка получена!", text: "Хотите ответ прямо сейчас? Позвоните нам или напишите в WhatsApp, мы на связи.", call: "Позвонить", wa: "Написать в WhatsApp", close: "Закрыть", msg: (n) => `Здравствуйте! Я ${n}, только что оставил(а) заявку на сайте DC Production.` },
+  he: { title: "הפנייה התקבלה!", text: "רוצים תשובה כבר עכשיו? התקשרו אלינו או כתבו בוואטסאפ, אנחנו זמינים.", call: "להתקשר", wa: "לכתוב בוואטסאפ", close: "סגירה", msg: (n) => `שלום! אני ${n}, השארתי עכשיו פנייה באתר של DC Production.` },
+  es: { title: "¡Solicitud recibida!", text: "¿Quieres respuesta ahora mismo? Llámanos o escríbenos por WhatsApp.", call: "Llamar", wa: "Escribir por WhatsApp", close: "Cerrar", msg: (n) => `¡Hola! Soy ${n}, acabo de dejar una solicitud en la web de DC Production.` },
+  ar: { title: "تم استلام طلبك!", text: "تريد رداً الآن؟ اتصل بنا أو راسلنا على واتساب، نحن متاحون.", call: "اتصل الآن", wa: "راسلنا على واتساب", close: "إغلاق", msg: (n) => `مرحباً! أنا ${n}، تركت طلباً للتو على موقع DC Production.` },
+  en: { title: "Request received!", text: "Want an answer right now? Call us or message us on WhatsApp, we're here.", call: "Call now", wa: "Message on WhatsApp", close: "Close", msg: (n) => `Hi! I'm ${n}, I just left a request on the DC Production website.` },
+};
+
+function QuickAnswer({ name, onClose }: { name: string; onClose: () => void }) {
+  const locale = useLocale();
+  const q = QA[locale] ?? QA.en;
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  const ping = (method: string) => {
+    try { (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag?.("event", "quick_contact", { method }); } catch { /* no gtag */ }
+  };
+  const wa = `${CONTACTS.whatsapp}${CONTACTS.whatsapp.includes("?") ? "&" : "?"}text=${encodeURIComponent(q.msg(name || "…"))}`;
+  return createPortal(
+    <div className="qa" role="dialog" aria-modal="true" aria-labelledby="qa-title">
+      <div className="qa-scrim" onClick={onClose} />
+      <div className="qa-card">
+        <button type="button" className="qa-x" onClick={onClose} aria-label={q.close}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+        </button>
+        <span className="qa-ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg></span>
+        <p className="qa-title" id="qa-title">{q.title}</p>
+        <p className="qa-text">{q.text}</p>
+        <div className="qa-btns">
+          <a className="qa-btn is-wa" href={wa} target="_blank" rel="noopener noreferrer" onClick={() => ping("whatsapp")}>
+            <WhatsappIcon className="qa-ic" />{q.wa}
+          </a>
+          <a className="qa-btn is-call" href={`tel:${CONTACTS.phone}`} onClick={() => ping("call")}>
+            <svg className="qa-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" fill="currentColor" /></svg>
+            {q.call} <bdi dir="ltr">{CONTACTS.phoneDisplay}</bdi>
+          </a>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
 export function QuoteForm({ service }: { service?: ServiceSlug }) {
   const t = useTranslations("LeadForm");
   const options = t.raw("services") as string[];
@@ -45,6 +93,7 @@ export function QuoteForm({ service }: { service?: ServiceSlug }) {
   const [message, setMessage] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
   const submittedEventIdsRef = useRef(new Set<string>());
+  const [quick, setQuick] = useState<string | null>(null); // name, when the quick-answer window is open
 
   // The page's own service, matched to the CMS list by position. The homepage
   // passes nothing and opens on the "not sure" placeholder, per the spec.
@@ -98,6 +147,7 @@ export function QuoteForm({ service }: { service?: ServiceSlug }) {
       setState("success");
       setMessage(t("success"));
       formRef.current?.reset();
+      setQuick(payload.name);
     } catch {
       setState("error");
       setMessage(t("errorSend"));
@@ -105,6 +155,8 @@ export function QuoteForm({ service }: { service?: ServiceSlug }) {
   }
 
   return (
+    <>
+    {quick !== null && <QuickAnswer name={quick} onClose={() => setQuick(null)} />}
     <form ref={formRef} className="qf" onSubmit={onSubmit} noValidate>
       <div className="qf-head">
         <span className="qf-head-ic" aria-hidden="true">
@@ -173,5 +225,6 @@ export function QuoteForm({ service }: { service?: ServiceSlug }) {
         </p>
       ) : null}
     </form>
+    </>
   );
 }

@@ -73,7 +73,7 @@ export function ChatWidget({ locale }: { locale: string }) {
     <div className={`chw${shown && (!inHero || open) ? " is-shown" : ""}${open ? " is-open" : ""}`}>
       <div className="chw-panel" role="dialog" aria-label={t.title} aria-hidden={!open}>
         <div className="chw-head">
-          <span className="chw-ava" aria-hidden="true">dc</span>
+          <span className="chw-ava" aria-hidden="true">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/brand/dc-mark.webp" alt="" width={40} height={40} /></span>
           <span className="chw-who"><b>{t.title}</b><em><i aria-hidden="true" />{t.status}</em></span>
           <button type="button" className="chw-x" onClick={() => setOpen(false)} aria-label={t.close} tabIndex={open ? 0 : -1}>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>

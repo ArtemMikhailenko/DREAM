@@ -65,6 +65,46 @@ export function validateLead(payload: Partial<LeadPayload>) {
   );
 }
 
+/**
+ * Kidmatech CRM (crm.kidmatech.com). Its site.js snippet would read every <form>
+ * submit in the browser, before our validation and without ad-blocker safety, so
+ * instead the server sends each validated lead to the same endpoint the snippet
+ * uses: one lead, once, with UTM tags, page and language.
+ */
+const KIDMATECH_LEAD_URL =
+  process.env.CRM_SITE_LEAD_URL ?? "https://crm.kidmatech.com/api/public/site/vu9knjusbwfppyrd8q0b3bwf/lead";
+
+export async function forwardLeadToKidmatech(payload: LeadPayload) {
+  const fields: Record<string, string> = {
+    name: payload.name,
+    phone: payload.phone,
+    email: payload.email,
+  };
+  if (payload.city) fields.city = payload.city;
+  if (payload.business) fields.business = payload.business;
+  if (payload.service) fields.service = payload.service;
+  fields.whatsapp_opt_in = payload.whatsappOptIn ? "yes" : "no";
+  for (const k of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]) {
+    const v = payload.utm?.[k];
+    if (v) fields[k] = v;
+  }
+  let lang = "en";
+  try {
+    const seg = new URL(payload.page ?? "").pathname.split("/")[1];
+    lang = ({ ru: "ru", heb: "he", es: "es", ar: "ar" } as Record<string, string>)[seg] ?? "en";
+  } catch { /* no page */ }
+  fields.language = lang;
+  fields.lead_id = payload.eventId;
+
+  const response = await fetch(KIDMATECH_LEAD_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain" },
+    body: JSON.stringify({ fields, page: payload.page ?? "https://dreamchaseprod.com", title: "DC Production — заявка с сайта" }),
+  });
+  if (!response.ok) throw new Error(`Kidmatech CRM request failed: ${response.status}`);
+  return { skipped: false };
+}
+
 export async function forwardLeadToCrm(payload: LeadPayload) {
   const webhookUrl = process.env.CRM_WEBHOOK_URL;
 
