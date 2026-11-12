@@ -17,6 +17,7 @@ export type LeadPayload = {
   city?: string;
   business?: string;
   service?: string;
+  serviceSlug?: string;
   page?: string;
   utm?: Record<string, string>;
   /** Standalone WhatsApp opt-in (Meta). Optional — never a condition of the lead. */
@@ -83,6 +84,14 @@ export async function forwardLeadToKidmatech(payload: LeadPayload) {
   if (payload.city) fields.city = payload.city;
   if (payload.business) fields.business = payload.business;
   if (payload.service) fields.service = payload.service;
+  // Spanish and Arabic requests arrive with the service in that language; the CRM team
+  // reads Russian/Hebrew, so each lead also carries the service in Russian.
+  const RU: Record<string, string> = {
+    "smm": "Ведение соцсетей (SMM)", "targeted-advertising": "Таргетированная реклама (Facebook/Instagram/TikTok)", "seo": "SEO",
+    "google-ads": "Google Ads", "photo-video": "Фото и видео", "marketing-strategy": "Маркетинговая стратегия и воронка",
+    "website-development": "Разработка сайта", "automation": "Автоматизация и чат-боты", "geo-ai-seo": "GEO / ИИ-поиск",
+  };
+  if (payload.serviceSlug && RU[payload.serviceSlug]) fields.service_ru = RU[payload.serviceSlug];
   fields.whatsapp_opt_in = payload.whatsappOptIn ? "yes" : "no";
   for (const k of ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]) {
     const v = payload.utm?.[k];
@@ -94,6 +103,7 @@ export async function forwardLeadToKidmatech(payload: LeadPayload) {
     lang = ({ ru: "ru", heb: "he", es: "es", ar: "ar" } as Record<string, string>)[seg] ?? "en";
   } catch { /* no page */ }
   fields.language = lang;
+  fields.language_name = ({ en: "English", ru: "Русский", he: "עברית", es: "Español", ar: "العربية" } as Record<string, string>)[lang];
   fields.lead_id = payload.eventId;
 
   const response = await fetch(KIDMATECH_LEAD_URL, {

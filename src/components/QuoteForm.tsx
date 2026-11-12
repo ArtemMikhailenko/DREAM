@@ -114,6 +114,8 @@ export function QuoteForm({ service }: { service?: ServiceSlug }) {
       city: String(formData.get("city") ?? "").trim(),
       business: String(formData.get("business") ?? "").trim(),
       service: String(formData.get("service") ?? "").trim(),
+      // the same service in every language, so the CRM can read it whatever the site language
+      serviceSlug: SERVICE_ORDER[options.indexOf(String(formData.get("service") ?? "").trim())] ?? "",
       page: window.location.href,
       utm: Object.fromEntries(new URLSearchParams(window.location.search)),
       // Meta WhatsApp opt-in — standalone consent captured at submission time.
