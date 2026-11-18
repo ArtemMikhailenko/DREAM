@@ -1132,3 +1132,11 @@ body.lead-open .uwy,body.lead-open .userway_buttons_wrapper,body.lead-open .chw,
 /* Phone header: the rolling second word of the logo only where there is room — between
    421 and ~560px it pushed the menu button off the screen (iPhone Plus/Pro Max) */
 @media(max-width:560px){.nl-slot{display:none!important}.nav-side{flex:none;min-width:0}.nav-inner{gap:10px}}
+/* Phone header can never push the menu button off screen: the logo gives way, the right side keeps its size */
+@media(max-width:880px){
+  .nav-inner{display:flex!important;align-items:center;justify-content:space-between;gap:10px;min-width:0}
+  .nav-logo{flex:1 1 auto;min-width:0;overflow:hidden;white-space:nowrap}
+  .nav-side{flex:0 0 auto!important;display:flex;align-items:center;gap:8px;margin-inline-start:0!important}
+  .nav-burger{flex:0 0 auto}
+}
+@media(max-width:380px){.nav-lang-item{min-width:22px!important;padding:0 3px!important;font-size:.62rem}}

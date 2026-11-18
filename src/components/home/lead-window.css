@@ -71,3 +71,11 @@ body.lead-open .uwy,body.lead-open .userway_buttons_wrapper,body.lead-open .chw,
 @media(max-width:700px){.pp-dialog::before{left:0!important;width:100%!important;margin-left:0!important;margin-top:-50%!important}}
 /* the galaxy turns; at 70% width its rotated corners stay inside the window */
 @media(max-width:700px){.pp-dialog::before{left:15%!important;width:70%!important;margin-top:-35%!important}}
+/* Phones: the window does not follow the finger — only its content scrolls up and down */
+@media(max-width:700px){
+  .pp-scrim{touch-action:none}
+  .pp-lead{overscroll-behavior:none}
+  .pp-dialog{touch-action:pan-y;overscroll-behavior:contain}
+  .pp-dialog,.pp-dialog *{max-width:100%}
+  .pp-dialog input,.pp-dialog select,.pp-dialog textarea{font-size:16px!important}
+}
