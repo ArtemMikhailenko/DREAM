@@ -28,11 +28,19 @@ export function ProcessSteps({ steps }: { steps: { name: string; desc: string }[
     const vertical = window.matchMedia("(max-width:820px)").matches;
     const rtl = getComputedStyle(el).direction === "rtl";
     m.style.transition = f.style.transition = animate ? "" : "none";
+    const rail = f.parentElement as HTMLElement | null;
     if (vertical) {
       const y = d.top + d.height / 2 - box.top;
       m.style.transform = `translate(${d.left + d.width / 2 - box.left}px, ${y}px)`;
-      f.style.transform = `scaleY(${y / box.height})`;
+      // on phones the rail runs from the first dot to the last one only — it must not
+      // continue down past the last step and along the description card
+      const dots = el.querySelectorAll<HTMLElement>(".ps-dot");
+      const a = dots[0].getBoundingClientRect(), z = dots[dots.length - 1].getBoundingClientRect();
+      const top = a.top + a.height / 2 - box.top, len = Math.max(1, z.top + z.height / 2 - box.top - top);
+      if (rail) { rail.style.top = `${top}px`; rail.style.bottom = "auto"; rail.style.height = `${len}px`; }
+      f.style.transform = `scaleY(${Math.min(1, Math.max(0, (y - top) / len))})`;
     } else {
+      if (rail) { rail.style.top = ""; rail.style.bottom = ""; rail.style.height = ""; }
       const x = d.left + d.width / 2 - box.left;
       m.style.transform = `translate(${x}px, ${d.top + d.height / 2 - box.top}px)`;
       f.style.transform = `scaleX(${(rtl ? box.width - x : x) / box.width})`;

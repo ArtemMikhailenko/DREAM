@@ -62,3 +62,12 @@ body.lead-open .uwy,body.lead-open .userway_buttons_wrapper,body.lead-open .chw,
   [dir="rtl"] .pp-dialog-title{font-size:clamp(1.6rem,2.3vw,2.15rem)!important;line-height:1.2}
   html[lang="en"] .pp-dialog-title{font-size:clamp(1.5rem,1.95vw,1.85rem)!important}
 }
+
+/* Phones: the window stays put — no sideways drift. The spinning galaxy behind it was
+   wider than the screen and let the dialog scroll left and right under a finger. */
+.pp-dialog{overflow-x:hidden!important;overflow-y:auto;touch-action:pan-y}
+.pp-dialog>*{min-width:0;max-width:100%}
+@media(max-width:700px){.pp-dialog::before{left:50%;width:min(640px,160vw);margin-left:calc(min(640px,160vw)/-2);margin-top:calc(min(640px,160vw)/-2)}}
+@media(max-width:700px){.pp-dialog::before{left:0!important;width:100%!important;margin-left:0!important;margin-top:-50%!important}}
+/* the galaxy turns; at 70% width its rotated corners stay inside the window */
+@media(max-width:700px){.pp-dialog::before{left:15%!important;width:70%!important;margin-top:-35%!important}}

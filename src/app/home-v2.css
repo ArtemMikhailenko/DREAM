@@ -1128,3 +1128,7 @@ body.lead-open .uwy,body.lead-open .userway_buttons_wrapper,body.lead-open .chw,
 /* chat avatar: the dc.prod mark instead of the light "dc" disc */
 .chw-ava{background:#0e0e0e!important;border:1px solid rgba(244,241,234,.18);overflow:hidden;padding:0}
 .chw-ava img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Phone header: the rolling second word of the logo only where there is room — between
+   421 and ~560px it pushed the menu button off the screen (iPhone Plus/Pro Max) */
+@media(max-width:560px){.nl-slot{display:none!important}.nav-side{flex:none;min-width:0}.nav-inner{gap:10px}}
