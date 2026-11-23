@@ -75,7 +75,7 @@ function BigWord({ text, cap = 300, className = "" }: { text: string; cap?: numb
     document.fonts?.ready.then(fit);
     return () => window.removeEventListener("resize", fit);
   }, [fit]);
-  return <span className={`sc-word ${className}`} aria-hidden="true"><span ref={el}>{text}</span></span>;
+  return <span className={`sc-word ${className}`} aria-hidden="true"><span ref={el} key={text}>{text}</span></span>;
 }
 
 /**
@@ -343,6 +343,13 @@ const ORDER: SecId[] = ["video", "posts", "results", "sites", "bot", "voice"];
 export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: string; sites: Site[]; results: AdCampaign[]; waMain: string }) {
   const t = showcaseCopy(locale);
   const [active, setActive] = useState<SecId>("video");
+  const [atTop, setAtTop] = useState(true);
+  useEffect(() => {
+    const on = () => setAtTop(window.scrollY < window.innerHeight * 0.18);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const strip = useRef<HTMLDivElement>(null);
   usePressPulse();
@@ -393,7 +400,6 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
   const openChat = () => window.dispatchEvent(new Event("sc:open-chat"));
   const Head = ({ id, title, em, text, quiet }: { id: SecId; title: string; em?: string; text?: string; quiet?: boolean }) => (
     <div className={`sc-sh${quiet ? " quiet" : ""}`}>
-      <BigWord text={t.words[id]} cap={220} className="sc-word-sec" />
       <h2 className={quiet ? "sr-only" : "sc-h"}>{title}{em && <> <em>{em}</em></>}{!quiet && counts[id] != null && <i>{counts[id]}</i>}</h2>
       {text && <p className="sc-sh-p">{text}</p>}
     </div>
@@ -420,9 +426,9 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
       <main className="sc-page">
         <div className="sc-bg" aria-hidden="true" />
 
-        {/* welcome: just the word */}
+        {/* one big word behind the whole page: «Портфолио» at the top, then the section you are in */}
+        <BigWord text={atTop ? t.words.all : t.words[active]} cap={320} className="sc-word-fixed" />
         <section className="sc-hero">
-          <BigWord text={t.words.all} cap={340} className="sc-word-hero" />
           <h1 className="sr-only">{t.meta}</h1>
           <span className="sc-hero-brand"><Logo size={30} />DC Production</span>
         </section>
@@ -431,7 +437,7 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
           <div className="wrap">
             <nav className="sc-tabs" ref={strip} aria-label={t.words.all}>
               {ORDER.map((id) => (
-                <button key={id} data-id={id} type="button" aria-current={active === id ? "true" : undefined} className={`sc-tab${active === id ? " on" : ""}`} onClick={() => go(id)}>
+                <button key={id} data-id={id} type="button" aria-current={active === id ? "true" : undefined} className={`sc-tab${!atTop && active === id ? " on" : ""}`} onClick={() => go(id)}>
                   <span>{t.tabs[id]}</span>
                   {counts[id] != null && <span className="sc-n">{counts[id]}</span>}
                 </button>
