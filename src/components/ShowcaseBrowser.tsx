@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNo
 import { AdCard } from "@/components/home/AdCard";
 import { currencyFor } from "@/lib/ad-results";
 import type { AdCampaign } from "@/lib/ad-results";
-import { POST_SLIDES, SHOWCASE_LANGS, VIDEO_SLIDES, VOICE_BOT, WA_BOT, showcaseCopy, type Line, type TabId } from "@/lib/showcase-copy";
+import { POST_SLIDES, SHOWCASE_LANGS, VIDEO_SLIDES, VOICE_BOT, WA_BOT, showcaseCopy, type Line, type TabId, type VideoTag } from "@/lib/showcase-copy";
 
 type Site = { name: string; domain: string; url: string; desc: string; img: string; phone: string };
 
@@ -106,6 +106,14 @@ function Swiper({ slides, auto, className = "", hint }: { slides: ReactNode[]; a
     return () => window.clearTimeout(id);
   }, [auto, held, on, i, n, to]);
   const hold = () => setHeld(true);
+  useEffect(() => {
+    track.current?.querySelectorAll<HTMLElement>(".sc-sw-slide").forEach((sl, k) => {
+      sl.querySelectorAll("video").forEach((v) => {
+        if (k !== i || !on) v.pause();
+        else if (v.dataset.loop) v.play().catch(() => {});
+      });
+    });
+  }, [i, on]);
   return (
     <div ref={wrap} className={`sc-sw ${className}`} onPointerDown={hold} onWheel={hold}>
       <div ref={track} className="sc-sw-track" onScroll={onScroll}>
@@ -175,18 +183,20 @@ function VoiceDemo({ lines, calling }: { lines: Line[]; calling: string }) {
   );
 }
 
-function PostsWindow({ slides, hint }: { slides: string[]; hint: string }) {
-  const items: ReactNode[] = POST_SLIDES.length
-    ? POST_SLIDES.map((src) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img key={src} src={src} alt="" loading="lazy" decoding="async" />
-      ))
-    : slides.map((p, i) => <div key={i} className={`sc-art g${i % 3}`}><b>{p}</b></div>);
+function PostsWindow({ hint }: { hint: string }) {
+  const items: ReactNode[] = POST_SLIDES.map((p) =>
+    p.video ? (
+      <video key={p.src} data-loop="1" muted loop playsInline preload="none" poster={p.poster}><source src={p.src} type="video/mp4" /></video>
+    ) : (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img key={p.src} src={p.src} alt="" loading="lazy" decoding="async" />
+    ),
+  );
   return (
     <div className="sc-demo">
       <Glow className="sc-post">
-        <div className="sc-post-h"><span className="av"><Logo /></span><span><b>your.brand</b><small>Sponsored</small></span></div>
-        <Swiper slides={items} auto={3200} className="sc-post-img" hint={hint} />
+        <div className="sc-post-h"><span className="av"><Logo /></span><span><b>dc.production</b><small>Sponsored</small></span></div>
+        <Swiper slides={items} auto={4200} className="sc-post-img" hint={hint} />
         <div className="sc-post-cta"><span>Learn more</span><Arrow /></div>
         <div className="sc-post-f"><span className="hrt"><Heart /></span><i /><i /></div>
       </Glow>
@@ -194,19 +204,30 @@ function PostsWindow({ slides, hint }: { slides: string[]; hint: string }) {
   );
 }
 
-function VideoWindow({ locale }: { locale: string }) {
-  const vids = VIDEO_SLIDES(locale);
+/** one reel: poster + play button first, the file loads only when tapped */
+function Reel({ src, poster, tag, play }: { src: string; poster: string; tag: string; play: string }) {
+  const v = useRef<HTMLVideoElement>(null);
+  const [on, setOn] = useState(false);
   return (
-    <div className="sc-demo sc-demo-wide">
+    <div className={`sc-reel${on ? " playing" : ""}`}>
+      <video ref={v} playsInline preload="none" poster={poster} controls={on} onPause={() => setOn(false)} onEnded={() => setOn(false)}>
+        <source src={src} type="video/mp4" />
+      </video>
+      <span className="sc-reel-tag">{tag}</span>
+      {!on && (
+        <button type="button" className="sc-reel-play" onClick={() => { setOn(true); v.current?.play().catch(() => setOn(false)); }} aria-label={play}>
+          <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg></span>{play}
+        </button>
+      )}
+    </div>
+  );
+}
+
+function VideoWindow({ tags, play, hint }: { tags: Record<VideoTag, string>; play: string; hint: string }) {
+  return (
+    <div className="sc-demo">
       <Glow className="sc-vid">
-        <Swiper
-          className="sc-vid-sw"
-          slides={vids.map((v) => (
-            <video key={v.src} controls playsInline preload="none" poster={v.poster}>
-              <source src={v.src} type="video/mp4" />
-            </video>
-          ))}
-        />
+        <Swiper className="sc-vid-sw" hint={hint} slides={VIDEO_SLIDES.map((r) => <Reel key={r.src} src={r.src} poster={r.poster} tag={tags[r.tag]} play={play} />)} />
       </Glow>
     </div>
   );
@@ -393,8 +414,8 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
   };
 
   const waTo = (base: string, text: string) => `${base}${base.includes("?") ? "&" : "?"}text=${encodeURIComponent(text)}`;
-  const nVid = VIDEO_SLIDES(locale).length;
-  const counts: Partial<Record<SecId, number>> = { video: nVid, results: results.length, sites: sites.length };
+  const nVid = VIDEO_SLIDES.length;
+  const counts: Partial<Record<SecId, number>> = { video: nVid, posts: POST_SLIDES.length, results: results.length, sites: sites.length };
   // Russian and Hebrew pages: everything in shekels (the campaigns run in Israel)
   const cur = locale === "ru" || locale === "he" ? currencyFor("he") : undefined;
   const openChat = () => window.dispatchEvent(new Event("sc:open-chat"));
@@ -449,9 +470,9 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
         <div className="wrap">
           <section className="sc-sec" id="sc-video">
             <Head id="video" title={t.tabs.video} quiet />
-            <div className="sc-svc sc-svc-video">
+            <div className="sc-svc">
               <SvcText title={t.video.title} text={t.video.text} cta={t.video.more} href={waTo(waMain, t.video.wa)} />
-              <VideoWindow locale={locale} />
+              <VideoWindow tags={t.video.tags} play={t.video.play} hint={t.posts.swipe} />
             </div>
           </section>
 
@@ -459,7 +480,7 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
             <Head id="posts" title={t.tabs.posts} quiet />
             <div className="sc-svc">
               <SvcText {...t.posts} href={waTo(waMain, t.posts.wa)} />
-              <PostsWindow slides={t.posts.slides} hint={t.posts.swipe} />
+              <PostsWindow hint={t.posts.swipe} />
             </div>
           </section>
 

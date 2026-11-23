@@ -25,7 +25,7 @@ export type ShowcaseCopy = {
   dark: string;
   float: string;
   chat: { title: string; status: string; hello: string; q: string[]; ph: string; note: string; send: string; close: string };
-  video: { title: string; text: string; more: string; wa: string };
+  video: { title: string; text: string; more: string; wa: string; tags: Record<VideoTag, string>; play: string };
   results: { title: string; em: string; text: string };
   sitesText: string;
   posts: Service & { slides: string[]; swipe: string };
@@ -51,6 +51,7 @@ const C: Record<string, ShowcaseCopy> = {
       title: "Рекламные ролики",
       text: "Сценарий, съёмка и монтаж под рекламу в Instagram и Facebook. Цепляем в первые три секунды, показываем товар в деле и ведём к заявке. Листайте и смотрите прямо здесь.",
       more: "Ещё ролики под вашу нишу", wa: "Здравствуйте! Хочу посмотреть примеры видеороликов",
+      tags: { premium: "Премиум-монтаж", product: "Продукт и визуализация", "3d": "3D и анимация", basic: "Базовый монтаж" }, play: "Смотреть",
     },
     results: { title: "Результаты", em: "рекламных кампаний", text: "Настоящие цифры из рекламных кабинетов наших клиентов: сколько людей написали, во что обошёлся каждый и сколько вложено." },
     sitesText: "Сайты, которые продают: каждый открывается на вашем языке, нажмите и посмотрите вживую.",
@@ -108,6 +109,7 @@ const C: Record<string, ShowcaseCopy> = {
       title: "סרטוני פרסום",
       text: "תסריט, צילום ועריכה לפרסום באינסטגרם ובפייסבוק. תופסים את העין בשלוש השניות הראשונות, מראים את המוצר בפעולה ומובילים לפנייה. גללו וצפו כאן.",
       more: "סרטונים נוספים בתחום שלכם", wa: "שלום! אשמח לראות דוגמאות של סרטונים",
+      tags: { premium: "עריכת פרימיום", product: "מוצר והדמיה", "3d": "תלת ממד ואנימציה", basic: "עריכה בסיסית" }, play: "לצפייה",
     },
     results: { title: "תוצאות", em: "קמפיינים", text: "מספרים אמיתיים ממנהלי המודעות של הלקוחות שלנו: כמה אנשים פנו, כמה עלתה כל פנייה וכמה הושקע." },
     sitesText: "אתרים שמוכרים: כל אחד נפתח בשפה שלכם, לחצו ותראו אותו חי.",
@@ -165,6 +167,7 @@ const C: Record<string, ShowcaseCopy> = {
       title: "Ad videos",
       text: "Script, shoot and edit for Instagram and Facebook ads. We hook viewers in the first three seconds, show the product at work and lead to a message. Swipe and watch right here.",
       more: "More videos for your niche", wa: "Hi! I'd like to see examples of your videos",
+      tags: { premium: "Premium edit", product: "Product & visuals", "3d": "3D & animation", basic: "Basic edit" }, play: "Watch",
     },
     results: { title: "Campaign", em: "results", text: "Real numbers from our clients' ad accounts: how many people wrote, what each one cost and how much was spent." },
     sitesText: "Websites that sell: each opens in your language, tap to see it live.",
@@ -222,11 +225,27 @@ export const SHOWCASE_LANGS: { id: string; label: string; href: string }[] = [
 ];
 
 /**
- * Real media for the swipeable windows. Add files to public/showcase/… and list
- * them here; until then the posts window shows designed sample slides.
- * Video files belong on a video host (Bunny/Cloudflare Stream), not in the repo.
+ * Real work for the swipeable windows (files in public/showcase/media, compressed
+ * for the web: 720px wide, posters load first, a video loads only when played).
  */
-export const POST_SLIDES: string[] = [];
-export const VIDEO_SLIDES = (l: string): { src: string; poster: string }[] => [
-  { src: `/videos/vsl-${l}.mp4`, poster: `/videos/vsl-${l}-poster.webp` },
+export type VideoTag = "premium" | "product" | "3d" | "basic";
+export const VIDEO_SLIDES: { src: string; poster: string; tag: VideoTag }[] = [
+  { src: "/showcase/media/video-1.mp4", poster: "/showcase/media/video-1.webp", tag: "premium" },
+  { src: "/showcase/media/video-2.mp4", poster: "/showcase/media/video-2.webp", tag: "premium" },
+  { src: "/showcase/media/video-3.mp4", poster: "/showcase/media/video-3.webp", tag: "premium" },
+  { src: "/showcase/media/video-4.mp4", poster: "/showcase/media/video-4.webp", tag: "premium" },
+  { src: "/showcase/media/video-5.mp4", poster: "/showcase/media/video-5.webp", tag: "product" },
+  { src: "/showcase/media/video-6.mp4", poster: "/showcase/media/video-6.webp", tag: "3d" },
+  { src: "/showcase/media/video-7.mp4", poster: "/showcase/media/video-7.webp", tag: "basic" },
+];
+/** posts: animated stories (short muted loops) and still banners */
+export const POST_SLIDES: { src: string; poster?: string; video?: boolean }[] = [
+  { src: "/showcase/media/post-1.mp4", poster: "/showcase/media/post-1.webp", video: true },
+  { src: "/showcase/media/post-6.webp" },
+  { src: "/showcase/media/post-2.mp4", poster: "/showcase/media/post-2.webp", video: true },
+  { src: "/showcase/media/post-7.webp" },
+  { src: "/showcase/media/post-3.mp4", poster: "/showcase/media/post-3.webp", video: true },
+  { src: "/showcase/media/post-5.mp4", poster: "/showcase/media/post-5.webp", video: true },
+  { src: "/showcase/media/post-4.mp4", poster: "/showcase/media/post-4.webp", video: true },
+  { src: "/showcase/media/post-8.webp" },
 ];
