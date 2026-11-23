@@ -7,6 +7,10 @@ import { AD_CAMPAIGNS } from "@/lib/ad-results";
 import { portfolioSites } from "@/lib/inner-copy";
 import { SHOWCASE_LOCALES, showcaseCopy } from "@/lib/showcase-copy";
 import { notFound } from "next/navigation";
+import { Inter_Tight } from "next/font/google";
+
+// the big soft words: a dense, Apple-like grotesque with Cyrillic (Hebrew falls back to Rubik)
+const bigFont = Inter_Tight({ subsets: ["latin", "cyrillic"], weight: ["800"], variable: "--font-sc", display: "swap" });
 import { CONTACTS } from "@/lib/contacts";
 
 /**
@@ -33,7 +37,7 @@ export default async function ShowcasePage({ params }: { params: Promise<{ local
   const ps = portfolioSites(locale);
 
   return (
-    <div id="sc-root" className="scx" data-theme="dark" suppressHydrationWarning>
+    <div id="sc-root" className={`scx ${bigFont.variable}`} data-theme="dark" suppressHydrationWarning>
       <ShowcaseBrowser locale={locale} sites={ps.items} results={AD_CAMPAIGNS} waMain={CONTACTS.whatsapp} />
     </div>
   );

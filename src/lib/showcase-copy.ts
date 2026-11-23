@@ -26,6 +26,8 @@ export type ShowcaseCopy = {
   float: string;
   chat: { title: string; status: string; hello: string; q: string[]; ph: string; note: string; send: string; close: string };
   video: { title: string; text: string; more: string; wa: string };
+  results: { title: string; em: string; text: string };
+  sitesText: string;
   posts: Service & { slides: string[]; swipe: string };
   bot: Service & { note: string; typing: string; chat: Line[] };
   voice: Service & { calling: string; script: Line[]; note: string; or: string };
@@ -47,22 +49,24 @@ const C: Record<string, ShowcaseCopy> = {
     chat: { title: "ИИ-менеджер DC", status: "онлайн · отвечает за секунды", hello: "Здравствуйте! Я ИИ-менеджер DC Production. Выберите вопрос или напишите свой: продолжим в WhatsApp.", q: ["Сколько стоит реклама?", "Хочу ИИ-менеджера для бизнеса", "Нужен сайт"], ph: "Напишите сообщение…", note: "Ответ придёт в WhatsApp", send: "Отправить", close: "Закрыть" },
     video: {
       title: "Рекламные ролики",
-      text: "Сценарий, съёмка и монтаж под рекламу в Instagram и Facebook. Листайте и смотрите прямо здесь.",
+      text: "Сценарий, съёмка и монтаж под рекламу в Instagram и Facebook. Цепляем в первые три секунды, показываем товар в деле и ведём к заявке. Листайте и смотрите прямо здесь.",
       more: "Ещё ролики под вашу нишу", wa: "Здравствуйте! Хочу посмотреть примеры видеороликов",
     },
+    results: { title: "Результаты", em: "рекламных кампаний", text: "Настоящие цифры из рекламных кабинетов наших клиентов: сколько людей написали, во что обошёлся каждый и сколько вложено." },
+    sitesText: "Сайты, которые продают: каждый открывается на вашем языке, нажмите и посмотрите вживую.",
     posts: {
       title: "Рекламные", em: "посты и баннеры",
-      text: "Посты, сторис и баннеры для Instagram и Facebook: дизайн и тексты под вашу аудиторию на иврите и русском.",
-      points: ["Ленты, сторис, карусели", "Тексты на иврите и русском", "Готовы к запуску рекламы"],
+      text: "Реклама, мимо которой не пролистывают. Делаем посты, сторис и баннеры для Instagram и Facebook: заголовок, который бьёт в боль клиента, дизайн в стиле вашего бренда и текст на иврите и русском. Каждый креатив сразу готов к запуску и тестируется на реальной аудитории.",
+      points: ["Ленты, сторис и карусели в одном стиле", "Тексты, которые продают, на иврите и русском", "Несколько вариантов для теста: оставляем лучший"],
       slides: ["Ленты, сторис, карусели", "Тексты на иврите и русском", "Готовы к запуску рекламы"],
       swipe: "Листайте",
       cta: "Получить примеры", wa: "Здравствуйте! Хочу посмотреть примеры рекламных постов",
     },
     bot: {
       title: "ИИ-менеджер", em: "по перепискам",
-      text: "Отвечает вашим клиентам в WhatsApp за секунды, днём и ночью. Напишите ему сами и посмотрите, как он работает.",
-      points: ["Отвечает за секунды, 24/7", "Понимает иврит, русский и английский", "Собирает заявку и передаёт её вам"],
-      cta: "Написать ИИ-менеджеру", wa: "Здравствуйте! Хочу посмотреть, как работает ИИ-менеджер",
+      text: "Клиент пишет вам в WhatsApp в 23:40, а менеджер уже спит. ИИ-менеджер отвечает за секунды: знает ваши услуги и цены, отвечает на вопросы, уточняет детали и записывает клиента. Готовую заявку вы получаете себе, а в любой момент можете подключиться к переписке сами.",
+      points: ["1. Клиент пишет в WhatsApp, как обычно", "2. ИИ отвечает за секунды на иврите, русском или английском", "3. Заявка с именем и телефоном приходит вам"],
+      cta: "Узнать, как это работает", wa: "Здравствуйте! Хочу посмотреть, как работает ИИ-менеджер",
       note: "Или сразу открыть WhatsApp",
       typing: "печатает…",
       chat: [
@@ -75,8 +79,8 @@ const C: Record<string, ShowcaseCopy> = {
     },
     voice: {
       title: "Разговорный", em: "бот",
-      text: "Голосовой ИИ на вашем номере: сам берёт трубку, говорит с клиентом живым голосом и записывает на услугу. Каждый звонок записан, видно, с какой рекламы позвонили.",
-      points: ["Берёт трубку с первого гудка, 24/7", "Говорит на иврите и русском", "Запись звонков и итог вам в WhatsApp"],
+      text: "Представьте сотрудника, который никогда не пропускает звонок. Бот сам берёт трубку, говорит живым голосом, отвечает на вопросы о ценах и свободных окнах и сразу записывает клиента. Вы получаете запись разговора и короткий итог, а видно ещё и то, с какой рекламы пришёл звонок. Не верите? Позвоните ему сами.",
+      points: ["Берёт трубку с первого гудка, днём и ночью", "Говорит на иврите и русском, как живой человек", "Запись каждого звонка и итог вам в WhatsApp"],
       cta: "Позвонить боту", wa: "Здравствуйте! Хочу разговорного бота для своего бизнеса",
       note: "Бот ответит сам: спросите о ценах или попробуйте записаться", or: "Хочу такого бота",
       calling: "Идёт разговор",
@@ -102,22 +106,24 @@ const C: Record<string, ShowcaseCopy> = {
     chat: { title: "מנהל AI של DC", status: "מחובר · עונה תוך שניות", hello: "שלום! אני מנהל ה-AI של DC Production. בחרו שאלה או כתבו משלכם: נמשיך בוואטסאפ.", q: ["כמה עולה פרסום?", "אני רוצה מנהל AI לעסק", "צריך אתר"], ph: "כתבו הודעה…", note: "התשובה תגיע בוואטסאפ", send: "שליחה", close: "סגירה" },
     video: {
       title: "סרטוני פרסום",
-      text: "תסריט, צילום ועריכה לפרסום באינסטגרם ובפייסבוק. גללו וצפו כאן.",
+      text: "תסריט, צילום ועריכה לפרסום באינסטגרם ובפייסבוק. תופסים את העין בשלוש השניות הראשונות, מראים את המוצר בפעולה ומובילים לפנייה. גללו וצפו כאן.",
       more: "סרטונים נוספים בתחום שלכם", wa: "שלום! אשמח לראות דוגמאות של סרטונים",
     },
+    results: { title: "תוצאות", em: "קמפיינים", text: "מספרים אמיתיים ממנהלי המודעות של הלקוחות שלנו: כמה אנשים פנו, כמה עלתה כל פנייה וכמה הושקע." },
+    sitesText: "אתרים שמוכרים: כל אחד נפתח בשפה שלכם, לחצו ותראו אותו חי.",
     posts: {
       title: "פוסטים", em: "ובאנרים",
-      text: "פוסטים, סטוריז ובאנרים לאינסטגרם ופייסבוק: עיצוב וטקסטים לקהל שלכם בעברית וברוסית.",
-      points: ["פיד, סטוריז, קרוסלות", "טקסטים בעברית וברוסית", "מוכנים להשקת קמפיין"],
+      text: "פרסום שלא גוללים לידו. אנחנו מכינים פוסטים, סטוריז ובאנרים לאינסטגרם ופייסבוק: כותרת שפוגעת בכאב של הלקוח, עיצוב בסגנון המותג שלכם וטקסט בעברית וברוסית. כל קריאייטיב מוכן להשקה ונבדק על קהל אמיתי.",
+      points: ["פיד, סטוריז וקרוסלות בסגנון אחד", "טקסטים שמוכרים, בעברית וברוסית", "כמה גרסאות לבדיקה: משאירים את הטובה"],
       slides: ["פיד, סטוריז, קרוסלות", "טקסטים בעברית וברוסית", "מוכנים להשקת קמפיין"],
       swipe: "החליקו",
       cta: "לקבלת דוגמאות", wa: "שלום! אשמח לראות דוגמאות של פוסטים ממומנים",
     },
     bot: {
       title: "מנהל AI", em: "לשיחות",
-      text: "עונה ללקוחות שלכם בוואטסאפ תוך שניות, יום ולילה. כתבו לו בעצמכם ותראו איך הוא עובד.",
-      points: ["עונה תוך שניות, 24/7", "מבין עברית, רוסית ואנגלית", "אוסף את הפנייה ומעביר אליכם"],
-      cta: "לכתוב למנהל ה-AI", wa: "שלום! אשמח לראות איך מנהל ה-AI עובד",
+      text: "לקוח כותב לכם בוואטסאפ ב-23:40, והנציג כבר ישן. מנהל ה-AI עונה תוך שניות: מכיר את השירותים והמחירים שלכם, עונה על שאלות, מברר פרטים וקובע לקוח. את הפנייה המוכנה אתם מקבלים, ובכל רגע אפשר להיכנס לשיחה בעצמכם.",
+      points: ["1. הלקוח כותב בוואטסאפ כרגיל", "2. ה-AI עונה תוך שניות בעברית, ברוסית או באנגלית", "3. פנייה עם שם וטלפון מגיעה אליכם"],
+      cta: "לראות איך זה עובד", wa: "שלום! אשמח לראות איך מנהל ה-AI עובד",
       note: "או לפתוח ישר את וואטסאפ",
       typing: "מקליד…",
       chat: [
@@ -130,8 +136,8 @@ const C: Record<string, ShowcaseCopy> = {
     },
     voice: {
       title: "בוט", em: "קולי",
-      text: "AI קולי על המספר שלכם: עונה לשיחות בעצמו, מדבר עם הלקוח בקול טבעי וקובע תורים. כל שיחה מוקלטת ורואים מאיזה פרסום התקשרו.",
-      points: ["עונה מהצלצול הראשון, 24/7", "מדבר עברית ורוסית", "הקלטת שיחות וסיכום אליכם לוואטסאפ"],
+      text: "תדמיינו עובד שאף פעם לא מפספס שיחה. הבוט עונה בעצמו, מדבר בקול טבעי, עונה על שאלות על מחירים ושעות פנויות וקובע תור מיד. אתם מקבלים הקלטה וסיכום קצר, ורואים גם מאיזה פרסום הגיעה השיחה. לא מאמינים? התקשרו אליו בעצמכם.",
+      points: ["עונה מהצלצול הראשון, יום ולילה", "מדבר עברית ורוסית, כמו בן אדם", "הקלטה של כל שיחה וסיכום אליכם לוואטסאפ"],
       cta: "להתקשר לבוט", wa: "שלום! אשמח לבוט קולי לעסק שלי",
       note: "הבוט יענה בעצמו: שאלו על מחירים או נסו לקבוע תור", or: "אני רוצה בוט כזה",
       calling: "שיחה פעילה",
@@ -157,22 +163,24 @@ const C: Record<string, ShowcaseCopy> = {
     chat: { title: "DC AI manager", status: "online · replies in seconds", hello: "Hi! I'm the DC Production AI manager. Pick a question or type your own: we'll continue on WhatsApp.", q: ["How much do ads cost?", "I want an AI manager", "I need a website"], ph: "Type a message…", note: "The reply comes on WhatsApp", send: "Send", close: "Close" },
     video: {
       title: "Ad videos",
-      text: "Script, shoot and edit for Instagram and Facebook ads. Swipe and watch right here.",
+      text: "Script, shoot and edit for Instagram and Facebook ads. We hook viewers in the first three seconds, show the product at work and lead to a message. Swipe and watch right here.",
       more: "More videos for your niche", wa: "Hi! I'd like to see examples of your videos",
     },
+    results: { title: "Campaign", em: "results", text: "Real numbers from our clients' ad accounts: how many people wrote, what each one cost and how much was spent." },
+    sitesText: "Websites that sell: each opens in your language, tap to see it live.",
     posts: {
       title: "Ad posts", em: "and banners",
-      text: "Posts, stories and banners for Instagram and Facebook: design and copy for your audience in Hebrew and Russian.",
-      points: ["Feed, stories, carousels", "Copy in Hebrew and Russian", "Ready to launch ads"],
+      text: "Ads people don't scroll past. We make posts, stories and banners for Instagram and Facebook: a headline that hits the customer's pain, design in your brand's style and copy in Hebrew and Russian. Every creative is ready to launch and tested on a real audience.",
+      points: ["Feed, stories and carousels in one style", "Copy that sells, in Hebrew and Russian", "Several versions to test: we keep the winner"],
       slides: ["Feed, stories, carousels", "Copy in Hebrew and Russian", "Ready to launch ads"],
       swipe: "Swipe",
       cta: "Get examples", wa: "Hi! I'd like to see examples of ad posts",
     },
     bot: {
       title: "AI chat", em: "manager",
-      text: "Answers your customers on WhatsApp in seconds, day and night. Message it yourself and see how it works.",
-      points: ["Replies in seconds, 24/7", "Understands Hebrew, Russian and English", "Collects the lead and hands it to you"],
-      cta: "Message the AI manager", wa: "Hi! I'd like to see how the AI manager works",
+      text: "A customer messages you on WhatsApp at 11:40 pm and your manager is asleep. The AI manager replies in seconds: it knows your services and prices, answers questions, asks for details and books the customer. You get the finished lead, and you can step into the chat yourself at any moment.",
+      points: ["1. The customer writes on WhatsApp as usual", "2. The AI replies in seconds in Hebrew, Russian or English", "3. A lead with name and phone comes to you"],
+      cta: "See how it works", wa: "Hi! I'd like to see how the AI manager works",
       note: "Or open WhatsApp directly",
       typing: "typing…",
       chat: [
@@ -185,8 +193,8 @@ const C: Record<string, ShowcaseCopy> = {
     },
     voice: {
       title: "Voice", em: "bot",
-      text: "Voice AI on your number: picks up by itself, talks to the customer in a natural voice and books appointments. Every call is recorded, and you see which ad it came from.",
-      points: ["Picks up on the first ring, 24/7", "Speaks Hebrew and Russian", "Call recordings and a summary on WhatsApp"],
+      text: "Imagine an employee who never misses a call. The bot picks up by itself, talks in a natural voice, answers questions about prices and free slots and books the customer on the spot. You get the recording and a short summary, and you see which ad the call came from. Don't believe it? Call it yourself.",
+      points: ["Picks up on the first ring, day and night", "Speaks Hebrew and Russian like a real person", "A recording of every call and a summary on WhatsApp"],
       cta: "Call the bot", wa: "Hi! I'd like a voice bot for my business",
       note: "The bot answers by itself: ask about prices or try to book", or: "I want this bot",
       calling: "Call in progress",

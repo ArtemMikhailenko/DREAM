@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { AdCard } from "@/components/home/AdCard";
+import { currencyFor } from "@/lib/ad-results";
 import type { AdCampaign } from "@/lib/ad-results";
 import { POST_SLIDES, SHOWCASE_LANGS, VIDEO_SLIDES, VOICE_BOT, WA_BOT, showcaseCopy, type Line, type TabId } from "@/lib/showcase-copy";
 
@@ -20,8 +21,8 @@ const Moon = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14
 const PhoneIc = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8Z" fill="currentColor" /></svg>;
 const Heart = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2 0 3.6 1.1 4.3 2.6.7-1.5 2.3-2.6 4.3-2.6 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21Z" fill="currentColor" /></svg>;
 /** our logo (dc.) in a round frame */
-const Logo = ({ size = 40 }: { size?: number }) => (
-  <span className="sc-logo-img" style={{ width: size, height: size }} aria-hidden="true" />
+const Logo = ({ size }: { size?: number }) => (
+  <span className="sc-logo-img" style={size ? { width: size, height: size } : undefined} aria-hidden="true" />
 );
 const A11yIc = () => <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4.6" r="2" fill="currentColor" /><path d="M5 8.2c2.3.7 4.6 1 7 1s4.7-.3 7-1M12 9.2v5.2M12 14.4l-3 6.1M12 14.4l3 6.1" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
 
@@ -57,33 +58,24 @@ const Glow = ({ children, className = "" }: { children: ReactNode; className?: s
   <div className={`sc-glow ${className}`}><div className="sc-glow-in">{children}</div></div>
 );
 
-/** The giant hollow word behind the top: centred, as wide as the screen, one line. */
-function BigWord({ text, children }: { text: string; children: ReactNode }) {
-  const box = useRef<HTMLDivElement>(null);
+/** A giant soft word that sits behind a block: one line, as wide as the screen. */
+function BigWord({ text, cap = 300, className = "" }: { text: string; cap?: number; className?: string }) {
   const el = useRef<HTMLSpanElement>(null);
   const fit = useCallback(() => {
-    const b = box.current, e = el.current;
-    if (!b || !e) return;
+    const e = el.current;
+    if (!e) return;
     e.style.fontSize = "100px";
     const w = e.scrollWidth || 1;
-    const avail = document.documentElement.clientWidth * 0.96;
-    // one fixed height for every tab, so nothing below jumps
-    const cap = Math.min(window.innerWidth * 0.24, 300);
-    e.style.fontSize = `${Math.max(Math.min((avail / w) * 100, cap), 28)}px`;
-    b.style.minHeight = `${cap * 0.95}px`;
-  }, []);
+    const avail = document.documentElement.clientWidth * 0.94;
+    e.style.fontSize = `${Math.max(Math.min((avail / w) * 100, cap, window.innerWidth * 0.26), 28)}px`;
+  }, [cap]);
   useLayoutEffect(() => { fit(); }, [text, fit]);
   useEffect(() => {
     window.addEventListener("resize", fit);
     document.fonts?.ready.then(fit);
     return () => window.removeEventListener("resize", fit);
   }, [fit]);
-  return (
-    <div ref={box} className="sc-hero">
-      <h1 className="sc-word"><span ref={el} key={text}>{text}</span></h1>
-      <div className="sc-hero-in">{children}</div>
-    </div>
-  );
+  return <span className={`sc-word ${className}`} aria-hidden="true"><span ref={el}>{text}</span></span>;
 }
 
 /**
@@ -173,7 +165,7 @@ function VoiceDemo({ lines, calling }: { lines: Line[]; calling: string }) {
           <span className="sc-call-st"><PhoneIc />{calling}</span>
           <span className="sc-call-t">00:{String(sec).padStart(2, "0")}</span>
         </div>
-        <div className="sc-orb"><span /><span /><span /><b><Logo size={78} /></b><em className="sc-rec-dot">REC</em></div>
+        <div className="sc-orb"><span /><span /><span /><b><Logo /></b><em className="sc-rec-dot">REC</em></div>
         <div className={`sc-wave${last?.me ? " me" : ""}`}>{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ animationDelay: `${(i % 7) * -0.13}s` }} />)}</div>
         <div className="sc-say">
           {lines.slice(0, k).slice(-3).map((l, i) => <p key={k + "-" + i} className={l.me ? "me" : ""}>{l.t}</p>)}
@@ -292,7 +284,7 @@ function FabChat({ c, label }: { c: { title: string; status: string; hello: stri
         <small className="sc-fc-note"><WaIcon />{c.note}</small>
       </div>
       <button type="button" className="sc-fab" onClick={() => (open ? setOpen(false) : show())} aria-expanded={open} aria-label={label}>
-        <span className="sc-fab-orb">{open ? <span className="sc-fab-x">×</span> : <Logo size={62} />}<i className="sc-fab-wa"><WaIcon /></i></span>
+        <span className="sc-fab-orb">{open ? <span className="sc-fab-x">×</span> : <Logo />}</span>
         {!open && <span className="sc-fab-typing" aria-hidden="true"><i /><i /><i /></span>}
         {!open && <span className="sc-fab-txt">{label}</span>}
       </button>
@@ -345,10 +337,14 @@ function usePressPulse() {
 }
 
 /* ───────── page body ───────── */
+type SecId = Exclude<TabId, "all">;
+const ORDER: SecId[] = ["video", "posts", "results", "sites", "bot", "voice"];
+
 export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: string; sites: Site[]; results: AdCampaign[]; waMain: string }) {
   const t = showcaseCopy(locale);
-  const [tab, setTab] = useState<TabId>("all");
+  const [active, setActive] = useState<SecId>("video");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const strip = useRef<HTMLDivElement>(null);
   usePressPulse();
 
   // the visitor's saved theme, applied before the first paint after hydration
@@ -369,25 +365,45 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
     try { localStorage.setItem("sc-theme", nt); } catch {}
   };
 
+  // which section is on screen → that tab lights up, and the strip slides it into view
+  useEffect(() => {
+    const io = new IntersectionObserver((es) => {
+      const vis = es.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (vis) setActive(vis.target.id.replace("sc-", "") as SecId);
+    }, { rootMargin: "-35% 0px -55% 0px" });
+    ORDER.forEach((id) => { const el = document.getElementById(`sc-${id}`); if (el) io.observe(el); });
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    const box = strip.current, pill = box?.querySelector<HTMLElement>(`[data-id="${active}"]`);
+    if (!box || !pill) return;
+    const left = pill.offsetLeft - (box.clientWidth - pill.offsetWidth) / 2;
+    box.scrollTo({ left, behavior: "smooth" });
+  }, [active]);
+  const go = (id: SecId) => {
+    setActive(id);
+    document.getElementById(`sc-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const waTo = (base: string, text: string) => `${base}${base.includes("?") ? "&" : "?"}text=${encodeURIComponent(text)}`;
   const nVid = VIDEO_SLIDES(locale).length;
-
-  const order: TabId[] = ["all", "video", "posts", "results", "sites", "bot", "voice"];
-  const counts: Partial<Record<TabId, number>> = { video: nVid, results: results.length, sites: sites.length };
-  const show = (id: TabId) => tab === "all" || tab === id;
-  const all = tab === "all";
-  const go = (id: TabId) => {
-    setTab(id);
-    const el = document.getElementById("sc-top");
-    if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-  const H = ({ id }: { id: TabId }) => (all ? <h2 className="sc-h"><span>{t.tabs[id]}</span>{counts[id] != null && <i>{counts[id]}</i>}</h2> : null);
+  const counts: Partial<Record<SecId, number>> = { video: nVid, results: results.length, sites: sites.length };
+  // Russian and Hebrew pages: everything in shekels (the campaigns run in Israel)
+  const cur = locale === "ru" || locale === "he" ? currencyFor("he") : undefined;
+  const openChat = () => window.dispatchEvent(new Event("sc:open-chat"));
+  const Head = ({ id, title, em, text, quiet }: { id: SecId; title: string; em?: string; text?: string; quiet?: boolean }) => (
+    <div className={`sc-sh${quiet ? " quiet" : ""}`}>
+      <BigWord text={t.words[id]} cap={220} className="sc-word-sec" />
+      <h2 className={quiet ? "sr-only" : "sc-h"}>{title}{em && <> <em>{em}</em></>}{!quiet && counts[id] != null && <i>{counts[id]}</i>}</h2>
+      {text && <p className="sc-sh-p">{text}</p>}
+    </div>
+  );
 
   return (
     <>
       <header className="sc-head">
         <div className="wrap sc-head-in">
-          <span className="sc-logo">DC.PRODUCTION</span>
+          <span className="sc-brand"><Logo size={32} /><b>DC.PRODUCTION</b></span>
           <div className="sc-head-r">
             <nav className="sc-langs" aria-label="Language">
               {SHOWCASE_LANGS.map((l) => (
@@ -403,117 +419,110 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
 
       <main className="sc-page">
         <div className="sc-bg" aria-hidden="true" />
-        <div className="wrap">
-          <BigWord text={t.words[tab]}>
-            <span className="sc-kicker"><Logo size={34} />DC Production</span>
-            <p className="sc-sub">{t.sub}</p>
-          </BigWord>
 
-          <div className="sc-tabs-wrap" id="sc-top">
-            <div className="sc-tabs" role="tablist">
-              {order.map((id) => (
-                <button key={id} type="button" role="tab" aria-selected={tab === id} className={`sc-tab${tab === id ? " on" : ""}`} onClick={() => go(id)}>
+        {/* welcome: just the word */}
+        <section className="sc-hero">
+          <BigWord text={t.words.all} cap={340} className="sc-word-hero" />
+          <h1 className="sr-only">{t.meta}</h1>
+          <span className="sc-hero-brand"><Logo size={30} />DC Production</span>
+        </section>
+
+        <div className="sc-tabs-wrap">
+          <div className="wrap">
+            <nav className="sc-tabs" ref={strip} aria-label={t.words.all}>
+              {ORDER.map((id) => (
+                <button key={id} data-id={id} type="button" aria-current={active === id ? "true" : undefined} className={`sc-tab${active === id ? " on" : ""}`} onClick={() => go(id)}>
                   <span>{t.tabs[id]}</span>
                   {counts[id] != null && <span className="sc-n">{counts[id]}</span>}
                 </button>
               ))}
-            </div>
+            </nav>
           </div>
+        </div>
 
-          {show("video") && (
-            <section className="sc-sec" key={`v-${tab}`} aria-label={t.tabs.video}>
-              <H id="video" />
-              <div className="sc-svc sc-svc-video">
-                <SvcText title={t.video.title} text={t.video.text} cta={t.video.more} href={waTo(waMain, t.video.wa)} />
-                <VideoWindow locale={locale} />
-              </div>
-            </section>
-          )}
+        <div className="wrap">
+          <section className="sc-sec" id="sc-video">
+            <Head id="video" title={t.tabs.video} quiet />
+            <div className="sc-svc sc-svc-video">
+              <SvcText title={t.video.title} text={t.video.text} cta={t.video.more} href={waTo(waMain, t.video.wa)} />
+              <VideoWindow locale={locale} />
+            </div>
+          </section>
 
-          {show("posts") && (
-            <section className="sc-sec" key={`p-${tab}`} aria-label={t.tabs.posts}>
-              <H id="posts" />
-              <div className="sc-svc">
-                <SvcText {...t.posts} href={waTo(waMain, t.posts.wa)} />
-                <PostsWindow slides={t.posts.slides} hint={t.posts.swipe} />
-              </div>
-            </section>
-          )}
+          <section className="sc-sec" id="sc-posts">
+            <Head id="posts" title={t.tabs.posts} quiet />
+            <div className="sc-svc">
+              <SvcText {...t.posts} href={waTo(waMain, t.posts.wa)} />
+              <PostsWindow slides={t.posts.slides} hint={t.posts.swipe} />
+            </div>
+          </section>
 
-          {show("results") && (
-            <section className="sc-sec" key={`r-${tab}`} aria-label={t.tabs.results}>
-              <H id="results" />
-              <div className="pf-res-grid in-tab sc-res">
-                {results.map((c) => (
-                  <figure className="pf-res-card" key={c.thumb}><AdCard c={c} locale={locale} /></figure>
-                ))}
-              </div>
-            </section>
-          )}
+          <section className="sc-sec" id="sc-results">
+            <Head id="results" title={t.results.title} em={t.results.em} text={t.results.text} />
+            <div className="pf-res-grid in-tab sc-res">
+              {results.map((c) => (
+                <figure className="pf-res-card" key={c.thumb}><AdCard c={c} locale={locale} currency={cur} /></figure>
+              ))}
+            </div>
+          </section>
 
-          {show("sites") && (
-            <section className="sc-sec" key={`s-${tab}`} aria-label={t.tabs.sites}>
-              <H id="sites" />
-              <div className="sc-sites">
-                {sites.map((s) => (
-                  <a className="sc-site" href={s.url} target="_blank" rel="noopener" key={s.domain}>
-                    <span className="sc-site-vis">
-                      <span className="sc-browser">
-                        <span className="sc-bar" aria-hidden="true"><i /><i /><i /><b>{s.domain}</b></span>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={s.img} alt={`${s.name} — ${s.domain}`} loading="lazy" decoding="async" />
-                      </span>
-                      <span className="sc-phone" aria-hidden="true">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={s.phone} alt="" loading="lazy" decoding="async" />
-                      </span>
+          <section className="sc-sec" id="sc-sites">
+            <Head id="sites" title={t.tabs.sites} text={t.sitesText} />
+            <div className="sc-sites">
+              {sites.map((s) => (
+                <a className="sc-site" href={s.url} target="_blank" rel="noopener" key={s.domain}>
+                  <span className="sc-site-vis">
+                    <span className="sc-browser">
+                      <span className="sc-bar" aria-hidden="true"><i /><i /><i /><b>{s.domain}</b></span>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={s.img} alt={`${s.name} — ${s.domain}`} loading="lazy" decoding="async" />
                     </span>
-                    <span className="sc-site-info">
-                      <b>{s.name}</b>
-                      <small>{s.desc}</small>
-                      <em>{t.open} <Arrow /></em>
+                    <span className="sc-phone" aria-hidden="true">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={s.phone} alt="" loading="lazy" decoding="async" />
                     </span>
-                  </a>
-                ))}
-              </div>
-            </section>
-          )}
+                  </span>
+                  <span className="sc-site-info">
+                    <b>{s.name}</b>
+                    <small>{s.desc}</small>
+                    <em>{t.open} <Arrow /></em>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
 
-          {show("bot") && (
-            <section className="sc-sec" key={`b-${tab}`} aria-label={t.tabs.bot}>
-              <H id="bot" />
-              <div className="sc-svc sc-tf">
-                <div className="sc-svc-txt">
-                  <h3>{t.bot.title} <em>{t.bot.em}</em></h3>
-                  <p>{t.bot.text}</p>
-                  <ul>{t.bot.points.map((p) => <li key={p}>{p}</li>)}</ul>
-                  <button type="button" className="sc-wa glass-btn cta-pulse" onClick={() => window.dispatchEvent(new Event("sc:open-chat"))}><WaIcon />{t.bot.cta}</button>
-                  <a className="sc-alt" href={waTo(`https://wa.me/${WA_BOT}`, t.bot.wa)} target="_blank" rel="noopener"><WaIcon />{t.bot.note}</a>
-                </div>
-                <ChatDemo lines={t.bot.chat} typing={t.bot.typing} />
+          <section className="sc-sec" id="sc-bot">
+            <Head id="bot" title={t.tabs.bot} quiet />
+            <div className="sc-svc sc-df">
+              <ChatDemo lines={t.bot.chat} typing={t.bot.typing} />
+              <div className="sc-svc-txt">
+                <h3>{t.bot.title} <em>{t.bot.em}</em></h3>
+                <p>{t.bot.text}</p>
+                <ul className="sc-steps">{t.bot.points.map((p) => <li key={p}>{p}</li>)}</ul>
+                <button type="button" className="sc-wa glass-btn cta-pulse" onClick={openChat}><WaIcon />{t.bot.cta}</button>
+                <a className="sc-alt" href={waTo(`https://wa.me/${WA_BOT}`, t.bot.wa)} target="_blank" rel="noopener"><WaIcon />{t.bot.note}</a>
               </div>
-            </section>
-          )}
+            </div>
+          </section>
 
-          {show("voice") && (
-            <section className="sc-sec" key={`vo-${tab}`} aria-label={t.tabs.voice}>
-              <H id="voice" />
-              <div className="sc-svc sc-tf">
-                <div className="sc-svc-txt">
-                  <h3>{t.voice.title} <em>{t.voice.em}</em></h3>
-                  <p>{t.voice.text}</p>
-                  <ul>{t.voice.points.map((p) => <li key={p}>{p}</li>)}</ul>
-                  <a className="sc-wa sc-call-btn glass-btn cta-pulse" href={`tel:${VOICE_BOT.tel}`}>
-                    <span className="sc-call-ic"><PhoneIc /></span>
-                    <span className="sc-call-lbl">{t.voice.cta}<b dir="ltr">{VOICE_BOT.show}</b></span>
-                  </a>
-                  <small className="sc-note">{t.voice.note}</small>
-                  <a className="sc-alt" href={waTo(waMain, t.voice.wa)} target="_blank" rel="noopener"><WaIcon />{t.voice.or}</a>
-                </div>
-                <VoiceDemo lines={t.voice.script} calling={t.voice.calling} />
+          <section className="sc-sec" id="sc-voice">
+            <Head id="voice" title={t.tabs.voice} quiet />
+            <div className="sc-svc sc-df">
+              <VoiceDemo lines={t.voice.script} calling={t.voice.calling} />
+              <div className="sc-svc-txt">
+                <h3>{t.voice.title} <em>{t.voice.em}</em></h3>
+                <p>{t.voice.text}</p>
+                <ul>{t.voice.points.map((p) => <li key={p}>{p}</li>)}</ul>
+                <a className="sc-wa sc-call-btn glass-btn cta-pulse" href={`tel:${VOICE_BOT.tel}`}>
+                  <span className="sc-call-ic"><PhoneIc /></span>
+                  <span className="sc-call-lbl">{t.voice.cta}<b dir="ltr">{VOICE_BOT.show}</b></span>
+                </a>
+                <small className="sc-note">{t.voice.note}</small>
+                <a className="sc-alt" href={waTo(waMain, t.voice.wa)} target="_blank" rel="noopener"><WaIcon />{t.voice.or}</a>
               </div>
-            </section>
-          )}
+            </div>
+          </section>
 
           <section className="sc-end">
             <h2>{t.cta}</h2>

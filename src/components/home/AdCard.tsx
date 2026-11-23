@@ -1,9 +1,9 @@
-import { adLabels, currencyFor, money, type AdCampaign } from "@/lib/ad-results";
+import { adLabels, currencyFor, money, type AdCampaign, type Currency } from "@/lib/ad-results";
 
 /** One campaign drawn like an Ads Manager card, in the visitor's language and currency. */
-export function AdCard({ c, locale }: { c: AdCampaign; locale: string }) {
+export function AdCard({ c, locale, currency }: { c: AdCampaign; locale: string; currency?: Currency }) {
   const L = adLabels(locale);
-  const cur = currencyFor(locale);
+  const cur = currency ?? currencyFor(locale);
   return (
     <div className="adc" dir="ltr">
       <div className="adc-head">
