@@ -24,6 +24,7 @@ export type ShowcaseCopy = {
   light: string;
   dark: string;
   float: string;
+  chat: { title: string; status: string; hello: string; q: string[]; ph: string; note: string; send: string; close: string };
   video: { title: string; text: string; more: string; wa: string };
   posts: Service & { slides: string[]; swipe: string };
   bot: Service & { note: string; typing: string; chat: Line[] };
@@ -43,6 +44,7 @@ const C: Record<string, ShowcaseCopy> = {
     open: "Открыть сайт",
     light: "Светлая тема", dark: "Тёмная тема",
     float: "Написать нам",
+    chat: { title: "ИИ-менеджер DC", status: "онлайн · отвечает за секунды", hello: "Здравствуйте! Я ИИ-менеджер DC Production. Выберите вопрос или напишите свой: продолжим в WhatsApp.", q: ["Сколько стоит реклама?", "Хочу ИИ-менеджера для бизнеса", "Нужен сайт"], ph: "Напишите сообщение…", note: "Ответ придёт в WhatsApp", send: "Отправить", close: "Закрыть" },
     video: {
       title: "Рекламные ролики",
       text: "Сценарий, съёмка и монтаж под рекламу в Instagram и Facebook. Листайте и смотрите прямо здесь.",
@@ -60,8 +62,8 @@ const C: Record<string, ShowcaseCopy> = {
       title: "ИИ-менеджер", em: "по перепискам",
       text: "Отвечает вашим клиентам в WhatsApp за секунды, днём и ночью. Напишите ему сами и посмотрите, как он работает.",
       points: ["Отвечает за секунды, 24/7", "Понимает иврит, русский и английский", "Собирает заявку и передаёт её вам"],
-      cta: "Написать в WhatsApp", wa: "Здравствуйте! Хочу посмотреть, как работает ИИ-менеджер",
-      note: "Откроется чат с ИИ-менеджером",
+      cta: "Написать ИИ-менеджеру", wa: "Здравствуйте! Хочу посмотреть, как работает ИИ-менеджер",
+      note: "Или сразу открыть WhatsApp",
       typing: "печатает…",
       chat: [
         { t: "Здравствуйте! Сколько стоит реклама для салона?" },
@@ -97,6 +99,7 @@ const C: Record<string, ShowcaseCopy> = {
     open: "לאתר",
     light: "מצב בהיר", dark: "מצב כהה",
     float: "כתבו לנו",
+    chat: { title: "מנהל AI של DC", status: "מחובר · עונה תוך שניות", hello: "שלום! אני מנהל ה-AI של DC Production. בחרו שאלה או כתבו משלכם: נמשיך בוואטסאפ.", q: ["כמה עולה פרסום?", "אני רוצה מנהל AI לעסק", "צריך אתר"], ph: "כתבו הודעה…", note: "התשובה תגיע בוואטסאפ", send: "שליחה", close: "סגירה" },
     video: {
       title: "סרטוני פרסום",
       text: "תסריט, צילום ועריכה לפרסום באינסטגרם ובפייסבוק. גללו וצפו כאן.",
@@ -114,8 +117,8 @@ const C: Record<string, ShowcaseCopy> = {
       title: "מנהל AI", em: "לשיחות",
       text: "עונה ללקוחות שלכם בוואטסאפ תוך שניות, יום ולילה. כתבו לו בעצמכם ותראו איך הוא עובד.",
       points: ["עונה תוך שניות, 24/7", "מבין עברית, רוסית ואנגלית", "אוסף את הפנייה ומעביר אליכם"],
-      cta: "לכתוב בוואטסאפ", wa: "שלום! אשמח לראות איך מנהל ה-AI עובד",
-      note: "ייפתח צ׳אט עם מנהל ה-AI",
+      cta: "לכתוב למנהל ה-AI", wa: "שלום! אשמח לראות איך מנהל ה-AI עובד",
+      note: "או לפתוח ישר את וואטסאפ",
       typing: "מקליד…",
       chat: [
         { t: "שלום! כמה עולה פרסום לסלון?" },
@@ -151,6 +154,7 @@ const C: Record<string, ShowcaseCopy> = {
     open: "Open site",
     light: "Light theme", dark: "Dark theme",
     float: "Message us",
+    chat: { title: "DC AI manager", status: "online · replies in seconds", hello: "Hi! I'm the DC Production AI manager. Pick a question or type your own: we'll continue on WhatsApp.", q: ["How much do ads cost?", "I want an AI manager", "I need a website"], ph: "Type a message…", note: "The reply comes on WhatsApp", send: "Send", close: "Close" },
     video: {
       title: "Ad videos",
       text: "Script, shoot and edit for Instagram and Facebook ads. Swipe and watch right here.",
@@ -168,8 +172,8 @@ const C: Record<string, ShowcaseCopy> = {
       title: "AI chat", em: "manager",
       text: "Answers your customers on WhatsApp in seconds, day and night. Message it yourself and see how it works.",
       points: ["Replies in seconds, 24/7", "Understands Hebrew, Russian and English", "Collects the lead and hands it to you"],
-      cta: "Message on WhatsApp", wa: "Hi! I'd like to see how the AI manager works",
-      note: "Opens a chat with the AI manager",
+      cta: "Message the AI manager", wa: "Hi! I'd like to see how the AI manager works",
+      note: "Or open WhatsApp directly",
       typing: "typing…",
       chat: [
         { t: "Hi! How much do ads for a salon cost?" },

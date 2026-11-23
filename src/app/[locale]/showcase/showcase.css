@@ -272,7 +272,40 @@
 .sc-end-btn{display:inline-flex;align-items:center;gap:10px;height:58px;padding:0 32px;border-radius:999px;font-weight:700;text-decoration:none}
 .sc-foot{padding:22px 0 calc(22px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--sc-line);font-size:.78rem;color:var(--sc-mute);text-align:center;position:relative;z-index:2}
 
-/* ── floating bot button: opens WhatsApp, never pops up by itself ── */
+/* ── floating bot + its chat window (never opens by itself) ── */
+.sc-fc{position:fixed;z-index:60;bottom:calc(22px + env(safe-area-inset-bottom,0px));right:calc(22px + env(safe-area-inset-right,0px))}
+.sc-fc .sc-fab{position:relative;bottom:auto;right:auto;border:0;background:none;padding:0;cursor:pointer;font:inherit}
+.sc-fab-x{font-size:30px;line-height:1;color:#ffe0bf;font-weight:300}
+.sc-fc-panel{position:absolute;right:0;bottom:78px;width:min(370px,calc(100vw - 32px));border-radius:22px;overflow:hidden;background:var(--wa-bg);color:var(--wa-ink);
+  box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 1px rgba(232,168,104,.35),0 0 40px rgba(232,168,104,.15);
+  transform-origin:bottom right;opacity:0;transform:translateY(14px) scale(.92);pointer-events:none;transition:opacity .3s var(--ease-out),transform .45s var(--ease-out)}
+.sc-fc.open .sc-fc-panel{opacity:1;transform:none;pointer-events:auto}
+.sc-fc-h{display:flex;align-items:center;gap:10px;padding:12px 12px 12px 14px;background:var(--wa-head)}
+.sc-fc-who{flex:1;min-width:0}
+.sc-fc-who b{display:block;font-size:.94rem}
+.sc-fc-who small{display:block;font-size:.72rem;color:#25d366}
+.sc-fc-x{width:34px;height:34px;border-radius:50%;border:0;background:transparent;color:inherit;font-size:24px;line-height:1;cursor:pointer;opacity:.7}
+.sc-fc-x:hover{opacity:1;background:rgba(127,127,127,.15)}
+.sc-fc-b{padding:16px 12px 10px;min-height:190px;display:flex;flex-direction:column;gap:10px;background-image:radial-gradient(circle at 20% 30%,var(--wa-dot) 0 1.5px,transparent 2px);background-size:22px 22px}
+.sc-fc-b p{margin:0;max-width:88%;padding:9px 12px;border-radius:10px;border-start-start-radius:2px;background:var(--wa-in);font-size:.9rem;line-height:1.45;animation:scPop .38s var(--ease-out) both;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.sc-fc-b p.dots{display:flex;gap:4px;width:max-content;padding:12px 13px}
+.sc-fc-b p.dots i{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.45;animation:scDot 1s ease-in-out infinite}
+.sc-fc-b p.dots i:nth-child(2){animation-delay:.15s}.sc-fc-b p.dots i:nth-child(3){animation-delay:.3s}
+.sc-fc-q{display:flex;flex-wrap:wrap;gap:6px;animation:scPop .45s var(--ease-out) .1s both}
+.sc-fc-q button{padding:8px 12px;border-radius:999px;border:1px solid rgba(37,211,102,.45);background:rgba(37,211,102,.1);color:inherit;font:inherit;font-size:.84rem;cursor:pointer;transition:background .2s,box-shadow .3s,transform .2s}
+.sc-fc-q button:hover{background:rgba(37,211,102,.2);box-shadow:0 0 16px rgba(37,211,102,.3);transform:translateY(-1px)}
+.sc-fc-f{display:flex;gap:8px;padding:10px;background:var(--wa-head)}
+.sc-fc-f input{flex:1;min-width:0;height:44px;padding:0 16px;border-radius:999px;border:0;outline:0;background:var(--wa-in);color:var(--wa-ink);font:inherit;font-size:16px}
+.sc-fc-f button{width:44px;height:44px;border-radius:50%;border:0;display:grid;place-items:center;background:#25d366;color:#fff;cursor:pointer;transition:transform .2s,opacity .2s,box-shadow .3s}
+.sc-fc-f button:disabled{opacity:.45;cursor:default}
+.sc-fc-f button:not(:disabled):hover{transform:scale(1.06);box-shadow:0 0 18px rgba(37,211,102,.5)}
+.sc-fc-f button svg{width:20px;height:20px}
+[dir="rtl"] .sc-fc-f button svg{transform:scaleX(-1)}
+.sc-fc-note{display:flex;align-items:center;justify-content:center;gap:6px;padding:0 0 10px;background:var(--wa-head);font-size:.7rem;opacity:.75}
+.sc-fc-note .wa-ic{width:12px;height:12px;color:#25d366}
+button.sc-wa{border:1px solid transparent;cursor:pointer;font-family:inherit}
+
+/* ── floating bot button ── */
 .sc-fab{position:fixed;z-index:60;bottom:calc(22px + env(safe-area-inset-bottom,0px));right:calc(22px + env(safe-area-inset-right,0px));display:flex;align-items:center;text-decoration:none;color:var(--sc-ink);
   animation:scFabIn .8s var(--ease-out) 1.2s both}
 @keyframes scFabIn{from{opacity:0;transform:translateY(20px) scale(.8)}}
@@ -301,10 +334,28 @@
 @media(max-width:900px){
   .sc-svc,.sc-svc-video{grid-template-columns:1fr}
   .sc-svc>.sc-demo{order:-1}
+  .sc-svc.sc-tf>.sc-demo{order:0}
 }
 @media(max-width:600px){
   .sc-head-in{height:58px}
-  .sc-tabs-wrap{top:calc(58px + env(safe-area-inset-top,0px))}
+  /* phones: every tab visible at once, in rows — nothing hidden off to the side */
+  .sc-tabs-wrap{position:relative;top:auto;padding:0}
+  .sc-tabs{flex-wrap:wrap;overflow:visible;-webkit-mask-image:none;mask-image:none;gap:7px;padding:2px 0}
+  .sc-tab{flex:0 1 auto}
+  .sc-call .sc-glow-in{min-height:0;gap:12px;padding:14px 14px 16px}
+  .sc-orb{width:86px;height:86px;margin-top:0}
+  .sc-orb b{width:58px;height:58px;font-size:1rem}
+  .sc-wave{height:30px}
+  .sc-say{min-height:96px}
+  .sc-say p:not(:last-child){display:none}
+  /* bot blocks: the main button right under the title, text after it */
+  .sc-tf .sc-svc-txt{display:flex;flex-direction:column}
+  .sc-tf .sc-svc-txt>*{order:4}
+  .sc-tf .sc-svc-txt h3{order:0}
+  .sc-tf .sc-svc-txt .sc-wa{order:1;margin-top:18px}
+  .sc-tf .sc-svc-txt .sc-note{order:2}
+  .sc-tf .sc-svc-txt .sc-alt{order:3;align-self:flex-start;margin-bottom:6px}
+  .sc-tf .sc-svc-txt p{margin-top:16px}
   .sc-logo{font-size:.98rem}
   .sc-langs a{min-width:34px}
   .sc-ico{width:36px;height:36px}
@@ -314,7 +365,8 @@
   .sc-wa,.sc-end-btn{width:100%}
   .sc-call-btn{justify-content:flex-start}
   .sc-chat-b{height:300px}
-  .sc-fab{bottom:calc(16px + env(safe-area-inset-bottom,0px));right:calc(16px + env(safe-area-inset-right,0px))}
+  .sc-fc{bottom:calc(16px + env(safe-area-inset-bottom,0px));right:calc(16px + env(safe-area-inset-right,0px))}
+  .sc-fc-panel{bottom:70px}
   .sc-fab-orb{width:56px;height:56px}
 }
 [dir="rtl"] .sc-h,[dir="rtl"] .sc-site-info b,[dir="rtl"] .sc-svc-txt h3,[dir="rtl"] .sc-end h2{text-transform:none;letter-spacing:0}

@@ -238,6 +238,72 @@ function SvcText({ title, em, text, points, cta, href, note }: { title: string; 
   );
 }
 
+
+/**
+ * Floating bot: a round button in the corner that opens a WhatsApp-style chat.
+ * Never opens by itself. The first message goes to the AI manager on WhatsApp,
+ * where the bot answers and the conversation continues.
+ */
+function FabChat({ c, label }: { c: { title: string; status: string; hello: string; q: string[]; ph: string; note: string; send: string; close: string }; label: string }) {
+  const [open, setOpen] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [text, setText] = useState("");
+  const input = useRef<HTMLInputElement>(null);
+  const show = useCallback(() => {
+    setOpen(true);
+    setTyping(true);
+    window.setTimeout(() => setTyping(false), 1100);
+  }, []);
+  useEffect(() => {
+    const on = () => show();
+    window.addEventListener("sc:open-chat", on);
+    return () => window.removeEventListener("sc:open-chat", on);
+  }, [show]);
+  useEffect(() => {
+    if (!open) return;
+    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", esc);
+    if (window.matchMedia("(pointer:fine)").matches) window.setTimeout(() => input.current?.focus({ preventScroll: true }), 350);
+    return () => window.removeEventListener("keydown", esc);
+  }, [open]);
+  const send = (msg: string) => {
+    const m = msg.trim();
+    if (!m) return;
+    const url = `https://wa.me/${WA_BOT}?text=${encodeURIComponent(m)}`;
+    const w = window.open(url, "_blank", "noopener");
+    if (!w) window.location.href = url;
+    setText("");
+  };
+  return (
+    <div className={`sc-fc${open ? " open" : ""}`}>
+      <div className="sc-fc-panel" role="dialog" aria-label={c.title} aria-hidden={!open}>
+        <div className="sc-fc-h">
+          <span className="av"><BotMark /></span>
+          <span className="sc-fc-who"><b>{c.title}</b><small>{typing ? "…" : c.status}</small></span>
+          <button type="button" className="sc-fc-x" onClick={() => setOpen(false)} aria-label={c.close} tabIndex={open ? 0 : -1}>×</button>
+        </div>
+        <div className="sc-fc-b">
+          {typing ? <p className="in dots"><i /><i /><i /></p> : <p className="in">{c.hello}</p>}
+          {!typing && (
+            <div className="sc-fc-q">
+              {c.q.map((q) => <button type="button" key={q} onClick={() => send(q)} tabIndex={open ? 0 : -1}>{q}</button>)}
+            </div>
+          )}
+        </div>
+        <form className="sc-fc-f" onSubmit={(e) => { e.preventDefault(); send(text); }}>
+          <input ref={input} value={text} onChange={(e) => setText(e.target.value)} placeholder={c.ph} aria-label={c.ph} tabIndex={open ? 0 : -1} enterKeyHint="send" />
+          <button type="submit" aria-label={c.send} disabled={!text.trim()} tabIndex={open ? 0 : -1}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z" fill="currentColor" /></svg></button>
+        </form>
+        <small className="sc-fc-note"><WaIcon />{c.note}</small>
+      </div>
+      <button type="button" className="sc-fab" onClick={() => (open ? setOpen(false) : show())} aria-expanded={open} aria-label={label}>
+        <span className="sc-fab-orb">{open ? <span className="sc-fab-x">×</span> : <BotMark />}<i className="sc-fab-wa"><WaIcon /></i></span>
+        {!open && <span className="sc-fab-txt">{label}</span>}
+      </button>
+    </div>
+  );
+}
+
 /* ───────── page body ───────── */
 export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: string; sites: Site[]; results: AdCampaign[]; waMain: string }) {
   const t = showcaseCopy(locale);
@@ -373,8 +439,14 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
           {show("bot") && (
             <section className="sc-sec" key={`b-${tab}`} aria-label={t.tabs.bot}>
               <H id="bot" />
-              <div className="sc-svc">
-                <SvcText {...t.bot} href={waTo(`https://wa.me/${WA_BOT}`, t.bot.wa)} />
+              <div className="sc-svc sc-tf">
+                <div className="sc-svc-txt">
+                  <h3>{t.bot.title} <em>{t.bot.em}</em></h3>
+                  <p>{t.bot.text}</p>
+                  <ul>{t.bot.points.map((p) => <li key={p}>{p}</li>)}</ul>
+                  <button type="button" className="sc-wa glass-btn cta-pulse" onClick={() => window.dispatchEvent(new Event("sc:open-chat"))}><WaIcon />{t.bot.cta}</button>
+                  <a className="sc-alt" href={waTo(`https://wa.me/${WA_BOT}`, t.bot.wa)} target="_blank" rel="noopener"><WaIcon />{t.bot.note}</a>
+                </div>
                 <ChatDemo lines={t.bot.chat} typing={t.bot.typing} />
               </div>
             </section>
@@ -383,7 +455,7 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
           {show("voice") && (
             <section className="sc-sec" key={`vo-${tab}`} aria-label={t.tabs.voice}>
               <H id="voice" />
-              <div className="sc-svc">
+              <div className="sc-svc sc-tf">
                 <div className="sc-svc-txt">
                   <h3>{t.voice.title} <em>{t.voice.em}</em></h3>
                   <p>{t.voice.text}</p>
@@ -409,11 +481,7 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
       </main>
       <footer className="sc-foot"><div className="wrap">© DC Production</div></footer>
 
-      {/* floating bot button: opens WhatsApp, never pops up by itself */}
-      <a className="sc-fab" href={waTo(waMain, t.waMore)} target="_blank" rel="noopener" aria-label={`${t.float} — WhatsApp`}>
-        <span className="sc-fab-orb"><BotMark /><i className="sc-fab-wa"><WaIcon /></i></span>
-        <span className="sc-fab-txt">{t.float}</span>
-      </a>
+      <FabChat c={t.chat} label={t.float} />
     </>
   );
 }
