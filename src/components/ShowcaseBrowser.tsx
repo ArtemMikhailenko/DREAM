@@ -4,7 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNo
 import { AdCard } from "@/components/home/AdCard";
 import { currencyFor } from "@/lib/ad-results";
 import type { AdCampaign } from "@/lib/ad-results";
-import { POST_SLIDES, SHOWCASE_LANGS, VIDEO_SLIDES, VOICE_BOT, WA_BOT, showcaseCopy, type Line, type TabId, type VideoTag } from "@/lib/showcase-copy";
+import { SHOWCASE_LANGS, VIDEO_SLIDES, VOICE_BOT, WA_BOT, showcaseCopy, type Line, type TabId, type VideoTag } from "@/lib/showcase-copy";
 
 type Site = { name: string; domain: string; url: string; desc: string; img: string; phone: string };
 
@@ -183,27 +183,6 @@ function VoiceDemo({ lines, calling }: { lines: Line[]; calling: string }) {
   );
 }
 
-function PostsWindow({ hint }: { hint: string }) {
-  const items: ReactNode[] = POST_SLIDES.map((p) =>
-    p.video ? (
-      <video key={p.src} data-loop="1" muted loop playsInline preload="none" poster={p.poster}><source src={p.src} type="video/mp4" /></video>
-    ) : (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img key={p.src} src={p.src} alt="" loading="lazy" decoding="async" />
-    ),
-  );
-  return (
-    <div className="sc-demo">
-      <Glow className="sc-post">
-        <div className="sc-post-h"><span className="av"><Logo /></span><span><b>dc.production</b><small>Sponsored</small></span></div>
-        <Swiper slides={items} auto={4200} className="sc-post-img" hint={hint} />
-        <div className="sc-post-cta"><span>Learn more</span><Arrow /></div>
-        <div className="sc-post-f"><span className="hrt"><Heart /></span><i /><i /></div>
-      </Glow>
-    </div>
-  );
-}
-
 /** one reel: poster + play button first, the file loads only when tapped */
 function Reel({ src, poster, tag, play }: { src: string; poster: string; tag: string; play: string }) {
   const v = useRef<HTMLVideoElement>(null);
@@ -359,7 +338,7 @@ function usePressPulse() {
 
 /* ───────── page body ───────── */
 type SecId = Exclude<TabId, "all">;
-const ORDER: SecId[] = ["video", "posts", "results", "sites", "bot", "voice"];
+const ORDER: SecId[] = ["video", "results", "sites", "bot", "voice"];
 
 export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: string; sites: Site[]; results: AdCampaign[]; waMain: string }) {
   const t = showcaseCopy(locale);
@@ -415,7 +394,7 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
 
   const waTo = (base: string, text: string) => `${base}${base.includes("?") ? "&" : "?"}text=${encodeURIComponent(text)}`;
   const nVid = VIDEO_SLIDES.length;
-  const counts: Partial<Record<SecId, number>> = { video: nVid, posts: POST_SLIDES.length, results: results.length, sites: sites.length };
+  const counts: Partial<Record<SecId, number>> = { video: nVid, results: results.length, sites: sites.length };
   // Russian and Hebrew pages: everything in shekels (the campaigns run in Israel)
   const cur = locale === "ru" || locale === "he" ? currencyFor("he") : undefined;
   const openChat = () => window.dispatchEvent(new Event("sc:open-chat"));
@@ -473,14 +452,6 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
             <div className="sc-svc">
               <SvcText title={t.video.title} text={t.video.text} cta={t.video.more} href={waTo(waMain, t.video.wa)} />
               <VideoWindow tags={t.video.tags} play={t.video.play} hint={t.posts.swipe} />
-            </div>
-          </section>
-
-          <section className="sc-sec" id="sc-posts">
-            <Head id="posts" title={t.tabs.posts} quiet />
-            <div className="sc-svc">
-              <SvcText {...t.posts} href={waTo(waMain, t.posts.wa)} />
-              <PostsWindow hint={t.posts.swipe} />
             </div>
           </section>
 

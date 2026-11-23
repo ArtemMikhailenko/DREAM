@@ -10,9 +10,11 @@
   --sc-head:rgba(10,10,9,.62);--sc-shadow:0 30px 70px rgba(0,0,0,.55);
   --sc-acc:#e8a868;--sc-pill:rgba(28,27,24,.55);
   /* Apple-style glass for small controls */
-  --gl-fill:linear-gradient(150deg,rgba(255,255,255,.16) 0%,rgba(150,190,255,.07) 45%,rgba(255,255,255,.03) 70%,rgba(232,168,104,.08) 100%);
-  --gl-rim:linear-gradient(140deg,rgba(255,255,255,.55),rgba(140,180,255,.28) 35%,rgba(255,255,255,.05) 60%,rgba(232,168,104,.35));
+  --gl-fill:linear-gradient(150deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.06) 45%,rgba(255,255,255,.025) 70%,rgba(232,168,104,.09) 100%);
+  --gl-rim:linear-gradient(140deg,rgba(255,255,255,.55),rgba(255,255,255,.12) 35%,rgba(255,255,255,.05) 60%,rgba(232,168,104,.38));
   --gl-hi:rgba(255,255,255,.22);--gl-lo:rgba(0,0,0,.18);--gl-sh:rgba(0,0,0,.28);
+  --blk-fill:linear-gradient(160deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,.025) 45%,rgba(255,255,255,.015) 70%,rgba(232,168,104,.05) 100%);
+  --blk-rim:linear-gradient(150deg,rgba(255,255,255,.18),rgba(255,255,255,.05) 40%,rgba(255,255,255,.04) 65%,rgba(232,168,104,.2));
   --sc-word:linear-gradient(180deg,#ffffff 0%,#eceae4 22%,#a8a6a1 48%,#83817c 54%,#e6e4de 80%,#ffffff 100%);
   --wa-bg:#0b141a;--wa-head:#202c33;--wa-in:#202c33;--wa-out:#005c4b;--wa-ink:#e9edef;--wa-dot:rgba(255,255,255,.035);
   position:relative;min-height:100svh;background:var(--sc-bg);color:var(--sc-ink);isolation:isolate;
@@ -25,13 +27,15 @@
   --sc-head:rgba(246,243,237,.72);--sc-shadow:0 24px 60px rgba(70,50,25,.16);
   --sc-acc:#b8722f;--sc-pill:rgba(255,252,246,.45);
   /* light glass: clear, with a cool blue body and a warm edge — never flat white */
-  --gl-fill:linear-gradient(145deg,rgba(255,255,255,.55) 0%,rgba(214,230,255,.38) 45%,rgba(236,228,255,.3) 70%,rgba(255,226,200,.4) 100%);
-  --gl-rim:linear-gradient(135deg,#fff,rgba(120,160,230,.55) 35%,rgba(255,255,255,.4) 60%,rgba(214,140,80,.6));
-  --gl-hi:rgba(255,255,255,.95);--gl-lo:rgba(90,120,180,.08);--gl-sh:rgba(60,80,130,.14);
+  --gl-fill:linear-gradient(145deg,rgba(255,255,255,.62) 0%,rgba(255,255,255,.3) 45%,rgba(255,246,236,.28) 70%,rgba(255,220,190,.42) 100%);
+  --gl-rim:linear-gradient(135deg,#fff,rgba(40,32,20,.14) 38%,rgba(255,255,255,.45) 60%,rgba(214,140,80,.6));
+  --gl-hi:rgba(255,255,255,.95);--gl-lo:rgba(184,114,47,.07);--gl-sh:rgba(70,50,25,.13);
+  --blk-fill:linear-gradient(160deg,rgba(255,255,255,.66) 0%,rgba(255,255,255,.34) 45%,rgba(255,250,243,.26) 70%,rgba(232,168,104,.1) 100%);
+  --blk-rim:linear-gradient(150deg,rgba(255,255,255,.95),rgba(40,32,20,.08) 40%,rgba(40,32,20,.06) 65%,rgba(184,114,47,.3));
   --sc-word:linear-gradient(180deg,#4a4741 0%,#1d1c19 30%,#5f5b53 50%,#1a1916 56%,#3b3833 82%,#111 100%);
   /* frosted glass, not white */
-  --glass-fill:linear-gradient(135deg,rgba(255,255,255,.7) 0%,rgba(190,214,255,.55) 42%,rgba(222,206,255,.45) 66%,rgba(255,200,160,.6) 100%);
-  --glass-rim:linear-gradient(135deg,#fff,rgba(110,150,225,.7) 40%,rgba(255,255,255,.5) 62%,rgba(200,120,60,.75));
+  --glass-fill:linear-gradient(135deg,rgba(255,255,255,.78) 0%,rgba(255,250,244,.5) 42%,rgba(255,232,210,.5) 66%,rgba(240,180,130,.6) 100%);
+  --glass-rim:linear-gradient(135deg,#fff,rgba(40,32,20,.18) 40%,rgba(255,255,255,.5) 62%,rgba(200,120,60,.8));
   --wa-bg:#efeae2;--wa-head:#f0f2f5;--wa-in:#fff;--wa-out:#d9fdd3;--wa-ink:#111b21;--wa-dot:rgba(0,0,0,.04);
 }
 
@@ -57,14 +61,12 @@
 .sc-bg::before{content:"";position:absolute;inset:0;background:url("/showcase/stone-dark.webp") center top / 1400px auto repeat;opacity:.9}
 .sc-bg::after{content:"";position:absolute;inset:0;background:
   radial-gradient(70% 45% at 50% 0%,rgba(232,168,104,.16),transparent 70%),
-  radial-gradient(60% 40% at 100% 55%,rgba(120,160,230,.06),transparent 70%),
   linear-gradient(180deg,rgba(10,10,9,.15),rgba(10,10,9,.55) 60%,rgba(10,10,9,.7))}
 /* light: pale marble stone with a fine print grain */
 .scx[data-theme="light"] .sc-bg::before{opacity:1;background:url("/showcase/stone-light.webp") center top / 1400px auto repeat}
 .scx[data-theme="light"] .sc-bg::after{background:
   url("/showcase/print-light.webp") center / 900px auto repeat,
   radial-gradient(70% 45% at 50% 0%,rgba(255,255,255,.75),transparent 70%),
-  radial-gradient(55% 40% at 0% 60%,rgba(150,185,240,.12),transparent 70%),
   linear-gradient(180deg,rgba(246,242,235,.1),rgba(246,242,235,.45));background-blend-mode:multiply,normal,normal,normal;opacity:.9}
 
 /* ── big soft words: the welcome word and one behind each section title ── */
@@ -163,7 +165,7 @@
 .pf-res-card:hover{box-shadow:0 18px 40px rgba(0,0,0,.3),0 0 30px rgba(232,168,104,.18)}
 
 /* ── service blocks: text + live window ── */
-.sc-svc{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,64px);align-items:center;padding:clamp(22px,3.5vw,48px);border-radius:28px;border:1px solid var(--sc-line);background:var(--sc-card);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.sc-svc{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,64px);align-items:center;padding:clamp(22px,3.5vw,48px);border-radius:28px;border:1px solid transparent;background:var(--blk-fill) padding-box,var(--blk-rim) border-box;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .sc-svc-video{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}
 .sc-svc.sc-df{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)}
 .sc-steps li{font-weight:600}

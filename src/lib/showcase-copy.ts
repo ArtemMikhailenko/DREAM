@@ -238,14 +238,3 @@ export const VIDEO_SLIDES: { src: string; poster: string; tag: VideoTag }[] = [
   { src: "/showcase/media/video-6.mp4", poster: "/showcase/media/video-6.webp", tag: "3d" },
   { src: "/showcase/media/video-7.mp4", poster: "/showcase/media/video-7.webp", tag: "basic" },
 ];
-/** posts: animated stories (short muted loops) and still banners */
-export const POST_SLIDES: { src: string; poster?: string; video?: boolean }[] = [
-  { src: "/showcase/media/post-1.mp4", poster: "/showcase/media/post-1.webp", video: true },
-  { src: "/showcase/media/post-6.webp" },
-  { src: "/showcase/media/post-2.mp4", poster: "/showcase/media/post-2.webp", video: true },
-  { src: "/showcase/media/post-7.webp" },
-  { src: "/showcase/media/post-3.mp4", poster: "/showcase/media/post-3.webp", video: true },
-  { src: "/showcase/media/post-5.mp4", poster: "/showcase/media/post-5.webp", video: true },
-  { src: "/showcase/media/post-4.mp4", poster: "/showcase/media/post-4.webp", video: true },
-  { src: "/showcase/media/post-8.webp" },
-];
