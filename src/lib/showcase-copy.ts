@@ -7,6 +7,8 @@
  * VIDEO_SLIDES below and they appear as slides.
  */
 export const WA_BOT = "972536260121";
+/** the voice bot answers this number itself */
+export const VOICE_BOT = { tel: "+972559906960", show: "055-990-6960" };
 
 export type Line = { me?: boolean; t: string };
 export type TabId = "all" | "video" | "posts" | "results" | "sites" | "bot" | "voice";
@@ -25,7 +27,7 @@ export type ShowcaseCopy = {
   video: { title: string; text: string; more: string; wa: string };
   posts: Service & { slides: string[]; swipe: string };
   bot: Service & { note: string; typing: string; chat: Line[] };
-  voice: Service & { calling: string; script: Line[] };
+  voice: Service & { calling: string; script: Line[]; note: string; or: string };
   cta: string;
   ctaText: string;
   ctaBtn: string;
@@ -73,7 +75,8 @@ const C: Record<string, ShowcaseCopy> = {
       title: "Разговорный", em: "бот",
       text: "Голосовой ИИ на вашем номере: сам берёт трубку, говорит с клиентом живым голосом и записывает на услугу. Каждый звонок записан, видно, с какой рекламы позвонили.",
       points: ["Берёт трубку с первого гудка, 24/7", "Говорит на иврите и русском", "Запись звонков и итог вам в WhatsApp"],
-      cta: "Хочу демо звонка", wa: "Здравствуйте! Хочу услышать, как работает разговорный бот",
+      cta: "Позвонить боту", wa: "Здравствуйте! Хочу разговорного бота для своего бизнеса",
+      note: "Бот ответит сам: спросите о ценах или попробуйте записаться", or: "Хочу такого бота",
       calling: "Идёт разговор",
       script: [
         { me: true, t: "Здравствуйте! Студия красоты, чем могу помочь?" },
@@ -126,7 +129,8 @@ const C: Record<string, ShowcaseCopy> = {
       title: "בוט", em: "קולי",
       text: "AI קולי על המספר שלכם: עונה לשיחות בעצמו, מדבר עם הלקוח בקול טבעי וקובע תורים. כל שיחה מוקלטת ורואים מאיזה פרסום התקשרו.",
       points: ["עונה מהצלצול הראשון, 24/7", "מדבר עברית ורוסית", "הקלטת שיחות וסיכום אליכם לוואטסאפ"],
-      cta: "לשמוע שיחת דמו", wa: "שלום! אשמח לשמוע איך הבוט הקולי עובד",
+      cta: "להתקשר לבוט", wa: "שלום! אשמח לבוט קולי לעסק שלי",
+      note: "הבוט יענה בעצמו: שאלו על מחירים או נסו לקבוע תור", or: "אני רוצה בוט כזה",
       calling: "שיחה פעילה",
       script: [
         { me: true, t: "שלום! סטודיו יופי, במה אפשר לעזור?" },
@@ -179,7 +183,8 @@ const C: Record<string, ShowcaseCopy> = {
       title: "Voice", em: "bot",
       text: "Voice AI on your number: picks up by itself, talks to the customer in a natural voice and books appointments. Every call is recorded, and you see which ad it came from.",
       points: ["Picks up on the first ring, 24/7", "Speaks Hebrew and Russian", "Call recordings and a summary on WhatsApp"],
-      cta: "Hear a demo call", wa: "Hi! I'd like to hear how the voice bot works",
+      cta: "Call the bot", wa: "Hi! I'd like a voice bot for my business",
+      note: "The bot answers by itself: ask about prices or try to book", or: "I want this bot",
       calling: "Call in progress",
       script: [
         { me: true, t: "Hello! Beauty studio, how can I help?" },

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { AdCard } from "@/components/home/AdCard";
 import type { AdCampaign } from "@/lib/ad-results";
-import { POST_SLIDES, SHOWCASE_LANGS, VIDEO_SLIDES, WA_BOT, showcaseCopy, type Line, type TabId } from "@/lib/showcase-copy";
+import { POST_SLIDES, SHOWCASE_LANGS, VIDEO_SLIDES, VOICE_BOT, WA_BOT, showcaseCopy, type Line, type TabId } from "@/lib/showcase-copy";
 
 type Site = { name: string; domain: string; url: string; desc: string; img: string; phone: string };
 
@@ -384,7 +384,17 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
             <section className="sc-sec" key={`vo-${tab}`} aria-label={t.tabs.voice}>
               <H id="voice" />
               <div className="sc-svc">
-                <SvcText {...t.voice} href={waTo(waMain, t.voice.wa)} />
+                <div className="sc-svc-txt">
+                  <h3>{t.voice.title} <em>{t.voice.em}</em></h3>
+                  <p>{t.voice.text}</p>
+                  <ul>{t.voice.points.map((p) => <li key={p}>{p}</li>)}</ul>
+                  <a className="sc-wa sc-call-btn glass-btn cta-pulse" href={`tel:${VOICE_BOT.tel}`}>
+                    <span className="sc-call-ic"><PhoneIc /></span>
+                    <span className="sc-call-lbl">{t.voice.cta}<b dir="ltr">{VOICE_BOT.show}</b></span>
+                  </a>
+                  <small className="sc-note">{t.voice.note}</small>
+                  <a className="sc-alt" href={waTo(waMain, t.voice.wa)} target="_blank" rel="noopener"><WaIcon />{t.voice.or}</a>
+                </div>
                 <VoiceDemo lines={t.voice.script} calling={t.voice.calling} />
               </div>
             </section>
