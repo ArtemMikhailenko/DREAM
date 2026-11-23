@@ -318,7 +318,8 @@ function A11yButton() {
   if (!ready) return null;
   const open = () => {
     const uw = (window as unknown as { UserWay?: UW }).UserWay;
-    if (uw?.widgetToggle) uw.widgetToggle(); else uw?.widgetOpen?.();
+    // widgetOpen is the call that reliably shows the menu; it has its own close button
+    if (uw?.widgetOpen) uw.widgetOpen(); else uw?.widgetToggle?.();
   };
   return (
     <button type="button" className="sc-a11y sc-press" onClick={open} aria-label="Accessibility / נגישות / Доступность">
