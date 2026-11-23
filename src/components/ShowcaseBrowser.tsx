@@ -19,16 +19,11 @@ const Sun = () => <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy
 const Moon = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z" /></svg>;
 const PhoneIc = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8Z" fill="currentColor" /></svg>;
 const Heart = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2 0 3.6 1.1 4.3 2.6.7-1.5 2.3-2.6 4.3-2.6 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21Z" fill="currentColor" /></svg>;
-/** the bot mark: a speech bubble with a spark — used on the floating button and chat avatar */
-const BotMark = () => (
-  <svg viewBox="0 0 32 32" aria-hidden="true">
-    <defs>
-      <linearGradient id="sc-bm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#fff" /><stop offset=".55" stopColor="#ffe0bf" /><stop offset="1" stopColor="#e8a868" /></linearGradient>
-    </defs>
-    <path d="M16 4C9.1 4 4 8.6 4 14.3c0 3.1 1.5 5.8 3.9 7.7L7 27.5l5.6-2.8c1.1.3 2.2.4 3.4.4 6.9 0 12-4.6 12-10.8S22.9 4 16 4Z" fill="none" stroke="url(#sc-bm)" strokeWidth="2" strokeLinejoin="round" />
-    <path d="M16 9.2l1.3 3.6 3.6 1.3-3.6 1.3-1.3 3.6-1.3-3.6-3.6-1.3 3.6-1.3z" fill="url(#sc-bm)" />
-  </svg>
+/** our logo (dc.) in a round frame */
+const Logo = ({ size = 40 }: { size?: number }) => (
+  <span className="sc-logo-img" style={{ width: size, height: size }} aria-hidden="true" />
 );
+const A11yIc = () => <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4.6" r="2" fill="currentColor" /><path d="M5 8.2c2.3.7 4.6 1 7 1s4.7-.3 7-1M12 9.2v5.2M12 14.4l-3 6.1M12 14.4l3 6.1" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
 
 /* ───────── helpers ───────── */
 function useInView<T extends HTMLElement>() {
@@ -62,8 +57,8 @@ const Glow = ({ children, className = "" }: { children: ReactNode; className?: s
   <div className={`sc-glow ${className}`}><div className="sc-glow-in">{children}</div></div>
 );
 
-/** The giant word: always one line, as wide as the page allows. */
-function BigWord({ text }: { text: string }) {
+/** The giant hollow word behind the top: centred, as wide as the screen, one line. */
+function BigWord({ text, children }: { text: string; children: ReactNode }) {
   const box = useRef<HTMLDivElement>(null);
   const el = useRef<HTMLSpanElement>(null);
   const fit = useCallback(() => {
@@ -71,22 +66,22 @@ function BigWord({ text }: { text: string }) {
     if (!b || !e) return;
     e.style.fontSize = "100px";
     const w = e.scrollWidth || 1;
-    // one fixed height for every tab, so the tabs below never jump
-    const cap = Math.min(window.innerWidth * 0.19, 250);
-    const size = Math.min((b.clientWidth / w) * 100 * 0.985, cap);
-    e.style.fontSize = `${Math.max(size, 28)}px`;
-    b.style.height = `${cap * 0.98}px`;
+    const avail = document.documentElement.clientWidth * 0.96;
+    // one fixed height for every tab, so nothing below jumps
+    const cap = Math.min(window.innerWidth * 0.24, 300);
+    e.style.fontSize = `${Math.max(Math.min((avail / w) * 100, cap), 28)}px`;
+    b.style.minHeight = `${cap * 0.95}px`;
   }, []);
   useLayoutEffect(() => { fit(); }, [text, fit]);
   useEffect(() => {
-    const ro = new ResizeObserver(fit);
-    if (box.current) ro.observe(box.current);
+    window.addEventListener("resize", fit);
     document.fonts?.ready.then(fit);
-    return () => ro.disconnect();
+    return () => window.removeEventListener("resize", fit);
   }, [fit]);
   return (
-    <div ref={box} className="sc-word-box">
+    <div ref={box} className="sc-hero">
       <h1 className="sc-word"><span ref={el} key={text}>{text}</span></h1>
+      <div className="sc-hero-in">{children}</div>
     </div>
   );
 }
@@ -148,7 +143,7 @@ function ChatDemo({ lines, typing }: { lines: Line[]; typing: string }) {
     <div ref={ref} className="sc-demo" aria-hidden="true">
       <Glow className="sc-chat">
         <div className="sc-chat-h">
-          <span className="av"><BotMark /></span>
+          <span className="av"><Logo /></span>
           <span><b>DC Production · AI</b><small>{next?.me ? typing : "online"}</small></span>
         </div>
         <div className="sc-chat-b">
@@ -178,7 +173,7 @@ function VoiceDemo({ lines, calling }: { lines: Line[]; calling: string }) {
           <span className="sc-call-st"><PhoneIc />{calling}</span>
           <span className="sc-call-t">00:{String(sec).padStart(2, "0")}</span>
         </div>
-        <div className="sc-orb"><span /><span /><span /><b>AI</b></div>
+        <div className="sc-orb"><span /><span /><span /><b><Logo size={78} /></b><em className="sc-rec-dot">REC</em></div>
         <div className={`sc-wave${last?.me ? " me" : ""}`}>{Array.from({ length: 28 }, (_, i) => <i key={i} style={{ animationDelay: `${(i % 7) * -0.13}s` }} />)}</div>
         <div className="sc-say">
           {lines.slice(0, k).slice(-3).map((l, i) => <p key={k + "-" + i} className={l.me ? "me" : ""}>{l.t}</p>)}
@@ -198,7 +193,7 @@ function PostsWindow({ slides, hint }: { slides: string[]; hint: string }) {
   return (
     <div className="sc-demo">
       <Glow className="sc-post">
-        <div className="sc-post-h"><span className="av"><BotMark /></span><span><b>your.brand</b><small>Sponsored</small></span></div>
+        <div className="sc-post-h"><span className="av"><Logo /></span><span><b>your.brand</b><small>Sponsored</small></span></div>
         <Swiper slides={items} auto={3200} className="sc-post-img" hint={hint} />
         <div className="sc-post-cta"><span>Learn more</span><Arrow /></div>
         <div className="sc-post-f"><span className="hrt"><Heart /></span><i /><i /></div>
@@ -278,7 +273,7 @@ function FabChat({ c, label }: { c: { title: string; status: string; hello: stri
     <div className={`sc-fc${open ? " open" : ""}`}>
       <div className="sc-fc-panel" role="dialog" aria-label={c.title} aria-hidden={!open}>
         <div className="sc-fc-h">
-          <span className="av"><BotMark /></span>
+          <span className="av"><Logo /></span>
           <span className="sc-fc-who"><b>{c.title}</b><small>{typing ? "…" : c.status}</small></span>
           <button type="button" className="sc-fc-x" onClick={() => setOpen(false)} aria-label={c.close} tabIndex={open ? 0 : -1}>×</button>
         </div>
@@ -297,11 +292,55 @@ function FabChat({ c, label }: { c: { title: string; status: string; hello: stri
         <small className="sc-fc-note"><WaIcon />{c.note}</small>
       </div>
       <button type="button" className="sc-fab" onClick={() => (open ? setOpen(false) : show())} aria-expanded={open} aria-label={label}>
-        <span className="sc-fab-orb">{open ? <span className="sc-fab-x">×</span> : <BotMark />}<i className="sc-fab-wa"><WaIcon /></i></span>
+        <span className="sc-fab-orb">{open ? <span className="sc-fab-x">×</span> : <Logo size={62} />}<i className="sc-fab-wa"><WaIcon /></i></span>
+        {!open && <span className="sc-fab-typing" aria-hidden="true"><i /><i /><i /></span>}
         {!open && <span className="sc-fab-txt">{label}</span>}
       </button>
     </div>
   );
+}
+
+/**
+ * Our own glass button for the accessibility menu (UserWay keeps doing the work;
+ * its stock round icon is hidden on this page by CSS). Shown once UserWay is loaded.
+ */
+type UW = { widgetToggle?: () => void; widgetOpen?: () => void };
+function A11yButton() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const has = () => !!(window as unknown as { UserWay?: UW }).UserWay;
+    if (has()) { setReady(true); return; }
+    const on = () => setReady(true);
+    document.addEventListener("userway:init_completed", on);
+    const id = window.setInterval(() => { if (has()) { setReady(true); window.clearInterval(id); } }, 800);
+    return () => { document.removeEventListener("userway:init_completed", on); window.clearInterval(id); };
+  }, []);
+  if (!ready) return null;
+  const open = () => {
+    const uw = (window as unknown as { UserWay?: UW }).UserWay;
+    if (uw?.widgetToggle) uw.widgetToggle(); else uw?.widgetOpen?.();
+  };
+  return (
+    <button type="button" className="sc-a11y sc-press" onClick={open} aria-label="Accessibility / נגישות / Доступность">
+      <A11yIc />
+    </button>
+  );
+}
+
+/** Apple-style press: a ring pulses out of whatever glass button was tapped. */
+function usePressPulse() {
+  useEffect(() => {
+    const on = (e: PointerEvent) => {
+      const el = (e.target as HTMLElement | null)?.closest<HTMLElement>(".sc-press,.sc-tab,.sc-ico,.sc-langs a,.sc-wa,.sc-end-btn,.sc-fab");
+      if (!el) return;
+      el.classList.remove("pulsing");
+      void el.offsetWidth; // restart the animation
+      el.classList.add("pulsing");
+      window.setTimeout(() => el.classList.remove("pulsing"), 650);
+    };
+    document.addEventListener("pointerdown", on);
+    return () => document.removeEventListener("pointerdown", on);
+  }, []);
 }
 
 /* ───────── page body ───────── */
@@ -309,6 +348,7 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
   const t = showcaseCopy(locale);
   const [tab, setTab] = useState<TabId>("all");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  usePressPulse();
 
   // the visitor's saved theme, applied before the first paint after hydration
   useLayoutEffect(() => {
@@ -363,8 +403,10 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
       <main className="sc-page">
         <div className="sc-bg" aria-hidden="true" />
         <div className="wrap">
-          <BigWord text={t.words[tab]} />
-          <p className="sc-sub">{t.sub}</p>
+          <BigWord text={t.words[tab]}>
+            <span className="sc-kicker"><Logo size={34} />DC Production</span>
+            <p className="sc-sub">{t.sub}</p>
+          </BigWord>
 
           <div className="sc-tabs-wrap" id="sc-top">
             <div className="sc-tabs" role="tablist">
@@ -482,6 +524,7 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
       <footer className="sc-foot"><div className="wrap">© DC Production</div></footer>
 
       <FabChat c={t.chat} label={t.float} />
+      <A11yButton />
     </>
   );
 }
