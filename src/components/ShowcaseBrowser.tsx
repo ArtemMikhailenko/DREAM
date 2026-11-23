@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { AdCard } from "@/components/home/AdCard";
 import type { AdCampaign } from "@/lib/ad-results";
-import { SHOWCASE_LANGS, WA_BOT, showcaseCopy, type Line } from "@/lib/showcase-copy";
+import { POST_SLIDES, SHOWCASE_LANGS, VIDEO_SLIDES, WA_BOT, showcaseCopy, type Line, type TabId } from "@/lib/showcase-copy";
 
 type Site = { name: string; domain: string; url: string; desc: string; img: string; phone: string };
-type Tab = "all" | "sites" | "results" | "video" | "posts" | "bot" | "voice" | "tel";
 
 /* ───────── icons ───────── */
 const Arrow = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>;
+const Chev = ({ back }: { back?: boolean }) => <svg viewBox="0 0 24 24" aria-hidden="true"><path d={back ? "M15 5 8 12l7 7" : "M9 5l7 7-7 7"} /></svg>;
 const WaIcon = () => (
   <svg className="wa-ic" viewBox="0 0 24 24" aria-hidden="true">
     <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z" fill="currentColor" />
@@ -19,9 +19,18 @@ const Sun = () => <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy
 const Moon = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z" /></svg>;
 const PhoneIc = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8Z" fill="currentColor" /></svg>;
 const Heart = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2 0 3.6 1.1 4.3 2.6.7-1.5 2.3-2.6 4.3-2.6 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21Z" fill="currentColor" /></svg>;
+/** the bot mark: a speech bubble with a spark — used on the floating button and chat avatar */
+const BotMark = () => (
+  <svg viewBox="0 0 32 32" aria-hidden="true">
+    <defs>
+      <linearGradient id="sc-bm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#fff" /><stop offset=".55" stopColor="#ffe0bf" /><stop offset="1" stopColor="#e8a868" /></linearGradient>
+    </defs>
+    <path d="M16 4C9.1 4 4 8.6 4 14.3c0 3.1 1.5 5.8 3.9 7.7L7 27.5l5.6-2.8c1.1.3 2.2.4 3.4.4 6.9 0 12-4.6 12-10.8S22.9 4 16 4Z" fill="none" stroke="url(#sc-bm)" strokeWidth="2" strokeLinejoin="round" />
+    <path d="M16 9.2l1.3 3.6 3.6 1.3-3.6 1.3-1.3 3.6-1.3-3.6-3.6-1.3 3.6-1.3z" fill="url(#sc-bm)" />
+  </svg>
+);
 
-/* ───────── animation helpers ───────── */
-/** true once the element is on screen (and while it stays there) */
+/* ───────── helpers ───────── */
 function useInView<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   const [on, setOn] = useState(false);
@@ -39,9 +48,7 @@ function useInView<T extends HTMLElement>() {
 function useSeq(len: number, on: boolean, step = 1300, hold = 3200) {
   const [k, setK] = useState(0);
   const [still, setStill] = useState(false);
-  useEffect(() => {
-    setStill(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
+  useEffect(() => { setStill(window.matchMedia("(prefers-reduced-motion: reduce)").matches); }, []);
   useEffect(() => {
     if (!on || still) return;
     const t = window.setTimeout(() => setK((v) => (v >= len ? 0 : v + 1)), k >= len ? hold : k === 0 ? 700 : step);
@@ -55,6 +62,82 @@ const Glow = ({ children, className = "" }: { children: ReactNode; className?: s
   <div className={`sc-glow ${className}`}><div className="sc-glow-in">{children}</div></div>
 );
 
+/** The giant word: always one line, as wide as the page allows. */
+function BigWord({ text }: { text: string }) {
+  const box = useRef<HTMLDivElement>(null);
+  const el = useRef<HTMLSpanElement>(null);
+  const fit = useCallback(() => {
+    const b = box.current, e = el.current;
+    if (!b || !e) return;
+    e.style.fontSize = "100px";
+    const w = e.scrollWidth || 1;
+    // one fixed height for every tab, so the tabs below never jump
+    const cap = Math.min(window.innerWidth * 0.19, 250);
+    const size = Math.min((b.clientWidth / w) * 100 * 0.985, cap);
+    e.style.fontSize = `${Math.max(size, 28)}px`;
+    b.style.height = `${cap * 0.98}px`;
+  }, []);
+  useLayoutEffect(() => { fit(); }, [text, fit]);
+  useEffect(() => {
+    const ro = new ResizeObserver(fit);
+    if (box.current) ro.observe(box.current);
+    document.fonts?.ready.then(fit);
+    return () => ro.disconnect();
+  }, [fit]);
+  return (
+    <div ref={box} className="sc-word-box">
+      <h1 className="sc-word"><span ref={el} key={text}>{text}</span></h1>
+    </div>
+  );
+}
+
+/**
+ * Swipeable window (posts, video): native scroll-snap, so a finger swipe and a
+ * trackpad both work; arrows and dots on top. `auto` advances while on screen
+ * until the visitor touches it.
+ */
+function Swiper({ slides, auto, className = "", hint }: { slides: ReactNode[]; auto?: number; className?: string; hint?: string }) {
+  const track = useRef<HTMLDivElement>(null);
+  const [i, setI] = useState(0);
+  const [held, setHeld] = useState(false);
+  const [wrap, on] = useInView<HTMLDivElement>();
+  const n = slides.length;
+  const to = useCallback((k: number) => {
+    const t = track.current;
+    if (!t) return;
+    const idx = ((k % n) + n) % n;
+    const rtl = getComputedStyle(t).direction === "rtl";
+    t.scrollTo({ left: (rtl ? -1 : 1) * idx * t.clientWidth, behavior: "smooth" });
+  }, [n]);
+  const onScroll = () => {
+    const t = track.current;
+    if (t) setI(Math.round(Math.abs(t.scrollLeft) / Math.max(1, t.clientWidth)));
+  };
+  useEffect(() => {
+    if (!auto || held || !on || n < 2) return;
+    const id = window.setTimeout(() => to(i + 1), auto);
+    return () => window.clearTimeout(id);
+  }, [auto, held, on, i, n, to]);
+  const hold = () => setHeld(true);
+  return (
+    <div ref={wrap} className={`sc-sw ${className}`} onPointerDown={hold} onWheel={hold}>
+      <div ref={track} className="sc-sw-track" onScroll={onScroll}>
+        {slides.map((s, k) => <div className={`sc-sw-slide${k === i ? " on" : ""}`} key={k}>{s}</div>)}
+      </div>
+      {n > 1 && (
+        <>
+          <button type="button" className="sc-sw-btn prev" aria-label="‹" onClick={() => { hold(); to(i - 1); }}><Chev back /></button>
+          <button type="button" className="sc-sw-btn next" aria-label="›" onClick={() => { hold(); to(i + 1); }}><Chev /></button>
+          <div className="sc-sw-dots">
+            {slides.map((_, k) => <button type="button" key={k} aria-label={String(k + 1)} className={k === i ? "on" : ""} onClick={() => { hold(); to(k); }} />)}
+          </div>
+          {hint && !held && <span className="sc-sw-hint">{hint}</span>}
+        </>
+      )}
+    </div>
+  );
+}
+
 /* ───────── demos ───────── */
 function ChatDemo({ lines, typing }: { lines: Line[]; typing: string }) {
   const [ref, on] = useInView<HTMLDivElement>();
@@ -65,7 +148,7 @@ function ChatDemo({ lines, typing }: { lines: Line[]; typing: string }) {
     <div ref={ref} className="sc-demo" aria-hidden="true">
       <Glow className="sc-chat">
         <div className="sc-chat-h">
-          <span className="av">dc.</span>
+          <span className="av"><BotMark /></span>
           <span><b>DC Production · AI</b><small>{next?.me ? typing : "online"}</small></span>
         </div>
         <div className="sc-chat-b">
@@ -105,80 +188,50 @@ function VoiceDemo({ lines, calling }: { lines: Line[]; calling: string }) {
   );
 }
 
-function TelDemo({ calls, head, rec }: { calls: { who: string; src: string; st: string }[]; head: string; rec: string }) {
-  const [ref, on] = useInView<HTMLDivElement>();
-  const k = useSeq(calls.length, on, 1500, 3400);
-  const now = [9, 11, 13, 16];
+function PostsWindow({ slides, hint }: { slides: string[]; hint: string }) {
+  const items: ReactNode[] = POST_SLIDES.length
+    ? POST_SLIDES.map((src) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img key={src} src={src} alt="" loading="lazy" decoding="async" />
+      ))
+    : slides.map((p, i) => <div key={i} className={`sc-art g${i % 3}`}><b>{p}</b></div>);
   return (
-    <div ref={ref} className="sc-demo" aria-hidden="true">
-      <Glow className="sc-tel">
-        <div className="sc-tel-h"><b>{head}</b><span>{k}</span></div>
-        <ul>
-          {calls.slice(0, k).map((c, i) => (
-            <li key={i}>
-              <span className="ic"><PhoneIc /></span>
-              <span className="who"><b>{c.who}</b><small>{String(now[i] ?? 10).padStart(2, "0")}:{String((i * 17 + 4) % 60).padStart(2, "0")} · <em className={`src s-${c.src.toLowerCase()}`}>{c.src}</em></small></span>
-              <span className="st">{c.st}</span>
-            </li>
-          ))}
-        </ul>
-        <div className={`sc-rec${k > 0 ? " on" : ""}`}>
-          <span className="play" />
-          <span className="bars">{Array.from({ length: 34 }, (_, i) => <i key={i} style={{ height: `${25 + ((i * 37) % 70)}%` }} />)}</span>
-          <small>{rec}</small>
-        </div>
-      </Glow>
-    </div>
-  );
-}
-
-function PostsDemo({ points }: { points: string[] }) {
-  const [ref, on] = useInView<HTMLDivElement>();
-  const k = useSeq(3, on, 2600, 2600);
-  const slide = k % 3;
-  return (
-    <div ref={ref} className="sc-demo" aria-hidden="true">
+    <div className="sc-demo">
       <Glow className="sc-post">
-        <div className="sc-post-h"><span className="av">dc.</span><span><b>your.brand</b><small>Sponsored</small></span></div>
-        <div className="sc-post-img">
-          {points.map((p, i) => (
-            <div key={i} className={`sc-slide g${i}${slide === i ? " on" : ""}`}><b>{p}</b></div>
-          ))}
-          <div className="sc-post-dots">{points.map((_, i) => <i key={i} className={slide === i ? "on" : ""} />)}</div>
-        </div>
+        <div className="sc-post-h"><span className="av"><BotMark /></span><span><b>your.brand</b><small>Sponsored</small></span></div>
+        <Swiper slides={items} auto={3200} className="sc-post-img" hint={hint} />
         <div className="sc-post-cta"><span>Learn more</span><Arrow /></div>
-        <div className="sc-post-f"><span className={`hrt${on ? " beat" : ""}`} key={slide}><Heart /></span><i /><i /></div>
+        <div className="sc-post-f"><span className="hrt"><Heart /></span><i /><i /></div>
       </Glow>
     </div>
   );
 }
 
-function VideoBox({ langs, first }: { langs: Record<string, string>; first: string }) {
-  const ids = Object.keys(langs);
-  const [lang, setLang] = useState(ids.includes(first) ? first : ids[0]);
+function VideoWindow({ locale }: { locale: string }) {
+  const vids = VIDEO_SLIDES(locale);
   return (
-    <div className="sc-video">
-      <div className="sc-video-frame">
-        <video key={lang} controls playsInline preload="none" poster={`/videos/vsl-${lang}-poster.webp`}>
-          <source src={`/videos/vsl-${lang}.mp4`} type="video/mp4" />
-        </video>
-      </div>
-      <div className="sc-video-langs" role="group">
-        {ids.map((id) => (
-          <button key={id} type="button" className={lang === id ? "on" : ""} aria-pressed={lang === id} onClick={() => setLang(id)}>{langs[id]}</button>
-        ))}
-      </div>
+    <div className="sc-demo sc-demo-wide">
+      <Glow className="sc-vid">
+        <Swiper
+          className="sc-vid-sw"
+          slides={vids.map((v) => (
+            <video key={v.src} controls playsInline preload="none" poster={v.poster}>
+              <source src={v.src} type="video/mp4" />
+            </video>
+          ))}
+        />
+      </Glow>
     </div>
   );
 }
 
 /** Text column of a service block: title, text, three points, WhatsApp button. */
-function SvcText({ title, em, text, points, cta, href, note }: { title: string; em: string; text: string; points: string[]; cta: string; href: string; note?: string }) {
+function SvcText({ title, em, text, points, cta, href, note }: { title: string; em?: string; text: string; points?: string[]; cta: string; href: string; note?: string }) {
   return (
     <div className="sc-svc-txt">
-      <h3>{title} <em>{em}</em></h3>
+      <h3>{title}{em && <> <em>{em}</em></>}</h3>
       <p>{text}</p>
-      <ul>{points.map((p) => <li key={p}>{p}</li>)}</ul>
+      {points && <ul>{points.map((p) => <li key={p}>{p}</li>)}</ul>}
       <a className="sc-wa glass-btn cta-pulse" href={href} target="_blank" rel="noopener"><WaIcon />{cta}</a>
       {note && <small className="sc-note">{note}</small>}
     </div>
@@ -188,10 +241,10 @@ function SvcText({ title, em, text, points, cta, href, note }: { title: string; 
 /* ───────── page body ───────── */
 export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: string; sites: Site[]; results: AdCampaign[]; waMain: string }) {
   const t = showcaseCopy(locale);
-  const [tab, setTab] = useState<Tab>("all");
+  const [tab, setTab] = useState<TabId>("all");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
-  // the visitor's saved choice, applied before the first paint after hydration
+  // the visitor's saved theme, applied before the first paint after hydration
   useLayoutEffect(() => {
     let saved: string | null = null;
     try { saved = localStorage.getItem("sc-theme"); } catch {}
@@ -210,27 +263,18 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
   };
 
   const waTo = (base: string, text: string) => `${base}${base.includes("?") ? "&" : "?"}text=${encodeURIComponent(text)}`;
-  const waBot = waTo(`https://wa.me/${WA_BOT}`, t.bot.wa);
-  const vids = Object.keys(t.langs).length;
+  const nVid = VIDEO_SLIDES(locale).length;
 
-  const tabs: { id: Tab; label: string; n?: number }[] = [
-    { id: "all", label: t.tabs.all },
-    { id: "sites", label: t.tabs.sites, n: sites.length },
-    { id: "results", label: t.tabs.results, n: results.length },
-    { id: "video", label: t.tabs.video, n: vids },
-    { id: "posts", label: t.tabs.posts },
-    { id: "bot", label: t.tabs.bot },
-    { id: "voice", label: t.tabs.voice },
-    { id: "tel", label: t.tabs.tel },
-  ];
-  const show = (id: Tab) => tab === "all" || tab === id;
+  const order: TabId[] = ["all", "video", "posts", "results", "sites", "bot", "voice"];
+  const counts: Partial<Record<TabId, number>> = { video: nVid, results: results.length, sites: sites.length };
+  const show = (id: TabId) => tab === "all" || tab === id;
   const all = tab === "all";
-  const go = (id: Tab) => {
+  const go = (id: TabId) => {
     setTab(id);
     const el = document.getElementById("sc-top");
     if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-  const H = ({ label, n }: { label: string; n?: number }) => (all ? <h2 className="sc-h"><span>{label}</span>{n != null && <i>{n}</i>}</h2> : null);
+  const H = ({ id }: { id: TabId }) => (all ? <h2 className="sc-h"><span>{t.tabs[id]}</span>{counts[id] != null && <i>{counts[id]}</i>}</h2> : null);
 
   return (
     <>
@@ -246,7 +290,6 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
             <button type="button" className="sc-ico" onClick={flip} aria-label={theme === "dark" ? t.light : t.dark} title={theme === "dark" ? t.light : t.dark}>
               {theme === "dark" ? <Sun /> : <Moon />}
             </button>
-            <a className="sc-ico sc-ico-wa" href={waTo(waMain, t.waMore)} target="_blank" rel="noopener" aria-label="WhatsApp"><WaIcon /></a>
           </div>
         </div>
       </header>
@@ -254,25 +297,54 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
       <main className="sc-page">
         <div className="sc-bg" aria-hidden="true" />
         <div className="wrap">
-          <div className="sc-hero">
-            <h1>{t.kicker}</h1>
-            <p>{t.sub}</p>
-          </div>
+          <BigWord text={t.words[tab]} />
+          <p className="sc-sub">{t.sub}</p>
 
           <div className="sc-tabs-wrap" id="sc-top">
             <div className="sc-tabs" role="tablist">
-              {tabs.map((x) => (
-                <button key={x.id} type="button" role="tab" aria-selected={tab === x.id} className={`sc-tab${tab === x.id ? " on" : ""}`} onClick={() => go(x.id)}>
-                  {x.label}
-                  {x.n != null && <span className="sc-n">{x.n}</span>}
+              {order.map((id) => (
+                <button key={id} type="button" role="tab" aria-selected={tab === id} className={`sc-tab${tab === id ? " on" : ""}`} onClick={() => go(id)}>
+                  <span>{t.tabs[id]}</span>
+                  {counts[id] != null && <span className="sc-n">{counts[id]}</span>}
                 </button>
               ))}
             </div>
           </div>
 
+          {show("video") && (
+            <section className="sc-sec" key={`v-${tab}`} aria-label={t.tabs.video}>
+              <H id="video" />
+              <div className="sc-svc sc-svc-video">
+                <SvcText title={t.video.title} text={t.video.text} cta={t.video.more} href={waTo(waMain, t.video.wa)} />
+                <VideoWindow locale={locale} />
+              </div>
+            </section>
+          )}
+
+          {show("posts") && (
+            <section className="sc-sec" key={`p-${tab}`} aria-label={t.tabs.posts}>
+              <H id="posts" />
+              <div className="sc-svc">
+                <SvcText {...t.posts} href={waTo(waMain, t.posts.wa)} />
+                <PostsWindow slides={t.posts.slides} hint={t.posts.swipe} />
+              </div>
+            </section>
+          )}
+
+          {show("results") && (
+            <section className="sc-sec" key={`r-${tab}`} aria-label={t.tabs.results}>
+              <H id="results" />
+              <div className="pf-res-grid in-tab sc-res">
+                {results.map((c) => (
+                  <figure className="pf-res-card" key={c.thumb}><AdCard c={c} locale={locale} /></figure>
+                ))}
+              </div>
+            </section>
+          )}
+
           {show("sites") && (
-            <section className="sc-sec" aria-label={t.tabs.sites} key={`s-${tab}`}>
-              <H label={t.tabs.sites} n={sites.length} />
+            <section className="sc-sec" key={`s-${tab}`} aria-label={t.tabs.sites}>
+              <H id="sites" />
               <div className="sc-sites">
                 {sites.map((s) => (
                   <a className="sc-site" href={s.url} target="_blank" rel="noopener" key={s.domain}>
@@ -298,67 +370,22 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
             </section>
           )}
 
-          {show("results") && (
-            <section className="sc-sec" aria-label={t.tabs.results} key={`r-${tab}`}>
-              <H label={t.tabs.results} n={results.length} />
-              <div className="pf-res-grid in-tab sc-res">
-                {results.map((c) => (
-                  <figure className="pf-res-card" key={c.thumb}><AdCard c={c} locale={locale} /></figure>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {show("video") && (
-            <section className="sc-sec" aria-label={t.tabs.video} key={`v-${tab}`}>
-              <H label={t.tabs.video} n={vids} />
-              <div className="sc-svc sc-svc-video">
-                <div className="sc-svc-txt">
-                  <h3>{t.videoTitle}</h3>
-                  <p>{t.videoText}</p>
-                  <a className="sc-wa glass-btn" href={waTo(waMain, t.videoWa)} target="_blank" rel="noopener"><WaIcon />{t.videoMore}</a>
-                </div>
-                <VideoBox langs={t.langs} first={locale} />
-              </div>
-            </section>
-          )}
-
-          {show("posts") && (
-            <section className="sc-sec" aria-label={t.tabs.posts} key={`p-${tab}`}>
-              <H label={t.tabs.posts} />
-              <div className="sc-svc">
-                <SvcText {...t.posts} href={waTo(waMain, t.posts.wa)} />
-                <PostsDemo points={t.posts.points} />
-              </div>
-            </section>
-          )}
-
           {show("bot") && (
-            <section className="sc-sec" aria-label={t.tabs.bot} key={`b-${tab}`}>
-              <H label={t.tabs.bot} />
+            <section className="sc-sec" key={`b-${tab}`} aria-label={t.tabs.bot}>
+              <H id="bot" />
               <div className="sc-svc">
-                <SvcText {...t.bot} href={waBot} />
+                <SvcText {...t.bot} href={waTo(`https://wa.me/${WA_BOT}`, t.bot.wa)} />
                 <ChatDemo lines={t.bot.chat} typing={t.bot.typing} />
               </div>
             </section>
           )}
 
           {show("voice") && (
-            <section className="sc-sec" aria-label={t.tabs.voice} key={`vo-${tab}`}>
-              <H label={t.tabs.voice} />
+            <section className="sc-sec" key={`vo-${tab}`} aria-label={t.tabs.voice}>
+              <H id="voice" />
               <div className="sc-svc">
                 <SvcText {...t.voice} href={waTo(waMain, t.voice.wa)} />
                 <VoiceDemo lines={t.voice.script} calling={t.voice.calling} />
-              </div>
-            </section>
-          )}
-
-          {show("tel") && (
-            <section className="sc-sec" aria-label={t.tabs.tel} key={`t-${tab}`}>
-              <H label={t.tabs.tel} />
-              <div className="sc-svc">
-                <SvcText {...t.tel} href={waTo(waMain, t.tel.wa)} />
-                <TelDemo calls={t.tel.calls} head={t.tel.head} rec={t.tel.rec} />
               </div>
             </section>
           )}
@@ -370,7 +397,13 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
           </section>
         </div>
       </main>
-      <footer className="sc-foot"><div className="wrap">© {new Date().getFullYear()} DC Production</div></footer>
+      <footer className="sc-foot"><div className="wrap">© DC Production</div></footer>
+
+      {/* floating bot button: opens WhatsApp, never pops up by itself */}
+      <a className="sc-fab" href={waTo(waMain, t.waMore)} target="_blank" rel="noopener" aria-label={`${t.float} — WhatsApp`}>
+        <span className="sc-fab-orb"><BotMark /><i className="sc-fab-wa"><WaIcon /></i></span>
+        <span className="sc-fab-txt">{t.float}</span>
+      </a>
     </>
   );
 }

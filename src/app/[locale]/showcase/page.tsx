@@ -5,7 +5,8 @@ import "./showcase.css";
 import { ShowcaseBrowser } from "@/components/ShowcaseBrowser";
 import { AD_CAMPAIGNS } from "@/lib/ad-results";
 import { portfolioSites } from "@/lib/inner-copy";
-import { showcaseCopy } from "@/lib/showcase-copy";
+import { SHOWCASE_LOCALES, showcaseCopy } from "@/lib/showcase-copy";
+import { notFound } from "next/navigation";
 import { CONTACTS } from "@/lib/contacts";
 
 /**
@@ -27,6 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function ShowcasePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  if (!SHOWCASE_LOCALES.includes(locale)) notFound(); // Hebrew, Russian, English only
   setRequestLocale(locale);
   const ps = portfolioSites(locale);
 
