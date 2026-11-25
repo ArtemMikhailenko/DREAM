@@ -5,7 +5,7 @@
  * (we advertise in Israel, Dubai and Europe). Amounts are stored in shekels as
  * Ads Manager reported them and converted at a fixed rate for display.
  */
-export type Metric = "msg" | "visits" | "reach";
+export type Metric = "msg" | "visits" | "reach" | "lpv";
 export type Objective = "engagement" | "traffic" | "awareness";
 export type AdCampaign = {
   thumb: string;
@@ -29,13 +29,12 @@ export const AD_CAMPAIGNS: AdCampaign[] = [
   { thumb: t("vitala-launch"), name: "Запуск 25 мая Израиль", objective: "engagement", metric: "msg", results: "585", cost: 3.38, spent: 1980 },
   { thumb: t("alum-glazing"), name: "Кампания на остекление карусель иврит", objective: "engagement", metric: "msg", results: "521", cost: 28.94, spent: 15080 },
   { thumb: t("vitlion-pergola"), name: "ויטליון | נאספות | מוכן להרכבה | WhatsApp", objective: "engagement", metric: "msg", results: "124", cost: 6.48, spent: 803.7 },
-  { thumb: t("ilana-awareness"), name: "awar ALL MITUS WITH TEXT VIDEOS", objective: "awareness", metric: "reach", results: "156.6K", cost: 9.78, spent: 1530 },
   { thumb: t("alum-pergolas"), name: "Перголы раздвижные на WhatsApp иврит", objective: "engagement", metric: "msg", results: "452", cost: 29.42, spent: 13300 },
   { thumb: t("flyfit"), name: "heb campaign + rus postiks", objective: "engagement", metric: "msg", results: "162", cost: 17.22, spent: 2790 },
-  { thumb: t("vitlion-driver"), name: "nahag helper", objective: "engagement", metric: "msg", results: "209", cost: 12.59, spent: 2630 },
+  { thumb: t("3d-bus"), name: "3d bus traffic inst fb", objective: "traffic", metric: "lpv", results: "15.2K", cost: 0.3, spent: 4520 },
+  { thumb: t("3d-site"), name: "3d traffic site", objective: "traffic", metric: "lpv", results: "2.2K", cost: 0.1, spent: 219.29 },
   { thumb: t("anna-traffic"), name: "traffic anna full creatives", objective: "traffic", metric: "visits", results: "11.8K", cost: 0.12, spent: 1410 },
   { thumb: t("vitlion-installers"), name: "VITLION | Установщики | RU | Центр | WhatsApp", active: true, objective: "engagement", metric: "msg", results: "137", cost: 19.98, spent: 2740 },
-  { thumb: t("vitlion-sales"), name: "moherim sales", objective: "engagement", metric: "msg", results: "215", cost: 20.19, spent: 4340 },
   { thumb: t("anna-women"), name: "campaign engagement ad+ off just women", objective: "engagement", metric: "msg", results: "173", cost: 12.55, spent: 2170 },
   { thumb: t("ilana-center"), name: "posts to wa CENTER", objective: "engagement", metric: "msg", results: "144", cost: 29.74, spent: 4280 },
   { thumb: t("vitlion-zip2"), name: "ויטליון | זיפ | מוכן להרכבה | WhatsApp", objective: "engagement", metric: "msg", results: "106", cost: 7.72, spent: 818.43 },
@@ -47,7 +46,6 @@ export const AD_CAMPAIGNS: AdCampaign[] = [
   { thumb: t("bambooka"), name: "BAMBOOKA | Engagement WhatsApp | General + Problems", active: true, objective: "engagement", metric: "msg", results: "63", cost: 12.43 * USD, spent: 783.16 * USD },
   { thumb: t("ilana-ru"), name: "ILANA | RU | WA | Posts", objective: "engagement", metric: "msg", results: "59", cost: 16.81, spent: 992.06 },
   { thumb: t("enza"), name: "ENZA | WhatsApp | Women | Online + Hadera", objective: "engagement", metric: "msg", results: "55", cost: 11.49, spent: 631.96 },
-  { thumb: t("evnvideos"), name: "full videos 3", objective: "traffic", metric: "visits", results: "788", cost: 0.46, spent: 360.36 },
 ];
 
 /** Currency by site language: ₪ on Hebrew, € on Spanish, $ elsewhere. */
@@ -63,8 +61,8 @@ export function money(ils: number, c: Currency): string {
 
 export const adLabels = (l: string) =>
   ({
-    ru: { msg: "Начатые переписки", visits: "Переходы в профиль", reach: "Охват", cost: "Цена за результат", costReach: "Цена за 1 000 охвата", spent: "Потрачено", active: "Активна", off: "Выкл.", engagement: "Вовлечённость", traffic: "Трафик", awareness: "Узнаваемость" },
-    he: { msg: "שיחות שהתחילו", visits: "כניסות לפרופיל", reach: "חשיפה", cost: "עלות לתוצאה", costReach: "עלות ל-1,000 חשיפות", spent: "הוצאה", active: "פעיל", off: "כבוי", engagement: "מעורבות", traffic: "תנועה", awareness: "מודעות" },
-    es: { msg: "Conversaciones iniciadas", visits: "Visitas al perfil", reach: "Alcance", cost: "Coste por resultado", costReach: "Coste por 1.000 personas", spent: "Gastado", active: "Activa", off: "Desactivada", engagement: "Interacción", traffic: "Tráfico", awareness: "Reconocimiento" },
-    ar: { msg: "محادثات بدأت", visits: "زيارات الملف", reach: "الوصول", cost: "تكلفة النتيجة", costReach: "تكلفة 1,000 وصول", spent: "المصروف", active: "نشطة", off: "متوقفة", engagement: "تفاعل", traffic: "زيارات", awareness: "الوعي" },
-  } as Record<string, Record<string, string>>)[l] ?? { msg: "Messaging conversations started", visits: "Profile and page visits", reach: "Reach", cost: "Cost per result", costReach: "Cost per 1,000 reached", spent: "Spent", active: "Active", off: "Off", engagement: "Engagement", traffic: "Traffic", awareness: "Awareness" };
+    ru: { msg: "Начатые переписки", visits: "Переходы в профиль", lpv: "Просмотры страницы", costLpv: "Цена за просмотр страницы", reach: "Охват", cost: "Цена за результат", costReach: "Цена за 1 000 охвата", spent: "Потрачено", active: "Активна", off: "Выкл.", engagement: "Вовлечённость", traffic: "Трафик", awareness: "Узнаваемость" },
+    he: { msg: "שיחות שהתחילו", visits: "כניסות לפרופיל", lpv: "צפיות בדף הנחיתה", costLpv: "עלות לצפייה בדף", reach: "חשיפה", cost: "עלות לתוצאה", costReach: "עלות ל-1,000 חשיפות", spent: "הוצאה", active: "פעיל", off: "כבוי", engagement: "מעורבות", traffic: "תנועה", awareness: "מודעות" },
+    es: { msg: "Conversaciones iniciadas", visits: "Visitas al perfil", lpv: "Visitas a la página de destino", costLpv: "Coste por visita a la página", reach: "Alcance", cost: "Coste por resultado", costReach: "Coste por 1.000 personas", spent: "Gastado", active: "Activa", off: "Desactivada", engagement: "Interacción", traffic: "Tráfico", awareness: "Reconocimiento" },
+    ar: { msg: "محادثات بدأت", visits: "زيارات الملف", lpv: "مشاهدات صفحة الهبوط", costLpv: "تكلفة مشاهدة الصفحة", reach: "الوصول", cost: "تكلفة النتيجة", costReach: "تكلفة 1,000 وصول", spent: "المصروف", active: "نشطة", off: "متوقفة", engagement: "تفاعل", traffic: "زيارات", awareness: "الوعي" },
+  } as Record<string, Record<string, string>>)[l] ?? { msg: "Messaging conversations started", visits: "Profile and page visits", lpv: "Landing page views", costLpv: "Cost per landing page view", reach: "Reach", cost: "Cost per result", costReach: "Cost per 1,000 reached", spent: "Spent", active: "Active", off: "Off", engagement: "Engagement", traffic: "Traffic", awareness: "Awareness" };

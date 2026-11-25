@@ -17,7 +17,7 @@ export function AdCard({ c, locale, currency }: { c: AdCampaign; locale: string;
       </div>
       <div className="adc-stats">
         <div><b>{c.results}</b><span>{L[c.metric]}</span></div>
-        <div><b>{money(c.cost, cur)}</b><span>{c.metric === "reach" ? L.costReach : L.cost}</span></div>
+        <div><b>{money(c.cost, cur)}</b><span>{c.metric === "reach" ? L.costReach : c.metric === "lpv" ? L.costLpv : L.cost}</span></div>
         <div><b>{money(c.spent, cur)}</b><span>{L.spent}</span></div>
       </div>
     </div>
