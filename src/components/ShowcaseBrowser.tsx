@@ -197,7 +197,7 @@ function PostsWindow({ hint }: { hint: string }) {
     <div className="sc-demo">
       <Glow className="sc-post">
         <div className="sc-post-h"><span className="av"><Logo /></span><span><b>dc.production</b><small>Sponsored</small></span></div>
-        <Swiper slides={items} auto={4200} className="sc-post-img" hint={hint} />
+        {items.length ? <Swiper slides={items} auto={4200} className="sc-post-img" hint={hint} /> : <div className="sc-post-img sc-post-empty" />}
         <div className="sc-post-cta"><span>Learn more</span><Arrow /></div>
         <div className="sc-post-f"><span className="hrt"><Heart /></span><i /><i /></div>
       </Glow>
@@ -456,7 +456,7 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
 
   const waTo = (base: string, text: string) => `${base}${base.includes("?") ? "&" : "?"}text=${encodeURIComponent(text)}`;
   const nVid = VIDEO_SLIDES.length;
-  const counts: Partial<Record<SecId, number>> = { video: nVid, posts: POST_SLIDES.length, results: results.length, sites: sites.length };
+  const counts: Partial<Record<SecId, number>> = { video: nVid, posts: POST_SLIDES.length || undefined, results: results.length, sites: sites.length };
   // Russian and Hebrew pages: everything in shekels (the campaigns run in Israel)
   const cur = locale === "ru" || locale === "he" ? currencyFor("he") : undefined;
   const openChat = () => window.dispatchEvent(new Event("sc:open-chat"));
