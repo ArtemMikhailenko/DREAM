@@ -9,6 +9,7 @@ import { SHOWCASE_LANGS, VIDEO_SLIDES, VOICE_BOT, WA_BOT, showcaseCopy, type Lin
 type Site = { name: string; domain: string; url: string; desc: string; img: string; phone: string };
 
 /* ───────── icons ───────── */
+const PChev = () => <svg className="sc-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>;
 const Arrow = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>;
 const Chev = ({ back }: { back?: boolean }) => <svg viewBox="0 0 24 24" aria-hidden="true"><path d={back ? "M15 5 8 12l7 7" : "M9 5l7 7-7 7"} /></svg>;
 const WaIcon = () => (
@@ -372,15 +373,43 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
     try { localStorage.setItem("sc-theme", nt); } catch {}
   };
 
-  // which section is on screen → that tab lights up, and the strip slides it into view
-  useEffect(() => {
-    const io = new IntersectionObserver((es) => {
-      const vis = es.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-      if (vis) setActive(vis.target.id.replace("sc-", "") as SecId);
-    }, { rootMargin: "-35% 0px -55% 0px" });
-    ORDER.forEach((id) => { const el = document.getElementById(`sc-${id}`); if (el) io.observe(el); });
-    return () => io.disconnect();
+  // services are pages side by side: swipe (phone) or tabs/arrows switch them; the strip follows
+  const pager = useRef<HTMLDivElement>(null);
+  const activeRef = useRef<SecId>("video");
+  const atTopRef = useRef(true);
+  useEffect(() => { atTopRef.current = atTop; }, [atTop]);
+  const idxOf = (id: SecId) => ORDER.indexOf(id);
+  // the pager is as tall as the page on screen, so a short page never leaves an empty tail
+  const fit = useCallback(() => {
+    const box = pager.current; if (!box) return;
+    const page = box.children[ORDER.indexOf(activeRef.current)] as HTMLElement | undefined;
+    if (page) box.style.height = `${page.offsetHeight}px`;
   }, []);
+  // a new page starts at its top: if the visitor is deep inside the previous one, lift the window back up
+  const lift = useCallback(() => {
+    const box = pager.current; if (!box) return;
+    const head = window.innerWidth < 600 ? 118 : 146;
+    const y = box.getBoundingClientRect().top + window.scrollY - head;
+    if (window.scrollY > y + 4) window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+  }, []);
+  useEffect(() => {
+    const box = pager.current; if (!box) return;
+    let raf = 0;
+    const on = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const i = Math.round(Math.abs(box.scrollLeft) / Math.max(1, box.clientWidth));
+        const id = ORDER[Math.min(ORDER.length - 1, Math.max(0, i))];
+        if (id !== activeRef.current) { activeRef.current = id; setActive(id); fit(); lift(); }
+      });
+    };
+    box.addEventListener("scroll", on, { passive: true });
+    const ro = new ResizeObserver(() => fit());
+    Array.from(box.children).forEach((c) => ro.observe(c));
+    ro.observe(box);
+    fit();
+    return () => { box.removeEventListener("scroll", on); ro.disconnect(); cancelAnimationFrame(raf); };
+  }, [fit, lift]);
   useEffect(() => {
     const box = strip.current, pill = box?.querySelector<HTMLElement>(`[data-id="${active}"]`);
     if (!box || !pill) return;
@@ -388,8 +417,14 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
     box.scrollTo({ left, behavior: "smooth" });
   }, [active]);
   const go = (id: SecId) => {
-    setActive(id);
-    document.getElementById(`sc-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const box = pager.current; if (!box) return;
+    const rtl = getComputedStyle(box).direction === "rtl";
+    activeRef.current = id; setActive(id); fit();
+    box.scrollTo({ left: (rtl ? -1 : 1) * idxOf(id) * box.clientWidth, behavior: "smooth" });
+    const head = window.innerWidth < 600 ? 118 : 146;
+    const y = box.getBoundingClientRect().top + window.scrollY - head;
+    // from the welcome screen a tab brings the pages up; inside a page it returns to its top
+    if (atTopRef.current || window.scrollY > y + 4) window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
   };
 
   const waTo = (base: string, text: string) => `${base}${base.includes("?") ? "&" : "?"}text=${encodeURIComponent(text)}`;
@@ -404,6 +439,18 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
       {text && <p className="sc-sh-p">{text}</p>}
     </div>
   );
+
+  // under every page: its neighbours, so a visitor on a computer moves sideways without hunting for the tabs
+  const pageNav = (id: SecId) => {
+    const i = idxOf(id), prev = ORDER[i - 1], next = ORDER[i + 1];
+    return (
+      <nav className="sc-pnav" aria-label={t.words.all}>
+        {prev ? <button type="button" className="sc-pbtn glass-btn prev" onClick={() => go(prev)}><PChev /><span>{t.tabs[prev]}</span></button> : <span />}
+        <span className="sc-pdots" aria-hidden="true">{ORDER.map((o) => <i key={o} className={o === id ? "on" : ""} />)}</span>
+        {next ? <button type="button" className="sc-pbtn glass-btn next" onClick={() => go(next)}><span>{t.tabs[next]}</span><PChev /></button> : <span />}
+      </nav>
+    );
+  };
 
   return (
     <>
@@ -446,25 +493,25 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
           </div>
         </div>
 
-        <div className="wrap">
-          <section className="sc-sec" id="sc-video">
+        <div className="sc-pager" ref={pager}>
+          <section className="sc-sec" id="sc-video"><div className="wrap">
             <Head id="video" title={t.tabs.video} quiet />
             <div className="sc-svc">
               <SvcText title={t.video.title} text={t.video.text} cta={t.video.more} href={waTo(waMain, t.video.wa)} />
               <VideoWindow tags={t.video.tags} play={t.video.play} hint={t.posts.swipe} />
             </div>
-          </section>
+          {pageNav("video")}</div></section>
 
-          <section className="sc-sec" id="sc-results">
+          <section className="sc-sec" id="sc-results"><div className="wrap">
             <Head id="results" title={t.results.title} em={t.results.em} text={t.results.text} />
             <div className="pf-res-grid in-tab sc-res">
               {results.map((c) => (
                 <figure className="pf-res-card" key={c.thumb}><AdCard c={c} locale={locale} currency={cur} /></figure>
               ))}
             </div>
-          </section>
+          {pageNav("results")}</div></section>
 
-          <section className="sc-sec" id="sc-sites">
+          <section className="sc-sec" id="sc-sites"><div className="wrap">
             <Head id="sites" title={t.tabs.sites} text={t.sitesText} />
             <div className="sc-sites">
               {sites.map((s) => (
@@ -488,9 +535,9 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
                 </a>
               ))}
             </div>
-          </section>
+          {pageNav("sites")}</div></section>
 
-          <section className="sc-sec" id="sc-bot">
+          <section className="sc-sec" id="sc-bot"><div className="wrap">
             <Head id="bot" title={t.tabs.bot} quiet />
             <div className="sc-svc sc-df">
               <ChatDemo lines={t.bot.chat} typing={t.bot.typing} />
@@ -502,9 +549,9 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
                 <a className="sc-alt" href={waTo(`https://wa.me/${WA_BOT}`, t.bot.wa)} target="_blank" rel="noopener"><WaIcon />{t.bot.note}</a>
               </div>
             </div>
-          </section>
+          {pageNav("bot")}</div></section>
 
-          <section className="sc-sec" id="sc-voice">
+          <section className="sc-sec" id="sc-voice"><div className="wrap">
             <Head id="voice" title={t.tabs.voice} quiet />
             <div className="sc-svc sc-df">
               <VoiceDemo lines={t.voice.script} calling={t.voice.calling} />
@@ -520,8 +567,10 @@ export function ShowcaseBrowser({ locale, sites, results, waMain }: { locale: st
                 <a className="sc-alt" href={waTo(waMain, t.voice.wa)} target="_blank" rel="noopener"><WaIcon />{t.voice.or}</a>
               </div>
             </div>
-          </section>
+          {pageNav("voice")}</div></section>
+        </div>
 
+        <div className="wrap">
           <section className="sc-end">
             <h2>{t.cta}</h2>
             <p>{t.ctaText}</p>

@@ -455,3 +455,30 @@ button.sc-wa{border:1px solid transparent;cursor:pointer;font-family:inherit}
   .sc-sec,.sc-word>span,.sc-fab-orb,.sc-orb b,.sc-fab-typing i,.pulsing::before,.sc-glow::before,.sc-orb>span,.sc-wave i,.sc-chat-b p,.sc-say p,.sc-fab,.sc-fab-orb::before,.sc-fab-orb::after,.sc-post-f .hrt,.sc-sw-hint{animation:none!important}
   .sc-browser img,.sc-art{transition:none}
 }
+
+/* ── services as pages side by side: swipe on a phone, tabs or the arrows under each page on a computer ── */
+.sc-pager{display:flex;align-items:flex-start;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;transition:height .45s var(--ease-out)}
+.sc-pager::-webkit-scrollbar{display:none}
+.sc-pager>.sc-sec{flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always;margin-bottom:0;padding-bottom:clamp(24px,3vw,44px)}
+.sc-pnav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin-top:clamp(28px,4vw,48px)}
+.sc-pnav>:first-child{justify-self:start}
+.sc-pnav>:last-child{justify-self:end}
+.sc-pbtn{display:inline-flex;align-items:center;gap:10px;height:50px;padding:0 22px;border-radius:999px;font:600 .92rem/1 inherit;color:var(--sc-ink);cursor:pointer;max-width:100%}
+.sc-pbtn span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc-chev{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s var(--ease-out)}
+.sc-pbtn.prev .sc-chev{transform:scaleX(-1)}
+.sc-pbtn.next:hover .sc-chev{transform:translateX(3px)}
+.sc-pbtn.prev:hover .sc-chev{transform:scaleX(-1) translateX(3px)}
+[dir="rtl"] .sc-pbtn.next .sc-chev{transform:scaleX(-1)}
+[dir="rtl"] .sc-pbtn.prev .sc-chev{transform:none}
+[dir="rtl"] .sc-pbtn.next:hover .sc-chev{transform:scaleX(-1) translateX(3px)}
+[dir="rtl"] .sc-pbtn.prev:hover .sc-chev{transform:translateX(-3px)}
+.sc-pdots{display:flex;gap:7px}
+.sc-pdots i{width:7px;height:7px;border-radius:99px;background:var(--sc-line);transition:width .35s var(--ease-out),background .35s}
+.sc-pdots i.on{width:22px;background:var(--sc-acc)}
+@media (max-width:600px){
+  .sc-pnav{grid-template-columns:1fr 1fr;row-gap:14px}
+  .sc-pdots{grid-column:1/-1;grid-row:1;justify-self:center}
+  .sc-pbtn{height:46px;padding:0 16px;font-size:.85rem}
+}
+@media (prefers-reduced-motion:reduce){.sc-pager{transition:none}}
