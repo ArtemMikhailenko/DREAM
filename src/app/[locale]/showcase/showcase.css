@@ -134,6 +134,8 @@
 
 /* websites */
 .sc-sites{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,460px),1fr));gap:clamp(16px,2vw,24px)}
+/* an odd last site takes the whole row on wide screens: picture and text side by side, no lone half-card */
+@media (min-width:1000px){.sc-sites>.sc-site:last-child:nth-child(odd){grid-column:1/-1;flex-direction:row;align-items:center;gap:clamp(24px,3vw,44px);padding:14px;padding-inline-end:clamp(20px,3vw,40px)}.sc-sites>.sc-site:last-child:nth-child(odd) .sc-site-vis{flex:0 0 56%}.sc-sites>.sc-site:last-child:nth-child(odd) .sc-site-info{flex:1;min-width:0}}
 .sc-site{display:flex;flex-direction:column;gap:18px;padding:14px 14px 22px;border-radius:22px;border:1px solid var(--sc-line);background:var(--sc-card);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:inherit;text-decoration:none;
   transition:transform .4s var(--ease-out),border-color .3s,box-shadow .4s}
 .sc-site:hover{transform:translateY(-3px);border-color:rgba(232,168,104,.5);box-shadow:var(--sc-shadow),0 0 40px rgba(232,168,104,.14)}
