@@ -41,8 +41,8 @@ const C: Record<string, ShowcaseCopy> = {
   ru: {
     meta: "Портфолио DC Production",
     sub: "Видео, реклама, сайты и ИИ-решения DC Production",
-    tabs: { all: "Все", video: "Видео", posts: "Рекламные посты", results: "Результаты рекламы", sites: "Сайты", bot: "ИИ-менеджер по перепискам", voice: "Разговорный бот" },
-    words: { all: "Портфолио", video: "Видео", posts: "Посты", results: "Результаты", sites: "Сайты", bot: "ИИ-менеджер", voice: "Голосовой бот" },
+    tabs: { all: "Все", video: "Видео", posts: "Баннеры", results: "Результаты рекламы", sites: "Сайты", bot: "ИИ-менеджер по перепискам", voice: "Разговорный бот" },
+    words: { all: "Портфолио", video: "Видео", posts: "Баннеры", results: "Результаты", sites: "Сайты", bot: "ИИ-менеджер", voice: "Голосовой бот" },
     open: "Открыть сайт",
     light: "Светлая тема", dark: "Тёмная тема",
     float: "Написать нам",
@@ -99,8 +99,8 @@ const C: Record<string, ShowcaseCopy> = {
   he: {
     meta: "תיק עבודות DC Production",
     sub: "וידאו, פרסום, אתרים ופתרונות AI של DC Production",
-    tabs: { all: "הכל", video: "וידאו", posts: "פוסטים ממומנים", results: "תוצאות פרסום", sites: "אתרים", bot: "מנהל AI לשיחות", voice: "בוט קולי" },
-    words: { all: "תיק עבודות", video: "וידאו", posts: "פוסטים", results: "תוצאות", sites: "אתרים", bot: "מנהל AI", voice: "בוט קולי" },
+    tabs: { all: "הכל", video: "וידאו", posts: "באנרים", results: "תוצאות פרסום", sites: "אתרים", bot: "מנהל AI לשיחות", voice: "בוט קולי" },
+    words: { all: "תיק עבודות", video: "וידאו", posts: "באנרים", results: "תוצאות", sites: "אתרים", bot: "מנהל AI", voice: "בוט קולי" },
     open: "לאתר",
     light: "מצב בהיר", dark: "מצב כהה",
     float: "כתבו לנו",
@@ -157,8 +157,8 @@ const C: Record<string, ShowcaseCopy> = {
   en: {
     meta: "DC Production portfolio",
     sub: "Video, ads, websites and AI solutions by DC Production",
-    tabs: { all: "All", video: "Video", posts: "Ad posts", results: "Ad results", sites: "Websites", bot: "AI chat manager", voice: "Voice bot" },
-    words: { all: "Portfolio", video: "Video", posts: "Posts", results: "Results", sites: "Websites", bot: "AI manager", voice: "Voice bot" },
+    tabs: { all: "All", video: "Video", posts: "Banners", results: "Ad results", sites: "Websites", bot: "AI chat manager", voice: "Voice bot" },
+    words: { all: "Portfolio", video: "Video", posts: "Banners", results: "Results", sites: "Websites", bot: "AI manager", voice: "Voice bot" },
     open: "Open site",
     light: "Light theme", dark: "Dark theme",
     float: "Message us",
@@ -237,4 +237,15 @@ export const VIDEO_SLIDES: { src: string; poster: string; tag: VideoTag }[] = [
   { src: "/showcase/media/video-5.mp4", poster: "/showcase/media/video-5.webp", tag: "product" },
   { src: "/showcase/media/video-6.mp4", poster: "/showcase/media/video-6.webp", tag: "3d" },
   { src: "/showcase/media/video-7.mp4", poster: "/showcase/media/video-7.webp", tag: "basic" },
+];
+/** posts: animated stories (short muted loops) and still banners */
+export const POST_SLIDES: { src: string; poster?: string; video?: boolean }[] = [
+  { src: "/showcase/media/post-1.mp4", poster: "/showcase/media/post-1.webp", video: true },
+  { src: "/showcase/media/post-6.webp" },
+  { src: "/showcase/media/post-2.mp4", poster: "/showcase/media/post-2.webp", video: true },
+  { src: "/showcase/media/post-7.webp" },
+  { src: "/showcase/media/post-3.mp4", poster: "/showcase/media/post-3.webp", video: true },
+  { src: "/showcase/media/post-5.mp4", poster: "/showcase/media/post-5.webp", video: true },
+  { src: "/showcase/media/post-4.mp4", poster: "/showcase/media/post-4.webp", video: true },
+  { src: "/showcase/media/post-8.webp" },
 ];

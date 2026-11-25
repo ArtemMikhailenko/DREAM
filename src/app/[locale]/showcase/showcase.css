@@ -57,17 +57,18 @@
 /* ── ground ── */
 .sc-page{position:relative;overflow:clip;padding:clamp(18px,3vw,40px) 0 clamp(40px,6vw,80px)}
 .sc-page>.wrap{position:relative;z-index:2}
-.sc-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-.sc-bg::before{content:"";position:absolute;inset:0;background:url("/showcase/stone-dark.webp") center top / 1400px auto repeat;opacity:.9}
+/* the DC brand ground: charcoal paper grain with faint dashed construction lines (dc.prod intro), pinned to the screen */
+.sc-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.sc-bg::before{content:"";position:absolute;inset:0;background:url("/showcase/paper-dark.webp") center / cover no-repeat}
 .sc-bg::after{content:"";position:absolute;inset:0;background:
-  radial-gradient(70% 45% at 50% 0%,rgba(232,168,104,.16),transparent 70%),
-  linear-gradient(180deg,rgba(10,10,9,.15),rgba(10,10,9,.55) 60%,rgba(10,10,9,.7))}
-/* light: pale marble stone with a fine print grain */
-.scx[data-theme="light"] .sc-bg::before{opacity:1;background:url("/showcase/stone-light.webp") center top / 1400px auto repeat}
+  url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M0 0L100 100M100 0L0 100M50 0V100M0 50H100M0 33.33H100M0 66.66H100M33.33 0V100M66.66 0V100' fill='none' stroke='rgba%28255%2C255%2C255%2C.09%29' stroke-width='1' stroke-dasharray='3 7' vector-effect='non-scaling-stroke'/></svg>") center / 100% 100% no-repeat,
+  radial-gradient(60% 50% at 50% 50%,transparent 40%,rgba(0,0,0,.45) 100%)}
+.scx[data-theme="light"] .sc-bg::before{background:url("/showcase/paper-light.webp") center / cover no-repeat}
 .scx[data-theme="light"] .sc-bg::after{background:
-  url("/showcase/print-light.webp") center / 900px auto repeat,
-  radial-gradient(70% 45% at 50% 0%,rgba(255,255,255,.75),transparent 70%),
-  linear-gradient(180deg,rgba(246,242,235,.1),rgba(246,242,235,.45));background-blend-mode:multiply,normal,normal,normal;opacity:.9}
+  url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M0 0L100 100M100 0L0 100M50 0V100M0 50H100M0 33.33H100M0 66.66H100M33.33 0V100M66.66 0V100' fill='none' stroke='rgba%2840%2C30%2C15%2C.12%29' stroke-width='1' stroke-dasharray='3 7' vector-effect='non-scaling-stroke'/></svg>") center / 100% 100% no-repeat,
+  radial-gradient(60% 50% at 50% 50%,transparent 40%,rgba(120,100,70,.14) 100%)}
+.sc-pager{position:relative;z-index:2}
+.sc-page>.sc-hero{position:relative;z-index:3}
 
 /* ── big soft words: the welcome word and one behind each section title ── */
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
